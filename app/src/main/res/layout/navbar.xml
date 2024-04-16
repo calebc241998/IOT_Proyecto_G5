@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#54CCC5"
@@ -24,7 +25,7 @@
             android:layout_marginEnd="25dp"
             android:layout_toStartOf="@id/perfil"
             android:src="@drawable/baseline_mark_unread_chat_alt_24"
-            android:tint="#FFFFFF" />
+            app:tint="#FFFFFF" />
 
         <ImageView
             android:id="@+id/perfil"
