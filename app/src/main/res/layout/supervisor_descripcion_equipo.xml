@@ -8,30 +8,87 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="234dp"
-        android:layout_height="89dp"
-        tools:layout_editor_absoluteX="81dp"
-        tools:layout_editor_absoluteY="548dp">
+        android:layout_width="164dp"
+        android:layout_height="54dp"
+        tools:layout_editor_absoluteX="256dp"
+        tools:layout_editor_absoluteY="275dp">
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#000000"
-            android:text="   Ver lista de equipos"
-            android:textColor="#FFFFFF"
+            android:layout_width="110dp"
+            android:layout_height="38dp"
+            android:backgroundTint="#FFFFFF"
+            android:text="Reportar"
+            android:textAlignment="textStart"
+            android:textColor="#FF9800"
             app:cornerRadius="5dp"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="20dp" />
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="8dp" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageView9"
+            android:layout_width="29dp"
+            android:layout_height="26dp"
+            app:srcCompat="@drawable/precaucion"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="14dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="164dp"
+        android:layout_height="54dp"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="275dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="96dp"
+            android:layout_height="38dp"
+            android:backgroundTint="#FFFFFF"
+            android:text="Borrar"
+            android:textAlignment="textStart"
+            android:textColor="#D33535"
+            app:cornerRadius="5dp"
+            tools:layout_editor_absoluteX="34dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="27dp"
+            android:layout_height="22dp"
+            app:srcCompat="@drawable/eliminar"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="164dp"
+        android:layout_height="54dp"
+        tools:layout_editor_absoluteX="-8dp"
+        tools:layout_editor_absoluteY="275dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="96dp"
+            android:layout_height="38dp"
+            android:backgroundTint="#FFFFFF"
+            android:text="Editar"
+            android:textAlignment="textStart"
+            android:textColor="#54CCC5"
+            app:cornerRadius="5dp"
+            tools:layout_editor_absoluteX="34dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+        <ImageView
+            android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="#54CCC5"
-            app:srcCompat="@drawable/baseline_format_list_bulleted_24"
-            tools:layout_editor_absoluteX="36dp"
-            tools:layout_editor_absoluteY="31dp" />
+            app:srcCompat="@drawable/baseline_edit_24"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="13dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -39,9 +96,9 @@
         android:layout_width="402dp"
         android:layout_height="231dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.777"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="287dp">
+        tools:layout_editor_absoluteY="362dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -65,7 +122,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Código"
+                        android:text="SKU"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -79,7 +136,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="123456789"
+                        android:text="CFI-1000A01"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -97,7 +154,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Departamento"
+                        android:text="Número de serie"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -111,7 +168,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Lima"
+                        android:text="PLA-NIK-AZU-S"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -129,7 +186,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Provincia"
+                        android:text="Marca"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -143,7 +200,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Lima"
+                        android:text="CISCO"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -161,7 +218,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Distrito"
+                        android:text="Modelo"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -175,7 +232,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Santago de Surco"
+                        android:text="IR8100"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -193,7 +250,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Ubigeo"
+                        android:text="Descripción"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -207,7 +264,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="4458556"
+                        android:text="Nuevo"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -225,19 +282,24 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Geolocalización"
+                        android:text="Fecha de registro"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textsize="20dp" />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/maps" />
+                        android:background="@drawable/fondo"
+                        android:gravity="center"
+                        android:text="01/04/2024"
+                        android:textColor="#000000"
+                        android:textSize="20dp"
+                        android:textsize="20dp" />
 
                 </LinearLayout>
 
@@ -253,7 +315,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Tipo de zona"
+                        android:text="Fecha de edición"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -267,7 +329,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Móvil"
+                        android:text="01/04/2024"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textsize="20dp" />
@@ -285,24 +347,20 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Tipo de sitio"
+                        android:text="Fotos del equipo"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textsize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView15"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/fondo"
-                        android:gravity="center"
-                        android:text="Urbana"
-                        android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        app:srcCompat="@drawable/multimedia" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -350,7 +408,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="Descripción de área"
+                android:text="Descripción de equipo"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
