@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Proyecto_G5</string>
     <string name="logo" />
+    <string-array name="sedes">
+        <item>Ciclo 5</item>
+        <item>Ciclo 6</item>
+        <item>Ciclo 7</item>
+        <item>Ciclo 8</item>
+    </string-array>
 </resources>

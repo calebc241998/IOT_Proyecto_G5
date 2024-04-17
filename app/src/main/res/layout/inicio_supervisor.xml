@@ -8,25 +8,187 @@
     android:background="#E6D7D7"
     tools:context=".MainActivity">
 
-    <!-- Replace with your actual drawable resource -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="227dp"
+        android:layout_height="107dp"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="407dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Equipos reportados"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="4"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="106dp"
+                    tools:layout_editor_absoluteY="48dp" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="64dp"
+                    android:layout_height="54dp"
+                    app:srcCompat="@drawable/reporte"
+                    tools:layout_editor_absoluteX="9dp"
+                    tools:layout_editor_absoluteY="18dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="224dp"
+        android:layout_height="113dp"
+        tools:layout_editor_absoluteX="-18dp"
+        tools:layout_editor_absoluteY="407dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Equipos activos"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="10"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="106dp"
+                    tools:layout_editor_absoluteY="48dp" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="59dp"
+                    android:layout_height="47dp"
+                    app:srcCompat="@drawable/dispositivo"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="234dp"
+        android:layout_height="105dp"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="217dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="36dp"
+                    android:layout_height="38dp"
+                    android:layout_margin="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_location_pin_24"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="22dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Sitios encargados"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="106dp"
+                    tools:layout_editor_absoluteY="48dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/navbar"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/textViewLab"
         android:layout_width="299dp"
-        android:layout_height="134dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
-        android:layout_marginBottom="600dp"
+        android:layout_marginBottom="556dp"
         android:forceDarkAllowed="false"
-        android:text="Sistema de inventariado de dispositivos"
+        android:text="Área TELECOM"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textSize="34sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -34,54 +196,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="490dp"
         android:layout_marginEnd="50dp"
-        android:text="BIENVENIDOS"
+        android:text="¡Bienvenido supervisor Marcos Alonso"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textSize="48sp"
+        android:textSize="35sp"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonIngresar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="568dp" />
 
-    <ImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="174dp"
-        android:layout_height="181dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="121dp"
-        android:layout_marginBottom="86dp"
-        android:contentDescription="@string/logo"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/textViewLab"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+    <Spinner
+        android:id="@+id/sedes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#000000"
+        android:entries="@array/sedes"
+        android:tooltipText="Sede"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="353dp" />
 
-    <Button
-        android:id="@+id/buttonIngresar"
-        android:layout_width="138dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="86dp"
-        android:backgroundTint="#3ACCBD"
-        android:text="Ingresar"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:iconTint="#00BCD4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBienvenido"
-        app:strokeColor="#00BCD4"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
