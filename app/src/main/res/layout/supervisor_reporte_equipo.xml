@@ -121,7 +121,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="232dp"
         android:layout_height="197dp"
-        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="498dp">
 
         <androidx.cardview.widget.CardView
@@ -130,7 +130,7 @@
             app:cardBackgroundColor="#54CCC5"
             app:cardCornerRadius="1000dp"
             tools:layout_editor_absoluteX="136dp"
-            tools:layout_editor_absoluteY="158dp" >
+            tools:layout_editor_absoluteY="158dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -149,17 +149,11 @@
 
         <ImageView
             android:id="@+id/imageView12"
-            android:layout_width="198dp"
+            android:layout_width="168dp"
             android:layout_height="168dp"
             app:srcCompat="@drawable/circulo_blanco"
             tools:layout_editor_absoluteX="5dp"
             tools:layout_editor_absoluteY="31dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="346dp"
-        tools:layout_editor_absoluteY="122dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
