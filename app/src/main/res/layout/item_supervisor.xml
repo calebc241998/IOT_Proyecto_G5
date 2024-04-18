@@ -41,7 +41,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView_site_number"
+                android:id="@+id/textView_site_number1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="# Sitios Asignados"
