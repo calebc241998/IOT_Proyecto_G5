@@ -366,7 +366,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Escribe tu mensaje aquí"
-            android:padding="12dp"
+            android:padding="12dp"/>
 
         <!-- Botón para enviar el mensaje -->
         <Button
