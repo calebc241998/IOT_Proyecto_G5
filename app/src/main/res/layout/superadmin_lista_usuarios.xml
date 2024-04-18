@@ -602,7 +602,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
 
                         </LinearLayout>
 
@@ -623,7 +624,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -637,7 +639,8 @@
 
                                     android:text="Usuario 9"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -650,7 +653,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -659,7 +663,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -679,7 +684,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -693,7 +699,8 @@
 
                                     android:text="Usuario 10"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -706,7 +713,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -715,7 +723,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -735,7 +744,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -749,7 +759,8 @@
 
                                     android:text="Usuario 11"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -762,7 +773,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -771,7 +783,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -791,7 +804,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -805,7 +819,8 @@
 
                                     android:text="Usuario 12"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -818,7 +833,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -827,7 +843,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -847,7 +864,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -861,7 +879,8 @@
 
                                     android:text="Usuario 13"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -874,7 +893,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -883,7 +903,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -903,7 +924,8 @@
                                     android:layout_gravity="end"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24"
+                                    tools:ignore="DuplicateIds" />
 
                                 <TextView
                                     android:id="@+id/textView3"
@@ -917,7 +939,8 @@
 
                                     android:text="Usuario 14"
                                     android:textColor="#000000"
-                                    android:textSize="17dp" />
+                                    android:textSize="17dp"
+                                    tools:ignore="DuplicateIds" />
                             </LinearLayout>
 
                             <TextView
@@ -930,7 +953,8 @@
                                 android:text="A"
                                 android:textColor="#000000"
                                 android:textSize="20dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:ignore="DuplicateIds" />
 
                             <ImageView
                                 android:id="@+id/imageView20"
@@ -939,7 +963,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:paddingStart="45dp"
                                 android:paddingEnd="40dp"
-                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24"
+                                tools:ignore="DuplicateIds" />
                         </LinearLayout>
 
 
@@ -989,15 +1014,9 @@
             android:textSize="25dp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="15dp" />
+            tools:layout_editor_absoluteY="15dp"
+            tools:ignore="DuplicateIds" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="268dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
