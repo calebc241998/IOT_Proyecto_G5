@@ -3,6 +3,7 @@
     <string name="logo" />
     <string name="contrase_a_cambiada_existosamente">Contraseña cambiada existosamente</string>
     <string name="ok">Ok</string>
+    <string name="rea_telecom">Área TELECOM</string>
     <string-array name="sedes">
         <item>Ciclo 5</item>
         <item>Ciclo 6</item>
