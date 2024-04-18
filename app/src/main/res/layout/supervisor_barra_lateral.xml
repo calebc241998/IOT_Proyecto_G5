@@ -33,7 +33,6 @@
         tools:ignore="MissingConstraints">
 
         <!-- Botón de cierre -->
-
         <ImageView
             android:id="@+id/imageView15"
             android:layout_width="536dp"
@@ -49,7 +48,6 @@
         <!-- Puedes agregar un encabezado si lo deseas -->
 
         <!-- Sección Inicio -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +75,6 @@
         </LinearLayout>
 
         <!-- Sección Lista de usuarios -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,14 +89,14 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onListaUsuariosClicked"
-                android:text="Lista de supervisores"
+                android:text="Lista de sitios"
                 android:textSize="18sp" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="end"
-                app:srcCompat="@drawable/user_attributes_fill0_wght400_grad0_opsz24" />
+                app:srcCompat="@drawable/baseline_location_pin_24" />
         </LinearLayout>
 
         <!-- Sección Nuevo admin -->
@@ -117,31 +114,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onNuevoAdminClicked"
-                android:text="Nuevo Supervisor"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="end"
-                app:srcCompat="@drawable/person_add_fill0_wght400_grad0_opsz24" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="onNuevoAdminClicked"
-                android:text="Lista de sitios"
+                android:text="Lista de equipos"
                 android:textSize="18sp" />
 
             <ImageView
@@ -166,15 +139,14 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onLogsClicked"
-                android:text="Nuevo Sitio"
+                android:text="Equipos reportados"
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="end"
-                app:srcCompat="@drawable/home_pin_fill0_wght400_grad0_opsz24" />
-
+                app:srcCompat="@drawable/precaucion" />
         </LinearLayout>
 
         <!-- Sección Cerrar sesión -->
