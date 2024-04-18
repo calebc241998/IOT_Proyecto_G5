@@ -6,6 +6,9 @@ android {
     namespace 'com.example.proyecto_g5'
     compileSdk 34
 
+
+
+
     defaultConfig {
         applicationId "com.example.proyecto_g5"
         minSdk 31
