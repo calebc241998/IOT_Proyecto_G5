@@ -138,8 +138,8 @@
 
                 <ImageView
                     android:id="@+id/imageView13"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="21dp"
+                    android:layout_height="23dp"
                     app:srcCompat="@drawable/baseline_camera_alt_24"
                     tools:layout_editor_absoluteX="5dp"
                     tools:layout_editor_absoluteY="5dp" />

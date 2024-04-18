@@ -209,6 +209,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/superadmin_navbar"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="0dp" />
+
     <TextView
         android:id="@+id/textViewLab"
         android:layout_width="299dp"
