@@ -7,14 +7,20 @@
     android:backgroundTint="#231C1C">
 
     <LinearLayout
-        android:layout_width="372dp"
-        android:layout_height="119dp"
+        android:layout_width="243dp"
+        android:layout_height="132dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="431dp"
         android:background="#F3F0F0"
         android:backgroundTint="#FDFAFA"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="169dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Mensaje de contraseña incorrecta -->
         <TextView
@@ -23,7 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:text="Contraseña incorrecta"
-            android:textSize="18sp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <!-- Botones -->
@@ -39,7 +45,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#221F1F"
-                android:text="Volver" />
+                android:text="Volver"
+                android:textSize="10sp" />
 
             <!-- Botón para reintentar -->
             <Button
@@ -48,7 +55,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#3ACCBD"
-                android:text="Reintentar" />
+                android:text="Reintentar"
+                android:textSize="10sp" />
         </LinearLayout>
 
     </LinearLayout>
