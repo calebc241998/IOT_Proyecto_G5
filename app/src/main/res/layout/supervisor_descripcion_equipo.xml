@@ -11,7 +11,8 @@
         android:layout_width="164dp"
         android:layout_height="54dp"
         tools:layout_editor_absoluteX="256dp"
-        tools:layout_editor_absoluteY="275dp">
+        tools:layout_editor_absoluteY="275dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/button"
@@ -23,7 +24,8 @@
             android:textColor="#FF9800"
             app:cornerRadius="5dp"
             tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"
+            tools:ignore="DuplicateIds" />
 
         <ImageView
             android:id="@+id/imageView9"
@@ -39,7 +41,8 @@
         android:layout_width="164dp"
         android:layout_height="54dp"
         tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="275dp">
+        tools:layout_editor_absoluteY="275dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/button"
@@ -51,7 +54,8 @@
             android:textColor="#D33535"
             app:cornerRadius="5dp"
             tools:layout_editor_absoluteX="34dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"
+            tools:ignore="DuplicateIds" />
 
         <ImageView
             android:id="@+id/imageView8"
@@ -67,7 +71,8 @@
         android:layout_width="164dp"
         android:layout_height="54dp"
         tools:layout_editor_absoluteX="-8dp"
-        tools:layout_editor_absoluteY="275dp">
+        tools:layout_editor_absoluteY="275dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/button"
@@ -79,16 +84,17 @@
             android:textColor="#54CCC5"
             app:cornerRadius="5dp"
             tools:layout_editor_absoluteX="34dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"
+            tools:ignore="DuplicateIds" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="#54CCC5"
             app:srcCompat="@drawable/baseline_edit_24"
             tools:layout_editor_absoluteX="96dp"
-            tools:layout_editor_absoluteY="13dp" />
+            tools:layout_editor_absoluteY="13dp"
+            app:tint="#54CCC5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -98,7 +104,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.777"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="362dp">
+        tools:layout_editor_absoluteY="362dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -359,12 +366,13 @@
         android:layout_height="59dp"
         android:layout_gravity="center_vertical"
         android:gravity="center"
-        android:text="Área TELECOM"
+        android:text="@string/rea_telecom"
         android:textColor="@android:color/black"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="125dp" />
+        tools:layout_editor_absoluteY="125dp"
+        tools:ignore="DuplicateIds,MissingConstraints" />
 
     <include
         android:id="@+id/include"
@@ -376,7 +384,8 @@
         android:layout_width="246dp"
         android:layout_height="66dp"
         tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="184dp">
+        tools:layout_editor_absoluteY="184dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -385,7 +394,8 @@
             android:backgroundTint="#FFFFFF"
             app:cardCornerRadius="20dp"
             tools:layout_editor_absoluteX="34dp"
-            tools:layout_editor_absoluteY="16dp">
+            tools:layout_editor_absoluteY="16dp"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/textView"
@@ -396,7 +406,8 @@
                 android:text="Descripción de equipo"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="DuplicateIds" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
