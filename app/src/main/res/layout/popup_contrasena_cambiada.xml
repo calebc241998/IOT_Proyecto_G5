@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="#231C1C">
 
-    <?xml version="1.0" encoding="utf-8"?>
+    
     <LinearLayout
         android:layout_width="208dp"
         android:layout_height="119dp"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:text="Contraseña cambiada existosamente"
+            android:text="@string/contrase_a_cambiada_existosamente"
             android:textAlignment="center"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -42,8 +42,9 @@
             android:layout_width="62dp"
             android:layout_height="32dp"
             android:backgroundTint="#3ACCBD"
-            android:text="Ok"
-            android:textSize="10sp" />
+            android:text="@string/ok"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
 
     </LinearLayout>
 

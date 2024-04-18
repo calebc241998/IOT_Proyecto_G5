@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Proyecto_G5</string>
     <string name="logo" />
+    <string name="contrase_a_cambiada_existosamente">Contraseña cambiada existosamente</string>
+    <string name="ok">Ok</string>
     <string-array name="sedes">
         <item>Ciclo 5</item>
         <item>Ciclo 6</item>

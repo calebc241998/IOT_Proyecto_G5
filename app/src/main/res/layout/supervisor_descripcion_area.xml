@@ -11,7 +11,8 @@
         android:layout_width="234dp"
         android:layout_height="89dp"
         tools:layout_editor_absoluteX="81dp"
-        tools:layout_editor_absoluteY="548dp">
+        tools:layout_editor_absoluteY="548dp"
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/button"
@@ -28,10 +29,10 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="#54CCC5"
             app:srcCompat="@drawable/baseline_format_list_bulleted_24"
             tools:layout_editor_absoluteX="36dp"
-            tools:layout_editor_absoluteY="31dp" />
+            tools:layout_editor_absoluteY="31dp"
+            app:tint="#54CCC5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -41,7 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="287dp">
+        tools:layout_editor_absoluteY="287dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -69,8 +71,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView2"
@@ -81,8 +82,7 @@
                         android:gravity="center"
                         android:text="123456789"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -101,8 +101,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView4"
@@ -113,8 +112,7 @@
                         android:gravity="center"
                         android:text="Lima"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -133,8 +131,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView6"
@@ -145,8 +142,7 @@
                         android:gravity="center"
                         android:text="Lima"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,8 +161,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView8"
@@ -177,8 +172,7 @@
                         android:gravity="center"
                         android:text="Santago de Surco"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -197,8 +191,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView10"
@@ -209,8 +202,7 @@
                         android:gravity="center"
                         android:text="4458556"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -229,8 +221,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <ImageView
                         android:id="@+id/imageView2"
@@ -257,8 +248,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView13"
@@ -269,8 +259,7 @@
                         android:gravity="center"
                         android:text="Móvil"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -289,8 +278,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView15"
@@ -301,8 +289,7 @@
                         android:gravity="center"
                         android:text="Urbana"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -321,7 +308,8 @@
         android:textSize="30dp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="125dp" />
+        tools:layout_editor_absoluteY="125dp"
+        tools:ignore="DuplicateIds,MissingConstraints" />
 
     <include
         android:id="@+id/include"
@@ -333,7 +321,8 @@
         android:layout_width="246dp"
         android:layout_height="66dp"
         tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="184dp">
+        tools:layout_editor_absoluteY="184dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -342,7 +331,8 @@
             android:backgroundTint="#FFFFFF"
             app:cardCornerRadius="20dp"
             tools:layout_editor_absoluteX="34dp"
-            tools:layout_editor_absoluteY="16dp">
+            tools:layout_editor_absoluteY="16dp"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/textView"
@@ -353,7 +343,8 @@
                 android:text="Descripción de área"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="DuplicateIds" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

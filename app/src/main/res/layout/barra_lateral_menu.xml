@@ -171,7 +171,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="end"
-                app:srcCompat="@drawable/log-out" />
+                app:srcCompat="@drawable/logout" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

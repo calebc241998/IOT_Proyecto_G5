@@ -126,8 +126,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView2"
@@ -138,8 +137,7 @@
                         android:gravity="center"
                         android:text="CFI-1000A01"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,8 +156,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView4"
@@ -170,8 +167,7 @@
                         android:gravity="center"
                         android:text="PLA-NIK-AZU-S"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -190,8 +186,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView6"
@@ -202,8 +197,7 @@
                         android:gravity="center"
                         android:text="CISCO"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -222,8 +216,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView8"
@@ -234,8 +227,7 @@
                         android:gravity="center"
                         android:text="IR8100"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -254,8 +246,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView10"
@@ -266,8 +257,7 @@
                         android:gravity="center"
                         android:text="Nuevo"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -286,8 +276,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView15"
@@ -298,8 +287,7 @@
                         android:gravity="center"
                         android:text="01/04/2024"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 
@@ -319,8 +307,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/textView13"
@@ -331,8 +318,7 @@
                         android:gravity="center"
                         android:text="01/04/2024"
                         android:textColor="#000000"
-                        android:textSize="20dp"
-                        android:textsize="20dp" />
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -351,8 +337,7 @@
                         android:textColor="#000000"
 
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textsize="20dp" />
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/imageView10"
