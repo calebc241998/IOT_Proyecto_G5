@@ -8,6 +8,20 @@
     tools:context=".MainActivity">
 
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:backgroundTint="#000000"
+        android:drawableLeft="@drawable/baseline_calendar_month_24"
+        android:drawablePadding="8dp"
+        android:padding="12dp"
+        android:text="Fecha"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="10dp"
+        tools:layout_editor_absoluteX="307dp"
+        tools:layout_editor_absoluteY="213dp" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,10 +43,10 @@
         android:layout_width="402dp"
         android:layout_height="400dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="287dp">
+        tools:layout_editor_absoluteY="293dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -57,7 +71,7 @@
                         android:background="@drawable/fondo"
                         android:gravity="center"
                         android:outlineProvider="none"
-                        android:text="Nombre"
+                        android:text="Equipo"
                         android:textColor="#000000"
 
                         android:textSize="20dp"
@@ -70,7 +84,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Ubicación"
+                        android:text="Descripción"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -114,7 +128,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 1"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -126,7 +140,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -160,7 +174,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 2"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -172,7 +186,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Falla eléctrica"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -206,7 +220,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 3"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -218,7 +232,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Circuitos fallando"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -252,7 +266,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 4"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -264,7 +278,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Virus"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -298,7 +312,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 5"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -310,7 +324,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Error de software"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -344,7 +358,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 1"
+                                    android:text="Cisco 6"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -356,7 +370,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="SJL"
+                                android:text="Falla de energía"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -390,7 +404,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 2"
+                                    android:text="Cisco 7"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -402,7 +416,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="SURCO"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -436,7 +450,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 3"
+                                    android:text="Cisco 8"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -448,7 +462,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="SJM"
+                                android:text="Falla eléctrica"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -482,7 +496,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 4"
+                                    android:text="Cisco 9"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -494,7 +508,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="La Victoria"
+                                android:text="Circuitos fallando"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -528,7 +542,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 5"
+                                    android:text="Cisco 10"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -540,7 +554,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Virus"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -574,7 +588,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 6"
+                                    android:text="Cisco 11"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -586,7 +600,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Error de software"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -620,7 +634,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 7"
+                                    android:text="Cisco 12"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -632,7 +646,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="Falla de energía"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -666,7 +680,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 8"
+                                    android:text="Cisco 13"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -678,7 +692,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="San Luis"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -712,7 +726,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 9"
+                                    android:text="Cisco 14"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -724,7 +738,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -758,7 +772,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 10"
+                                    android:text="Cisco 15"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -770,7 +784,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -804,7 +818,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 11"
+                                    android:text="Cisco 16"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -816,7 +830,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Miraflores"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -850,7 +864,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 12"
+                                    android:text="Cisco 17"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -862,7 +876,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -896,7 +910,7 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Cisco 18"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
@@ -908,7 +922,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/fondo"
                                 android:gravity="center"
-                                android:text="Lima"
+                                android:text="No funciona wifi"
                                 android:textColor="#000000"
                                 android:textSize="17dp" />
                         </LinearLayout>
@@ -977,11 +991,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="220dp">
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="223dp">
 
         <SearchView
-            android:layout_width="310dp"
+            android:layout_width="280dp"
             android:layout_height="40dp" />
     </androidx.cardview.widget.CardView>
 
