@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D9D9D9"
+    tools:context=".MainActivity">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#54CCC5"
+        app:cardCornerRadius="10dp"
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="167dp">
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:tint="#FFFFFF"
+            app:srcCompat="@drawable/baseline_add_circle_outline_24" />
+
+    </androidx.cardview.widget.CardView>
+
+    <FrameLayout
+        android:layout_width="402dp"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="287dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fondo"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="Nombre"
+                        android:textColor="#000000"
+
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/fondo"
+                        android:gravity="center"
+                        android:text="Ubicación"
+                        android:textColor="#000000"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 1"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="SJL"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 2"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="SURCO"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 3"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="SJM"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 4"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="La Victoria"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 5"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 6"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 7"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 8"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="San Luis"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 9"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 10"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 11"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Miraflores"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 12"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    app:srcCompat="@drawable/baseline_remove_red_eye_24" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="-44dp"
+                                    android:background="@drawable/fondo"
+                                    android:gravity="center|left"
+                                    android:outlineProvider="none"
+
+                                    android:text="Área TELECOM 13"
+                                    android:textColor="#000000"
+                                    android:textSize="17dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/fondo"
+                                android:gravity="center"
+                                android:text="Lima"
+                                android:textColor="#000000"
+                                android:textSize="17dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="240dp"
+        android:layout_height="59dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:text="Área TELECOM"
+        android:textColor="@android:color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        tools:ignore="DuplicateIds,MissingConstraints"
+        tools:layout_editor_absoluteX="78dp"
+        tools:layout_editor_absoluteY="89dp" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/navbar"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="226dp"
+        android:layout_height="65dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="148dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="185dp"
+            android:layout_height="39dp"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="20dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="34dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Lista de sitios"
+                android:textColor="@android:color/black"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                tools:ignore="DuplicateIds" />
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="220dp">
+
+        <SearchView
+            android:layout_width="310dp"
+            android:layout_height="40dp" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
