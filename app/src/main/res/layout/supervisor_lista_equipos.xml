@@ -8,31 +8,29 @@
     tools:context=".MainActivity">
 
 
-    <androidx.cardview.widget.CardView
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#54CCC5"
-        app:cardCornerRadius="10dp"
-        tools:layout_editor_absoluteX="318dp"
-        tools:layout_editor_absoluteY="167dp">
-
-        <ImageView
-            android:id="@+id/imageView160"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:tint="#FFFFFF"
-            app:srcCompat="@drawable/baseline_add_circle_outline_24" />
-
-    </androidx.cardview.widget.CardView>
+        android:layout_height="50dp"
+        android:backgroundTint="#000000"
+        android:drawableLeft="@drawable/baseline_library_add_24"
+        android:drawablePadding="8dp"
+        android:padding="12dp"
+        android:text="Nuevo equipo"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="10dp"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="218dp" />
 
     <FrameLayout
         android:layout_width="402dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
+        android:paddingStart="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="287dp">
+        tools:layout_editor_absoluteY="340dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -70,7 +68,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/fondo"
                         android:gravity="center"
-                        android:text="Ubicación"
+                        android:text="Libre de reporte"
                         android:textColor="#000000"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -86,6 +84,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/linearC"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
@@ -114,21 +113,21 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 1"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
+
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -160,21 +159,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 2"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -206,21 +203,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 3"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -252,21 +247,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 4"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -298,21 +291,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 5"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -344,21 +335,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 1"
+                                    android:text="Dispositivo 6"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="SJL"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -390,21 +379,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 2"
+                                    android:text="Dispositivo 7"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="SURCO"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -436,21 +422,19 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 3"
+                                    android:text="Dispositivo 8"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="SJM"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -482,21 +466,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 4"
+                                    android:text="Dispositivo 9"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="La Victoria"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -528,21 +509,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 5"
+                                    android:text="Dispositivo 10"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -574,21 +552,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 6"
+                                    android:text="Dispositivo 11"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -620,21 +595,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 7"
+                                    android:text="Dispositivo 12"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -666,21 +638,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 8"
+                                    android:text="Dispositivo 13"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="San Luis"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -712,21 +681,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 9"
+                                    android:text="Dispositivo 14"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -758,21 +724,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 10"
+                                    android:text="Dispositivo 15"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -804,21 +767,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 11"
+                                    android:text="Dispositivo 16"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Miraflores"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -850,21 +810,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 12"
+                                    android:text="Dispositivo 17"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -896,21 +853,18 @@
                                     android:gravity="center|left"
                                     android:outlineProvider="none"
 
-                                    android:text="Área TELECOM 13"
+                                    android:text="Dispositivo 18"
                                     android:textColor="#000000"
                                     android:textSize="17dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="200dp"
+                            <ImageView
+                                android:id="@+id/imageView20"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/fondo"
-                                android:gravity="center"
-                                android:text="Lima"
-                                android:textColor="#000000"
-                                android:textSize="17dp" />
+                                android:layout_gravity="center_horizontal"
+                                android:paddingStart="85dp"
+                                app:srcCompat="@drawable/baseline_check_circle_outline_24" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -964,7 +918,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="Lista de sitios"
+                android:text="Lista de equipos"
                 android:textColor="@android:color/black"
                 android:textSize="22dp"
                 android:textStyle="bold"
@@ -977,12 +931,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="220dp">
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="268dp">
 
         <SearchView
             android:layout_width="310dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp" >
+
+        </SearchView>
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:backgroundTint="#E8BA19"
+        app:cardCornerRadius="20dp"
+        tools:layout_editor_absoluteX="339dp"
+        tools:layout_editor_absoluteY="268dp">
+
+        <ImageView
+            android:id="@+id/imageView19"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/codigo_qr" />
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

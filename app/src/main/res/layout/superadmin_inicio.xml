@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D9D9D9"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="227dp"
+        android:layout_height="107dp"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="407dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewSUPA"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewSUPA"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Supervisores activos"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textViewSUPA10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="4"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="106dp"
+                    tools:layout_editor_absoluteY="48dp" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="64dp"
+                    android:layout_height="54dp"
+                    app:srcCompat="@drawable/u_activo"
+                    tools:layout_editor_absoluteX="9dp"
+                    tools:layout_editor_absoluteY="18dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="224dp"
+        android:layout_height="113dp"
+        tools:layout_editor_absoluteX="-18dp"
+        tools:layout_editor_absoluteY="407dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewSU"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Supervisores desactivados"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="10"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="106dp"
+                    tools:layout_editor_absoluteY="48dp" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/u_baneado"
+                    tools:layout_editor_absoluteX="11dp"
+                    tools:layout_editor_absoluteY="14dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="432dp"
+        android:layout_height="104dp"
+        tools:layout_editor_absoluteX="-20dp"
+        tools:layout_editor_absoluteY="218dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/u_baneado"
+                    tools:layout_editor_absoluteX="2dp"
+                    tools:layout_editor_absoluteY="11dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Admins desactivados"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="103dp"
+                    tools:layout_editor_absoluteY="60dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="174dp"
+            android:layout_height="84dp"
+            android:backgroundTint="#54CCC5"
+            app:cardCornerRadius="20dp"
+            tools:layout_editor_absoluteX="234dp"
+            tools:layout_editor_absoluteY="13dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="184dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/u_activo"
+                    tools:layout_editor_absoluteX="2dp"
+                    tools:layout_editor_absoluteY="11dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="Admins activos"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="73dp"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="103dp"
+                    tools:layout_editor_absoluteY="60dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textViewLab"
+        android:layout_width="299dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginBottom="564dp"
+        android:forceDarkAllowed="false"
+        android:text="Área TELECOM"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textSize="34sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textViewBienvenido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="¡Bienvenido superadmin Marcos Alonso"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textSize="35sp"
+        android:textStyle="normal|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="568dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
