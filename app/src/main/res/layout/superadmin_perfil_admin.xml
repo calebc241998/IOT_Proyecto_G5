@@ -9,8 +9,8 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="381dp"
-        android:layout_height="214dp"
+        android:layout_width="385dp"
+        android:layout_height="206dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"

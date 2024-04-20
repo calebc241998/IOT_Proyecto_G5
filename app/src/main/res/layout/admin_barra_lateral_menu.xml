@@ -70,8 +70,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="37dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/home" />
         </LinearLayout>
@@ -103,8 +103,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="39dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/user_attributes_fill0_wght400_grad0_opsz24" />
 
@@ -124,7 +124,7 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="211dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
@@ -135,8 +135,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/person_add_fill0_wght400_grad0_opsz24" />
         </LinearLayout>
@@ -165,8 +165,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/baseline_format_list_bulleted_24" />
         </LinearLayout>
@@ -196,8 +196,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="39dp"
+                android:layout_height="42dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/home_pin_fill0_wght400_grad0_opsz24" />
 
@@ -228,8 +228,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="39dp"
+                android:layout_height="37dp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/log_out" />
         </LinearLayout>
