@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewDescripcion"
         android:layout_width="341dp"
         android:layout_height="51dp"
         android:layout_gravity="center_vertical"
@@ -21,7 +21,7 @@
         tools:layout_editor_absoluteY="224dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewSubirIncidencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -79,7 +79,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTITULO"
         android:layout_width="240dp"
         android:layout_height="59dp"
         android:layout_gravity="center_vertical"
@@ -107,7 +107,7 @@
         tools:layout_editor_absoluteY="178dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewReporteDeEquipo"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center"

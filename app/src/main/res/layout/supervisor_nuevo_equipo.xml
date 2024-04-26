@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldSKU"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="SKU">
@@ -34,7 +34,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldSerie"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Número de serie">
@@ -47,7 +47,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldMarca"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Marca">
@@ -60,7 +60,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldModelo"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Modelo">
@@ -73,7 +73,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldDescripción"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Descripción">
@@ -86,7 +86,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldEdad"
+                android:id="@+id/textFieldFecha"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Fecha de registro">
@@ -133,7 +133,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
-                                android:id="@+id/imageView13"
+                                android:id="@+id/imageViewcamaraNuevoequipo"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 app:srcCompat="@drawable/baseline_camera_alt_24"
@@ -144,7 +144,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
-                        android:id="@+id/imageView12"
+                        android:id="@+id/imageViewFotoMuestra"
                         android:layout_width="168dp"
                         android:layout_height="168dp"
                         app:srcCompat="@drawable/circulo_blanco"
@@ -152,7 +152,7 @@
                         tools:layout_editor_absoluteY="7dp" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/textViewSubirFoto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -183,7 +183,7 @@
                             tools:layout_editor_absoluteY="8dp" />
 
                         <ImageView
-                            android:id="@+id/imageView7"
+                            android:id="@+id/imageViewSubirFoto"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/baseline_upload_24"
@@ -200,7 +200,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewCompletarDatos"
         android:layout_width="341dp"
         android:layout_height="51dp"
         android:layout_gravity="center_vertical"
@@ -213,7 +213,7 @@
         tools:layout_editor_absoluteY="197dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitulo"
         android:layout_width="240dp"
         android:layout_height="59dp"
         android:layout_gravity="center_vertical"
@@ -241,7 +241,7 @@
         tools:layout_editor_absoluteY="151dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewNuevoEquipo"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center"
