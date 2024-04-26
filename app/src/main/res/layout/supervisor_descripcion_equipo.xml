@@ -15,7 +15,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonReportar"
             android:layout_width="110dp"
             android:layout_height="38dp"
             android:backgroundTint="#FFFFFF"
@@ -45,7 +45,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonBorrar"
             android:layout_width="96dp"
             android:layout_height="38dp"
             android:backgroundTint="#FFFFFF"
@@ -75,7 +75,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonEditar"
             android:layout_width="96dp"
             android:layout_height="38dp"
             android:backgroundTint="#FFFFFF"
@@ -361,7 +361,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitulo"
         android:layout_width="240dp"
         android:layout_height="59dp"
         android:layout_gravity="center_vertical"
@@ -398,7 +398,7 @@
             tools:ignore="MissingConstraints">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
