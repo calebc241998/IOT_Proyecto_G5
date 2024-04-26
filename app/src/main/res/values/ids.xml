@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="contrasena_actual" type="id" />
+    <item name="editMessage" type="id" />
+    <item name="buttonSend" type="id" />
+</resources>
