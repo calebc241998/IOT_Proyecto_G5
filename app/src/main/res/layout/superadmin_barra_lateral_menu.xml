@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Contenido principal de la actividad -->
+    <RelativeLayout
+        android:id="@+id/SAcontent_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Aquí puedes colocar el contenido principal de tu actividad -->
+
+    </RelativeLayout>
+
+    <!-- Barra lateral -->
+    <LinearLayout
+        android:id="@+id/SAnav_drawer"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginEnd="550dp"
+        android:background="@android:color/white"
+        android:backgroundTint="#C9E3E6"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/SAcontent_frame"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <!-- Botón de cierre -->
+        <ImageView
+            android:id="@+id/SAimageView15"
+            android:layout_width="536dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+        <!-- Espaciado -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <!-- Encabezado del Drawer (opcional) -->
+        <!-- Puedes agregar un encabezado si lo deseas -->
+
+        <!-- Sección Inicio -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:outlineAmbientShadowColor="#2196F3"
+            android:outlineSpotShadowColor="#E8D5D5"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onInicioClicked"
+                android:text="Inicio"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/home" />
+        </LinearLayout>
+
+        <!-- Sección Lista de usuarios -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onListaUsuariosClicked"
+                android:text="Lista de usuarios"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/list" />
+        </LinearLayout>
+
+        <!-- Sección Nuevo admin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onNuevoAdminClicked"
+                android:text="Nuevo admin"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/contact" />
+        </LinearLayout>
+
+        <!-- Sección Logs -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onLogsClicked"
+                android:text="Logs"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/log" />
+        </LinearLayout>
+
+        <!-- Sección Cerrar sesión -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onCerrarSesionClicked"
+                android:text="Cerrar sesión"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/log_out" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
