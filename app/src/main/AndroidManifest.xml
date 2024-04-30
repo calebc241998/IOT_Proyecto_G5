@@ -30,6 +30,9 @@
             android:name=".olvido_contrasena"
             android:exported="false" />
         <activity
+            android:name=".AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

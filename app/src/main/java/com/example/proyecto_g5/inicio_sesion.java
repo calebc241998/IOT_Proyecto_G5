@@ -2,22 +2,93 @@ package com.example.proyecto_g5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyecto_g5.dto.usuario;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class inicio_sesion extends AppCompatActivity {
+
+    private List<usuario> usuarios;
+
+    private EditText correoEditText;
+    private EditText contrasenaEditText;
+    private Button iniciarSesionButton;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingreso_cuenta);
 
+        // Inicializar lista de usuarios
+        usuarios = new ArrayList<>();
+        generarUsuarios();
 
-        Button button_olvido = findViewById(R.id.buttonOlvidoContraseña);
-        button_olvido.setOnClickListener(view -> {
 
-            Intent intent = new Intent(inicio_sesion.this, olvido_contrasena.class);
-            startActivity(intent);
+        correoEditText = findViewById(R.id.editUsuario);
+        contrasenaEditText = findViewById(R.id.editContrasena);
+        iniciarSesionButton = findViewById(R.id.buttonInicioSesion);
+
+        // Acción del botón de inicio de sesión
+        iniciarSesionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarSesion();
+            }
         });
+
+    }
+
+
+    private void generarUsuarios() {
+        usuarios.add(new usuario("Caleb", "Casapaico", "superadmin@example.com", "123456", "superadmin"));
+        usuarios.add(new usuario("Lara", "Ana", "admin@example.com", "123456", "admin"));
+        usuarios.add(new usuario("Daniel", "Chomon", "supervisor@example.com", "123456", "supervisor"));
+    }
+
+    // Método para iniciar sesión
+    private void iniciarSesion() {
+        String correo = correoEditText.getText().toString();
+        String contrasena = contrasenaEditText.getText().toString();
+
+        for (usuario usuario : usuarios) {
+            if (usuario.getCorreo().equals(correo) && usuario.getContrasena().equals(contrasena)) {
+                // Inicio de sesión exitoso
+                redirigirSegunRol(usuario.getRol());
+                return;
+            }
+        }
+
+
+        Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void redirigirSegunRol(String rol) {
+        Intent intent;
+        switch (rol) {
+            case "superadmin":
+                intent = new Intent(this, SuperadminActivity.class);
+                break;
+            case "admin":
+                intent = new Intent(this, AdminActivity.class);
+                break;
+            case "supervisor":
+                intent = new Intent(this, SupervisorActivity.class);
+                break;
+            default:
+                throw new IllegalArgumentException("Rol no válido: " + rol);
+        }
+        startActivity(intent);
+        finish();
     }
 }
