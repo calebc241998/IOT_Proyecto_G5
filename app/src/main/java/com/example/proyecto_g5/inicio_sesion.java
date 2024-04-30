@@ -52,7 +52,7 @@ public class inicio_sesion extends AppCompatActivity {
     private void generarUsuarios() {
         usuarios.add(new usuario("Caleb", "Casapaico", "superadmin@example.com", "123456", "superadmin"));
         usuarios.add(new usuario("Lara", "Ana", "admin@example.com", "123456", "admin"));
-        usuarios.add(new usuario("Daniel", "Chomon", "supervisor@example.com", "123456", "supervisor"));
+        usuarios.add(new usuario("William", "Espinoza", "supervisor@example.com", "123456", "supervisor"));
     }
 
     // Método para iniciar sesión
@@ -84,6 +84,8 @@ public class inicio_sesion extends AppCompatActivity {
                 break;
             case "supervisor":
                 intent = new Intent(this, SupervisorActivity.class);
+                intent.putExtra("nombre",usuarios.get(2).getNombre());
+                intent.putExtra("apellido",usuarios.get(2).getApellido());
                 break;
             default:
                 throw new IllegalArgumentException("Rol no válido: " + rol);
