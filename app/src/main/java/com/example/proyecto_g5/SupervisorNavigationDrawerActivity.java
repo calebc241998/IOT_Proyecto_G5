@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_g5.databinding.ActivityNavigationDrawerBinding;
 
-public class NavigationDrawerActivity extends AppCompatActivity {
+public class SupervisorNavigationDrawerActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationDrawerBinding binding;
