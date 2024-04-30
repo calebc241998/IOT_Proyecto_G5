@@ -15,7 +15,7 @@ public class SuperadminActivity extends AppCompatActivity {
         setContentView(R.layout.superadmin_inicio);
         super.onCreate(savedInstanceState);
 
-        textViewBienvenidoSA = findViewById(R.id.textViewBienvenidoSA);
+        textViewBienvenidoSA = findViewById(R.id.SAItextViewBienvenido);
 
         // Obtener información del intent
         String nombre = getIntent().getStringExtra("nombre");
