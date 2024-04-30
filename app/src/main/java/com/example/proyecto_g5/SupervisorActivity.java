@@ -24,18 +24,19 @@ public class SupervisorActivity extends AppCompatActivity {
     private ActivityNavigationDrawerBinding binding;
     private TextView textViewBienvenido;
 
+
     //private SupervisorInicioBinding supervisorInicioBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String nombre = getIntent().getStringExtra("nombre");
         String apellido = getIntent().getStringExtra("apellido");
+
         super.onCreate(savedInstanceState);
 
         binding = ActivityNavigationDrawerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        textViewBienvenido = findViewById(R.id.textViewBienvenido);
 
         //BienvenidoNombreViewModel
         /*BienvenidoNombreViewModel bienvenidoNombreViewModel =
@@ -46,21 +47,7 @@ public class SupervisorActivity extends AppCompatActivity {
 
             textViewBienvenido.setText(bienvenido);
             //contadorPrimosBinding.cont.setText(String.valueOf(contador));
-        });
-        bienvenidoNombreViewModel.getBienvenido().postValue("¡Bienvenido Supervisor " + nombre + " " + apellido + "!");
-        */
-        textViewBienvenido.setText("¡Bienvenido Supervisor " + nombre + " " + apellido + "!");
-        //contadorPrimosBinding.cont.setText(String.valueOf(contador));
-
-
-
-        // Obtener información del intent
-
-
-        //System.out.println("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
-
-        //supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
-        // Actualizar el texto del TextView
+        });*/
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
         /*binding.appBarNavigationDrawer.fab.setOnClickListener(new View.OnClickListener() {

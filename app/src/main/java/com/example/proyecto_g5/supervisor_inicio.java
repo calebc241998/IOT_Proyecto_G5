@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.proyecto_g5.databinding.SupervisorInicioBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +17,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class supervisor_inicio extends Fragment {
+    private TextView textViewBienvenido;
+    private SupervisorInicioBinding supervisorInicioBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +63,17 @@ public class supervisor_inicio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_inicio, container, false);
+        // Inflar y asignar la vista utilizando View Binding
+        supervisorInicioBinding = SupervisorInicioBinding.inflate(inflater, container, false);
+        View view = supervisorInicioBinding.getRoot();
+
+        // Ahora puedes acceder a las vistas del diseño a través de la variable binding
+        supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Supervisor William Espinoza!");
+
+        return view;
+    }
+
+    public void bienvenido(){
+
     }
 }
