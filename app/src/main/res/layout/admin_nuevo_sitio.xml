@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/botno_guardar"
+        android:id="@+id/ACSboton_guardar"
         android:layout_width="125dp"
         android:layout_height="47dp"
         android:layout_marginStart="40dp"
@@ -28,7 +28,7 @@
         app:layout_constraintVertical_bias="0.808" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/ACScardView"
         android:layout_width="201dp"
         android:layout_height="46dp"
         android:backgroundTint="#FFFFFF"
@@ -36,17 +36,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include"
+        app:layout_constraintTop_toTopOf="@+id/ACSinclude"
         app:layout_constraintVertical_bias="0.157">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/ACStextView"
             android:layout_width="211dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="Nuevo Sitio"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
@@ -68,7 +68,7 @@
             android:textAlignment="center">
 
             <TextView
-                android:id="@+id/nombre_campo_nombre"
+                android:id="@+id/ACSnombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -79,7 +79,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/nombre_campo_codigo"
+                android:id="@+id/ACScodigo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -90,7 +90,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/nombre_campo_apellido"
+                android:id="@+id/ACSdepartamento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -101,7 +101,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/provincia"
+                android:id="@+id/ACSprovincia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -112,7 +112,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/distrito"
+                android:id="@+id/ACSdistrito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -123,7 +123,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ubigeo"
+                android:id="@+id/ACSubigeo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -134,7 +134,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/latitud_longitu"
+                android:id="@+id/ACSlatitud_longitud"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -145,7 +145,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tipo_zona"
+                android:id="@+id/ACStipo_zona"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -156,7 +156,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tipo_sitio"
+                android:id="@+id/ACStipo_sitio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,7 +174,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/ACSeditTextNombre"
                 android:layout_width="match_parent"
                 android:layout_height="26dp"
                 android:layout_weight="1"
@@ -183,7 +183,7 @@
                 android:text="codigo" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/ACSeditTextCodigo"
                 android:layout_width="match_parent"
                 android:layout_height="28dp"
                 android:layout_weight="1"
@@ -192,25 +192,25 @@
                 android:text="codigo" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/ACSspinner2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Spinner
-                android:id="@+id/spinner3"
+                android:id="@+id/ACSspinner3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Spinner
-                android:id="@+id/spinner4"
+                android:id="@+id/ACSspinner4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/campo_ubigeo"
+                android:id="@+id/ACScampo_ubigeo"
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
                 android:layout_weight="1"
@@ -221,19 +221,19 @@
                 android:textSize="17sp" />
 
             <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView2"
+                android:id="@+id/ACSmapView2"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_weight="1" />
 
             <Spinner
-                android:id="@+id/spinner6"
+                android:id="@+id/ACSspinner6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Spinner
-                android:id="@+id/spinner7"
+                android:id="@+id/ACSspinner7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -243,7 +243,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/ACSinclude"
         layout="@layout/navbar"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="0dp" />
