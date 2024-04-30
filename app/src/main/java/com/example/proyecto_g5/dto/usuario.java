@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class usuario implements Serializable {
 
     private String nombre;
-
     private String correo;
     private String contrasena;
 
