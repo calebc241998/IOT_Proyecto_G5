@@ -20,6 +20,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_navigation_drawer" />
+    <include layout="@layout/content_navigation_drawer_supervisor" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
