@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/supervisor_inicio">
 
     <fragment
         android:id="@+id/nav_home"
@@ -23,9 +23,24 @@
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/supervisor"
-        android:name="com.example.proyecto_g5.supervisor"
-        android:label="fragment_supervisor"
-        tools:layout="@layout/fragment_supervisor" />
+        android:id="@+id/supervisor_inicio"
+        android:name="com.example.proyecto_g5.supervisor_inicio"
+        android:label=""
+        tools:layout="@layout/supervisor_inicio" />
+    <fragment
+        android:id="@+id/supervisor_lista_sitios"
+        android:name="com.example.proyecto_g5.supervisor_lista_sitios"
+        android:label=""
+        tools:layout="@layout/supervisor_lista_sitios" />
+    <fragment
+        android:id="@+id/supervisor_lista_equipos"
+        android:name="com.example.proyecto_g5.supervisor_lista_equipos"
+        android:label=""
+        tools:layout="@layout/supervisor_lista_equipos" />
+    <fragment
+        android:id="@+id/supervisor_lista_reportes"
+        android:name="com.example.proyecto_g5.supervisor_lista_reportes"
+        android:label=""
+        tools:layout="@layout/supervisor_lista_reportes" />
 
 </navigation>
