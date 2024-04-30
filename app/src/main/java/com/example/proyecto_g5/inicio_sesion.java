@@ -66,19 +66,21 @@ public class inicio_sesion extends AppCompatActivity {
             }
         }
 
-
         Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
     }
-
 
     private void redirigirSegunRol(String rol) {
         Intent intent;
         switch (rol) {
             case "superadmin":
                 intent = new Intent(this, SuperadminActivity.class);
+                intent.putExtra("nombre",usuarios.get(0).getNombre());
+                intent.putExtra("apellido",usuarios.get(0).getApellido());
                 break;
             case "admin":
                 intent = new Intent(this, AdminActivity.class);
+                intent.putExtra("nombre",usuarios.get(1).getNombre());
+                intent.putExtra("apellido",usuarios.get(1).getApellido());
                 break;
             case "supervisor":
                 intent = new Intent(this, SupervisorActivity.class);
