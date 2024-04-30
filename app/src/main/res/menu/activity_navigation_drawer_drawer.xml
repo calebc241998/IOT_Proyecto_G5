@@ -18,7 +18,7 @@
             android:title="Lista de equipos" />
         <item
             android:id="@+id/supervisor_lista_reportes"
-            android:icon="@drawable/precaucion"
+            android:icon="@drawable/baseline_warning_amber_24"
             android:title="Lista de reportes" />
 
         <item
