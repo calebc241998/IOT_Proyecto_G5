@@ -108,11 +108,15 @@ public class supervisor_lista_reportes extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
+
+
         NavController navController = NavHostFragment.findNavController(supervisor_lista_reportes.this);
         supervisorListaReportesBinding.agregarReporte.setOnClickListener(view -> {
 
             navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte);
         });
+
+
 
         // Inflate the layout for this fragment
         return supervisorListaReportesBinding.getRoot();

@@ -117,6 +117,11 @@ public class supervisor_lista_equipos extends Fragment {
             navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_qr);
         });
 
+        supervisorListaEquiposBinding.textViewListaEquipos.setOnClickListener(view -> {
+
+            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo);
+        });
+
         // Inflate the layout for this fragment
         return supervisorListaEquiposBinding.getRoot();
     }

@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_supervisor_lista_equipos_to_supervisor_qr"
             app:destination="@id/supervisor_qr" />
+        <action
+            android:id="@+id/action_supervisor_lista_equipos_to_supervisor_descripcion_equipo"
+            app:destination="@id/supervisor_descripcion_equipo" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_lista_reportes"
@@ -51,5 +54,10 @@
         android:name="com.example.proyecto_g5.supervisor_nuevo_reporte"
         android:label=""
         tools:layout="@layout/supervisor_nuevo_reporte" />
+    <fragment
+        android:id="@+id/supervisor_descripcion_equipo"
+        android:name="com.example.proyecto_g5.supervisor_descripcion_equipo"
+        android:label="supervisor_descripcion_equipo"
+        tools:layout="@layout/supervisor_descripcion_equipo" />
 
 </navigation>
