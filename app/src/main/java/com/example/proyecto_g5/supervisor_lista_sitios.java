@@ -81,10 +81,28 @@ public class supervisor_lista_sitios extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaSitiosClass("Real Plaza","Lima",R.drawable.baseline_location_pin_24);
+        androidData= new DataListaSitiosClass("Real Plaza","Lima",R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_camera_alt_24);
+        androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("U Lima","Lima",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("Latina","Lima",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("Machu Picchu","Cusco",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("Area ","Arequipa",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("Area 2","Lima",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("Area 3","Lima",R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
         adapter= new MyAdapterListaSitios(getActivity(),datalist);

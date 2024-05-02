@@ -8,32 +8,15 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ScrollView
-        android:id="@+id/scrollListaSitios"
-        android:layout_width="394dp"
-        android:layout_height="512dp"
-        android:layout_marginTop="40dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOficial"
+        android:layout_width="match_parent"
+        android:layout_height="526dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="512dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="512dp"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewOficial"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-        </FrameLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <TextView
         android:id="@+id/textViewTITULO"
@@ -79,35 +62,19 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_width="362dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <SearchView
-            android:layout_width="310dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp" />
     </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/agregar_sitio"
-        android:layout_width="48dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="#000000"
-        android:drawableTop="@drawable/baseline_library_add_24"
-        android:drawablePadding="8dp"
-        android:padding="12dp"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
