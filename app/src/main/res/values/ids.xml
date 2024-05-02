@@ -8,4 +8,5 @@
     <item name="recTextUsuarioRecycler" type="id" />
     <item name="recTextRolRecycler" type="id" />
     <item name="recTextEstadoRecycler" type="id" />
+    <item name="superadmin_nav_host_fragment_content_navigation_drawer" type="id" />
 </resources>
