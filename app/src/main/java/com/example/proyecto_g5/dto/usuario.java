@@ -10,9 +10,9 @@ public class usuario implements Serializable {
     private String contrasena;
     private String direccion;
     private String rol;
+    private String estado;
 
-
-    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol) {
+    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -20,6 +20,7 @@ public class usuario implements Serializable {
         this.contrasena = contrasena;
         this.direccion = direccion;
         this.rol = rol;
+        this.estado = estado;
     }
 
     public String getNombre() {
@@ -76,5 +77,13 @@ public class usuario implements Serializable {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
