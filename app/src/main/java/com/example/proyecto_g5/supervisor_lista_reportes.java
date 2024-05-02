@@ -3,10 +3,15 @@ package com.example.proyecto_g5;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +19,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class supervisor_lista_reportes extends Fragment {
+
+    SupervisorListaReportesBinding supervisorListaReportesBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +65,16 @@ public class supervisor_lista_reportes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        supervisorListaReportesBinding = SupervisorListaReportesBinding.inflate(inflater, container, false);
+
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_reportes.this);
+        supervisorListaReportesBinding.agregarReporte.setOnClickListener(view -> {
+
+            navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte);
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_lista_reportes, container, false);
+        return supervisorListaReportesBinding.getRoot();
     }
 }
