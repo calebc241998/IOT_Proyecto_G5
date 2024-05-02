@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class AdminActivity extends AppCompatActivity {
+public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView menu;
@@ -27,10 +27,10 @@ public class AdminActivity extends AppCompatActivity {
 
         //setContentView(R.layout.admin_inicio);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_inicio_2);
+        setContentView(R.layout.admin_nuevo_supervisor);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
+        menu = findViewById(R.id.menu);
         inicio_nav = findViewById(R.id.inicio_nav);
         lista_super = findViewById(R.id.lista_super_nav);
         lista_sitios = findViewById(R.id.lista_sitios_nav);
@@ -47,42 +47,41 @@ public class AdminActivity extends AppCompatActivity {
 
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                recreate();
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSuperActivity.this, AdminActivity.class);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_sitiosActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_supervisoresActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSuperActivity.class);
-            }
+            public void onClick(View v) {
+                recreate();            }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSitioActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
             }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(AdminActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                Toast.makeText(admin_nuevoSuperActivity.this, "Logout", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -116,7 +115,4 @@ public class AdminActivity extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
-
-
 }
-

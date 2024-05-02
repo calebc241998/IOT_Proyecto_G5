@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/supervisor_inicio"
+            android:icon="@drawable/home"
+            android:title="Inicio" />
+        <item
+            android:id="@+id/supervisor_lista_sitios"
+            android:icon="@drawable/baseline_location_pin_24"
+            android:title="Lista de sitios" />
+        <item
+            android:id="@+id/supervisor_lista_equipos"
+            android:icon="@drawable/baseline_format_list_bulleted_24"
+            android:title="Lista de equipos" />
+        <item
+            android:id="@+id/supervisor_lista_reportes"
+            android:icon="@drawable/precaucion"
+            android:title="Lista de reportes" />
+
+        <item
+            android:icon="@drawable/log_out"
+            android:title="Cerrar sesión" />
+
+    </group>
+</menu>

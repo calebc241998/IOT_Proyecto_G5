@@ -13,22 +13,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class AdminActivity extends AppCompatActivity {
+import java.nio.Buffer;
+
+public class admin_perfilSuper extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView menu;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
-    private TextView textViewBienvenido;
+
+
+    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
+    ImageView perfil_superImage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstaceState){
+        super.onCreate(savedInstaceState);
+        setContentView(R.layout.admin_perfil_supervisor_2);
 
-        //setContentView(R.layout.admin_inicio);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_inicio_2);
 
+        //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
         inicio_nav = findViewById(R.id.inicio_nav);
@@ -48,58 +53,66 @@ public class AdminActivity extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();
+                redirectActivity(admin_perfilSuper.this, AdminActivity.class);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_sitiosActivity.class);
+                redirectActivity(admin_perfilSuper.this, admin_sitiosActivity.class);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_supervisoresActivity.class);
+                redirectActivity(admin_perfilSuper.this, admin_supervisoresActivity.class);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSuperActivity.class);
+                redirectActivity(admin_perfilSuper.this, admin_nuevoSuperActivity.class);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSitioActivity.class);
+                redirectActivity(admin_perfilSuper.this, admin_nuevoSitioActivity.class);
             }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AdminActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(admin_perfilSuper.this, "Logout", Toast.LENGTH_SHORT).show();
             }
         });
 
+        //----------------------------------
 
 
+        //pagina en si----------------
 
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
+        perfil_superNombre = findViewById(R.id.nombre_super_perfil_admin);
+        perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
+        perfil_superDNI = findViewById(R.id.DNI_super_perfil_admin);
+        perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
+        perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
+        perfil_superImage = findViewById(R.id.perfil_super);
 
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
-
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            //estos valores son mandados desde admin_myadapter
+            perfil_superNombre.setText(bundle.getString("Nombre"));
+            perfil_superImage.setImageResource(bundle.getInt("Image"));
+        }
 
     }
+
+    //Drawer functions--------------------------------
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
@@ -117,6 +130,6 @@ public class AdminActivity extends AppCompatActivity {
         activity.finish();
     }
 
+    //------------------Fin Drawer Functions
 
 }
-
