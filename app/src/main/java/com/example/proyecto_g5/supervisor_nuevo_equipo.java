@@ -10,16 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_lista_equipos#newInstance} factory method to
+ * Use the {@link supervisor_nuevo_equipo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_equipos extends Fragment {
+public class supervisor_nuevo_equipo extends Fragment {
 
-    SupervisorListaEquiposBinding supervisorListaEquiposBinding;
+    SupervisorNuevoEquipoBinding supervisorNuevoEquipoBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ public class supervisor_lista_equipos extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public supervisor_lista_equipos() {
+    public supervisor_nuevo_equipo() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class supervisor_lista_equipos extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment supervisor_lista_equipos.
+     * @return A new instance of fragment supervisor_nuevo_equipo.
      */
     // TODO: Rename and change types and number of parameters
-    public static supervisor_lista_equipos newInstance(String param1, String param2) {
-        supervisor_lista_equipos fragment = new supervisor_lista_equipos();
+    public static supervisor_nuevo_equipo newInstance(String param1, String param2) {
+        supervisor_nuevo_equipo fragment = new supervisor_nuevo_equipo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,16 +65,7 @@ public class supervisor_lista_equipos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        supervisorListaEquiposBinding = SupervisorListaEquiposBinding.inflate(inflater, container, false);
-
-
-        NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
-        supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
-
-            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_nuevo_equipo);
-        });
-
         // Inflate the layout for this fragment
-        return supervisorListaEquiposBinding.getRoot();
+        return inflater.inflate(R.layout.supervisor_nuevo_equipo, container, false);
     }
 }
