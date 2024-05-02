@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D9D9D9"
-    tools:context=".MainActivity">
+    tools:context=".superadmin_lista_usuarios">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -80,6 +80,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.856" />
+
+    <ScrollView
+        android:id="@+id/scrollListaUsuarios"
+        android:layout_width="349dp"
+        android:layout_height="438dp"
+        android:backgroundTint="#FFFFFF"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.856"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="512dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="512dp"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewSAU"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </ScrollView>
 
 
 

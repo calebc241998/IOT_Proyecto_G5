@@ -14,7 +14,7 @@ import com.example.proyecto_g5.R;
 
 import java.util.List;
 
-public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolderSA> {
+public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
     private List<DataListaUsuariosClass> datalist;
@@ -30,14 +30,14 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolderSA>
 
     @NonNull
     @Override
-    public MyViewHolderSA onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //PUNTO CRITICO NAVIGATION
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.superadmin_lista_usuarios_recycler_item, parent,false);
-        return new MyViewHolderSA(view);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolderSA holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         holder.recBotonOjitoUsuario.setImageResource(datalist.get(position).getBotonUsuario());
         holder.recTextUsuarioRecycler.setText(datalist.get(position).getNombreUsuario());
@@ -52,12 +52,12 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolderSA>
     }
 }
 
-class MyViewHolderSA extends RecyclerView.ViewHolder{
+class MyViewHolder extends RecyclerView.ViewHolder{
     ImageView recBotonOjitoUsuario;
     TextView recTextUsuarioRecycler, recTextUbicacionRecycler;
 
 
-    public MyViewHolderSA(@NonNull View itemView) {
+    public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         recBotonOjitoUsuario=itemView.findViewById(R.id.recBotonOjitoUsuario);
         recTextUsuarioRecycler=itemView.findViewById(R.id.recTextUsuarioRecycler);
