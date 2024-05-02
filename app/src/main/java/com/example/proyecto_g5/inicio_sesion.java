@@ -2,17 +2,23 @@ package com.example.proyecto_g5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_g5.dto.usuario;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.text.method.PasswordTransformationMethod;
 
 public class inicio_sesion extends AppCompatActivity {
 
@@ -20,6 +26,9 @@ public class inicio_sesion extends AppCompatActivity {
     private EditText correoEditText;
     private EditText contrasenaEditText;
     private Button iniciarSesionButton;
+
+    private CheckBox mostrarContrasenaCheckbox;
+
 
 
 
@@ -35,12 +44,21 @@ public class inicio_sesion extends AppCompatActivity {
         correoEditText = findViewById(R.id.editUsuario);
         contrasenaEditText = findViewById(R.id.editContrasena);
         iniciarSesionButton = findViewById(R.id.buttonInicioSesion);
+        mostrarContrasenaCheckbox = findViewById(R.id.checkBoxMostrarContrasena);
 
         // Acción del botón de inicio de sesión
         iniciarSesionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iniciarSesion();
+            }
+        });
+
+        // Listener de checkbox para mostrar/ocultar la contraseña
+        mostrarContrasenaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mostrarOcultarContrasena(isChecked);
             }
         });
 
@@ -92,5 +110,18 @@ public class inicio_sesion extends AppCompatActivity {
         }
         startActivity(intent);
         finish();
+    }
+
+    // Método para mostrar u ocultar la contraseña
+    private void mostrarOcultarContrasena(boolean mostrar) {
+        if (mostrar) {
+            // Mostrar contraseña
+            contrasenaEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            // Ocultar contraseña
+            contrasenaEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        // Mover el cursor al final
+        contrasenaEditText.setSelection(contrasenaEditText.getText().length());
     }
 }
