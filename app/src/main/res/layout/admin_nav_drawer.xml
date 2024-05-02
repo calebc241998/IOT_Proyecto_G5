@@ -52,8 +52,9 @@
             android:layout_height="31dp"
             android:drawablePadding="8dp"
             android:text="Inicio"
-            android:textColor="@color/color_principal"
-            android:textSize="20sp" />
+            android:textColor="@color/drawer_color"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/home_fill0_wght400_grad0_opsz24"/>
 
 
     </LinearLayout>
@@ -70,7 +71,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_principal"
+            android:textColor="@color/drawer_color"
             android:text="Lista Supervisores"
             android:textSize="20sp"
             android:drawableLeft="@drawable/user_attributes_fill0_wght400_grad0_opsz24"
@@ -89,7 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_principal"
+            android:textColor="@color/drawer_color"
             android:text="Nuevo Supervisor"
             android:textSize="20sp"
             android:drawableLeft="@drawable/person_add_fill0_wght400_grad0_opsz24"
@@ -109,10 +110,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_principal"
+            android:textColor="@color/drawer_color"
             android:text="Lista Sitios"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/baseline_format_list_bulleted_24"
+            android:drawableLeft="@drawable/format_list_bulleted_fill0_wght400_grad0_opsz24"
             android:drawablePadding="8dp"/>
 
     </LinearLayout>
@@ -128,13 +129,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_principal"
+            android:textColor="@color/drawer_color"
             android:text="Nuevo Sitio"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/home_pin_fill0_wght400_grad0_opsz24"
-            android:drawablePadding="8dp"/>
+            android:drawableLeft="@drawable/home_pin_fill0_wght400_grad0_opsz24_drawer"
+            android:drawablePadding="8dp"
+            android:paddingBottom="10dp"/>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_gravity="center"
+        android:layout_width="370dp"
+        android:layout_height="1.5dp"
+        android:background="?android:attr/listDivider" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -147,10 +157,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_principal"
+            android:textColor="@color/drawer_color"
             android:text="Cerrar Sesión"
             android:textSize="20sp"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:drawableLeft="@drawable/logout_fill0_wght400_grad0_opsz24"/>
 
     </LinearLayout>
 

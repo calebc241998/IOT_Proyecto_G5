@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.appcompat.widget.SearchView;
@@ -16,6 +17,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +40,19 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_lista_supervisor);
 
+
         initializeDrawer();
         setupRecyclerView();
+
+        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
+        addSuperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Define la nueva Activity que quieres abrir
+                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSuperActivity.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
+                startActivity(intent);
+            }
+        });
     }
 
     private void initializeDrawer() {

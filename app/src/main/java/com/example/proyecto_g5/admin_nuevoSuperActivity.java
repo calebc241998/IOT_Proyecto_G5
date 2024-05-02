@@ -30,7 +30,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         setContentView(R.layout.admin_nuevo_supervisor);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu);
+        menu = findViewById(R.id.menu_nav_admin_toolbar);
         inicio_nav = findViewById(R.id.inicio_nav);
         lista_super = findViewById(R.id.lista_super_nav);
         lista_sitios = findViewById(R.id.lista_sitios_nav);
@@ -47,33 +47,33 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 redirectActivity(admin_nuevoSuperActivity.this, AdminActivity.class);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 redirectActivity(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 redirectActivity(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 recreate();            }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 redirectActivity(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
             }
         });
