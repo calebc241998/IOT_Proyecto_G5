@@ -77,7 +77,7 @@ public class superadmin_lista_usuarios extends Fragment {
 
         superadminListaUsuariosBinding = SuperadminListaUsuariosBinding.inflate(inflater, container, false);
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
-        recyclerView = superadminListaUsuariosBinding.recyclerViewOficial;
+        recyclerView = superadminListaUsuariosBinding.recyclerViewSAU;
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 

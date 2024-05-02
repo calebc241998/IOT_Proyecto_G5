@@ -54,7 +54,7 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolder> {
 
 class MyViewHolder extends RecyclerView.ViewHolder{
     ImageView recBotonOjitoUsuario;
-    TextView recTextUsuarioRecycler, recTextUbicacionRecycler;
+    TextView recTextUsuarioRecycler, recTextRolRecycler, recTextEstadoRecycler;
 
 
     public MyViewHolder(@NonNull View itemView) {

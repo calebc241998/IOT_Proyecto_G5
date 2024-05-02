@@ -4,4 +4,8 @@
     <item name="editMessage" type="id" />
     <item name="buttonSend" type="id" />
     <item name="textViewBienvenidoSA" type="id" />
+    <item name="recBotonOjitoUsuario" type="id" />
+    <item name="recTextUsuarioRecycler" type="id" />
+    <item name="recTextRolRecycler" type="id" />
+    <item name="recTextEstadoRecycler" type="id" />
 </resources>
