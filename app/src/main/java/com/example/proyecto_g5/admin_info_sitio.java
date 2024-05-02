@@ -84,7 +84,11 @@ public class admin_info_sitio extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(admin_info_sitio.this, "Logout", Toast.LENGTH_SHORT).show();
+                // Cerrar sesión y redirigir a MainActivity
+                Intent intent = new Intent(admin_info_sitio.this, inicio_sesion.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
 

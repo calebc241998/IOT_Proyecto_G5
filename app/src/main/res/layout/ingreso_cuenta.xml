@@ -10,34 +10,35 @@
         android:id="@+id/textView2"
         android:layout_width="176dp"
         android:layout_height="31dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="73dp"
         android:text="¿Olvidaste tu contraseña?  "
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonOlvidoContraseña"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonOlvidoContraseña"
+        app:layout_constraintTop_toBottomOf="@+id/buttonInicioSesion"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/buttonInicioSesion"
         android:layout_width="179dp"
         android:layout_height="58dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginStart="200dp"
+
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#3ACCBD"
         android:text="Iniciar sesión"
-
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         app:iconTint="#00BCD4"
-        app:layout_constraintBottom_toTopOf="@+id/buttonOlvidoContraseña"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/buttonOlvidoContraseña"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editContrasena"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMostrarContrasena"
         app:strokeColor="#00BCD4"
         tools:ignore="MissingConstraints" />
 
@@ -45,11 +46,12 @@
         android:id="@+id/buttonOlvidoContraseña"
         android:layout_width="111dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="70dp"
+
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#C50747"
         android:text="Ingresa aquí"
-
         android:textAlignment="center"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -113,8 +115,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/editUsuario"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutUsuario"
         android:layout_width="264dp"
         android:layout_height="47dp"
         android:layout_marginStart="73dp"
@@ -124,14 +126,23 @@
         android:ems="10"
         android:hint="Usuario"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/editContrasena"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutContrasena"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints" >
 
-    <EditText
-        android:id="@+id/editContrasena"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:ems="10"
+            android:hint="Usuario"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutContrasena"
         android:layout_width="264dp"
         android:layout_height="47dp"
         android:layout_marginStart="73dp"
@@ -143,6 +154,27 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonInicioSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUsuario"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsuario"
+        tools:ignore="MissingConstraints">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/checkBoxMostrarContrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="290dp"
+        android:layout_marginTop="350dp"
+        android:text="Mostrar contraseña"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonInicioSesion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

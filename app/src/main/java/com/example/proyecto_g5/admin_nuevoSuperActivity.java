@@ -80,8 +80,12 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(admin_nuevoSuperActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                // Cerrar sesión y redirigir a MainActivity
+                Intent intent = new Intent(admin_nuevoSuperActivity.this, inicio_sesion.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
 

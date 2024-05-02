@@ -22,6 +22,7 @@
             android:title="Lista de reportes" />
 
         <item
+            android:id="@+id/log_out_button2"
             android:icon="@drawable/log_out"
             android:title="Cerrar sesión" />
 
