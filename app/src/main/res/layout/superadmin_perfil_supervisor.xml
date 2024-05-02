@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.878">
 
         <TextView
-            android:id="@+id/titulo_lista"
+            android:id="@+id/SAPStitulo_lista"
             android:layout_width="207dp"
             android:layout_height="42dp"
             android:layout_gravity="center_vertical"
@@ -39,7 +39,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/SAPSlinearLayout"
         android:layout_width="387dp"
         android:layout_height="375dp"
         android:orientation="vertical"
@@ -50,13 +50,13 @@
         app:layout_constraintVertical_bias="0.244">
 
         <LinearLayout
-            android:id="@+id/elemento_horizontal1"
+            android:id="@+id/SAPSelemento_horizontal1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView12"
+                android:id="@+id/SAPSimageViewfoto"
                 android:layout_width="168dp"
                 android:layout_height="168dp"
                 app:srcCompat="@drawable/circulo_blanco" />
@@ -67,7 +67,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/nombre_super"
+                    android:id="@+id/SAPSnombre_super"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_gravity="center_vertical"
@@ -78,7 +78,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/correo_sup"
+                    android:id="@+id/SAPScorreo_sup"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_gravity="center_vertical"
@@ -96,7 +96,7 @@
                     android:paddingTop="12dp">
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/SAPStextView24"
                         android:layout_width="96dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -107,7 +107,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/DNI_super"
+                        android:id="@+id/SAPSdni_super"
                         android:layout_width="136dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -139,7 +139,7 @@
                     android:paddingTop="12dp">
 
                     <TextView
-                        android:id="@+id/titulo_telefono"
+                        android:id="@+id/SAPStitulo_telefono"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -152,7 +152,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/telefono_super"
+                        android:id="@+id/SAPStelefono_super"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -171,7 +171,7 @@
                     android:paddingTop="12dp">
 
                     <TextView
-                        android:id="@+id/titulo_direccion"
+                        android:id="@+id/SAPStitulo_direccion"
                         android:layout_width="56dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -184,7 +184,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/direccin_super"
+                        android:id="@+id/SAPSdireccin_super"
                         android:layout_width="136dp"
                         android:layout_height="46dp"
                         android:layout_weight="1"
@@ -215,7 +215,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView_active_status"
+                    android:id="@+id/SAPSimageView_active_status"
                     android:layout_width="45dp"
                     android:layout_height="26dp"
                     android:src="@drawable/baseline_check_circle_outline_24"
@@ -226,7 +226,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView_site_number"
+                    android:id="@+id/SAPStextView_active_status"
                     android:layout_width="87dp"
                     android:layout_height="32dp"
                     android:text="Activo"
@@ -249,7 +249,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/SAPSinclude"
         layout="@layout/superadmin_navbar"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="0dp" />

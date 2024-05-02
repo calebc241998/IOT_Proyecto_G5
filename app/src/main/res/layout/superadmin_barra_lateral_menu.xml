@@ -8,7 +8,7 @@
 
     <!-- Contenido principal de la actividad -->
     <RelativeLayout
-        android:id="@+id/content_frame"
+        android:id="@+id/SAcontent_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,7 +18,7 @@
 
     <!-- Barra lateral -->
     <LinearLayout
-        android:id="@+id/nav_drawer"
+        android:id="@+id/SAnav_drawer"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -28,13 +28,13 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/content_frame"
+        app:layout_constraintStart_toEndOf="@+id/SAcontent_frame"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <!-- Botón de cierre -->
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/SAimageView15"
             android:layout_width="536dp"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />

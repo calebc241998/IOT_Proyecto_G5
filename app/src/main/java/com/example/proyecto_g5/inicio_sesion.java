@@ -17,7 +17,6 @@ import java.util.List;
 public class inicio_sesion extends AppCompatActivity {
 
     private List<usuario> usuarios;
-
     private EditText correoEditText;
     private EditText contrasenaEditText;
     private Button iniciarSesionButton;
@@ -32,7 +31,6 @@ public class inicio_sesion extends AppCompatActivity {
         // Inicializar lista de usuarios
         usuarios = new ArrayList<>();
         generarUsuarios();
-
 
         correoEditText = findViewById(R.id.editUsuario);
         contrasenaEditText = findViewById(R.id.editContrasena);
@@ -50,9 +48,9 @@ public class inicio_sesion extends AppCompatActivity {
 
 
     private void generarUsuarios() {
-        usuarios.add(new usuario("Caleb", "Casapaico", "superadmin@example.com", "123456", "superadmin"));
-        usuarios.add(new usuario("Lara", "Ana", "admin@example.com", "123456", "admin"));
-        usuarios.add(new usuario("William", "Espinoza", "supervisor@example.com", "123456", "supervisor"));
+        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin"));
+        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin"));
+        usuarios.add(new usuario("William", "Espinoza", "34567890", "supervisor@example.com", "123456", "Av. Universitaria 1801", "supervisor"));
     }
 
     // Método para iniciar sesión
@@ -68,19 +66,21 @@ public class inicio_sesion extends AppCompatActivity {
             }
         }
 
-
         Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
     }
-
 
     private void redirigirSegunRol(String rol) {
         Intent intent;
         switch (rol) {
             case "superadmin":
                 intent = new Intent(this, SuperadminActivity.class);
+                intent.putExtra("nombre",usuarios.get(0).getNombre());
+                intent.putExtra("apellido",usuarios.get(0).getApellido());
                 break;
             case "admin":
                 intent = new Intent(this, AdminActivity.class);
+                intent.putExtra("nombre",usuarios.get(1).getNombre());
+                intent.putExtra("apellido",usuarios.get(1).getApellido());
                 break;
             case "supervisor":
                 intent = new Intent(this, SupervisorActivity.class);
