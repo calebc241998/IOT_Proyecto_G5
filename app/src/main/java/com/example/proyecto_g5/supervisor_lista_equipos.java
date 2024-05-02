@@ -5,12 +5,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +29,10 @@ import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 public class supervisor_lista_equipos extends Fragment {
 
     SupervisorListaEquiposBinding supervisorListaEquiposBinding;
+    RecyclerView recyclerView;
+    List<DataListaEquiposClass> datalist;
+    MyAdapterListaEquipos adapter;
+    DataListaEquiposClass androidData;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,6 +79,31 @@ public class supervisor_lista_equipos extends Fragment {
                              Bundle savedInstanceState) {
 
         supervisorListaEquiposBinding = SupervisorListaEquiposBinding.inflate(inflater, container, false);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
+        recyclerView = supervisorListaEquiposBinding.recyvlerViewEquiposSupervisor;
+        recyclerView.setLayoutManager(gridLayoutManager);
+        datalist= new ArrayList<>();
+
+        androidData= new DataListaEquiposClass("Archer C50","#Router","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.router,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaEquiposClass("Maximus R50","#Switch","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.switcha,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaEquiposClass("Rencoroso X45","#Hub","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.hub,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaEquiposClass("Hipx U789","#Router","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.router,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaEquiposClass("Transformer OP","#Switch","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.switcha,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaEquiposClass("SnapDragon T895","#Router","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.hub,R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        adapter= new MyAdapterListaEquipos(getActivity(),datalist);
+        recyclerView.setAdapter(adapter);
 
 
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
