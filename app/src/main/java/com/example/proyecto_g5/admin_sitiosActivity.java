@@ -17,6 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,16 @@ public class admin_sitiosActivity extends AppCompatActivity {
 
         initializeDrawer();
         setupRecyclerView();
+
+        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSitio);
+        addSuperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Define la nueva Activity que quieres abrir
+                Intent intent = new Intent(admin_sitiosActivity.this, admin_nuevoSitioActivity.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
+                startActivity(intent);
+            }
+        });
     }
 
     private void initializeDrawer() {

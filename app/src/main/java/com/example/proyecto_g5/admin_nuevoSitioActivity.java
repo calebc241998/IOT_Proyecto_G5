@@ -30,7 +30,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity {
         setContentView(R.layout.admin_nuevo_sitio);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu);
+        menu = findViewById(R.id.menu_nav_admin_toolbar);
         inicio_nav = findViewById(R.id.inicio_nav);
         lista_super = findViewById(R.id.lista_super_nav);
         lista_sitios = findViewById(R.id.lista_sitios_nav);
@@ -88,6 +88,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
 
 
