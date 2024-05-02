@@ -10,25 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
-import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
+import com.example.proyecto_g5.databinding.SuperadminListaUsuariosBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_lista_sitios#newInstance} factory method to
+ * Use the {@link superadmin_lista_usuarios#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_sitios extends Fragment {
+public class superadmin_lista_usuarios extends Fragment {
 
     RecyclerView recyclerView;
-    List<DataListaSitiosClass> datalist;
-    MyAdapterListaSitios adapter;
-    DataListaSitiosClass androidData;
-    SupervisorListaSitiosBinding supervisorListaSitiosBinding;
+    List<DataListaUsuariosClass> datalist;
+    MyAdapterListaUsuarios adapter;
+    DataListaUsuariosClass androidData;
+    SuperadminListaUsuariosBinding superadminListaUsuariosBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +39,7 @@ public class supervisor_lista_sitios extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public supervisor_lista_sitios() {
+    public superadmin_lista_usuarios() {
         // Required empty public constructor
     }
 
@@ -75,21 +75,21 @@ public class supervisor_lista_sitios extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
+        superadminListaUsuariosBinding = SuperadminListaUsuariosBinding.inflate(inflater, container, false);
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
-        recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
+        recyclerView = superadminListaUsuariosBinding.recyclerViewOficial;
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaSitiosClass("Real Plaza","Lima",R.drawable.baseline_location_pin_24);
+        androidData= new DataListaUsuariosClass(R.drawable.baseline_remove_red_eye_24, "Lara Ana","Administrador","Activo");
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_camera_alt_24);
+        androidData= new DataListaUsuariosClass(R.drawable.baseline_remove_red_eye_24, "William Espinoza","Supervisor","Activo");
         datalist.add(androidData);
 
-        adapter= new MyAdapterListaSitios(getActivity(),datalist);
+        adapter= new MyAdapterListaUsuarios(getActivity(),datalist);
         recyclerView.setAdapter(adapter);
 
-        return supervisorListaSitiosBinding.getRoot();
+        return superadminListaUsuariosBinding.getRoot();
     }
 }
