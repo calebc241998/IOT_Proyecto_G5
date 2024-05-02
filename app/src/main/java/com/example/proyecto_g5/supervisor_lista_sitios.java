@@ -9,12 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.SearchView;
 
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
-import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 
 import java.util.ArrayList;

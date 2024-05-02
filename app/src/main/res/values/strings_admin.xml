@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="nombre_p1">
+        Juan
+    </string>
+    <string name="ape_p1">
+        Perez
+    </string>
+    <string name="direc_p1">
+        Jr las ortigas 1927
+    </string>
+    <string name="tel_p1">
+        98786654212
+    </string>
+    <string name="correo_p1">
+        jp@example.com
+    </string>
+
+    <string name="DNI_p1">
+        71480000
+    </string>
+
+    <string name="nombre_p2">
+        Juana
+    </string>
+    <string name="ape_p2">
+        Perez
+    </string>
+    <string name="direc_p2">
+        Jr las ortigas 1967
+    </string>
+    <string name="tel_p2">
+        286654212
+    </string>
+    <string name="correo_p2">
+        jp2@example.com
+    </string>
+
+    <string name="DNI_p2">
+        72480000
+    </string>
+
+
+
+</resources>

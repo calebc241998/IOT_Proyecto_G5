@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!--android:padding="8dp"-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="135dp"
+        android:id="@+id/recCard_item_listsuper_admin"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="16dp"
+        app:cardUseCompatPadding="true"
+        android:backgroundTint="@color/celeste_barra_lateral">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:textAlignment="center"
+            android:background="@drawable/card_border"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_profile"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="6dp"
+                android:clickable="true"
+                android:src="@drawable/visibility_fill0_wght400_grad0_opsz24" />
+
+            <LinearLayout
+                android:layout_width="245dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/textView_name_cardRC_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="Pedro Piedra"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_numbersite_cardRC_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="# Sitios Asignados"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView_active_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="12dp"
+                        android:src="@drawable/baseline_check_circle_outline_24" />
+
+                    <TextView
+                        android:id="@+id/textView_status_cardRC_admin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="7dp"
+                        android:text="Activo"
+                        android:textColor="#5FCD2B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image_itemSuperList_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:src="@drawable/avatar"
+                />
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

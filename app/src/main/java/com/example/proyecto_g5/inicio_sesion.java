@@ -2,17 +2,23 @@ package com.example.proyecto_g5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_g5.dto.usuario;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.text.method.PasswordTransformationMethod;
 
 public class inicio_sesion extends AppCompatActivity {
 
@@ -20,6 +26,9 @@ public class inicio_sesion extends AppCompatActivity {
     private EditText correoEditText;
     private EditText contrasenaEditText;
     private Button iniciarSesionButton;
+
+    private CheckBox mostrarContrasenaCheckbox;
+
 
 
 
@@ -35,6 +44,7 @@ public class inicio_sesion extends AppCompatActivity {
         correoEditText = findViewById(R.id.editUsuario);
         contrasenaEditText = findViewById(R.id.editContrasena);
         iniciarSesionButton = findViewById(R.id.buttonInicioSesion);
+        mostrarContrasenaCheckbox = findViewById(R.id.checkBoxMostrarContrasena);
 
         // Acción del botón de inicio de sesión
         iniciarSesionButton.setOnClickListener(new View.OnClickListener() {
@@ -44,13 +54,21 @@ public class inicio_sesion extends AppCompatActivity {
             }
         });
 
+        // Listener de checkbox para mostrar/ocultar la contraseña
+        mostrarContrasenaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mostrarOcultarContrasena(isChecked);
+            }
+        });
+
     }
 
 
     private void generarUsuarios() {
-        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin"));
-        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin"));
-        usuarios.add(new usuario("William", "Espinoza", "34567890", "supervisor@example.com", "123456", "Av. Universitaria 1801", "supervisor"));
+        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1"));
+        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1"));
+        usuarios.add(new usuario("William", "Espinoza", "34567890", "supervisor@example.com", "123456", "Av. Universitaria 1801", "supervisor", "1"));
     }
 
     // Método para iniciar sesión
@@ -92,5 +110,18 @@ public class inicio_sesion extends AppCompatActivity {
         }
         startActivity(intent);
         finish();
+    }
+
+    // Método para mostrar u ocultar la contraseña
+    private void mostrarOcultarContrasena(boolean mostrar) {
+        if (mostrar) {
+            // Mostrar contraseña
+            contrasenaEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            // Ocultar contraseña
+            contrasenaEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        // Mover el cursor al final
+        contrasenaEditText.setSelection(contrasenaEditText.getText().length());
     }
 }

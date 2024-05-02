@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="celeste_barra_lateral">#FFC9E3E6 </color>
+    <color name="color_principal">#54CCC5</color>
 </resources>
