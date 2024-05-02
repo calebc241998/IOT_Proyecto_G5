@@ -5,13 +5,22 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.MyAdapterListaReportes;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +30,10 @@ import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
 public class supervisor_lista_reportes extends Fragment {
 
     SupervisorListaReportesBinding supervisorListaReportesBinding;
+    RecyclerView recyclerView;
+    List<DataListaReportesClass> datalist;
+    MyAdapterListaReportes adapter;
+    DataListaReportesClass androidData;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,6 +80,33 @@ public class supervisor_lista_reportes extends Fragment {
                              Bundle savedInstanceState) {
 
         supervisorListaReportesBinding = SupervisorListaReportesBinding.inflate(inflater, container, false);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
+        recyclerView = supervisorListaReportesBinding.recyclerViewReportesSupervisor;
+        recyclerView.setLayoutManager(gridLayoutManager);
+        datalist= new ArrayList<>();
+
+        androidData= new DataListaReportesClass("Archer C50","#Router","#PUCP", "Le entró virus",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaReportesClass("Maximus R50","#Switch","#U Lima", "Corto circuito",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaReportesClass("Rencoroso X45","#Hub","#Latina", "Componentes humedecidos",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaReportesClass("Hipx U789","#Router","#Real Plaza", "No prende",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaReportesClass("Transformer OP","#Switch","#Plaza San Miguel", "Error de fábrica",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaReportesClass("SnapDragon T895","#Hub","#Latina", "Descompuesto",R.drawable.baseline_remove_red_eye_24);
+        datalist.add(androidData);
+
+
+        adapter= new MyAdapterListaReportes(getActivity(),datalist);
+        recyclerView.setAdapter(adapter);
+
 
         NavController navController = NavHostFragment.findNavController(supervisor_lista_reportes.this);
         supervisorListaReportesBinding.agregarReporte.setOnClickListener(view -> {
