@@ -3,10 +3,22 @@ package com.example.proyecto_g5;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.SearchView;
+
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
+import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +26,12 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class supervisor_lista_sitios extends Fragment {
+
+    RecyclerView recyclerView;
+    List<DataListaSitiosClass> datalist;
+    MyAdapterListaSitios adapter;
+    DataListaSitiosClass androidData;
+    SupervisorListaSitiosBinding supervisorListaSitiosBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +67,7 @@ public class supervisor_lista_sitios extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -58,7 +77,22 @@ public class supervisor_lista_sitios extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_lista_sitios, container, false);
+
+        supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
+        recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
+        recyclerView.setLayoutManager(gridLayoutManager);
+        datalist= new ArrayList<>();
+
+        androidData= new DataListaSitiosClass("Real Plaza","Lima",R.drawable.baseline_location_pin_24);
+        datalist.add(androidData);
+
+        androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_camera_alt_24);
+        datalist.add(androidData);
+
+        adapter= new MyAdapterListaSitios(getActivity(),datalist);
+        recyclerView.setAdapter(adapter);
+
+        return supervisorListaSitiosBinding.getRoot();
     }
 }
