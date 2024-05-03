@@ -3,6 +3,8 @@ package com.example.proyecto_g5;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -107,6 +109,12 @@ public class supervisor_lista_sitios extends Fragment {
 
         adapter= new MyAdapterListaSitios(getActivity(),datalist);
         recyclerView.setAdapter(adapter);
+
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
+        supervisorListaSitiosBinding.textViewListaSitios.setOnClickListener(view -> {
+
+            navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
+        });
 
         return supervisorListaSitiosBinding.getRoot();
     }

@@ -116,6 +116,11 @@ public class supervisor_lista_reportes extends Fragment {
             navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte);
         });
 
+        supervisorListaReportesBinding.textViewListaReportes.setOnClickListener(view -> {
+
+            navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_reporte_descripcion);
+        });
+
 
 
         // Inflate the layout for this fragment

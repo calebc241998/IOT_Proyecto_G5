@@ -14,7 +14,11 @@
         android:id="@+id/supervisor_lista_sitios"
         android:name="com.example.proyecto_g5.supervisor_lista_sitios"
         android:label=""
-        tools:layout="@layout/supervisor_lista_sitios" />
+        tools:layout="@layout/supervisor_lista_sitios" >
+        <action
+            android:id="@+id/action_supervisor_lista_sitios_to_supervisor_descripcion_sitio"
+            app:destination="@id/supervisor_descripcion_sitio" />
+    </fragment>
     <fragment
         android:id="@+id/supervisor_lista_equipos"
         android:name="com.example.proyecto_g5.supervisor_lista_equipos"
@@ -38,6 +42,9 @@
         <action
             android:id="@+id/action_supervisor_lista_reportes_to_supervisor_nuevo_reporte"
             app:destination="@id/supervisor_nuevo_reporte" />
+        <action
+            android:id="@+id/action_supervisor_lista_reportes_to_supervisor_reporte_descripcion"
+            app:destination="@id/supervisor_reporte_descripcion" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_nuevo_equipo"
@@ -57,7 +64,17 @@
     <fragment
         android:id="@+id/supervisor_descripcion_equipo"
         android:name="com.example.proyecto_g5.supervisor_descripcion_equipo"
-        android:label="supervisor_descripcion_equipo"
+        android:label=""
         tools:layout="@layout/supervisor_descripcion_equipo" />
+    <fragment
+        android:id="@+id/supervisor_reporte_descripcion"
+        android:name="com.example.proyecto_g5.supervisor_reporte_descripcion"
+        android:label=""
+        tools:layout="@layout/supervisor_reporte_descripcion" />
+    <fragment
+        android:id="@+id/supervisor_descripcion_sitio"
+        android:name="com.example.proyecto_g5.supervisor_descripcion_sitio"
+        android:label=""
+        tools:layout="@layout/supervisor_descripcion_sitio" />
 
 </navigation>
