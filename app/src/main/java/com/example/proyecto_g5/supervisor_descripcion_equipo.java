@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
+import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link supervisor_descripcion_equipo#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class supervisor_descripcion_equipo extends Fragment {
+
+    SupervisorDescripcionEquipoBinding supervisorDescripcionEquipoBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +64,6 @@ public class supervisor_descripcion_equipo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_descripcion_equipo, container, false);
+        return supervisorDescripcionEquipoBinding.getRoot();
     }
 }

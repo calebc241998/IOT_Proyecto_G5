@@ -59,6 +59,6 @@ public class supervisor_reporte_descripcion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_reporte_descripcion, container, false);
+        return inflater.inflate(R.layout.supervisor_descripcion_reporte, container, false);
     }
 }

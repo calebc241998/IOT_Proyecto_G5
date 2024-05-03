@@ -70,7 +70,11 @@
         android:id="@+id/supervisor_reporte_descripcion"
         android:name="com.example.proyecto_g5.supervisor_reporte_descripcion"
         android:label=""
-        tools:layout="@layout/supervisor_reporte_descripcion" />
+        tools:layout="@layout/supervisor_descripcion_reporte" >
+        <action
+            android:id="@+id/action_supervisor_reporte_descripcion_to_supervisor_lista_reportes"
+            app:destination="@id/supervisor_lista_reportes" />
+    </fragment>
     <fragment
         android:id="@+id/supervisor_descripcion_sitio"
         android:name="com.example.proyecto_g5.supervisor_descripcion_sitio"
