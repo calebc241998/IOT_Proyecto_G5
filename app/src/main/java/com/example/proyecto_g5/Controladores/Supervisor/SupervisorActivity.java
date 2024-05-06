@@ -1,10 +1,11 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.proyecto_g5.databinding.ContentNavigationDrawerSupervisorBinding;
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
 import com.example.proyecto_g5.databinding.SupervisorInicioBinding;
 import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
 import com.example.proyecto_g5.viewmodel.BienvenidoNombreViewModel;
@@ -20,12 +21,10 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyecto_g5.databinding.ActivityNavigationDrawerBinding;
-
 public class SupervisorActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityNavigationDrawerBinding binding;
+    private SupervisorActivityNavigationDrawerBinding binding;
     private TextView textViewBienvenido;
 
 
@@ -38,7 +37,7 @@ public class SupervisorActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        binding = ActivityNavigationDrawerBinding.inflate(getLayoutInflater());
+        binding = SupervisorActivityNavigationDrawerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 

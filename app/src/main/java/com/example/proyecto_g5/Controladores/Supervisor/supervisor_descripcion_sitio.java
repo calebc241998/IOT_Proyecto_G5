@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_reporte_descripcion#newInstance} factory method to
+ * Use the {@link supervisor_descripcion_sitio#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_reporte_descripcion extends Fragment {
+public class supervisor_descripcion_sitio extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class supervisor_reporte_descripcion extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public supervisor_reporte_descripcion() {
+    public supervisor_descripcion_sitio() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class supervisor_reporte_descripcion extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment supervisor_reporte_descripcion.
+     * @return A new instance of fragment supervisor_descripcion_sitio.
      */
     // TODO: Rename and change types and number of parameters
-    public static supervisor_reporte_descripcion newInstance(String param1, String param2) {
-        supervisor_reporte_descripcion fragment = new supervisor_reporte_descripcion();
+    public static supervisor_descripcion_sitio newInstance(String param1, String param2) {
+        supervisor_descripcion_sitio fragment = new supervisor_descripcion_sitio();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class supervisor_reporte_descripcion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_descripcion_reporte, container, false);
+        return inflater.inflate(R.layout.supervisor_descripcion_sitio, container, false);
     }
 }

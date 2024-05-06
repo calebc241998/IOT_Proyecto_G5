@@ -1,25 +1,21 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
+import com.example.proyecto_g5.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_nuevo_equipo#newInstance} factory method to
+ * Use the {@link supervisor_qr#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_nuevo_equipo extends Fragment {
-
-    SupervisorNuevoEquipoBinding supervisorNuevoEquipoBinding;
+public class supervisor_qr extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +26,7 @@ public class supervisor_nuevo_equipo extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public supervisor_nuevo_equipo() {
+    public supervisor_qr() {
         // Required empty public constructor
     }
 
@@ -40,11 +36,11 @@ public class supervisor_nuevo_equipo extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment supervisor_nuevo_equipo.
+     * @return A new instance of fragment supervisor_qr.
      */
     // TODO: Rename and change types and number of parameters
-    public static supervisor_nuevo_equipo newInstance(String param1, String param2) {
-        supervisor_nuevo_equipo fragment = new supervisor_nuevo_equipo();
+    public static supervisor_qr newInstance(String param1, String param2) {
+        supervisor_qr fragment = new supervisor_qr();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,8 +60,7 @@ public class supervisor_nuevo_equipo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_nuevo_equipo, container, false);
+        return inflater.inflate(R.layout.supervisor_qr, container, false);
     }
 }

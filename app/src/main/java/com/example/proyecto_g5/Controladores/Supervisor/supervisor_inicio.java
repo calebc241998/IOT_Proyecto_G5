@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 

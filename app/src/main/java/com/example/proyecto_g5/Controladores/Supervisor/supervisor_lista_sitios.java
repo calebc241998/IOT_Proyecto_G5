@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
@@ -83,7 +84,7 @@ public class supervisor_lista_sitios extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaSitiosClass("Real Plaza","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaSitiosClass("Real Plaza","Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
         androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_remove_red_eye_24);

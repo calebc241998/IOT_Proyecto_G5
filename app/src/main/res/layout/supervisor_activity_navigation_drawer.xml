@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/app_bar_navigation_drawer"
-        layout="@layout/app_bar_navigation_drawer"
+        layout="@layout/supervisor_app_bar_navigation_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,6 +20,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_navigation_drawer"
+        app:headerLayout="@layout/supervisor_nav_header_navigation_drawer"
         app:menu="@menu/activity_navigation_drawer_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

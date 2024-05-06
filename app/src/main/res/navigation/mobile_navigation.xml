@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/supervisor_inicio"
-        android:name="com.example.proyecto_g5.supervisor_inicio"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_inicio"
         android:label=""
         tools:layout="@layout/supervisor_inicio" />
     <fragment
         android:id="@+id/supervisor_lista_sitios"
-        android:name="com.example.proyecto_g5.supervisor_lista_sitios"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_lista_sitios"
         android:label=""
         tools:layout="@layout/supervisor_lista_sitios" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/supervisor_lista_equipos"
-        android:name="com.example.proyecto_g5.supervisor_lista_equipos"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_lista_equipos"
         android:label=""
         tools:layout="@layout/supervisor_lista_equipos" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/supervisor_lista_reportes"
-        android:name="com.example.proyecto_g5.supervisor_lista_reportes"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_lista_reportes"
         android:label=""
         tools:layout="@layout/supervisor_lista_reportes" >
         <action
@@ -48,27 +48,27 @@
     </fragment>
     <fragment
         android:id="@+id/supervisor_nuevo_equipo"
-        android:name="com.example.proyecto_g5.supervisor_nuevo_equipo"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_nuevo_equipo"
         android:label=""
         tools:layout="@layout/supervisor_nuevo_equipo" />
     <fragment
         android:id="@+id/supervisor_qr"
-        android:name="com.example.proyecto_g5.supervisor_qr"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_qr"
         android:label=""
         tools:layout="@layout/supervisor_qr" />
     <fragment
         android:id="@+id/supervisor_nuevo_reporte"
-        android:name="com.example.proyecto_g5.supervisor_nuevo_reporte"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_nuevo_reporte"
         android:label=""
         tools:layout="@layout/supervisor_nuevo_reporte" />
     <fragment
         android:id="@+id/supervisor_descripcion_equipo"
-        android:name="com.example.proyecto_g5.supervisor_descripcion_equipo"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_descripcion_equipo"
         android:label=""
         tools:layout="@layout/supervisor_descripcion_equipo" />
     <fragment
         android:id="@+id/supervisor_reporte_descripcion"
-        android:name="com.example.proyecto_g5.supervisor_reporte_descripcion"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_reporte_descripcion"
         android:label=""
         tools:layout="@layout/supervisor_descripcion_reporte" >
         <action
@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/supervisor_descripcion_sitio"
-        android:name="com.example.proyecto_g5.supervisor_descripcion_sitio"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_descripcion_sitio"
         android:label=""
         tools:layout="@layout/supervisor_descripcion_sitio" />
 

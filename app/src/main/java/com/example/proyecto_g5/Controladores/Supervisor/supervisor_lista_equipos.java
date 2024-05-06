@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 
@@ -12,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class supervisor_lista_equipos extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaEquiposClass("Archer C50","#Router","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.router,R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaEquiposClass("Archer C50","#Router","Sin Reportes", R.drawable.baseline_check_circle_outline_24,R.drawable.router,R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
         androidData= new DataListaEquiposClass("Maximus R50","#Switch","Sin Reportes",R.drawable.baseline_check_circle_outline_24,R.drawable.switcha,R.drawable.baseline_remove_red_eye_24);

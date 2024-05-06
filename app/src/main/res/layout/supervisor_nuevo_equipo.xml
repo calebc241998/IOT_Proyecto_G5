@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".supervisor_nuevo_equipo">
+    tools:context=".Controladores.Supervisor.supervisor_nuevo_equipo">
 
     <!-- TODO: Update blank fragment layout -->
 

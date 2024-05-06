@@ -12,9 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyecto_g5.Controladores.Supervisor.SupervisorActivity;
 import com.example.proyecto_g5.dto.usuario;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;

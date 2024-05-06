@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#D9D9D9"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_navigation_drawer">
+    tools:showIn="@layout/supervisor_app_bar_navigation_drawer">
 
     <fragment
         android:id="@+id/supervisor_nav_host_fragment_content_navigation_drawer"

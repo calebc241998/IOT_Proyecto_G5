@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
 
@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
+import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.MyAdapterListaReportes;
-import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
 
 import java.util.ArrayList;
@@ -85,7 +83,7 @@ public class supervisor_lista_reportes extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaReportesClass("Archer C50","#Router","#PUCP", "Le entró virus",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("Archer C50","#Router","#PUCP", "Le entró virus", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
         androidData= new DataListaReportesClass("Maximus R50","#Switch","#U Lima", "Corto circuito",R.drawable.baseline_remove_red_eye_24);
