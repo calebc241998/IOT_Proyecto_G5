@@ -16,7 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#54CCC5"
-            app:popupTheme="@style/Theme.Proyecto_G5.PopupOverlay" />
+            app:popupTheme="@style/Theme.Proyecto_G5.PopupOverlay">
+
+            <!-- Agregar el botón de chat -->
+            <ImageView
+                android:id="@+id/imagenPrueba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/baseline_person_24" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
