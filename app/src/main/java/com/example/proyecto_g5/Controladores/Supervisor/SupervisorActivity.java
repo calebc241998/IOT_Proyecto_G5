@@ -73,10 +73,15 @@ public class SupervisorActivity extends AppCompatActivity {
                     Intent intent = new Intent(SupervisorActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish(); // Finaliza la actividad actual para evitar que el usuario vuelva atrás.
-                    return true; // Devuelve true para indicar que se ha manejado el clic
+                    return true;
+                } else {
+                    // Deja que el NavController maneje el resto de elementos del menú
+                    boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+                    if (handled) {
+                        drawer.closeDrawer(navigationView);
+                    }
+                    return handled;
                 }
-
-                return false;
             }
         });
     }
