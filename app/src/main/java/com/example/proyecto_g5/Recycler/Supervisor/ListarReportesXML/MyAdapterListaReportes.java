@@ -11,20 +11,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
+
 import java.util.List;
 
 public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
 
     private Context context;
     private List<DataListaReportesClass> datalist;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(DataListaReportesClass item);
+    }
 
     public void setSearchList(List<DataListaReportesClass> dataSearchList){
         this.datalist=dataSearchList;
         notifyDataSetChanged();
     }
-    public MyAdapterListaReportes(Context context, List<DataListaReportesClass> datalist){
+    public MyAdapterListaReportes(Context context, List<DataListaReportesClass> datalist, OnItemClickListener listener){
         this.context=context;
         this.datalist=datalist;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,23 +47,15 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.recOjitoReportesSupervisor.setImageResource(datalist.get(position).getImagenOjito());
-        holder.recNombreReportesSupervisor.setText(datalist.get(position).getNombreEquipo());
-        holder.recTipoReportesSupervisor.setText(datalist.get(position).getTipoEquipo());
-        holder.recSitioReportesSupervisor.setText(datalist.get(position).getSitioEquipo());
-        holder.recDescripcionReportesSupervisor.setText(datalist.get(position).getDescripcionEquipo());
+        DataListaReportesClass item = datalist.get(position);
 
-        /*holder.recBotonOjito.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(context, supervisor_lista_sitios.class);
-                intent.putExtra("Image", datalist.get(holder.getAdapterPosition()).getBoton());
-                intent.putExtra("Sitio", datalist.get(holder.getAdapterPosition()).getNombreSitio());
-                intent.putExtra("Ubicacion", datalist.get(holder.getAdapterPosition()).getUbicacion());
+        holder.recOjitoReportesSupervisor.setImageResource(item.getImagenOjito());
+        holder.recNombreReportesSupervisor.setText(item.getNombreEquipo());
+        holder.recTipoReportesSupervisor.setText(item.getTipoEquipo());
+        holder.recSitioReportesSupervisor.setText(item.getSitioEquipo());
+        holder.recDescripcionReportesSupervisor.setText(item.getDescripcionEquipo());
 
-                context.startActivity(intent);
-            }
-        });*/
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }
 
     @Override

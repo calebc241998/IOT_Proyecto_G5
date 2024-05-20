@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.MyAdapterListaReportes;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
@@ -25,7 +26,7 @@ import java.util.List;
  * Use the {@link supervisor_lista_reportes#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_reportes extends Fragment {
+public class supervisor_lista_reportes extends Fragment implements MyAdapterListaReportes.OnItemClickListener{
 
     SupervisorListaReportesBinding supervisorListaReportesBinding;
     RecyclerView recyclerView;
@@ -102,7 +103,7 @@ public class supervisor_lista_reportes extends Fragment {
         datalist.add(androidData);
 
 
-        adapter= new MyAdapterListaReportes(getActivity(),datalist);
+        adapter= new MyAdapterListaReportes(getActivity(),datalist,this);
         recyclerView.setAdapter(adapter);
 
 
@@ -123,5 +124,11 @@ public class supervisor_lista_reportes extends Fragment {
 
         // Inflate the layout for this fragment
         return supervisorListaReportesBinding.getRoot();
+    }
+
+    @Override
+    public void onItemClick(DataListaReportesClass item) {
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_reportes.this);
+        navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_reporte_descripcion);
     }
 }
