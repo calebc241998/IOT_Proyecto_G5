@@ -18,42 +18,38 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
     private List<DataListaSitiosClass> datalist;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(DataListaSitiosClass item);
+    }
+
+    public MyAdapterListaSitios(Context context, List<DataListaSitiosClass> datalist, OnItemClickListener listener) {
+        this.context = context;
+        this.datalist = datalist;
+        this.listener = listener;
+    }
 
     public void setSearchList(List<DataListaSitiosClass> dataSearchList){
-        this.datalist=dataSearchList;
+        this.datalist = dataSearchList;
         notifyDataSetChanged();
-    }
-    public MyAdapterListaSitios(Context context, List<DataListaSitiosClass> datalist){
-        this.context=context;
-        this.datalist=datalist;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //PUNTO CRITICO NAVIGATION
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_sitios_recycler_item, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_sitios_recycler_item, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        DataListaSitiosClass item = datalist.get(position);
+        holder.recBotonOjito.setImageResource(item.getBoton());
+        holder.recTextSitioRecycler.setText(item.getNombreSitio());
+        holder.recTextUbicacionRecycler.setText(item.getUbicacion());
 
-        holder.recBotonOjito.setImageResource(datalist.get(position).getBoton());
-        holder.recTextSitioRecycler.setText(datalist.get(position).getNombreSitio());
-        holder.recTextUbicacionRecycler.setText(datalist.get(position).getUbicacion());
-
-        /*holder.recBotonOjito.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(context, supervisor_lista_sitios.class);
-                intent.putExtra("Image", datalist.get(holder.getAdapterPosition()).getBoton());
-                intent.putExtra("Sitio", datalist.get(holder.getAdapterPosition()).getNombreSitio());
-                intent.putExtra("Ubicacion", datalist.get(holder.getAdapterPosition()).getUbicacion());
-
-                context.startActivity(intent);
-            }
-        });*/
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }
 
     @Override
@@ -62,17 +58,14 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder{
+class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView recBotonOjito;
     TextView recTextSitioRecycler, recTextUbicacionRecycler;
 
-
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
-        recBotonOjito=itemView.findViewById(R.id.recBotonOjito);
-        recTextSitioRecycler=itemView.findViewById(R.id.recTextSitioRecycler);
-        recTextUbicacionRecycler=itemView.findViewById(R.id.recTextUbicacionRecycler);
+        recBotonOjito = itemView.findViewById(R.id.recBotonOjito);
+        recTextSitioRecycler = itemView.findViewById(R.id.recTextSitioRecycler);
+        recTextUbicacionRecycler = itemView.findViewById(R.id.recTextUbicacionRecycler);
     }
 }
-
-

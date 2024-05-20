@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
@@ -25,7 +27,7 @@ import java.util.List;
  * Use the {@link supervisor_lista_sitios#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_sitios extends Fragment {
+public class supervisor_lista_sitios extends Fragment implements MyAdapterListaSitios.OnItemClickListener{
 
     RecyclerView recyclerView;
     List<DataListaSitiosClass> datalist;
@@ -108,7 +110,7 @@ public class supervisor_lista_sitios extends Fragment {
         androidData= new DataListaSitiosClass("Area 3","Lima",R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        adapter= new MyAdapterListaSitios(getActivity(),datalist);
+        adapter= new MyAdapterListaSitios(getActivity(),datalist,this);
         recyclerView.setAdapter(adapter);
 
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
@@ -118,5 +120,11 @@ public class supervisor_lista_sitios extends Fragment {
         });
 
         return supervisorListaSitiosBinding.getRoot();
+    }
+
+    @Override
+    public void onItemClick(DataListaSitiosClass item) {
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
+        navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
     }
 }

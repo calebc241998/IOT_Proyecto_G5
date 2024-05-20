@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyecto_g5.OnItemClickListener;
 import com.example.proyecto_g5.R;
 
 import java.util.List;
@@ -20,6 +19,10 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder> {
     private Context context;
     private List<DataListaEquiposClass> datalist;
     private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(DataListaEquiposClass item);
+    }
 
     public MyAdapterListaEquipos(Context context, List<DataListaEquiposClass> datalist, OnItemClickListener listener) {
         this.context = context;

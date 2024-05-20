@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto_g5.OnItemClickListener;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
@@ -26,7 +25,7 @@ import java.util.List;
  * Use the {@link supervisor_lista_equipos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_equipos extends Fragment implements OnItemClickListener {
+public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
     SupervisorListaEquiposBinding supervisorListaEquiposBinding;
     RecyclerView recyclerView;
@@ -102,7 +101,6 @@ public class supervisor_lista_equipos extends Fragment implements OnItemClickLis
             navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_qr);
         });
 
-        // Inflate the layout for this fragment
         return supervisorListaEquiposBinding.getRoot();
     }
 
