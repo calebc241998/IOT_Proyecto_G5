@@ -57,7 +57,7 @@
             android:name=".inicio_sesion"
             android:exported="false" />
         <activity
-            android:name=".olvido_contrasena"
+            android:name=".olvido_contrasena.olvido_contrasena"
             android:exported="false" />
 
         <activity
