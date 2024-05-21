@@ -2,12 +2,16 @@ package com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML;
 
 public class DataListaUsuariosClass {
     private String nombreUsuario;
-    private String rol;
+    private int imagen;
     private String estado;
-    private int botonUsuario;
+    private String rol;
 
     public String getNombreUsuario() {
         return nombreUsuario;
+    }
+
+    public int getImagen() {
+        return imagen;
     }
 
     public String getRol() {
@@ -18,13 +22,9 @@ public class DataListaUsuariosClass {
         return estado;
     }
 
-    public int getBotonUsuario() {
-        return botonUsuario;
-    }
-
-    public DataListaUsuariosClass(int botonUsuario, String nombreUsuario, String rol, String estado) {
-        this.botonUsuario = botonUsuario;
+    public DataListaUsuariosClass(String nombreUsuario, int imagen,  String estado, String rol) {
         this.nombreUsuario = nombreUsuario;
+        this.imagen = imagen;
         this.rol = rol;
         this.estado = estado;
     }
