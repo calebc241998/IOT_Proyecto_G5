@@ -12,10 +12,7 @@
             android:id="@+id/supervisor_lista_sitios"
             android:icon="@drawable/baseline_location_pin_24"
             android:title="Lista de sitios" />
-        <item
-            android:id="@+id/supervisor_lista_equipos"
-            android:icon="@drawable/baseline_format_list_bulleted_24"
-            android:title="Lista de equipos" />
+
         <item
             android:id="@+id/supervisor_lista_reportes"
             android:icon="@drawable/baseline_warning_amber_24"

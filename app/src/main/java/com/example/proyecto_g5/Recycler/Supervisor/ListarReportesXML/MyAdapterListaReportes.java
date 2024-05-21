@@ -49,7 +49,6 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
 
         DataListaReportesClass item = datalist.get(position);
 
-        holder.recOjitoReportesSupervisor.setImageResource(item.getImagenOjito());
         holder.recNombreReportesSupervisor.setText(item.getNombreEquipo());
         holder.recTipoReportesSupervisor.setText(item.getTipoEquipo());
         holder.recSitioReportesSupervisor.setText(item.getSitioEquipo());
@@ -70,7 +69,6 @@ class MyViewHolder extends RecyclerView.ViewHolder{
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
-        recOjitoReportesSupervisor=itemView.findViewById(R.id.recOjitoReportesSupervisor);
         recNombreReportesSupervisor=itemView.findViewById(R.id.recNombreReportesSupervisor);
         recTipoReportesSupervisor=itemView.findViewById(R.id.recTipoReportesSupervisor);
         recSitioReportesSupervisor=itemView.findViewById(R.id.recSitioReportesSupervisor);

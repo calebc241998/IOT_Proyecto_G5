@@ -42,7 +42,6 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder> {
         DataListaEquiposClass item = datalist.get(position);
         holder.recImagenStatusEquipo.setImageResource(item.getImagenStatusEquipo());
         holder.recImagenEquipo.setImageResource(item.getImagenEquipo());
-        holder.recImagenOjito.setImageResource(item.getImagenOjito());
         holder.recNombreEquipo.setText(item.getNombreEquipo());
         holder.recTipoEquipo.setText(item.getTipoEquipo());
         holder.recStringStatusEquipo.setText(item.getStringStatusEquipo());
@@ -67,6 +66,5 @@ class MyViewHolder extends RecyclerView.ViewHolder {
         recStringStatusEquipo = itemView.findViewById(R.id.recStringStatusSupervisor);
         recImagenStatusEquipo = itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
         recImagenEquipo = itemView.findViewById(R.id.recFotoEquipoSupervisor);
-        recImagenOjito = itemView.findViewById(R.id.recOjitoEquiposSupervisor);
     }
 }

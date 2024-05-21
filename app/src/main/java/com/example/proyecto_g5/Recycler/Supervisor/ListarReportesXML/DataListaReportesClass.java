@@ -6,14 +6,12 @@ public class DataListaReportesClass {
     private String tipoEquipo;
     private String SitioEquipo;
     private String DescripcionEquipo;
-    private int imagenOjito;
 
     public DataListaReportesClass(String nombreEquipo, String tipoEquipo, String sitioEquipo, String descripcionEquipo, int imagenOjito) {
         this.nombreEquipo = nombreEquipo;
         this.tipoEquipo = tipoEquipo;
         SitioEquipo = sitioEquipo;
         DescripcionEquipo = descripcionEquipo;
-        this.imagenOjito = imagenOjito;
     }
 
     public String getNombreEquipo() {
@@ -32,7 +30,4 @@ public class DataListaReportesClass {
         return DescripcionEquipo;
     }
 
-    public int getImagenOjito() {
-        return imagenOjito;
-    }
 }

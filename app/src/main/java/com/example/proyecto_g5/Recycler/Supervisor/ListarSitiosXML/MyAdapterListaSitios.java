@@ -45,7 +45,6 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         DataListaSitiosClass item = datalist.get(position);
-        holder.recBotonOjito.setImageResource(item.getBoton());
         holder.recTextSitioRecycler.setText(item.getNombreSitio());
         holder.recTextUbicacionRecycler.setText(item.getUbicacion());
 
@@ -64,7 +63,6 @@ class MyViewHolder extends RecyclerView.ViewHolder {
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
-        recBotonOjito = itemView.findViewById(R.id.recBotonOjito);
         recTextSitioRecycler = itemView.findViewById(R.id.recTextSitioRecycler);
         recTextUbicacionRecycler = itemView.findViewById(R.id.recTextUbicacionRecycler);
     }

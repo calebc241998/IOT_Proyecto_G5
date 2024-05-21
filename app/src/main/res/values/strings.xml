@@ -4,6 +4,17 @@
     <string name="contrase_a_cambiada_existosamente">Contraseña cambiada existosamente</string>
     <string name="ok">Ok</string>
     <string name="rea_telecom">Área TELECOM</string>
+    <string-array name="tipos_equipos">
+        <item>Routers</item>
+        <item>Switches</item>
+        <item>Panel de energía</item>
+        <item>Rectificador</item>
+        <item>Gabinete</item>
+        <item>BBU</item>
+        <item>RRU</item>
+        <item>Batería</item>
+        <item>UPS</item>
+    </string-array>
     <string-array name="sedes">
         <item>SJL</item>
         <item>Surco</item>

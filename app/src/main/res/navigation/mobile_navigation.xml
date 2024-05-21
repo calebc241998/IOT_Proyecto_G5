@@ -79,6 +79,10 @@
         android:id="@+id/supervisor_descripcion_sitio"
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_descripcion_sitio"
         android:label=""
-        tools:layout="@layout/supervisor_descripcion_sitio" />
+        tools:layout="@layout/supervisor_descripcion_sitio" >
+        <action
+            android:id="@+id/action_supervisor_descripcion_sitio_to_supervisor_lista_equipos"
+            app:destination="@id/supervisor_lista_equipos" />
+    </fragment>
 
 </navigation>
