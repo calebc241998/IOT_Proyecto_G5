@@ -55,7 +55,7 @@ public class SupervisorActivity extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.supervisor_inicio, R.id.supervisor_lista_sitios, R.id.supervisor_lista_reportes)
+                R.id.supervisor_inicio, R.id.supervisor_lista_sitios)
                 .setOpenableLayout(drawer)
                 .build();
 

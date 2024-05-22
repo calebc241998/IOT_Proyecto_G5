@@ -12,11 +12,11 @@
         android:id="@+id/recyclerViewOficial"
         android:layout_width="match_parent"
         android:layout_height="526dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/BuscarSitios" />
 
     <TextView
         android:id="@+id/textViewTITULO"
@@ -60,21 +60,20 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="362dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp"
+    <SearchView
+        android:id="@+id/BuscarSitios"
+        android:layout_width="345dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/search_bkg"
+        android:closeIcon="@drawable/close_fill0_wght400_grad0_opsz24"
+        android:focusable="false"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar por Nombre..."
+        android:searchIcon="@drawable/search_fill0_wght400_grad0_opsz24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

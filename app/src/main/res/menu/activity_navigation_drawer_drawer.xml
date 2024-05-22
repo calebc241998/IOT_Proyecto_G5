@@ -14,11 +14,6 @@
             android:title="Lista de sitios" />
 
         <item
-            android:id="@+id/supervisor_lista_reportes"
-            android:icon="@drawable/baseline_warning_amber_24"
-            android:title="Lista de reportes" />
-
-        <item
             android:id="@+id/log_out_button"
             android:icon="@drawable/log_out"
             android:title="Cerrar sesión" />

@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 
 import java.util.ArrayList;
@@ -66,6 +68,20 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                              Bundle savedInstanceState) {
 
         supervisorListaEquiposBinding = SupervisorListaEquiposBinding.inflate(inflater, container, false);
+
+        supervisorListaEquiposBinding.BuscarEquipos.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return false;
+            }
+        });
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView = supervisorListaEquiposBinding.recyvlerViewEquiposSupervisor;
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -108,5 +124,15 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     public void onItemClick(DataListaEquiposClass item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
         navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo);
+    }
+
+    private void searchList(String text) {
+        List<DataListaEquiposClass> dataSearchList = new ArrayList<>();
+        for (DataListaEquiposClass data : datalist) {
+            if (data.getNombreEquipo().toLowerCase().contains(text.toLowerCase())) {
+                dataSearchList.add(data);
+            }
+        }
+        adapter.setSearchList(dataSearchList);
     }
 }

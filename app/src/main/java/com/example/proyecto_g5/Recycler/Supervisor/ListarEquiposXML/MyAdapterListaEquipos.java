@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(DataListaEquiposClass item);
+    }
+    public void setSearchList(List<DataListaEquiposClass> dataSearchList){
+        this.datalist = dataSearchList;
+        notifyDataSetChanged();
     }
 
     public MyAdapterListaEquipos(Context context, List<DataListaEquiposClass> datalist, OnItemClickListener listener) {
