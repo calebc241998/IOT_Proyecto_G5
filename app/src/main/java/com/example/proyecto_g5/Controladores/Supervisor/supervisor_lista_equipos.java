@@ -1,7 +1,10 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -11,22 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_lista_equipos#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
     SupervisorListaEquiposBinding supervisorListaEquiposBinding;
@@ -40,6 +42,26 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
     private String mParam1;
     private String mParam2;
+
+    private ActivityResultLauncher<Intent> qrScannerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(
+                        result.getResultCode(),
+                        result.getData()
+                );
+                if (scanResult != null) {
+                    String scannedText = scanResult.getContents();
+                    if (scannedText != null) {
+                        Toast.makeText(requireContext(), scannedText, Toast.LENGTH_LONG).show();
+                        supervisorListaEquiposBinding.BuscarEquipos.setQuery(scannedText, false);
+                        searchList(scannedText); // Realizar la búsqueda automáticamente
+                    } else {
+                        Toast.makeText(requireContext(), "Lectora cancelada", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
 
     public supervisor_lista_equipos() {
         // Required empty public constructor
@@ -114,7 +136,13 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         });
 
         supervisorListaEquiposBinding.qrBoton.setOnClickListener(view -> {
-            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_qr);
+            IntentIntegrator integrator = new IntentIntegrator(getActivity());
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+            integrator.setPrompt("Lector - CDP");
+            integrator.setCameraId(0);
+            integrator.setBeepEnabled(true);
+            integrator.setBarcodeImageEnabled(true);
+            qrScannerLauncher.launch(integrator.createScanIntent());
         });
 
         return supervisorListaEquiposBinding.getRoot();
