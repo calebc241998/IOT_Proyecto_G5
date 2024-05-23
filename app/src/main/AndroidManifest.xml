@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto_G5"
         tools:targetApi="31">
-        <activity
-            android:name=".SuperadminActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Proyecto_G5.NoActionBar">
-        </activity>
+
         <activity
             android:name=".AdminActivity"
             android:exported="false">
@@ -43,9 +39,6 @@
         <activity android:name=".admin_info_sitio"
             android:exported="false">
         </activity>
-
-
-
         <activity
             android:name=".Controladores.Supervisor.SupervisorActivity"
             android:exported="false"
@@ -54,10 +47,34 @@
         </activity>
 
         <activity
-            android:name=".inicio_sesion"
-            android:exported="false" />
+            android:name=".Controladores.Superadmin.SuperadminActivity"
+            android:exported="false"
+            android:label="@string/title_activity_navigation_drawer"
+            android:theme="@style/Theme.Proyecto_G5.NoActionBar">
+        </activity>
+
+
         <activity
-            android:name=".olvido_contrasena.olvido_contrasena"
+            android:name=".Controladores.Superadmin.superadmin_lista_usuarios"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_logs"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_nuevo_admin"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Controladores.Superadmin.superadmin_perfil_admin"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Controladores.Superadmin.superadmin_perfil_supervisor"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".inicio_sesion"
             android:exported="false" />
 
         <activity
