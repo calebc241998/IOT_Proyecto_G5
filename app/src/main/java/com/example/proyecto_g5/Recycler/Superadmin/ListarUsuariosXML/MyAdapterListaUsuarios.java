@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.Controladores.Superadmin.superadmin_perfil_admin;
@@ -50,6 +51,15 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
             holder.rec_status.setText(item.getEstado());
             holder.rec_rol.setText(item.getRol());
 
+            // Change the color and image based on status
+            if ("Activo".equalsIgnoreCase(item.getEstado())) {
+                holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark));
+                holder.statusImageView.setImageResource(R.drawable.baseline_check_circle_outline_24);
+            } else {
+                holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
+                holder.statusImageView.setImageResource(R.drawable.baseline_error_24);
+            }
+
             holder.recCard.setOnClickListener(v -> {
                 Intent intent = new Intent(context, superadmin_perfil_admin.class);
                 intent.putExtra("Image", item.getImagen());
@@ -74,7 +84,7 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
 }
 
 class MyViewHolder extends RecyclerView.ViewHolder{
-    ImageView recImage;
+    ImageView recImage, statusImageView;
     TextView rec_nombre, rec_status, rec_rol;
     CardView recCard;
 
@@ -85,6 +95,7 @@ class MyViewHolder extends RecyclerView.ViewHolder{
         rec_nombre = itemView.findViewById(R.id.textView_name_cardRC_superadmin);
         rec_status = itemView.findViewById(R.id.textView_status_cardRC_superadmin);
         rec_rol = itemView.findViewById(R.id.textView_rol_cardRC_superadmin);
+        statusImageView = itemView.findViewById(R.id.imageView_active_status);
         recCard = itemView.findViewById(R.id.recCard_item_listusuarios_superadmin);
     }
 }

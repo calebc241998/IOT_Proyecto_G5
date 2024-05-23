@@ -172,7 +172,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/bree_serif"
-                                android:paddingLeft="70dp"
+                                android:paddingLeft="60dp"
                                 android:paddingTop="5dp"
                                 android:text="Telefono:"
                                 android:textColor="#151384"
@@ -204,7 +204,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/bree_serif"
-                                android:paddingLeft="70dp"
+                                android:paddingLeft="60dp"
                                 android:paddingTop="5dp"
                                 android:text="Dirección:"
                                 android:textColor="#151384"
@@ -235,11 +235,11 @@
                     android:orientation="horizontal">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="205dp"
+                        android:layout_width="130dp"
                         android:layout_height="match_parent">
 
                         <Button
-                            android:id="@+id/editar"
+                            android:id="@+id/boton_editar_usuario"
                             android:layout_width="108dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
@@ -247,6 +247,7 @@
                             android:paddingRight="20dp"
                             android:paddingBottom="10dp"
                             android:text="Editar"
+                            android:visibility="gone"
                             android:textAlignment="textStart"
                             android:textColor="#FFFFFF"
                             app:cornerRadius="5dp"
@@ -271,14 +272,14 @@
                             android:src="@drawable/baseline_check_circle_outline_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.708"
+                            app:layout_constraintHorizontal_bias="0.49"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.476" />
 
                         <TextView
                             android:id="@+id/estado_usuario_perfil_superadmin"
-                            android:layout_width="100dp"
+                            android:layout_width="110dp"
                             android:layout_height="32dp"
                             android:text="Activo"
                             android:textAlignment="center"
@@ -287,12 +288,13 @@
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.1"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.45" />
+                            app:layout_constraintVertical_bias="0.5" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
