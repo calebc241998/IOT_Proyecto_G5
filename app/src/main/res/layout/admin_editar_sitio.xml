@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9D9D9"
+    android:background="@color/background"
 
     tools:context=".MainActivity">
 
@@ -14,7 +14,7 @@
         android:layout_width="134dp"
         android:layout_height="42dp"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="136dp"
+        android:layout_marginEnd="128dp"
         android:backgroundTint="#54CCC5"
         android:text="Guardar"
         android:textAlignment="textStart"
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView12"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.976" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -51,28 +51,30 @@
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
+
     <LinearLayout
-        android:layout_width="308dp"
-        android:layout_height="275dp"
-        android:orientation="horizontal"
+        android:layout_width="345dp"
+        android:layout_height="479dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.396">
+        app:layout_constraintVertical_bias="0.698">
+
+
 
         <LinearLayout
-            android:layout_width="301dp"
-            android:layout_height="match_parent"
+            android:layout_width="330dp"
+            android:layout_height="160dp"
             android:layout_weight="1"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:textAlignment="center">
 
             <TextView
-                android:id="@+id/nombre_campo_nombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACScodigo"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Código:"
@@ -80,10 +82,42 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/nombre_campo_apellido"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayouteditSitio_Codigo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="Codigo"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="MissingConstraints">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/codig_nuevoSitio"
+                    android:layout_width="211dp"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
+
+            <TextView
+                android:id="@+id/ACSdepartamento"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Departamento:"
@@ -91,10 +125,27 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
+
+            <Spinner
+                android:id="@+id/ACSspinner2_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/dep_array"
+                android:paddingTop="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
             <TextView
-                android:id="@+id/provincia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACSprovincia"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Provincia:"
@@ -102,10 +153,27 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
+            <Spinner
+                android:id="@+id/ACSspinner3_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/prov_array"
+                android:paddingTop="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
             <TextView
-                android:id="@+id/distrito"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACSdistrito"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Distrito:"
@@ -113,32 +181,135 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
+            <Spinner
+                android:id="@+id/ACSspinner4_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/dis_array"
+                android:paddingTop="4dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
             <TextView
-                android:id="@+id/ubigeo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACSubigeo"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
-                android:text="ubigeo:"
+                android:text="Ubigeo:"
                 android:textColor="#000000"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
+            <Spinner
+                android:id="@+id/ACSspinner5_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/dis_array"
+                android:paddingTop="4dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
             <TextView
-                android:id="@+id/latitud_longitu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACSlatitud"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
-                android:text="Latitud y Longitud:"
+                android:text="Latitud:"
                 android:textColor="#000000"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tipo_zona"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSitio_Latitud_edit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="Latitud"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/latitud_nuevoSitio_edit"
+                    android:layout_width="211dp"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
+            <TextView
+                android:id="@+id/ACSlongitud"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:text="Longitud:"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSitio_Longitud_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Longitud"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nlongitud_nuevoSitio_edit"
+                    android:layout_width="211dp"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
+            <TextView
+                android:id="@+id/ACStipoZona"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Tipo de zona:"
@@ -146,81 +317,44 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
+            <Spinner
+                android:id="@+id/ACSspinnerzona_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/dis_array"
+                android:paddingTop="4dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
             <TextView
-                android:id="@+id/tipo_sitio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/ACStipoSitio"
+                android:layout_width="125dp"
+                android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:text="Tipo de sitio:"
                 android:textColor="#000000"
                 android:textSize="17sp"
                 android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/ACSspinnersitio_edit"
+                android:layout_width="211dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:entries="@array/dis_array"
+                android:paddingTop="4dp" />
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="match_parent"
-                android:layout_height="28dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:text="codigo" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/campo_ubigeo"
-                android:layout_width="match_parent"
-                android:layout_height="21dp"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:text="45672"
-                android:textColor="#000000"
-                android:textSize="17sp" />
-
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView2"
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

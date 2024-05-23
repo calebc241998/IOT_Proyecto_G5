@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -43,6 +45,9 @@
         <activity android:name=".admin_info_sitio"
             android:exported="false">
         </activity>
+        <activity android:name=".admin_perfil"
+            android:exported="false">
+        </activity>
 
 
 
@@ -56,9 +61,7 @@
         <activity
             android:name=".inicio_sesion"
             android:exported="false" />
-        <activity
-            android:name=".olvido_contrasena.olvido_contrasena"
-            android:exported="false" />
+
 
         <activity
             android:name=".MainActivity"

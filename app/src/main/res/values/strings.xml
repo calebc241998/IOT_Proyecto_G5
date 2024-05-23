@@ -10,6 +10,37 @@
         <item>San Miguel</item>
         <item>La Victoria</item>
     </string-array>
+
+    <string-array name="ubigeo_array">
+        <item>010101 - Lima Centro</item>
+        <item>010102 - Miraflores</item>
+        <item>010103 - San Isidro</item>
+    </string-array>
+    <string-array name="dep_array">
+        <item>Lima</item>
+        <item>Ancash</item>
+        <item>Junin</item>
+    </string-array>
+    <string-array name="dis_array">
+        <item>Lima Centro</item>
+        <item> Miraflores</item>
+        <item> San Isidro</item>
+    </string-array>
+    <string-array name="prov_array">
+        <item>Amazonas</item>
+        <item> Ancash</item>
+        <item> Apurimac</item>
+    </string-array>
+    <string-array name="tipZona_array">
+        <item>Rural</item>
+        <item> Urbana</item>
+    </string-array>
+    <string-array name="tipSitio_array">
+        <item>Movil</item>
+        <item> Ancash</item>
+    </string-array>
+
+
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

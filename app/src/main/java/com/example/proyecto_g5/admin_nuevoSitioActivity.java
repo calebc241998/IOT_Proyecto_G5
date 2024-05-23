@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +91,15 @@ public class admin_nuevoSitioActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
+        //Spinner spinner = findViewById(R.id.spinne);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+          //      R.array.ubigeo_array, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setAdapter(adapter);
 
 
 

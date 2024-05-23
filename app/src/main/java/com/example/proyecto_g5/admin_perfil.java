@@ -7,30 +7,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import java.nio.Buffer;
-
-public class admin_perfilSuper extends AppCompatActivity {
+public class admin_perfil extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu, perfil;
-
+    ImageView menu, perfil;;
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
-
-
-
     TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
     ImageView perfil_superImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
-        setContentView(R.layout.admin_perfil_supervisor_2);
+        setContentView(R.layout.admin_perfil);
+
 
 
         //Drawer------------------------------------------
@@ -44,95 +39,67 @@ public class admin_perfilSuper extends AppCompatActivity {
         log_out = findViewById(R.id.cerrar_sesion);
 
 
-        //--para ir al perfil
-
-        perfil = findViewById(R.id.boton_perfil);
-
-        perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent  = new Intent(admin_perfilSuper.this, admin_perfil.class);
-                startActivity(intent);
-            }
-        });
-
-        //-------
 
 
-        menu.setOnClickListener(new View.OnClickListener() {
+            menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDrawer(drawerLayout);
             }
         });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
+            inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, AdminActivity.class);
+                redirectActivity(admin_perfil.this, AdminActivity.class);
             }
         });
 
-        lista_sitios.setOnClickListener(new View.OnClickListener() {
+            lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_sitiosActivity.class);
+                redirectActivity(admin_perfil.this, admin_sitiosActivity.class);
             }
         });
 
-        lista_super.setOnClickListener(new View.OnClickListener() {
+            lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_supervisoresActivity.class);
+                redirectActivity(admin_perfil.this, admin_supervisoresActivity.class);
             }
         });
 
-        nuevo_super.setOnClickListener(new View.OnClickListener() {
+            nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSuperActivity.class);
+                redirectActivity(admin_perfil.this, admin_nuevoSuperActivity.class);
             }
         });
-        nuevo_sitio.setOnClickListener(new View.OnClickListener() {
+            nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSitioActivity.class);
+                redirectActivity(admin_perfil.this, admin_nuevoSitioActivity.class);
             }
         });
 
-        log_out.setOnClickListener(new View.OnClickListener() {
+            log_out.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_perfilSuper.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_perfil.this, inicio_sesion.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
 
-        //----------------------------------
-
-
-        //pagina en si----------------
-
-        perfil_superNombre = findViewById(R.id.nombre_super_perfil_admin);
-        perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
-        perfil_superDNI = findViewById(R.id.DNI_super_perfil_admin);
-        perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
-        perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
-        perfil_superImage = findViewById(R.id.perfil_super);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            //estos valores son mandados desde admin_myadapter
-            perfil_superNombre.setText(bundle.getString("Nombre"));
-            perfil_superImage.setImageResource(bundle.getInt("Image"));
-        }
-
     }
+
+
+    //----------------------------------
+
+
 
     //Drawer functions--------------------------------
 
