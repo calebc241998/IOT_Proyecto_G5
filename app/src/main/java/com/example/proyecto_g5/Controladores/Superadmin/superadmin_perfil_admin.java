@@ -7,11 +7,15 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
@@ -25,8 +29,8 @@ public class superadmin_perfil_admin extends AppCompatActivity {
 
 
 
-    TextView perfil_adminNombre, perfil_adminTelefono, perfil_adminDNI, perfil_adminDireccion, perfil_adminCorreo;
-    ImageView perfil_adminImage;
+    TextView perfil_usuarioNombre, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioRol;
+    ImageView perfil_usuarioImage;
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
@@ -36,7 +40,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
 
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
+        menu = findViewById(R.id.menu_nav_superadmin_toolbar);
         inicio_nav_superadmin = findViewById(R.id.inicio_nav_superadmin);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
         lista_logs = findViewById(R.id.lista_logs_nav);
@@ -90,17 +94,18 @@ public class superadmin_perfil_admin extends AppCompatActivity {
             }
         });
 
-        perfil_adminNombre = findViewById(R.id.nombre_admin_perfil_superadmin);
-        perfil_adminCorreo = findViewById(R.id.correo_admin_perfil_superadmin);
-        perfil_adminDNI = findViewById(R.id.DNI_admin_perfil_superadmin);
-        perfil_adminTelefono = findViewById(R.id.telefono_admin_perfil_superadmin);
-        perfil_adminDireccion = findViewById(R.id.direccin_admin_perfil_superadmin);
-        perfil_adminImage = findViewById(R.id.foto_admin_perfil_superadmin);
+        perfil_usuarioNombre = findViewById(R.id.nombre_usuario_perfil_superadmin);
+        perfil_usuarioCorreo = findViewById(R.id.correo_usuario_perfil_superadmin);
+        perfil_usuarioDNI = findViewById(R.id.DNI_usuario_perfil_superadmin);
+        perfil_usuarioTelefono = findViewById(R.id.telefono_usuario_perfil_superadmin);
+        perfil_usuarioDireccion = findViewById(R.id.direccin_usuario_perfil_superadmin);
+        perfil_usuarioImage = findViewById(R.id.foto_usuario_perfil_superadmin);
+        perfil_usuarioRol = findViewById(R.id.rol_usuario_perfil_superadmin);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
-            perfil_adminNombre.setText(bundle.getString("Nombre"));
-            perfil_adminImage.setImageResource(bundle.getInt("Image"));
+            perfil_usuarioNombre.setText(bundle.getString("Nombre"));
+            perfil_usuarioImage.setImageResource(bundle.getInt("Image"));
         }
 
     }
