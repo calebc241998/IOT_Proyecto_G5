@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(DataListaEquiposClass item);
+    }
+    public void setSearchList(List<DataListaEquiposClass> dataSearchList){
+        this.datalist = dataSearchList;
+        notifyDataSetChanged();
     }
 
     public MyAdapterListaEquipos(Context context, List<DataListaEquiposClass> datalist, OnItemClickListener listener) {
@@ -42,7 +47,6 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder> {
         DataListaEquiposClass item = datalist.get(position);
         holder.recImagenStatusEquipo.setImageResource(item.getImagenStatusEquipo());
         holder.recImagenEquipo.setImageResource(item.getImagenEquipo());
-        holder.recImagenOjito.setImageResource(item.getImagenOjito());
         holder.recNombreEquipo.setText(item.getNombreEquipo());
         holder.recTipoEquipo.setText(item.getTipoEquipo());
         holder.recStringStatusEquipo.setText(item.getStringStatusEquipo());
@@ -67,6 +71,5 @@ class MyViewHolder extends RecyclerView.ViewHolder {
         recStringStatusEquipo = itemView.findViewById(R.id.recStringStatusSupervisor);
         recImagenStatusEquipo = itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
         recImagenEquipo = itemView.findViewById(R.id.recFotoEquipoSupervisor);
-        recImagenOjito = itemView.findViewById(R.id.recOjitoEquiposSupervisor);
     }
 }

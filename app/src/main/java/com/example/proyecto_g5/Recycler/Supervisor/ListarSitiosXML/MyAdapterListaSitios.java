@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.admin_DataClass;
 
 import java.util.List;
 
@@ -24,16 +25,17 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
         void onItemClick(DataListaSitiosClass item);
     }
 
+    public void setSearchList(List<DataListaSitiosClass> dataSearchList){
+        this.datalist = dataSearchList;
+        notifyDataSetChanged();
+    }
+
     public MyAdapterListaSitios(Context context, List<DataListaSitiosClass> datalist, OnItemClickListener listener) {
         this.context = context;
         this.datalist = datalist;
         this.listener = listener;
     }
 
-    public void setSearchList(List<DataListaSitiosClass> dataSearchList){
-        this.datalist = dataSearchList;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -45,7 +47,6 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         DataListaSitiosClass item = datalist.get(position);
-        holder.recBotonOjito.setImageResource(item.getBoton());
         holder.recTextSitioRecycler.setText(item.getNombreSitio());
         holder.recTextUbicacionRecycler.setText(item.getUbicacion());
 
@@ -59,12 +60,10 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
 }
 
 class MyViewHolder extends RecyclerView.ViewHolder {
-    ImageView recBotonOjito;
     TextView recTextSitioRecycler, recTextUbicacionRecycler;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
-        recBotonOjito = itemView.findViewById(R.id.recBotonOjito);
         recTextSitioRecycler = itemView.findViewById(R.id.recTextSitioRecycler);
         recTextUbicacionRecycler = itemView.findViewById(R.id.recTextUbicacionRecycler);
     }
