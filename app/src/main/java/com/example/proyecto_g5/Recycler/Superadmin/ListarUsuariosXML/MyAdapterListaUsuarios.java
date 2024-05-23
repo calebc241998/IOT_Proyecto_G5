@@ -42,7 +42,7 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
             DataListaUsuariosClass item = dataList.get(position);
             holder.recImage.setImageResource(item.getImagen());
@@ -54,8 +54,12 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
                 Intent intent = new Intent(context, superadmin_perfil_admin.class);
                 intent.putExtra("Image", item.getImagen());
                 intent.putExtra("Nombre", item.getNombreUsuario());
-                intent.putExtra("Status", item.getEstado());
+                intent.putExtra("Estado", item.getEstado());
+                intent.putExtra("Telefono", item.getTelefono());
                 intent.putExtra("Rol", item.getRol());
+                intent.putExtra("Correo", item.getCorreo());
+                intent.putExtra("Direccion", item.getDireccion());
+                intent.putExtra("DNI", item.getDni());
                 context.startActivity(intent);
             });
         } catch (Exception e) {
