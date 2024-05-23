@@ -3,7 +3,7 @@ package com.example.proyecto_g5.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class equipo implements Serializable{
+public class equipo{
     private String sku;
     private Long numerodeserie;
     private String marca;
