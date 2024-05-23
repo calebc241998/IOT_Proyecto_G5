@@ -3,11 +3,14 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
 
 /**
@@ -64,7 +67,16 @@ public class supervisor_descripcion_equipo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         supervisorDescripcionEquipoBinding = SupervisorDescripcionEquipoBinding.inflate(inflater, container, false);
+
+        NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
+        supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
+
+            navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_lista_reportes);
+        });
+
         return supervisorDescripcionEquipoBinding.getRoot();
     }
+
+
 
 }

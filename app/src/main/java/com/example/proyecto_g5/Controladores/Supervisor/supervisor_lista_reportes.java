@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.MyAdapterListaReportes;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
 
 import java.util.ArrayList;
@@ -79,27 +81,41 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                              Bundle savedInstanceState) {
 
         supervisorListaReportesBinding = SupervisorListaReportesBinding.inflate(inflater, container, false);
+
+        supervisorListaReportesBinding.BuscarReporte.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return false;
+            }
+        });
+
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
         recyclerView = supervisorListaReportesBinding.recyclerViewReportesSupervisor;
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist= new ArrayList<>();
 
-        androidData= new DataListaReportesClass("Archer C50","#Router","#PUCP", "Le entró virus", R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("21/03/2023","12:23 hrs", "Le entró virus");
         datalist.add(androidData);
 
-        androidData= new DataListaReportesClass("Maximus R50","#Switch","#U Lima", "Corto circuito",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("20/03/2023","13:23 hrs", "Corto circuito");
         datalist.add(androidData);
 
-        androidData= new DataListaReportesClass("Rencoroso X45","#Hub","#Latina", "Componentes humedecidos",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("19/03/2023","14:23 hrs", "Componentes humedecidos");
         datalist.add(androidData);
 
-        androidData= new DataListaReportesClass("Hipx U789","#Router","#Real Plaza", "No prende",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("18/03/2023","15:23 hrs", "No prende");
         datalist.add(androidData);
 
-        androidData= new DataListaReportesClass("Transformer OP","#Switch","#Plaza San Miguel", "Error de fábrica",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("17/03/2023","16:23 hrs", "Error de fábrica");
         datalist.add(androidData);
 
-        androidData= new DataListaReportesClass("SnapDragon T895","#Hub","#Latina", "Descompuesto",R.drawable.baseline_remove_red_eye_24);
+        androidData= new DataListaReportesClass("16/03/2023","17:23 hrs", "Descompuesto");
         datalist.add(androidData);
 
 
@@ -126,9 +142,20 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         return supervisorListaReportesBinding.getRoot();
     }
 
+    //Click de recycle view q redirecciona
     @Override
     public void onItemClick(DataListaReportesClass item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_reportes.this);
         navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_reporte_descripcion);
+    }
+
+    private void searchList(String text) {
+        List<DataListaReportesClass> dataSearchList = new ArrayList<>();
+        for (DataListaReportesClass data : datalist) {
+            if (data.getDescripcionEquipo().toLowerCase().contains(text.toLowerCase())) {
+                dataSearchList.add(data);
+            }
+        }
+        adapter.setSearchList(dataSearchList);
     }
 }

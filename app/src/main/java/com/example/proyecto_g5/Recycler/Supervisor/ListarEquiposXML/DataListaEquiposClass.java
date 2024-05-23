@@ -7,7 +7,6 @@ public class DataListaEquiposClass {
     private String stringStatusEquipo;
     private int imagenStatusEquipo;
     private int imagenEquipo;
-    private int imagenOjito;
 
     public DataListaEquiposClass(String nombreEquipo, String tipoEquipo, String stringStatusEquipo, int imagenStatusEquipo, int imagenEquipo, int imagenOjito) {
         this.nombreEquipo = nombreEquipo;
@@ -15,7 +14,6 @@ public class DataListaEquiposClass {
         this.stringStatusEquipo = stringStatusEquipo;
         this.imagenStatusEquipo = imagenStatusEquipo;
         this.imagenEquipo = imagenEquipo;
-        this.imagenOjito = imagenOjito;
     }
 
     public String getNombreEquipo() {
@@ -37,10 +35,6 @@ public class DataListaEquiposClass {
 
     public int getImagenEquipo() {
         return imagenEquipo;
-    }
-
-    public int getImagenOjito() {
-        return imagenOjito;
     }
 
 }
