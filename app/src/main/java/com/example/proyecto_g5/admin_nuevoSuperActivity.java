@@ -1,19 +1,54 @@
 package com.example.proyecto_g5;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.proyecto_g5.dto.usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 public class admin_nuevoSuperActivity extends AppCompatActivity {
+
+
+    //----UPLOAD -----
+
+    ImageView foto_perfil;
+
+    Button boton_guardar_nuevoSuper;
+
+    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo;
+
+    String imageUrl;
+
+    Uri uri;
+
+
+    //----------------------------------
 
     DrawerLayout drawerLayout;
     ImageView menu;
@@ -25,9 +60,11 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //setContentView(R.layout.admin_inicio);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_nuevo_supervisor);
+
+        //DRAWER------------------------------------
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
@@ -89,20 +126,114 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             }
         });
 
+        //-----------------------------------
 
+        // UPLOAD
 
+        nuevo_nombre = findViewById(R.id.nombre_nuevoSuper);
+        nuevo_apellido = findViewById(R.id.apellido_nuevoSuper);
+        nuevo_dni = findViewById(R.id.DNI_nuevoSuper);
+        nuevo_direccion = findViewById(R.id.direccion_nuevoSuper);
+        nuevo_correo = findViewById(R.id.correo_nuevoSuper);
+        nuevo_telefono = findViewById(R.id.telefono_nuevoSuper);
+        foto_perfil = findViewById(R.id.subir_foto_super);
+        boton_guardar_nuevoSuper = findViewById(R.id.botno_guardar);
 
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK){
+                            Intent data = result.getData();
+                            uri = data.getData();
+                            foto_perfil.setImageURI(uri);
+                        }else {
+                            Toast.makeText(admin_nuevoSuperActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
 
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
+                        }
+                    }
+                }
+        );
 
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
+        foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photopicker = new Intent(Intent.ACTION_PICK);
+                photopicker.setType("image/*");
+                activityResultLauncher.launch(photopicker);
+            }
+        });
+
+        boton_guardar_nuevoSuper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+
+            }
+        });
+
+    }
+
+    public void saveData(){
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSuperActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isComplete());
+                Uri urlImage = uriTask.getResult();
+                imageUrl = urlImage.toString();
+                uploadData();
+                dialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public  void uploadData( ){
+        String nombre = nuevo_nombre.getText().toString();
+        String apellido = nuevo_apellido.getText().toString();
+        String correo = nuevo_correo.getText().toString();
+        String telefono = nuevo_telefono.getText().toString();
+        String direccion = nuevo_direccion.getText().toString();
+        String dni = nuevo_dni.getText().toString();
+
+        usuario usuario = new usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
+
+        FirebaseDatabase.getInstance().getReference("usuarios").child(nombre)
+                .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(admin_nuevoSuperActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
 
     }
+
+
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

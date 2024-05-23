@@ -1,6 +1,7 @@
 package com.example.proyecto_g5;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +21,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyecto_g5.dto.usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +40,15 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
     RecyclerView recyclerView;
-    List<admin_DataClass> dataList;
+// para FIREBASE----------------
+    List<usuario> dataList;
+
+    DatabaseReference databaseReference;
+
+    ValueEventListener eventListener;
+
+//----------------------------------
+    //List<admin_DataClass> dataList;
     admin_myAdapter_superLista adapter;
     SearchView searchView;
 
@@ -42,7 +59,69 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
 
         initializeDrawer();
-        setupRecyclerView();
+        recyclerView = findViewById(R.id.recyclerView_listasuper_admin);
+        searchView = findViewById(R.id.search_listasuper_admin);
+        searchView.clearFocus();
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        // firebase----------------
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(admin_supervisoresActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dataList = new ArrayList<>();
+        adapter = new admin_myAdapter_superLista(this, dataList);
+        recyclerView.setAdapter(adapter);
+
+        //Firebase-----
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
+        dialog.show();
+
+        //-------------
+
+        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataList.clear();
+                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
+                    usuario usuario = itemSnapshot.getValue(com.example.proyecto_g5.dto.usuario.class);
+                    dataList.add(usuario);
+
+                }
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                searchList(newText);
+
+                return true;
+            }
+        });
+
+        //---------------------------
 
         FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
         addSuperButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +132,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     private void initializeDrawer() {
@@ -103,14 +183,20 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             adapter = new admin_myAdapter_superLista(this, dataList);
             recyclerView.setAdapter(adapter);
 
-            addTestData();
+            //Firebase-----
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
+
+
+            //-------------
+
         } catch (Exception e) {
             Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
         }
     }
 
-    private void addTestData() {
+    /*private void addTestData() {
         try {
             admin_DataClass androidData = new admin_DataClass("Juan Perez", R.drawable.avatar, "Activo", "5");
             dataList.add(androidData);
@@ -124,7 +210,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("TestDataError", "Error adding test data", e);
         }
-    }
+    } */
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -138,9 +224,9 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        List<admin_DataClass> dataSearchList = new ArrayList<>();
-        for (admin_DataClass data : dataList) {
-            if (data.getDataNombre().toLowerCase().contains(text.toLowerCase())) {
+        ArrayList<usuario> dataSearchList = new ArrayList<>();
+        for (usuario data : dataList) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }

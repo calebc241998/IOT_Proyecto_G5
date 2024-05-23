@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+
 import java.nio.Buffer;
 
 public class admin_perfilSuper extends AppCompatActivity {
@@ -24,8 +26,15 @@ public class admin_perfilSuper extends AppCompatActivity {
 
 
 
-    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
+    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido;
     ImageView perfil_superImage;
+
+    //-----FIREBASE--------
+
+    String key = "";
+    String imageUrl = "";
+
+    //---------------------
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
@@ -116,7 +125,7 @@ public class admin_perfilSuper extends AppCompatActivity {
         //----------------------------------
 
 
-        //pagina en si----------------
+        //página en si----------------
 
         perfil_superNombre = findViewById(R.id.nombre_super_perfil_admin);
         perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
@@ -125,11 +134,24 @@ public class admin_perfilSuper extends AppCompatActivity {
         perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
         perfil_superImage = findViewById(R.id.perfil_super);
 
+
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             //estos valores son mandados desde admin_myadapter
-            perfil_superNombre.setText(bundle.getString("Nombre"));
-            perfil_superImage.setImageResource(bundle.getInt("Image"));
+
+            String nombre_per = bundle.getString("Nombre");
+            String apellido_per = bundle.getString("Apellido");
+            perfil_superNombre.setText(nombre_per+ " " + apellido_per);
+            perfil_superCorreo.setText(bundle.getString("Correo"));
+            perfil_superTelefono.setText(bundle.getString("Telefono"));
+            perfil_superDireccion.setText(bundle.getString("Direccion"));
+            perfil_superDNI.setText(bundle.getString("DNI"));
+            imageUrl = bundle.getString("Image");
+
+            Glide.with(this).load(bundle.getString("Image")).into(perfil_superImage);
+
+
         }
 
     }
