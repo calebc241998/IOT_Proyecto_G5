@@ -1,9 +1,17 @@
 package com.example.proyecto_g5.Controladores.Admin;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +27,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -43,6 +54,8 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     Button boton_guardar_nuevoSuper;
 
+    String canal1 = "importanteDefault";
+
     EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo;
 
     String imageUrl;
@@ -65,6 +78,16 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_nuevo_supervisor);
+
+        //-----------NOTIFICACIONES---------------
+
+        crearCanalesNot();
+
+
+
+        //----------------------------------------
+
+
 
         //DRAWER------------------------------------
 
@@ -181,16 +204,23 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         });
 
         boton_guardar_nuevoSuper.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 saveData();
 
             }
+
+
         });
 
     }
 
     public void saveData(){
+
+        notificarImportanceDefault();
+
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
 
@@ -267,5 +297,53 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    //-------------------------
+
+    public void crearCanalesNot(){
+        NotificationChannel channel = new NotificationChannel(canal1,
+                "Canal notificaciones default",
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Canal para notificaciones con rpioridad default");
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+        pedirPermiso();
+
+    }
+
+    public  void pedirPermiso(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) ==
+                        PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(admin_nuevoSuperActivity.this,
+                    new String[]{POST_NOTIFICATIONS}, 101);
+
+        }
+    }
+
+    public void notificarImportanceDefault(){
+        Intent intent = new Intent(this, admin_supervisoresActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, canal1)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Nuevo Supervisor Guardado")
+                .setContentText("Ha sido creado un nuevo supervisor")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        Notification notification = builder.build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        if(ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED){
+
+            notificationManager.notify(1, notification);
+
+        }
     }
 }
