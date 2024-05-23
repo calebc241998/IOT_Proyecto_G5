@@ -2,7 +2,7 @@ package com.example.proyecto_g5.dto;
 
 import java.io.Serializable;
 
-public class usuario implements Serializable {
+public class usuario{
     private String nombre;
     private String apellido;
     private String dni;
@@ -11,8 +11,17 @@ public class usuario implements Serializable {
     private String direccion;
     private String rol;
     private String estado;
+    private String imagen;
 
-    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado) {
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -21,6 +30,7 @@ public class usuario implements Serializable {
         this.direccion = direccion;
         this.rol = rol;
         this.estado = estado;
+        this.imagen = imagen;
     }
 
     public String getNombre() {
