@@ -105,6 +105,11 @@ public class superadmin_logs extends AppCompatActivity {
             dataList.add(androidData);
             androidData = new DataListaLogsClass("Maximo Perez ha creado un supervisor");
             dataList.add(androidData);
+            androidData = new DataListaLogsClass("Caleb Casapaico ha creado un supervisor");
+            dataList.add(androidData);
+            androidData = new DataListaLogsClass("Oscar Diaz ha creado un supervisor");
+            dataList.add(androidData);
+
 
             adapter.notifyDataSetChanged();
         } catch (Exception e) {

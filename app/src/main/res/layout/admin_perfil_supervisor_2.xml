@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    android:background="#D9D9D9"
+    android:background="@color/background"
     tools:context=".Controladores.Admin.admin_perfilSuper">
 
 
@@ -120,16 +120,37 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/nombre_super_perfil_admin"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="51dp"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center"
-                        android:text="Mark Paredes"
-                        android:textColor="@android:color/black"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/nombre_super_perfil_admin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="51dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:text="Mark"
+                            android:textColor="@android:color/black"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/apellido_super_perfil_admin"
+                            android:layout_width="match_parent"
+                            android:layout_height="51dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Paredes"
+                            android:paddingLeft="10dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
 
                     <TextView
                         android:id="@+id/correo_sup_perfil_admin"
@@ -142,6 +163,7 @@
                         android:textColor="#151385"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -265,7 +287,7 @@
                     android:layout_height="match_parent">
 
                     <Button
-                        android:id="@+id/editar"
+                        android:id="@+id/button_editar_perfil_super"
                         android:layout_width="108dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -324,7 +346,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

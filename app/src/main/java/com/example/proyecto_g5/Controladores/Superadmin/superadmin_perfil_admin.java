@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,6 +55,8 @@ public class superadmin_perfil_admin extends AppCompatActivity {
                 openDrawer(drawerLayout);
             }
         });
+
+
 
         inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +106,8 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         perfil_usuarioDireccion = findViewById(R.id.direccin_usuario_perfil_superadmin);
         perfil_usuarioImage = findViewById(R.id.foto_usuario_perfil_superadmin);
         perfil_usuarioRol = findViewById(R.id.rol_usuario_perfil_superadmin);
+        Button editarButton = findViewById(R.id.boton_editar_usuario);
+        ImageView estadoImageView = findViewById(R.id.imageView_active_status);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -114,7 +120,26 @@ public class superadmin_perfil_admin extends AppCompatActivity {
             perfil_usuarioDireccion.setText(bundle.getString("Direccion"));
             perfil_usuarioRol.setText(bundle.getString("Rol"));
 
+
         }
+
+        assert bundle != null;
+        if ("Administrador".equals(bundle.getString("Rol"))) {
+            editarButton.setVisibility(View.VISIBLE);
+        } else {
+            editarButton.setVisibility(View.GONE);
+        }
+
+        // Change the color and image based on status
+        assert bundle != null;
+        if ("Activo".equalsIgnoreCase(bundle.getString("Estado"))) {
+            perfil_usuarioEstado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+            estadoImageView.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        } else {
+            perfil_usuarioEstado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+            estadoImageView.setImageResource(R.drawable.baseline_error_24);
+        }
+
 
     }
 

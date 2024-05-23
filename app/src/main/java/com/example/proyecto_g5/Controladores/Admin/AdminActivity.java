@@ -1,7 +1,13 @@
 package com.example.proyecto_g5.Controladores.Admin;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,12 +31,19 @@ public class AdminActivity extends AppCompatActivity {
 
     private TextView textViewBienvenido;
 
+    String canal1 = "importanteDefault";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         //setContentView(R.layout.admin_inicio);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_inicio_2);
+
+
+
+
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
@@ -135,6 +149,10 @@ public class AdminActivity extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
+
+    //-------Notificaciones---------------
+
+
 
 
 }
