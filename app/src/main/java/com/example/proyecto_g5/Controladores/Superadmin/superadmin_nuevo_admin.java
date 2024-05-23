@@ -7,18 +7,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.proyecto_g5.Controladores.Superadmin.SuperadminActivity;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.admin_nuevoSuperActivity;
 import com.example.proyecto_g5.inicio_sesion;
 
 

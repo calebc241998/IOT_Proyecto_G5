@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,16 +7,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.inicio_sesion;
+
 public class AdminActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
@@ -37,6 +39,19 @@ public class AdminActivity extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(AdminActivity.this, admin_perfil.class);
+                startActivity(intent);
+            }
+        });
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

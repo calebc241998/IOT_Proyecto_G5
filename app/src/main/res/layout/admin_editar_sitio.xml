@@ -14,7 +14,6 @@
         android:layout_width="134dp"
         android:layout_height="42dp"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="128dp"
         android:backgroundTint="#54CCC5"
         android:text="Guardar"
         android:textAlignment="textStart"
@@ -23,7 +22,8 @@
         app:icon="@drawable/baseline_upload_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView12"
+        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
@@ -48,6 +48,8 @@
             android:text="Información de Área"
             android:textColor="@android:color/black"
             android:textSize="18dp"
+            android:background="@drawable/search_bkg"
+
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
@@ -360,7 +362,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/navbar"
+        layout="@layout/admin_toolbar"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="0dp" />
 

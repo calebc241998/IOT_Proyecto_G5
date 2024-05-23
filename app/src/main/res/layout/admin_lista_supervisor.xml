@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:background="@color/background"
-    tools:context=".admin_supervisoresActivity">
+    tools:context=".Controladores.Admin.admin_supervisoresActivity">
     
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +35,7 @@ import java.util.List;
 public class admin_supervisoresActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
@@ -139,6 +139,20 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(admin_supervisoresActivity.this, admin_perfil.class);
+                startActivity(intent);
+            }
+        });
+
+        //-------
 
         setupDrawerLinks();
     }
@@ -150,6 +164,8 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
+
 
         inicio_nav.setOnClickListener(v -> redirectActivity(this, AdminActivity.class));
         lista_sitios.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
