@@ -104,11 +104,11 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
 
     private void addTestData() {
         try {
-            DataListaUsuariosClass androidData = new DataListaUsuariosClass("Juan Perez", R.drawable.avatar, "Activo", "Administrador", "11223344", "jperez@example.com","Av. Principal 1200");
+            DataListaUsuariosClass androidData = new DataListaUsuariosClass("Juan Perez", R.drawable.avatar, "Administrador", "Activo", "11223344", "jperez@example.com","Av. Principal 1200");
             dataList.add(androidData);
-            androidData = new DataListaUsuariosClass("Liliana Garay", R.drawable.avatar_mujer1, "No Activo", "Administrador", "99887700", "lgaray@example.com","Av. Universitaria 1801");
+            androidData = new DataListaUsuariosClass("Liliana Garay", R.drawable.avatar_mujer1, "Administrador", "No Activo", "99887700", "lgaray@example.com","Av. Universitaria 1801");
             dataList.add(androidData);
-            androidData = new DataListaUsuariosClass("Maximo Perez", R.drawable.avatar, "Activo", "Administrador", "12344321", "mperez@example.com","Av. Grau 820");
+            androidData = new DataListaUsuariosClass("Maximo Perez", R.drawable.avatar, "Administrador", "Activo", "12344321", "mperez@example.com","Av. Grau 820");
             dataList.add(androidData);
 
             adapter.notifyDataSetChanged();

@@ -29,7 +29,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
 
 
 
-    TextView perfil_usuarioNombre, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioRol;
+    TextView perfil_usuarioNombre, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioEstado, perfil_usuarioRol;
     ImageView perfil_usuarioImage;
 
     @Override
@@ -98,6 +98,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         perfil_usuarioCorreo = findViewById(R.id.correo_usuario_perfil_superadmin);
         perfil_usuarioDNI = findViewById(R.id.DNI_usuario_perfil_superadmin);
         perfil_usuarioTelefono = findViewById(R.id.telefono_usuario_perfil_superadmin);
+        perfil_usuarioEstado = findViewById(R.id.estado_usuario_perfil_superadmin);
         perfil_usuarioDireccion = findViewById(R.id.direccin_usuario_perfil_superadmin);
         perfil_usuarioImage = findViewById(R.id.foto_usuario_perfil_superadmin);
         perfil_usuarioRol = findViewById(R.id.rol_usuario_perfil_superadmin);
@@ -106,6 +107,13 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         if (bundle != null){
             perfil_usuarioNombre.setText(bundle.getString("Nombre"));
             perfil_usuarioImage.setImageResource(bundle.getInt("Image"));
+            perfil_usuarioCorreo.setText(bundle.getString("Correo"));
+            perfil_usuarioDNI.setText(bundle.getString("DNI"));
+            perfil_usuarioTelefono.setText(bundle.getString("Telefono"));
+            perfil_usuarioEstado.setText(bundle.getString("Estado"));
+            perfil_usuarioDireccion.setText(bundle.getString("Direccion"));
+            perfil_usuarioRol.setText(bundle.getString("Rol"));
+
         }
 
     }
