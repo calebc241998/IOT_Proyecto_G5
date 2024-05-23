@@ -11,9 +11,9 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="135dp"
+        android:layout_height="120dp"
         android:id="@+id/recCard_item_listsuper_admin"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true"
         android:backgroundTint="@color/celeste_barra_lateral">
@@ -27,13 +27,7 @@
             android:background="@drawable/card_border"
             >
 
-            <ImageView
-                android:id="@+id/imageView_profile"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:paddingLeft="6dp"
-                android:clickable="true"
-                android:src="@drawable/visibility_fill0_wght400_grad0_opsz24" />
+
 
             <LinearLayout
                 android:layout_width="245dp"
@@ -50,12 +44,31 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textView_numbersite_cardRC_admin"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="# Sitios Asignados"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewTitle_numbersite_cardRC_admin"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sitios Asignados:"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textView_numbersite_cardRC_admin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:text="# "
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -60,23 +60,6 @@
             app:layout_constraintVertical_bias="0.29"
             app:srcCompat="@drawable/circulo_blanco" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:text="Subir foto"
-            android:textColor="@android:color/black"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.262"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.964" />
-
         <Button
             android:id="@+id/boton_guardar"
             android:layout_width="134dp"
@@ -115,17 +98,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="167dp"
-            tools:layout_editor_absoluteY="152dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="29dp"
                 android:layout_height="26dp"
                 app:cardBackgroundColor="#54CCC5"
                 app:cardCornerRadius="1000dp"
+                tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="158dp"
-                tools:layout_editor_absoluteY="147dp"
-                tools:ignore="MissingConstraints">
+                tools:layout_editor_absoluteY="147dp">
 
 
                 <ImageView
@@ -136,152 +123,169 @@
                     app:srcCompat="@drawable/baseline_camera_alt_24" />
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Subir foto"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.233"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.887" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <LinearLayout
-        android:layout_width="308dp"
-        android:layout_height="275dp"
-        android:orientation="horizontal"
+        android:layout_width="322dp"
+        android:layout_height="363dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.41">
+        app:layout_constraintVertical_bias="0.415">
 
-        <LinearLayout
-            android:layout_width="301dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:textAlignment="center">
-
-            <TextView
-                android:id="@+id/nombre_campo_nombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Nombre:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nombre_campo_apellido"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Apellido:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/Nombre_campo_DNI"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="DNI:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nombre_campo_correo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Correo:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nombre_campo_telefono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Telefono:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nombre_campo_direccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Dirección:"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_name_edit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
 
-            <EditText
-                android:id="@+id/campo_nombre"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombre_nuevoSuper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="47dp"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/campo_apellido"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_lastname_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellido"
+            android:inputType="text"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/apellido_nuevoSuper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="47dp"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/campo_dni"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="12345678"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editTextTextEmailAddress"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_DNI_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DNI"
+            android:inputType="text"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/DNI_nuevoSuper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="47dp"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:inputType="number"
+                android:maxLength="8"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextPhone"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_email_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo"
+            android:inputType="text"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/correo_nuevoSuper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="47dp"
                 android:ems="10"
-                android:inputType="phone" />
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_phone_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            android:inputType="text"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/telefono_nuevoSuper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="47dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="9"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSuper_address_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:inputType="text"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/direccion_nuevoSuper"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:ems="10"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 

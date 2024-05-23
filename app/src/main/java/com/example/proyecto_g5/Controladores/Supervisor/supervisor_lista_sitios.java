@@ -1,4 +1,5 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
+import android.widget.SearchView;
 
 import android.os.Bundle;
 
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
+import com.example.proyecto_g5.admin_DataClass;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 
 import java.util.ArrayList;
@@ -81,6 +84,21 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
                              Bundle savedInstanceState) {
 
         supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
+
+
+        supervisorListaSitiosBinding.BuscarSitios.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return false;
+            }
+        });
+
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
         recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -113,12 +131,6 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         adapter= new MyAdapterListaSitios(getActivity(),datalist,this);
         recyclerView.setAdapter(adapter);
 
-        NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
-        supervisorListaSitiosBinding.textViewListaSitios.setOnClickListener(view -> {
-
-            navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
-        });
-
         return supervisorListaSitiosBinding.getRoot();
     }
 
@@ -126,5 +138,14 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
     public void onItemClick(DataListaSitiosClass item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
         navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
+    }
+    private void searchList(String text) {
+        List<DataListaSitiosClass> dataSearchList = new ArrayList<>();
+        for (DataListaSitiosClass data : datalist) {
+            if (data.getNombreSitio().toLowerCase().contains(text.toLowerCase())) {
+                dataSearchList.add(data);
+            }
+        }
+        adapter.setSearchList(dataSearchList);
     }
 }

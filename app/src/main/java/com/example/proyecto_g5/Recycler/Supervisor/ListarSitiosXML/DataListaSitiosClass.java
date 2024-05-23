@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 public class DataListaSitiosClass {
     private String nombreSitio;
     private String ubicacion;
-    private int boton;
 
     public String getNombreSitio() {
         return nombreSitio;
@@ -15,13 +14,9 @@ public class DataListaSitiosClass {
         return ubicacion;
     }
 
-    public int getBoton() {
-        return boton;
-    }
 
     public DataListaSitiosClass(String nombreSitio, String ubicacion, int boton) {
         this.nombreSitio = nombreSitio;
         this.ubicacion = ubicacion;
-        this.boton = boton;
     }
 }

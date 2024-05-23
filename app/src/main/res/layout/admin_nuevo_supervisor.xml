@@ -24,22 +24,30 @@
             android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/indicaciones"
-                android:layout_width="248dp"
-                android:layout_height="53dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="Complete los campos requeridos"
-                android:textColor="@android:color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="272dp"
+                android:layout_height="37dp"
+                android:backgroundTint="#FFFFFF"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintHorizontal_bias="0.474"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.166" />
+                app:layout_constraintVertical_bias="0.039">
+
+                <TextView
+                    android:id="@+id/titulo_nuevo"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="Nuevo Supervisor"
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -129,41 +137,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="272dp"
-                android:layout_height="37dp"
-                android:backgroundTint="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.474"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.071">
-
-                <TextView
-                    android:id="@+id/titulo_nuevo"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="Nuevo Supervisor"
-                    android:textColor="@color/black"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-            </androidx.cardview.widget.CardView>
-
             <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="282dp"
+                android:layout_width="275dp"
+                android:layout_height="347dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintHorizontal_bias="0.551"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.446">
+                app:layout_constraintVertical_bias="0.375">
 
                 <LinearLayout
                     android:layout_width="301dp"
@@ -177,13 +160,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nombre"
-                        android:textColorHint="@color/color_principal"
                         android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        >
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/nombre_nuevoSuper"
@@ -200,11 +181,11 @@
                         android:layout_height="wrap_content"
                         android:hint="Apellido"
                         android:inputType="text"
+                        android:paddingTop="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/apellido_nuevoSuper"
@@ -222,11 +203,11 @@
                         android:layout_height="wrap_content"
                         android:hint="DNI"
                         android:inputType="text"
+                        android:paddingTop="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/DNI_nuevoSuper"
@@ -239,24 +220,45 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutSuper_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Correo"
+                        android:inputType="text"
+                        android:paddingTop="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:ignore="MissingConstraints">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/correo_nuevoSuper"
+                            android:layout_width="match_parent"
+                            android:layout_height="47dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="LabelFor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputLayoutSuper_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Teléfono"
                         android:inputType="text"
+                        android:paddingTop="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/telefono_nuevoSuper"
                             android:layout_width="match_parent"
                             android:layout_height="47dp"
                             android:ems="10"
-                            android:maxLength="9"
                             android:inputType="number"
+                            android:maxLength="9"
                             tools:ignore="LabelFor" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -267,11 +269,11 @@
                         android:layout_height="wrap_content"
                         android:hint="Dirección"
                         android:inputType="text"
+                        android:paddingTop="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/direccion_nuevoSuper"
@@ -332,6 +334,23 @@
                 </LinearLayout> -->
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/indicaciones"
+                android:layout_width="248dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Complete los campos requeridos"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.478"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
