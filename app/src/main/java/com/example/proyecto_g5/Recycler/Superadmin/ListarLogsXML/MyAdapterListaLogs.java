@@ -48,11 +48,6 @@ public class MyAdapterListaLogs extends RecyclerView.Adapter<com.example.proyect
             DataListaLogsClass item = dataList.get(position);
             holder.rec_descripcion.setText(item.getDescripcion());
 
-            holder.recCard.setOnClickListener(v -> {
-                Intent intent = new Intent(context, admin_perfilSuper.class);
-                intent.putExtra("Rol", item.getDescripcion());
-                context.startActivity(intent);
-            });
         } catch (Exception e) {
             Log.e("AdapterError", "Error at position " + position + ": " + e.getMessage());
         }
