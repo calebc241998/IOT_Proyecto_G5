@@ -30,7 +30,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
 
-    LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav, log_out;
+    LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav_superadmin, log_out;
 
 
 
@@ -46,7 +46,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
-        inicio_nav = findViewById(R.id.inicio_nav);
+        inicio_nav_superadmin = findViewById(R.id.inicio_nav_superadmin);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
         lista_logs = findViewById(R.id.lista_logs_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
@@ -59,7 +59,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
             }
         });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
+        inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 redirectActivity(superadmin_perfil_admin.this, SuperadminActivity.class);
@@ -104,7 +104,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         perfil_adminDNI = findViewById(R.id.DNI_admin_perfil_superadmin);
         perfil_adminTelefono = findViewById(R.id.telefono_admin_perfil_superadmin);
         perfil_adminDireccion = findViewById(R.id.direccin_admin_perfil_superadmin);
-        perfil_adminImage = findViewById(R.id.perfil_superadmin);
+        perfil_adminImage = findViewById(R.id.foto_admin_perfil_superadmin);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){

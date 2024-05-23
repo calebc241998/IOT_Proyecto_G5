@@ -27,7 +27,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
 
-    LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav, log_out;
+    LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav_superadmin, log_out;
 
     private TextView textViewBienvenido;
 
@@ -39,7 +39,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
-        inicio_nav = findViewById(R.id.inicio_nav);
+        inicio_nav_superadmin = findViewById(R.id.inicio_nav_superadmin);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
         lista_logs = findViewById(R.id.lista_logs_nav);
@@ -52,7 +52,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
             }
         });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
+        inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 redirectActivity(superadmin_nuevo_admin.this, SuperadminActivity.class);

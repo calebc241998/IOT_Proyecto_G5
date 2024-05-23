@@ -56,7 +56,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/SAPSimageViewfoto"
+                android:id="@+id/foto_super_perfil_superadmin"
                 android:layout_width="168dp"
                 android:layout_height="168dp"
                 app:srcCompat="@drawable/circulo_blanco" />
@@ -67,7 +67,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/SAPSnombre_super"
+                    android:id="@+id/nombre_super_perfil_superadmin"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_gravity="center_vertical"
@@ -78,7 +78,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/SAPScorreo_sup"
+                    android:id="@+id/correo_super_perfil_superadmin"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_gravity="center_vertical"
@@ -107,7 +107,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/SAPSdni_super"
+                        android:id="@+id/DNI_super_perfil_superadmin"
                         android:layout_width="136dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -152,7 +152,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/SAPStelefono_super"
+                        android:id="@+id/telefono_super_perfil_superadmin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -184,7 +184,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/SAPSdireccin_super"
+                        android:id="@+id/direccin_super_perfil_superadmin"
                         android:layout_width="136dp"
                         android:layout_height="46dp"
                         android:layout_weight="1"
@@ -250,7 +250,7 @@
 
     <include
         android:id="@+id/SAPSinclude"
-        layout="@layout/superadmin_navbar"
+        layout="@layout/superadmin_toolbar"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="0dp" />
 

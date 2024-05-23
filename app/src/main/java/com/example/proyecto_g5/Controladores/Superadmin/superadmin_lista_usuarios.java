@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,9 +23,6 @@ import android.widget.Toast;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
-
-import com.example.proyecto_g5.admin_nuevoSuperActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,16 +47,6 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
 
         initializeDrawer();
         setupRecyclerView();
-
-        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
-        addSuperButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Define la nueva Activity que quieres abrir
-                Intent intent = new Intent(superadmin_lista_usuarios.this, admin_nuevoSuperActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initializeDrawer() {
@@ -72,7 +58,7 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
     }
 
     private void setupDrawerLinks() {
-        inicio_nav = findViewById(R.id.inicio_nav);
+        inicio_nav = findViewById(R.id.inicio_nav_superadmin);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
         lista_logs = findViewById(R.id.lista_logs_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);

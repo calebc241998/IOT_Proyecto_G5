@@ -3,30 +3,4 @@
     <item name="contrasena_actual" type="id" />
     <item name="editMessage" type="id" />
     <item name="buttonSend" type="id" />
-    <item name="textViewBienvenidoSA" type="id" />
-    <item name="recBotonOjitoUsuario" type="id" />
-    <item name="recTextUsuarioRecycler" type="id" />
-    <item name="recTextRolRecycler" type="id" />
-    <item name="recTextEstadoRecycler" type="id" />
-    <item name="superadmin_nav_host_fragment_content_navigation_drawer" type="id" />
-    <item name="menu_nav_superadmin_toolbar" type="id" />
-    <item name="lista_logs_nav" type="id" />
-    <item name="nuevo_admin_nav" type="id" />
-    <item name="lista_usuarios_nav" type="id" />
-    <item name="nombre_admin_perfil_superadmin" type="id" />
-    <item name="correo_admin_perfil_superadmin" type="id" />
-    <item name="DNI_admin_perfil_superadmin" type="id" />
-    <item name="telefono_admin_perfil_superadmin" type="id" />
-    <item name="direccin_admin_perfil_superadmin" type="id" />
-    <item name="perfil_superadmin" type="id" />
-    <item name="foto_super_perfil_superadmin" type="id" />
-    <item name="direccin_super_perfil_superadmin" type="id" />
-    <item name="telefono_super_perfil_superadmin" type="id" />
-    <item name="DNI_super_perfil_superadmin" type="id" />
-    <item name="correo_super_perfil_superadmin" type="id" />
-    <item name="nombre_super_perfil_superadmin" type="id" />
-    <item name="recyclerView_listausuarios_superadmin" type="id" />
-    <item name="search_listausuarios_superadmin" type="id" />
-    <item name="recCard_item_listusuarios_superadmin" type="id" />
-    <item name="recCard_item_listlogs_superadmin" type="id" />
 </resources>
