@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.usuario;
 import com.example.proyecto_g5.inicio_sesion;
@@ -29,25 +31,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class admin_nuevoSuperActivity extends AppCompatActivity {
+import java.util.Objects;
 
-
-    //----UPLOAD -----
+public class admin_editarSuper extends AppCompatActivity {
+//----UPLOAD -----
 
     ImageView foto_perfil;
 
-    Button boton_guardar_nuevoSuper;
+    Button boton_guardar_editSuper;
 
-    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo;
+    Switch switch_editarEstado;
 
-    String imageUrl;
+    EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
+
+    String newimageUrl, edit_estado, oldImageUrl, key_dni;
 
     Uri uri;
+
+    DatabaseReference databaseReference;
+    StorageReference storageReference;
 
 
     //----------------------------------
@@ -57,14 +65,13 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
-    private TextView textViewBienvenido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_nuevo_supervisor);
+        setContentView(R.layout.admin_editar_supervisor);
 
         //DRAWER------------------------------------
 
@@ -77,6 +84,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
+
         //--para ir al perfil
 
         perfil = findViewById(R.id.boton_perfil);
@@ -85,7 +93,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_perfil.class);
+                Intent intent  = new Intent(admin_editarSuper.this, admin_perfil.class);
                 startActivity(intent);
             }
         });
@@ -100,21 +108,23 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, AdminActivity.class);
+                redirectActivity(admin_editarSuper.this, AdminActivity.class);
             }
         });
+
+
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
+                redirectActivity(admin_editarSuper.this, admin_sitiosActivity.class);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                redirectActivity(admin_editarSuper.this, admin_supervisoresActivity.class);
             }
         });
 
@@ -126,7 +136,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
+                redirectActivity(admin_editarSuper.this, admin_nuevoSitioActivity.class);
             }
         });
 
@@ -134,7 +144,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_nuevoSuperActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_editarSuper.this, inicio_sesion.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -145,14 +155,15 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         // UPLOAD
 
-        nuevo_nombre = findViewById(R.id.nombre_nuevoSuper);
-        nuevo_apellido = findViewById(R.id.apellido_nuevoSuper);
-        nuevo_dni = findViewById(R.id.DNI_nuevoSuper);
-        nuevo_direccion = findViewById(R.id.direccion_nuevoSuper);
-        nuevo_correo = findViewById(R.id.correo_nuevoSuper);
-        nuevo_telefono = findViewById(R.id.telefono_nuevoSuper);
-        foto_perfil = findViewById(R.id.subir_foto_super);
-        boton_guardar_nuevoSuper = findViewById(R.id.botno_guardar);
+        edit_nombre = findViewById(R.id.nombre_editSuper);
+        edit_apellido = findViewById(R.id.apellido_editSuper);
+        edit_dni = findViewById(R.id.DNI_editSuper);
+        edit_direccion = findViewById(R.id.direccion_editSuper);
+        edit_correo = findViewById(R.id.correo_editSuper);
+        edit_telefono = findViewById(R.id.telefono_editSuper);
+        foto_perfil = findViewById(R.id.image_editSuper);
+        boton_guardar_editSuper = findViewById(R.id.boton_guardar_editado);
+        switch_editarEstado = findViewById(R.id.editStatus_switch);
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -161,15 +172,36 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK){
                             Intent data = result.getData();
+                            assert data != null;
                             uri = data.getData();
                             foto_perfil.setImageURI(uri);
                         }else {
-                            Toast.makeText(admin_nuevoSuperActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(admin_editarSuper.this, "No image selected", Toast.LENGTH_SHORT).show();
 
                         }
                     }
                 }
         );
+
+        Bundle bundle = getIntent().getExtras();
+
+
+        if(bundle != null){
+
+            Glide.with(this).load(bundle.getString("Image")).into(foto_perfil);
+
+            edit_nombre.setText(bundle.getString("Nombre"));
+            edit_apellido.setText(bundle.getString("Apellido"));
+            edit_correo.setText(bundle.getString("Correo"));
+            edit_telefono.setText(bundle.getString("Telefono"));
+            edit_direccion.setText(bundle.getString("Direccion"));
+            edit_dni.setText(bundle.getString("DNI"));
+            key_dni = bundle.getString("DNI");
+            oldImageUrl = bundle.getString("Image");
+
+        }
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
 
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,10 +212,12 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             }
         });
 
-        boton_guardar_nuevoSuper.setOnClickListener(new View.OnClickListener() {
+        boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveData();
+                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -192,9 +226,9 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     public void saveData(){
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
+        storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSuperActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper.this);
         builder.setCancelable(false);
         builder.setView(R.layout.admin_progress_layout);
         AlertDialog dialog = builder.create();
@@ -206,8 +240,8 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                 while (!uriTask.isComplete());
                 Uri urlImage = uriTask.getResult();
-                imageUrl = urlImage.toString();
-                uploadData();
+                newimageUrl = urlImage.toString();
+                updateData();
                 dialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -218,32 +252,31 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         });
     }
 
-    public  void uploadData( ){
-        String nombre = nuevo_nombre.getText().toString();
-        String apellido = nuevo_apellido.getText().toString();
-        String correo = nuevo_correo.getText().toString();
-        String telefono = nuevo_telefono.getText().toString();
-        String direccion = nuevo_direccion.getText().toString();
-        String dni = nuevo_dni.getText().toString();
-
-        String key_dni = nuevo_dni.getText().toString();
+    public  void updateData( ){
+        String nombre = edit_nombre.getText().toString();
+        String apellido = edit_apellido.getText().toString();
+        String correo = edit_correo.getText().toString();
+        String telefono = edit_telefono.getText().toString();
+        String direccion = edit_direccion.getText().toString();
+        String dni = edit_dni.getText().toString();
 
 
-        usuario usuario = new usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
+        usuario usuario = new usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", newimageUrl, telefono );
 
-        FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
-                .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                            reference.delete();
+                            Toast.makeText(admin_editarSuper.this, "Updated", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(admin_nuevoSuperActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(admin_editarSuper.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
