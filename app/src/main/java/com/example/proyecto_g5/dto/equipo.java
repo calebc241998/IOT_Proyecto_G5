@@ -1,24 +1,36 @@
 package com.example.proyecto_g5.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class equipo{
     private String sku;
-    private Long numerodeserie;
+    private String nombre_tipo;
+    private String numerodeserie;
     private String marca;
     private String modelo;
     private String descripcion;
-    private Date fecharegistro;
-    private Date fechaedicion;
-    public equipo(String sku,Long numerodeserie,String marca, String modelo, String descripcion, Date fecharegistro, Date fechaedicion) {
+    private String fecharegistro;
+    private String fechaedicion;
+    private String imagen_equipo;
+    private String imagen_status_equipo;
+
+
+
+    public equipo(String sku, String nombre_tipo, String numerodeserie, String marca, String modelo, String descripcion, String fecharegistro, String fechaedicion, String imagen_equipo, String imagen_status_equipo) {
         this.sku = sku;
+        this.nombre_tipo = nombre_tipo;
         this.numerodeserie = numerodeserie;
         this.marca = marca;
         this.modelo = modelo;
         this.descripcion = descripcion;
         this.fecharegistro = fecharegistro;
         this.fechaedicion = fechaedicion;
+        this.imagen_equipo = imagen_equipo;
+        this.imagen_status_equipo = imagen_status_equipo;
+    }
+
+    public equipo(String tipo, String serie, String marcaEquipo, String modeloEquipo, String descripcionEquipo, String registroFecha, String edicionFecha, String imagenEquipoUrl) {
+
     }
 
     public String getSku() {
@@ -29,12 +41,12 @@ public class equipo{
         this.sku = sku;
     }
 
-    public Long getNumerodeserie() {
+    public String getNumerodeserie() {
         return numerodeserie;
     }
 
     public void setNumerodeserie(Long numerodeserie) {
-        this.numerodeserie = numerodeserie;
+        this.numerodeserie = String.valueOf(numerodeserie);
     }
 
     public String getMarca() {
@@ -61,19 +73,41 @@ public class equipo{
         this.descripcion = descripcion;
     }
 
-    public Date getFecharegistro() {
+    public String getFecharegistro() {
         return fecharegistro;
     }
 
     public void setFecharegistro(Date fecharegistro) {
-        this.fecharegistro = fecharegistro;
+        this.fecharegistro = String.valueOf(fecharegistro);
     }
 
-    public Date getFechaedicion() {
+    public String getFechaedicion() {
         return fechaedicion;
     }
 
     public void setFechaedicion(Date fechaedicion) {
-        this.fechaedicion = fechaedicion;
+        this.fechaedicion = String.valueOf(fechaedicion);
+    }
+    public String getNombre_tipo() {
+        return nombre_tipo;
+    }
+
+    public void setNombre_tipo(String nombre_tipo) {
+        this.nombre_tipo = nombre_tipo;
+    }
+    public String getImagen_equipo() {
+        return imagen_equipo;
+    }
+
+    public void setImagen_equipo(String imagen_equipo) {
+        this.imagen_equipo = imagen_equipo;
+    }
+
+    public String getImagen_status_equipo() {
+        return imagen_status_equipo;
+    }
+
+    public void setImagen_status_equipo(String imagen_status_equipo) {
+        this.imagen_status_equipo = imagen_status_equipo;
     }
 }

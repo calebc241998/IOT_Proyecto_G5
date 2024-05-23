@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
+    android:id="@+id/layout_nuevo_equipo"
     tools:context=".Controladores.Supervisor.supervisor_nuevo_equipo">
 
     <!-- TODO: Update blank fragment layout -->
@@ -25,11 +26,23 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/spinner5"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nombre_tipo"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:entries="@array/tipos_equipos" />
+                android:layout_height="wrap_content"
+                android:hint="Tipo"
+                android:paddingTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:padding="5dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textFieldSKU"

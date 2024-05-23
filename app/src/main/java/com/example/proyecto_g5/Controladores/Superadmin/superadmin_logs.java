@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.DataListaLogsClass;
-import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyAdapterListaLogs;
 
 import java.util.ArrayList;
 import java.util.List;

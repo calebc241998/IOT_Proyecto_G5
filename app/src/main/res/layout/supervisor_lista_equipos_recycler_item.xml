@@ -12,7 +12,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="135dp"
-        android:id="@+id/recCard_item_listsuper_admin"
+        android:id="@+id/recCard_item_listsuper_equipos"
         app:cardElevation="5dp"
         app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true"

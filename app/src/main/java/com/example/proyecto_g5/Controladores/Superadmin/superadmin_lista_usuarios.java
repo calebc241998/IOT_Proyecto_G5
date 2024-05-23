@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
-import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
+import com.example.proyecto_g5.Controladores.Supervisor.MyAdapterListaUsuarios;
 
 import java.util.ArrayList;
 import java.util.List;
