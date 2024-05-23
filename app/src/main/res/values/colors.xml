@@ -7,4 +7,8 @@
     <color name="color_principal">#54CCC5</color>
     <color name="drawer_color">#FF49454F</color>
     <color name="background">#FAFFFF</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
 </resources>

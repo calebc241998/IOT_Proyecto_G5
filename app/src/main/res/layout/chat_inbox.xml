@@ -4,374 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#002B36"
+    tools:context=".Chat_inbox">
 
-    <!-- Encabezado del chat -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="#2C7DBC"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <!-- Foto de perfil del primer contacto -->
-        <ImageView
-            android:id="@+id/imageProfile1"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar" />
-
-        <!-- Nombre del primer contacto -->
-        <TextView
-            android:id="@+id/textName1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Hiro"
-            android:textColor="#FFFEFE"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="5dp"
-            app:srcCompat="@drawable/baseline_circle_24" />
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="online"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <!-- Conversación -->
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Mensajes intercambiados en el chat -->
-
-            <!-- Mensajes enviados -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#2C7DBC"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="¡Hola! ¿Cómo estás?"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:30"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#DAD4D4"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="¡Hola! Estoy bien, gracias por preguntar."
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:32"
-                        android:textColor="@android:color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#2C7DBC"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Que dejó el profesor?"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:32"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Mensajes recibidos -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#DAD4D4"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Que estudiemos integrales"
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:32"
-                        android:textColor="@android:color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#2C7DBC"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Te puedo pedir un favor?"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:32"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#DAD4D4"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sí dime nomas"
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:33"
-                        android:textColor="@android:color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#2C7DBC"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Préstame plata"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:33"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#DAD4D4"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No 😒 "
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:33"
-                        android:textColor="@android:color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#2C7DBC"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🥺"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="16:33"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Puedes añadir más mensajes aquí -->
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <!-- Entrada de mensaje -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#1F1F1F">
 
-        <!-- Campo de texto para escribir el mensaje -->
         <EditText
-            android:id="@+id/editMessage"
+            android:id="@+id/edit_text_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Escribe tu mensaje aquí"
-            android:padding="12dp"/>
+            android:hint="Escribe un mensaje"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888" />
 
-        <!-- Botón para enviar el mensaje -->
-        <Button
-            android:id="@+id/buttonSend"
+        <ImageButton
+            android:id="@+id/button_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#2C7DBC"
-            android:text="Enviar" />
-
+            android:src="@drawable/ic_send"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Enviar"
+            android:padding="12dp"
+            android:layout_gravity="center_vertical"
+            app:tint="#FFFFFF" />
     </LinearLayout>
-
 </LinearLayout>

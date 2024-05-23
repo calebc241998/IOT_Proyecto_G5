@@ -84,5 +84,19 @@
             android:id="@+id/action_supervisor_descripcion_sitio_to_supervisor_lista_equipos"
             app:destination="@id/supervisor_lista_equipos" />
     </fragment>
+    <fragment
+        android:id="@+id/chat_inbox"
+        android:name="com.example.proyecto_g5.Chat_inbox"
+        android:label="chat_inbox"
+        tools:layout="@layout/chat_inbox" />
+    <fragment
+        android:id="@+id/fragment_chat_list"
+        android:name="com.example.proyecto_g5.fragment_chat_list"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_fragment_chat_list_to_chat_inbox"
+            app:destination="@id/chat_inbox" />
+    </fragment>
 
 </navigation>
