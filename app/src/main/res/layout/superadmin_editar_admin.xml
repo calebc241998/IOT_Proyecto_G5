@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D9D9D9"
-    tools:context=".superadmin_editar_admin">
+    android:id="@+id/drawer_layout"
+    tools:context=".MainActivity">
 
     <include
         android:id="@+id/SADAinclude"
-        layout="@layout/superadmin_navbar"
+        layout="@layout/superadmin_toolbar"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="0dp" />
 

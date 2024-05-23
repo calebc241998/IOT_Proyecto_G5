@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,28 +7,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class admin_nuevoSuperActivity extends AppCompatActivity {
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.inicio_sesion;
+
+public class admin_perfil extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
-
+    ImageView menu, perfil;;
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
+    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
+    ImageView perfil_superImage;
 
-    private TextView textViewBienvenido;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstaceState){
+        super.onCreate(savedInstaceState);
+        setContentView(R.layout.admin_perfil);
 
-        //setContentView(R.layout.admin_inicio);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_nuevo_supervisor);
 
+
+        //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
         inicio_nav = findViewById(R.id.inicio_nav);
@@ -38,71 +41,70 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
-        menu.setOnClickListener(new View.OnClickListener() {
+
+
+
+            menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDrawer(drawerLayout);
             }
         });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
+            inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, AdminActivity.class);
+                redirectActivity(admin_perfil.this, AdminActivity.class);
             }
         });
 
-        lista_sitios.setOnClickListener(new View.OnClickListener() {
+            lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
+                redirectActivity(admin_perfil.this, admin_sitiosActivity.class);
             }
         });
 
-        lista_super.setOnClickListener(new View.OnClickListener() {
+            lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                redirectActivity(admin_perfil.this, admin_supervisoresActivity.class);
             }
         });
 
-        nuevo_super.setOnClickListener(new View.OnClickListener() {
+            nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();            }
+                redirectActivity(admin_perfil.this, admin_nuevoSuperActivity.class);
+            }
         });
-        nuevo_sitio.setOnClickListener(new View.OnClickListener() {
+            nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
+                redirectActivity(admin_perfil.this, admin_nuevoSitioActivity.class);
             }
         });
 
-        log_out.setOnClickListener(new View.OnClickListener() {
+            log_out.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_nuevoSuperActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_perfil.this, inicio_sesion.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
 
-
-
-
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
-
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
-
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
-
-
     }
+
+
+    //----------------------------------
+
+
+
+    //Drawer functions--------------------------------
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
@@ -119,4 +121,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
+
+    //------------------Fin Drawer Functions
+
 }

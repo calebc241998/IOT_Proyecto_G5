@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,33 +7,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import java.nio.Buffer;
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.inicio_sesion;
 
-public class admin_perfilSuper extends AppCompatActivity {
+public class admin_nuevoSitioActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu, perfil;
+    ImageView menu,perfil;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
-
-
-    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
-    ImageView perfil_superImage;
+    private TextView textViewBienvenido;
 
     @Override
-    protected void onCreate(Bundle savedInstaceState){
-        super.onCreate(savedInstaceState);
-        setContentView(R.layout.admin_perfil_supervisor_2);
+    protected void onCreate(Bundle savedInstanceState) {
 
+        //setContentView(R.layout.admin_inicio);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.admin_nuevo_sitio);
 
-        //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
         inicio_nav = findViewById(R.id.inicio_nav);
@@ -43,7 +40,6 @@ public class admin_perfilSuper extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
-
         //--para ir al perfil
 
         perfil = findViewById(R.id.boton_perfil);
@@ -52,13 +48,12 @@ public class admin_perfilSuper extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent  = new Intent(admin_perfilSuper.this, admin_perfil.class);
+                Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_perfil.class);
                 startActivity(intent);
             }
         });
 
         //-------
-
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,72 +64,73 @@ public class admin_perfilSuper extends AppCompatActivity {
 
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, AdminActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSitioActivity.this, AdminActivity.class);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_sitiosActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSitioActivity.this, admin_sitiosActivity.class);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_supervisoresActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSitioActivity.this, admin_supervisoresActivity.class);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSuperActivity.class);
+            public void onClick(View v) {
+                redirectActivity(admin_nuevoSitioActivity.this, admin_nuevoSuperActivity.class);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSitioActivity.class);
-            }
+            public void onClick(View v) {
+                recreate();            }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_perfilSuper.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_nuevoSitioActivity.this, inicio_sesion.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
 
-        //----------------------------------
 
 
-        //pagina en si----------------
 
-        perfil_superNombre = findViewById(R.id.nombre_super_perfil_admin);
-        perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
-        perfil_superDNI = findViewById(R.id.DNI_super_perfil_admin);
-        perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
-        perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
-        perfil_superImage = findViewById(R.id.perfil_super);
+        //Spinner spinner = findViewById(R.id.spinne);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+          //      R.array.ubigeo_array, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setAdapter(adapter);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            //estos valores son mandados desde admin_myadapter
-            perfil_superNombre.setText(bundle.getString("Nombre"));
-            perfil_superImage.setImageResource(bundle.getInt("Image"));
-        }
+
+
+
+
+
+        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
+
+        // Obtener información del intent
+        //String nombre = getIntent().getStringExtra("nombre");
+        //String apellido = getIntent().getStringExtra("apellido");
+
+        // Actualizar el texto del TextView
+        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
+
 
     }
-
-    //Drawer functions--------------------------------
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
@@ -151,7 +147,4 @@ public class admin_perfilSuper extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
-
-    //------------------Fin Drawer Functions
-
 }

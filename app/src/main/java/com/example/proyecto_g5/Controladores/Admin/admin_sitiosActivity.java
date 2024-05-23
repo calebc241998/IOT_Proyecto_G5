@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyecto_g5.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.List;
 public class admin_sitiosActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
@@ -57,6 +57,18 @@ public class admin_sitiosActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(admin_sitiosActivity.this, admin_perfil.class);
+                startActivity(intent);
+            }
+        });
 
         setupDrawerLinks();
     }
@@ -71,7 +83,7 @@ public class admin_sitiosActivity extends AppCompatActivity {
 
         inicio_nav.setOnClickListener(v -> redirectActivity(this, AdminActivity.class));
         lista_sitios.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
-        lista_super.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
+        lista_super.setOnClickListener(v -> redirectActivity(this, admin_supervisoresActivity.class));
         nuevo_super.setOnClickListener(v -> redirectActivity(this, admin_nuevoSuperActivity.class));
         nuevo_sitio.setOnClickListener(v -> redirectActivity(this, admin_nuevoSitioActivity.class));
         log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());

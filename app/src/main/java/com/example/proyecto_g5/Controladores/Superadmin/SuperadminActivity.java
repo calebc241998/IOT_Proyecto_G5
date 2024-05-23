@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Superadmin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,36 +6,31 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class AdminActivity extends AppCompatActivity {
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.inicio_sesion;
 
+public class SuperadminActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
-
-    LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
-
-    private TextView textViewBienvenido;
+    LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav_superadmin, log_out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //setContentView(R.layout.admin_inicio);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_inicio_2);
+        setContentView(R.layout.superadmin_inicio);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
-        inicio_nav = findViewById(R.id.inicio_nav);
-        lista_super = findViewById(R.id.lista_super_nav);
-        lista_sitios = findViewById(R.id.lista_sitios_nav);
-        nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
-        nuevo_super = findViewById(R.id.nuevo_super_nav);
+        menu = findViewById(R.id.menu_nav_superadmin_toolbar);
+        inicio_nav_superadmin = findViewById(R.id.inicio_nav_superadmin);
+        lista_usuarios = findViewById(R.id.lista_usuarios_nav);
+        nuevo_admin = findViewById(R.id.nuevo_admin_nav);
+        lista_logs = findViewById(R.id.lista_logs_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -45,62 +40,42 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
+        inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recreate();
             }
         });
 
-        lista_sitios.setOnClickListener(new View.OnClickListener() {
+        lista_usuarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_sitiosActivity.class);
+                redirectActivity(SuperadminActivity.this, superadmin_lista_usuarios.class);
             }
         });
 
-        lista_super.setOnClickListener(new View.OnClickListener() {
+        nuevo_admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_supervisoresActivity.class);
+                redirectActivity(SuperadminActivity.this, superadmin_nuevo_admin.class);
             }
         });
-
-        nuevo_super.setOnClickListener(new View.OnClickListener() {
+        lista_logs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSuperActivity.class);
-            }
-        });
-        nuevo_sitio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSitioActivity.class);
+                redirectActivity(SuperadminActivity.this, superadmin_logs.class);
             }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(AdminActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(SuperadminActivity.this, inicio_sesion.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
-
-
-
-
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
-
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
-
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
 
 
     }
@@ -122,5 +97,5 @@ public class AdminActivity extends AppCompatActivity {
     }
 
 
-}
 
+}

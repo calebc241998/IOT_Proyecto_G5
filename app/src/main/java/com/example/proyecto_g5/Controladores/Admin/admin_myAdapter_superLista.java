@@ -1,8 +1,7 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.usuario;
+
 import java.util.List;
 
 public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
-    private List<admin_DataClass> dataList;
+    private List<usuario> dataList;
 
-    public void setSearchList(List<admin_DataClass> dataSearchList){
+    public void setSearchList(List<usuario> dataSearchList){
         this.dataList = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public admin_myAdapter_superLista(Context context, List<admin_DataClass> dataList){
+    public admin_myAdapter_superLista(Context context, List<usuario> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -39,24 +42,33 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        try {
-            admin_DataClass item = dataList.get(position);
-            holder.recImage.setImageResource(item.getDataImagen());
-            holder.rec_nombre.setText(item.getDataNombre());
-            holder.rec_status.setText(item.getDataStatus());
-            holder.rec_numSites.setText(item.getDataNumSitios());
 
-            holder.recCard.setOnClickListener(v -> {
+        Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
+        holder.rec_nombre.setText(dataList.get(position).getNombre());
+        holder.rec_status.setText(dataList.get(position).getEstado());
+        holder.rec_numSites.setText("3 ");
+
+        //no se relaicona todavia
+
+
+        holder.recCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 Intent intent = new Intent(context, admin_perfilSuper.class);
-                intent.putExtra("Image", item.getDataImagen());
-                intent.putExtra("Nombre", item.getDataNombre());
-                intent.putExtra("Status", item.getDataStatus());
-                intent.putExtra("NumSitios", item.getDataNumSitios());
+                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getImagen());
+                intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
+                intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
+                intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
+                intent.putExtra("Correo", dataList.get(holder.getAdapterPosition()).getCorreo());
+                intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
+                intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());
+                intent.putExtra("DNI", dataList.get(holder.getAdapterPosition()).getDni());
                 context.startActivity(intent);
-            });
-        } catch (Exception e) {
-            Log.e("AdapterError", "Error at position " + position + ": " + e.getMessage());
-        }
+
+            }
+        });
+
     }
 
     @Override

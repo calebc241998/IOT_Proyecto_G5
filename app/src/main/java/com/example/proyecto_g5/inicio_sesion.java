@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
+import com.example.proyecto_g5.Controladores.Superadmin.SuperadminActivity;
 import com.example.proyecto_g5.Controladores.Supervisor.SupervisorActivity;
 import com.example.proyecto_g5.dto.usuario;
 
@@ -65,9 +67,9 @@ public class inicio_sesion extends AppCompatActivity {
 
 
     private void generarUsuarios() {
-        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1", "xxxxx"));
-        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1","zzzzz"));
-        usuarios.add(new usuario("William", "Espinoza", "34567890", "supervisor@example.com", "123456", "Av. Universitaria 1801", "supervisor", "1", "yyyyy"));
+        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1", "xxxxx", "9999999"));
+        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1","zzzzz", "9999999"));
+        usuarios.add(new usuario("William", "Espinoza", "34567890", "supervisor@example.com", "123456", "Av. Universitaria 1801", "supervisor", "1", "yyyyy", "9999999"));
     }
 
     // Método para iniciar sesión

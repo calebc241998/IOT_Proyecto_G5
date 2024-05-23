@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.admin_info_sitio;
+import com.example.proyecto_g5.Controladores.Admin.admin_info_sitio;
 import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
 import com.google.android.material.navigation.NavigationView;
 

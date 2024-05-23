@@ -8,8 +8,8 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
 
-    android:background="#D9D9D9"
-    tools:context=".admin_nuevoSuperActivity">
+    android:background="@color/background"
+    tools:context=".Controladores.Admin.admin_nuevoSuperActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,10 @@
                     android:text="Nuevo Supervisor"
                     android:textColor="@color/black"
                     android:textSize="25dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@drawable/search_bkg"
+
+                    />
 
             </androidx.cardview.widget.CardView>
 
@@ -59,37 +62,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.968">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:cardBackgroundColor="#54CCC5"
-                    app:cardCornerRadius="1000dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.378"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.8">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView13"
-                            android:layout_width="24dp"
-                            android:layout_height="14dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_camera_alt_24" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/subir_foto_super"
                     android:layout_width="161dp"
                     android:layout_height="160dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -137,16 +112,33 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/indicaciones"
+                android:layout_width="248dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Complete los campos requeridos"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.478"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
+
             <LinearLayout
-                android:layout_width="275dp"
-                android:layout_height="347dp"
+                android:layout_width="278dp"
+                android:layout_height="371dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.551"
+                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.375">
+                app:layout_constraintVertical_bias="0.348">
 
                 <LinearLayout
                     android:layout_width="301dp"
@@ -169,7 +161,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/nombre_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -181,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Apellido"
                         android:inputType="text"
-                        android:paddingTop="5dp"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -190,7 +182,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/apellido_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -203,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:hint="DNI"
                         android:inputType="text"
-                        android:paddingTop="5dp"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -212,7 +204,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/DNI_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="number"
                             android:maxLength="8"
@@ -225,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Correo"
                         android:inputType="text"
-                        android:paddingTop="5dp"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -234,7 +226,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/correo_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -246,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Teléfono"
                         android:inputType="text"
-                        android:paddingTop="5dp"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -255,7 +247,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/telefono_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="number"
                             android:maxLength="9"
@@ -269,7 +261,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Dirección"
                         android:inputType="text"
-                        android:paddingTop="5dp"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -278,7 +270,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/direccion_nuevoSuper"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -334,23 +326,6 @@
                 </LinearLayout> -->
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/indicaciones"
-                android:layout_width="248dp"
-                android:layout_height="53dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="Complete los campos requeridos"
-                android:textColor="@android:color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.478"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

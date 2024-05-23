@@ -13,15 +13,11 @@ public class usuario{
     private String estado;
     private String imagen;
 
-    public String getImagen() {
-        return imagen;
-    }
+    private String telefono;
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
 
-    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen) {
+
+    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -31,6 +27,11 @@ public class usuario{
         this.rol = rol;
         this.estado = estado;
         this.imagen = imagen;
+        this.telefono = telefono;
+    }
+
+    public usuario() {
+        // Constructor vacío necesario para Firebase
     }
 
     public String getNombre() {
@@ -39,6 +40,14 @@ public class usuario{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getDni() {
@@ -65,14 +74,6 @@ public class usuario{
         this.contrasena = contrasena;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
     public String getDireccion() {
         return direccion;
     }
@@ -95,5 +96,21 @@ public class usuario{
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Admin;
 
 public class admin_sitioDataClass {
 

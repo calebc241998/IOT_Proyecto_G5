@@ -1,88 +1,76 @@
-package com.example.proyecto_g5;
+package com.example.proyecto_g5.Controladores.Superadmin;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import androidx.appcompat.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.DataListaLogsClass;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyAdapterListaLogs;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class admin_supervisoresActivity extends AppCompatActivity {
+public class superadmin_logs extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView menu;
 
-    LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
+    LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav, log_out;
 
     RecyclerView recyclerView;
-    List<admin_DataClass> dataList;
-    admin_myAdapter_superLista adapter;
+    List<DataListaLogsClass> dataList;
+    MyAdapterListaLogs adapter;
     SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_lista_supervisor);
+        setContentView(R.layout.superadmin_logs);
 
 
         initializeDrawer();
         setupRecyclerView();
-
-        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
-        addSuperButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Define la nueva Activity que quieres abrir
-                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSuperActivity.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
-                startActivity(intent);
-            }
-        });
     }
 
     private void initializeDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
+        menu = findViewById(R.id.menu_nav_superadmin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
 
         setupDrawerLinks();
     }
 
     private void setupDrawerLinks() {
-        inicio_nav = findViewById(R.id.inicio_nav);
-        lista_super = findViewById(R.id.lista_super_nav);
-        lista_sitios = findViewById(R.id.lista_sitios_nav);
-        nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
-        nuevo_super = findViewById(R.id.nuevo_super_nav);
+        inicio_nav = findViewById(R.id.inicio_nav_superadmin);
+        lista_usuarios = findViewById(R.id.lista_usuarios_nav);
+        lista_logs = findViewById(R.id.lista_logs_nav);
+        nuevo_admin = findViewById(R.id.nuevo_admin_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
-        inicio_nav.setOnClickListener(v -> redirectActivity(this, AdminActivity.class));
-        lista_sitios.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
-        lista_super.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
-        nuevo_super.setOnClickListener(v -> redirectActivity(this, admin_nuevoSuperActivity.class));
-        nuevo_sitio.setOnClickListener(v -> redirectActivity(this, admin_nuevoSitioActivity.class));
+        inicio_nav.setOnClickListener(v -> redirectActivity(this, SuperadminActivity.class));
+        lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
+        lista_usuarios.setOnClickListener(v -> redirectActivity(this, superadmin_lista_usuarios.class));
+        nuevo_admin.setOnClickListener(v -> redirectActivity(this, superadmin_nuevo_admin.class));
         log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());
     }
 
     private void setupRecyclerView() {
         try {
-            recyclerView = findViewById(R.id.recyclerView_listasuper_admin);
-            searchView = findViewById(R.id.search_listasuper_admin);
+            recyclerView = findViewById(R.id.recyclerView_listalogs_superadmin);
+            searchView = findViewById(R.id.search_listalogs_superadmin);
             searchView.clearFocus();
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -100,7 +88,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
             recyclerView.setLayoutManager(gridLayoutManager);
             dataList = new ArrayList<>();
-            adapter = new admin_myAdapter_superLista(this, dataList);
+            adapter = new MyAdapterListaLogs(this, dataList);
             recyclerView.setAdapter(adapter);
 
             addTestData();
@@ -112,11 +100,11 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
     private void addTestData() {
         try {
-            admin_DataClass androidData = new admin_DataClass("Juan Perez", R.drawable.avatar, "Activo", "5");
+            DataListaLogsClass androidData = new DataListaLogsClass("Juan Perez ha creado un sitio");
             dataList.add(androidData);
-            androidData = new admin_DataClass("Liliana", R.drawable.avatar_mujer1, "No Activo", "2");
+            androidData = new DataListaLogsClass("Liliana ha creado un sitio");
             dataList.add(androidData);
-            androidData = new admin_DataClass("Maximo Perez", R.drawable.avatar, "Activo", "1");
+            androidData = new DataListaLogsClass("Maximo Perez ha creado un supervisor");
             dataList.add(androidData);
 
             adapter.notifyDataSetChanged();
@@ -138,9 +126,9 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        List<admin_DataClass> dataSearchList = new ArrayList<>();
-        for (admin_DataClass data : dataList) {
-            if (data.getDataNombre().toLowerCase().contains(text.toLowerCase())) {
+        List<DataListaLogsClass> dataSearchList = new ArrayList<>();
+        for (DataListaLogsClass data : dataList) {
+            if (data.getDescripcion().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }
@@ -150,4 +138,5 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             adapter.setSearchList(dataSearchList);
         }
     }
+
 }
