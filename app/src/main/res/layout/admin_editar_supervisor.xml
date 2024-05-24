@@ -169,7 +169,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nombre_editSuper"
                         android:layout_width="match_parent"
-                        android:layout_height="47dp"
+                        android:layout_height="52dp"
                         android:ems="10"
                         android:inputType="text"
                         tools:ignore="LabelFor" />

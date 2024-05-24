@@ -6,11 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
     <!--android:padding="8dp"-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+
         android:layout_height="120dp"
         android:id="@+id/recCard_item_listsuper_admin"
         app:cardElevation="3dp"
