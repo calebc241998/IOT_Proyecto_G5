@@ -44,7 +44,8 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
-        holder.rec_nombre.setText(dataList.get(position).getNombre());
+        holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
+
         holder.rec_status.setText(dataList.get(position).getEstado());
         holder.rec_numSites.setText("3 ");
 

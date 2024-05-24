@@ -4,23 +4,34 @@ public class DataListaUsuariosClass {
     private String nombreUsuario;
     private String correo;
     private String direccion;
+
+    private String telefono;
     private String dni;
     private String rol;
     private String estado;
     private int imagen;
 
     // Constructor con todos los campos
-    public DataListaUsuariosClass(String nombreUsuario, int imagen, String rol, String estado, String dni, String correo, String direccion) {
+    public DataListaUsuariosClass(String nombreUsuario, int imagen, String rol, String estado, String telefono, String dni, String correo, String direccion) {
         this.nombreUsuario = nombreUsuario;
         this.imagen = imagen;
         this.rol = rol;
         this.estado = estado;
+        this.telefono = telefono;
         this.dni = dni;
         this.correo = correo;
         this.direccion = direccion;
     }
-
     // Getters y Setters
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }

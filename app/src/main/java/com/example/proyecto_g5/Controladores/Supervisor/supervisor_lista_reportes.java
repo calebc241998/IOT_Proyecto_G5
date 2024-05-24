@@ -14,10 +14,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.MyAdapterListaReportes;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
 
 import java.util.ArrayList;

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -52,10 +53,13 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     admin_myAdapter_superLista adapter;
     SearchView searchView;
 
+    Button editButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_lista_supervisor);
+
 
 
         initializeDrawer();
@@ -242,7 +246,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     private void searchList(String text) {
         ArrayList<usuario> dataSearchList = new ArrayList<>();
         for (usuario data : dataList) {
-            if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase()) || data.getApellido().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }

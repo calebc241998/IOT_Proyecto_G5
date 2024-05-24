@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,15 +26,17 @@ public class admin_perfilSuper extends AppCompatActivity {
 
 
 
-    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido;
+    TextView perfil_superNombre, perfil_superNombreCompleto, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido;
     ImageView perfil_superImage;
 
     //-----FIREBASE--------
 
-    String key = "";
     String imageUrl = "";
 
     //---------------------
+
+    Button editButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
@@ -126,12 +129,15 @@ public class admin_perfilSuper extends AppCompatActivity {
 
         //página en si----------------
 
-        perfil_superNombre = findViewById(R.id.nombre_super_perfil_admin);
+        perfil_superNombre= findViewById(R.id.nombre_super_perfil_admin);
+        perfil_superApellido= findViewById(R.id.apellido_super_perfil_admin);
         perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
         perfil_superDNI = findViewById(R.id.DNI_super_perfil_admin);
         perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
         perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
         perfil_superImage = findViewById(R.id.perfil_super);
+
+        editButton = findViewById(R.id.button_editar_perfil_super);
 
 
 
@@ -139,9 +145,9 @@ public class admin_perfilSuper extends AppCompatActivity {
         if (bundle != null){
             //estos valores son mandados desde admin_myadapter
 
-            String nombre_per = bundle.getString("Nombre");
-            String apellido_per = bundle.getString("Apellido");
-            perfil_superNombre.setText(nombre_per+ " " + apellido_per);
+
+            perfil_superNombre.setText(bundle.getString("Nombre"));
+            perfil_superApellido.setText(bundle.getString("Apellido"));
             perfil_superCorreo.setText(bundle.getString("Correo"));
             perfil_superTelefono.setText(bundle.getString("Telefono"));
             perfil_superDireccion.setText(bundle.getString("Direccion"));
@@ -152,6 +158,21 @@ public class admin_perfilSuper extends AppCompatActivity {
 
 
         }
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
+                        .putExtra("Nombre", perfil_superNombre.getText().toString())
+                        .putExtra("Apellido", perfil_superApellido.getText().toString())
+                        .putExtra("Correo", perfil_superCorreo.getText().toString())
+                        .putExtra("DNI", perfil_superDNI.getText().toString())
+                        .putExtra("Image", imageUrl)
+                        .putExtra("Telefono", perfil_superTelefono.getText().toString())
+                        .putExtra("Direccion", perfil_superDireccion.getText().toString());
+                startActivity(intent);
+            }
+        });
 
     }
 

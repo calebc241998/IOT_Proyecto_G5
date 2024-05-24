@@ -1,4 +1,4 @@
-package com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.Controladores.Superadmin.superadmin_perfil_admin;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
 
 import java.util.List;
 
-public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyViewHolder> {
+public class MyAdapterListaUsuarios extends RecyclerView.Adapter<MyViewHolder_Usuarios> {
 
     private Context context;
     private List<DataListaUsuariosClass> dataList;
@@ -36,13 +37,13 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
 
     @NonNull
     @Override
-    public com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder_Usuarios onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.superadmin_item_lista_usuarios, parent, false);
-        return new com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyViewHolder(view);
+        return new MyViewHolder_Usuarios(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder_Usuarios holder, int position) {
         try {
             DataListaUsuariosClass item = dataList.get(position);
             holder.recImage.setImageResource(item.getImagen());
@@ -69,12 +70,12 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder{
+class MyViewHolder_Usuarios extends RecyclerView.ViewHolder{
     ImageView recImage;
     TextView rec_nombre, rec_status, rec_rol;
     CardView recCard;
 
-    public MyViewHolder(@NonNull View itemView){
+    public MyViewHolder_Usuarios(@NonNull View itemView){
         super(itemView);
 
         recImage = itemView.findViewById(R.id.image_itemUserList_superadmin);

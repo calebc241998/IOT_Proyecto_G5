@@ -1,4 +1,4 @@
-package com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML;
+package com.example.proyecto_g5.Controladores.Superadmin;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,10 +12,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.DataListaLogsClass;
 
 import java.util.List;
 
-public class MyAdapterListaLogs extends RecyclerView.Adapter<com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyViewHolder> {
+public class MyAdapterListaLogs extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
     private List<DataListaLogsClass> dataList;
@@ -32,14 +33,14 @@ public class MyAdapterListaLogs extends RecyclerView.Adapter<com.example.proyect
 
     @NonNull
     @Override
-    public com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.superadmin_item_lista_logs, parent, false);
-        return new com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
             DataListaLogsClass item = dataList.get(position);
             holder.rec_descripcion.setText(item.getDescripcion());

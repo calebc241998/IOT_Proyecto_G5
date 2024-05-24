@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.DataListaLogsClass;
-import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyAdapterListaLogs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +105,11 @@ public class superadmin_logs extends AppCompatActivity {
             dataList.add(androidData);
             androidData = new DataListaLogsClass("Maximo Perez ha creado un supervisor");
             dataList.add(androidData);
+            androidData = new DataListaLogsClass("Caleb Casapaico ha creado un supervisor");
+            dataList.add(androidData);
+            androidData = new DataListaLogsClass("Oscar Diaz ha creado un supervisor");
+            dataList.add(androidData);
+
 
             adapter.notifyDataSetChanged();
         } catch (Exception e) {

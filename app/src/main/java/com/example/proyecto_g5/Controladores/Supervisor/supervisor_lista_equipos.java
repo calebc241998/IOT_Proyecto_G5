@@ -14,28 +14,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
+
 import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.MyAdapterListaEquipos;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.proyecto_g5.dto.equipo;
+
 
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
     SupervisorListaEquiposBinding supervisorListaEquiposBinding;
     RecyclerView recyclerView;
-    List<DataListaEquiposClass> datalist;
+    List<equipo> datalist;
     MyAdapterListaEquipos adapter;
-    DataListaEquiposClass androidData;
+    equipo androidData;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -109,23 +109,19 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist = new ArrayList<>();
 
-        androidData = new DataListaEquiposClass("Archer C50", "#Router", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.router, R.drawable.baseline_remove_red_eye_24);
+
+        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
+        datalist.add(androidData);
+        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "mal");
+        datalist.add(androidData);
+        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
         datalist.add(androidData);
 
-        androidData = new DataListaEquiposClass("Maximus R50", "#Switch", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.switcha, R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
 
-        androidData = new DataListaEquiposClass("Rencoroso X45", "#Hub", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.hub, R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
 
-        androidData = new DataListaEquiposClass("Hipx U789", "#Router", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.router, R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
 
-        androidData = new DataListaEquiposClass("Transformer OP", "#Switch", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.switcha, R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
 
-        androidData = new DataListaEquiposClass("SnapDragon T895", "#Router", "Sin Reportes", R.drawable.baseline_check_circle_outline_24, R.drawable.hub, R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
+
 
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
@@ -149,18 +145,20 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     }
 
     @Override
-    public void onItemClick(DataListaEquiposClass item) {
+    public void onItemClick(equipo item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
         navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo);
     }
 
     private void searchList(String text) {
-        List<DataListaEquiposClass> dataSearchList = new ArrayList<>();
-        for (DataListaEquiposClass data : datalist) {
-            if (data.getNombreEquipo().toLowerCase().contains(text.toLowerCase())) {
+        List<equipo> dataSearchList = new ArrayList<>();
+        for (equipo data : datalist) {
+            if (data.getNombre_tipo().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }
         adapter.setSearchList(dataSearchList);
     }
+
+
 }
