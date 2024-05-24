@@ -110,7 +110,7 @@
                     android:id="@+id/perfil_super"
                     android:layout_width="158dp"
                     android:layout_height="158dp"
-                    android:padding="5dp"
+                    android:padding="15dp"
 
                     app:srcCompat="@drawable/circulo_blanco"
                     />
@@ -131,6 +131,7 @@
                             android:layout_height="51dp"
                             android:layout_gravity="center_vertical"
                             android:gravity="center"
+                            android:paddingLeft="5dp"
                             android:text="Mark"
                             android:textColor="@android:color/black"
                             android:textSize="25dp"
@@ -161,7 +162,7 @@
                         android:gravity="center"
                         android:text="mark.paredes@gmail.com"
                         android:textColor="#151385"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
 
@@ -180,7 +181,7 @@
                             android:paddingTop="5dp"
                             android:text="DNI:"
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/DNI_super_perfil_admin"
@@ -190,7 +191,7 @@
                             android:paddingTop="5dp"
                             android:text="74829109"
                             android:textColor="#000000"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -216,15 +217,15 @@
 
                         <TextView
                             android:id="@+id/titulo_telefono"
-                            android:layout_width="0dp"
+                            android:layout_width="56dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/bree_serif"
-                            android:paddingLeft="80dp"
+                            android:paddingLeft="70dp"
                             android:paddingTop="5dp"
                             android:text="Telefono:"
                             android:textColor="#151384"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -236,7 +237,7 @@
                             android:paddingTop="5dp"
                             android:text="74829109"
                             android:textColor="#000000"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -252,11 +253,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/bree_serif"
-                            android:paddingLeft="80dp"
+                            android:paddingLeft="70dp"
                             android:paddingTop="5dp"
                             android:text="Dirección:"
                             android:textColor="#151384"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -268,7 +269,7 @@
                             android:paddingTop="5dp"
                             android:text="Av. San Miguel"
                             android:textColor="#000000"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

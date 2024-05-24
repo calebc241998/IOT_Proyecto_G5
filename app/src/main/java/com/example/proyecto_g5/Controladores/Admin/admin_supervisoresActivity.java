@@ -246,7 +246,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     private void searchList(String text) {
         ArrayList<usuario> dataSearchList = new ArrayList<>();
         for (usuario data : dataList) {
-            if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase()) || data.getApellido().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }
