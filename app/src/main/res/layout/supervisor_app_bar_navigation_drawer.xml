@@ -18,16 +18,30 @@
             android:background="#54CCC5"
             app:popupTheme="@style/Theme.Proyecto_G5.PopupOverlay">
 
-            <!-- Agregar el botón de chat -->
-            <ImageView
-                android:id="@+id/imagenPrueba"
+            <!-- Usar LinearLayout para posicionar elementos -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_person_24" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <!-- Agregar el botón de chat -->
+                <ImageView
+                    android:id="@+id/imagenPrueba"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:padding="8dp"
+                    android:paddingEnd="25dp"
+                    app:srcCompat="@drawable/baseline_person_24" />
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
-
-
 
     </com.google.android.material.appbar.AppBarLayout>
 

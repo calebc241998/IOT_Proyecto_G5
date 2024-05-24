@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Controladores.Admin.admin_info_sitio;
@@ -44,7 +45,7 @@ public class SupervisorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Redirigir a la vista de chat
-                Intent intent = new Intent(SupervisorActivity.this, admin_info_sitio.class);
+                Intent intent = new Intent(SupervisorActivity.this, admin_perfil.class);
                 startActivity(intent);
             }
         });
@@ -86,11 +87,11 @@ public class SupervisorActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
