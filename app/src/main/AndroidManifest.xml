@@ -61,6 +61,7 @@
             android:theme="@style/Theme.Proyecto_G5.NoActionBar">
         </activity>
 
+
         <activity
             android:name=".Controladores.Superadmin.SuperadminActivity"
             android:exported="false"
