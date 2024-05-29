@@ -1,7 +1,7 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.equipo;
 
 import java.util.List;
-import com.bumptech.glide.Glide;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
-import com.example.proyecto_g5.dto.equipo;
 
 public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equipos> {
 
@@ -25,11 +25,11 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     private List<equipo> datalist;
     private OnItemClickListener listener;
 
-    //cambiar aca con los entities correctos (equipo)
     public interface OnItemClickListener {
         void onItemClick(equipo item);
     }
-    public void setSearchList(List<equipo> dataSearchList){
+
+    public void setSearchList(List<equipo> dataSearchList) {
         this.datalist = dataSearchList;
         notifyDataSetChanged();
     }
@@ -49,19 +49,27 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder_equipos holder, int position) {
+        equipo currentEquipo = datalist.get(position);
 
-        Glide.with(context).load(datalist.get(position).getImagen_equipo()).into(holder.recImagenEquipo);
-        Glide.with(context).load(datalist.get(position).getImagen_equipo()).into(holder.recImagenStatusEquipo);
-        holder.recNombre_tipo.setText(datalist.get(position).getNombre_tipo());
-        holder.recModelo.setText(datalist.get(position).getModelo());
-        holder.recDescripción.setText(datalist.get(position).getDescripcion());
+        Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenEquipo);
+        Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenStatusEquipo);
+        holder.recNombre_tipo.setText(currentEquipo.getNombre_tipo());
+        holder.recModelo.setText(currentEquipo.getModelo());
+        holder.recDescripción.setText(currentEquipo.getDescripcion());
 
-        //recycler onClick (al dar click se va a descripcion de equipo harcodeado)
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(datalist.get(position)));
+        holder.itemView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("Nombre", currentEquipo.getNombre_tipo());
+            bundle.putString("Modelo", currentEquipo.getModelo());
+            bundle.putString("Descripcion", currentEquipo.getDescripcion());
+            bundle.putString("Imagen_equipo", currentEquipo.getImagen_equipo());
+            bundle.putString("Imagen_status_equipo", currentEquipo.getImagen_status_equipo());
 
-        //no se relaicona todavia
+            Navigation.findNavController(v).navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
+        });
 
-
+        //LO Q HABIA ANTES
+        //Los Intents no funcionan pq se usa fragmentos y en cambio se usa Bundle
         /*holder.recCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,15 +96,15 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
 class MyViewHolder_equipos extends RecyclerView.ViewHolder {
     ImageView recImagenEquipo, recImagenStatusEquipo;
     TextView recSku, recNombre_tipo, recMarca, recModelo, recDescripción, recFecharegistro, recFechaedicion;
-
     CardView recCardView;
+
     public MyViewHolder_equipos(@NonNull View itemView) {
         super(itemView);
         recNombre_tipo = itemView.findViewById(R.id.recTipoEquipoSupervisor);
         recModelo = itemView.findViewById(R.id.recNombreEquipoSupervisor);
         recDescripción = itemView.findViewById(R.id.recStringStatusSupervisor);
         recImagenEquipo = itemView.findViewById(R.id.recFotoEquipoSupervisor);
-        recImagenStatusEquipo= itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
+        recImagenStatusEquipo = itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
         recCardView = itemView.findViewById(R.id.recCard_item_listsuper_equipos);
     }
 }

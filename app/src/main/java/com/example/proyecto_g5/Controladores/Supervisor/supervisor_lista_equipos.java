@@ -18,8 +18,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
-
-import com.example.proyecto_g5.Recycler.Supervisor.ListarEquiposXML.DataListaEquiposClass;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -27,7 +25,6 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.proyecto_g5.dto.equipo;
-
 
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
@@ -109,7 +106,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist = new ArrayList<>();
 
-
         androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
         datalist.add(androidData);
         androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "mal");
@@ -138,13 +134,9 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         return supervisorListaEquiposBinding.getRoot();
     }
 
-
-    //para el recycler
-    ////cambiar aca con los entities correctos (equipo)
     @Override
     public void onItemClick(equipo item) {
-        NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
-        navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo);
+        // Not used since the navigation is handled within the adapter
     }
 
     private void searchList(String text) {
@@ -156,6 +148,4 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         }
         adapter.setSearchList(dataSearchList);
     }
-
-
 }
