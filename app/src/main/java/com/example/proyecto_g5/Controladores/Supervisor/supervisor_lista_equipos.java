@@ -117,12 +117,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
         datalist.add(androidData);
 
-
-
-
-
-
-
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
 
@@ -144,6 +138,8 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         return supervisorListaEquiposBinding.getRoot();
     }
 
+
+    //para el recycler
     @Override
     public void onItemClick(equipo item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);

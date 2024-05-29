@@ -22,11 +22,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSuperActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.equipo;
-import com.example.proyecto_g5.dto.usuario;
-import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
-public class supervisor_crear_equipo extends AppCompatActivity {
+public class supervisor_crear_equipo2 extends AppCompatActivity {
 
     Button boton_guardar_equipo;
     EditText nombre_tipo, numerodeserie, marca, modelo,descripcion,fecharegistro, fechaedicion;
@@ -55,7 +52,7 @@ public class supervisor_crear_equipo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.supervisor_nuevo_equipo);
+        setContentView(R.layout.supervisor_nuevo_equipo2);
 
         nombre_tipo = findViewById(R.id.nombre_tipo);
         numerodeserie = findViewById(R.id.textFieldSerie);
@@ -77,7 +74,7 @@ public class supervisor_crear_equipo extends AppCompatActivity {
                             url_imagen = data.getData();
                             imagen_equipo.setImageURI(url_imagen);
                         }else {
-                            Toast.makeText(supervisor_crear_equipo.this, "No ha seleccionado imagen", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(supervisor_crear_equipo2.this, "No ha seleccionado imagen", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -107,7 +104,7 @@ public class supervisor_crear_equipo extends AppCompatActivity {
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("imagen_equipo").child(url_imagen.getLastPathSegment());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(supervisor_crear_equipo.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(supervisor_crear_equipo2.this);
         builder.setCancelable(false);
         builder.setView(R.layout.admin_progress_layout);
         AlertDialog dialog = builder.create();
@@ -147,14 +144,14 @@ public class supervisor_crear_equipo extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(supervisor_crear_equipo.this, "Equipo guardado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(supervisor_crear_equipo2.this, "Equipo guardado", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(supervisor_crear_equipo.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(supervisor_crear_equipo2.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
