@@ -25,9 +25,6 @@
         android:label=""
         tools:layout="@layout/supervisor_lista_equipos" >
         <action
-            android:id="@+id/action_supervisor_lista_equipos_to_supervisor_qr"
-            app:destination="@id/supervisor_qr" />
-        <action
             android:id="@+id/action_supervisor_lista_equipos_to_supervisor_descripcion_equipo"
             app:destination="@id/supervisor_descripcion_equipo" />
         <action
@@ -46,11 +43,6 @@
             android:id="@+id/action_supervisor_lista_reportes_to_supervisor_reporte_descripcion"
             app:destination="@id/supervisor_reporte_descripcion" />
     </fragment>
-    <fragment
-        android:id="@+id/supervisor_qr"
-        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_qr"
-        android:label=""
-        tools:layout="@layout/supervisor_qr" />
     <fragment
         android:id="@+id/supervisor_nuevo_reporte"
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_nuevo_reporte"
@@ -84,5 +76,20 @@
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_nuevo_equipo"
         android:label="supervisor_nuevo_equipo"
         tools:layout="@layout/supervisor_nuevo_equipo" />
+
+    <fragment
+        android:id="@+id/chat_inbox"
+        android:name="com.example.proyecto_g5.Chat_inbox"
+        android:label="chat_inbox"
+        tools:layout="@layout/chat_inbox" />
+    <fragment
+        android:id="@+id/fragment_chat_list"
+        android:name="com.example.proyecto_g5.fragment_chat_list"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_fragment_chat_list_to_chat_inbox"
+            app:destination="@id/chat_inbox" />
+    </fragment>
 
 </navigation>
