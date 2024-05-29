@@ -140,6 +140,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
 
     //para el recycler
+    ////cambiar aca con los entities correctos (equipo)
     @Override
     public void onItemClick(equipo item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);

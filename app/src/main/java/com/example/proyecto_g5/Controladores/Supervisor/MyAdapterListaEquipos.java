@@ -25,6 +25,7 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     private List<equipo> datalist;
     private OnItemClickListener listener;
 
+    //cambiar aca con los entities correctos (equipo)
     public interface OnItemClickListener {
         void onItemClick(equipo item);
     }
@@ -55,11 +56,13 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
         holder.recModelo.setText(datalist.get(position).getModelo());
         holder.recDescripción.setText(datalist.get(position).getDescripcion());
 
+        //recycler onClick (al dar click se va a descripcion de equipo harcodeado)
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(datalist.get(position)));
 
         //no se relaicona todavia
 
 
-        holder.recCardView.setOnClickListener(new View.OnClickListener() {
+        /*holder.recCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -73,7 +76,10 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
                 context.startActivity(intent);
 
             }
-        });
+        });*/
+
+        //recycler onClick (al dar click se va a descripcion de equipo harcodeado)
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(datalist.get(position)));
     }
 
     @Override
