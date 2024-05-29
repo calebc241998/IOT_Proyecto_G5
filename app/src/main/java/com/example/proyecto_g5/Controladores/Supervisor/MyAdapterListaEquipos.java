@@ -77,9 +77,6 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
 
             }
         });*/
-
-        //recycler onClick (al dar click se va a descripcion de equipo harcodeado)
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(datalist.get(position)));
     }
 
     @Override
