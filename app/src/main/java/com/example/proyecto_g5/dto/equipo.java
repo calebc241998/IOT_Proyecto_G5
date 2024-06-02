@@ -29,9 +29,9 @@ public class equipo{
         this.imagen_status_equipo = imagen_status_equipo;
     }
 
-    public equipo(String tipo, String serie, String marcaEquipo, String modeloEquipo, String descripcionEquipo, String registroFecha, String edicionFecha, String imagenEquipoUrl) {
+    /*public equipo(String tipo, String serie, String marcaEquipo, String modeloEquipo, String descripcionEquipo, String registroFecha, String edicionFecha, String imagenEquipoUrl) {
 
-    }
+    }*/
 
     public String getSku() {
         return sku;

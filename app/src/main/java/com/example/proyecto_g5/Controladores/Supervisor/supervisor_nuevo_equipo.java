@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,6 +47,7 @@ public class supervisor_nuevo_equipo extends Fragment {
     Uri url_imagen;
 
     String imagen_equipo_url;
+    FirebaseFirestore db;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,6 +94,32 @@ public class supervisor_nuevo_equipo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         supervisorNuevoEquipoBinding = SupervisorNuevoEquipoBinding.inflate(inflater, container, false);
 
+        db=FirebaseFirestore.getInstance();
+
+        supervisorNuevoEquipoBinding.botonGuardar.setOnClickListener(view -> {
+
+            String tipo = supervisorNuevoEquipoBinding.campoTipo.getText().toString();
+            String sku = supervisorNuevoEquipoBinding.campoSKU.getText().toString();
+            String serie = supervisorNuevoEquipoBinding.campoSerie.getText().toString();
+            String marca = supervisorNuevoEquipoBinding.campoMarca.getText().toString();
+            String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
+            String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
+            String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
+            String fecha_edicion = supervisorNuevoEquipoBinding.campoFechaEdicion.getText().toString();
+            equipo equipo=new equipo(sku,tipo,serie,marca,modelo,descripcion,fecha_registro,
+                    fecha_edicion,"a","a");
+
+
+            db.collection("equipos")
+                    .document(sku)
+                    .set(equipo)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(getContext(), "Usuario grabado", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
+                    });
+        });
         // Setup ActivityResultLauncher for image picking
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -122,19 +150,19 @@ public class supervisor_nuevo_equipo extends Fragment {
         });
 
         // Set OnClickListener for botonGuardar
-        supervisorNuevoEquipoBinding.botonGuardar.setOnClickListener(new View.OnClickListener() {
+        /*supervisorNuevoEquipoBinding.botonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveData();
             }
-        });
+        });*/
 
         // Inflate the layout for this fragment
         return supervisorNuevoEquipoBinding.getRoot();
     }
 
 
-    public void saveData(){
+    /*public void saveData(){
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("imagen_equipo").child(url_imagen.getLastPathSegment());
 
@@ -160,9 +188,9 @@ public class supervisor_nuevo_equipo extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 
-    public  void uploadData( ){
+    /*public  void uploadData( ){
         String tipo = supervisorNuevoEquipoBinding.campoTipo.toString();
         String serie = supervisorNuevoEquipoBinding.campoSKU.toString();
         String marca_equipo = supervisorNuevoEquipoBinding.campoMarca.toString();
@@ -191,7 +219,7 @@ public class supervisor_nuevo_equipo extends Fragment {
 
 
 
-    }
+    }*/
 
 
 }
