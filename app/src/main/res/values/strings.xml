@@ -5,6 +5,7 @@
     <string name="ok">Ok</string>
     <string name="rea_telecom">Área TELECOM</string>
     <string-array name="tipos_equipos">
+        <item>Seleccione el tipo de equipo</item>
         <item>Routers</item>
         <item>Switches</item>
         <item>Panel de energía</item>
