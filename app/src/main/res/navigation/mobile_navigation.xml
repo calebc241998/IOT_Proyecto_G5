@@ -75,7 +75,11 @@
         android:id="@+id/supervisor_nuevo_equipo"
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_nuevo_equipo"
         android:label="supervisor_nuevo_equipo"
-        tools:layout="@layout/supervisor_nuevo_equipo" />
+        tools:layout="@layout/supervisor_nuevo_equipo" >
+        <action
+            android:id="@+id/action_supervisor_nuevo_equipo_to_supervisor_lista_equipos"
+            app:destination="@id/supervisor_lista_equipos" />
+    </fragment>
 
     <fragment
         android:id="@+id/chat_inbox"

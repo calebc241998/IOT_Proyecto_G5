@@ -19,6 +19,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
@@ -76,6 +78,8 @@ public class supervisor_nuevo_equipo extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+        NavController navController = NavHostFragment.findNavController(supervisor_nuevo_equipo.this);
+
         supervisorNuevoEquipoBinding.botonGuardar.setOnClickListener(view -> {
             String tipo = supervisorNuevoEquipoBinding.campoTipo.getSelectedItem().toString();
             String sku = supervisorNuevoEquipoBinding.campoSKU.getText().toString();
@@ -114,6 +118,8 @@ public class supervisor_nuevo_equipo extends Fragment {
                     .set(equipo)
                     .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show());
+
+            navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos);
         });
 
         // Setup ActivityResultLauncher for image picking
