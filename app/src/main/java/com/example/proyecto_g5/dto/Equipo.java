@@ -2,7 +2,7 @@ package com.example.proyecto_g5.dto;
 
 import java.util.Date;
 
-public class equipo{
+public class Equipo {
     private String sku;
     private String nombre_tipo;
     private String numerodeserie;
@@ -16,7 +16,7 @@ public class equipo{
 
 
 
-    public equipo(String sku, String nombre_tipo, String numerodeserie, String marca, String modelo, String descripcion, String fecharegistro, String fechaedicion, String imagen_equipo, String imagen_status_equipo) {
+    public Equipo(String sku, String nombre_tipo, String numerodeserie, String marca, String modelo, String descripcion, String fecharegistro, String fechaedicion, String imagen_equipo, String imagen_status_equipo) {
         this.sku = sku;
         this.nombre_tipo = nombre_tipo;
         this.numerodeserie = numerodeserie;

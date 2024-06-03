@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
 import com.example.proyecto_g5.Controladores.Superadmin.SuperadminActivity;
 import com.example.proyecto_g5.Controladores.Supervisor.SupervisorActivity;
-import com.example.proyecto_g5.dto.usuario;
+import com.example.proyecto_g5.dto.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import android.text.method.PasswordTransformationMethod;
 
 public class inicio_sesion extends AppCompatActivity {
 
-    private List<usuario> usuarios;
+    private List<Usuario> Usuarios;
     private EditText correoEditText;
     private EditText contrasenaEditText;
     private Button iniciarSesionButton;
@@ -39,7 +39,7 @@ public class inicio_sesion extends AppCompatActivity {
         setContentView(R.layout.ingreso_cuenta);
 
         // Inicializar lista de usuarios
-        usuarios = new ArrayList<>();
+        Usuarios = new ArrayList<>();
         generarUsuarios();
 
         correoEditText = findViewById(R.id.editUsuario);
@@ -67,9 +67,9 @@ public class inicio_sesion extends AppCompatActivity {
 
 
     private void generarUsuarios() {
-        usuarios.add(new usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1", "xxxxx", "9999999"));
-        usuarios.add(new usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1","zzzzz", "9999999"));
-        usuarios.add(new usuario("William", "Espinoza", "34567890", "", "", "Av. Universitaria 1801", "supervisor", "1", "yyyyy", "9999999"));
+        Usuarios.add(new Usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1", "xxxxx", "9999999"));
+        Usuarios.add(new Usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1","zzzzz", "9999999"));
+        Usuarios.add(new Usuario("William", "Espinoza", "34567890", "", "", "Av. Universitaria 1801", "supervisor", "1", "yyyyy", "9999999"));
     }
 
     // Método para iniciar sesión
@@ -77,7 +77,7 @@ public class inicio_sesion extends AppCompatActivity {
         String correo = correoEditText.getText().toString();
         String contrasena = contrasenaEditText.getText().toString();
 
-        for (usuario usuario : usuarios) {
+        for (Usuario usuario : Usuarios) {
             if (usuario.getCorreo().equals(correo) && usuario.getContrasena().equals(contrasena)) {
                 // Inicio de sesión exitoso
                 redirigirSegunRol(usuario.getRol());
@@ -93,18 +93,18 @@ public class inicio_sesion extends AppCompatActivity {
         switch (rol) {
             case "superadmin":
                 intent = new Intent(this, SuperadminActivity.class);
-                intent.putExtra("nombre",usuarios.get(0).getNombre());
-                intent.putExtra("apellido",usuarios.get(0).getApellido());
+                intent.putExtra("nombre", Usuarios.get(0).getNombre());
+                intent.putExtra("apellido", Usuarios.get(0).getApellido());
                 break;
             case "admin":
                 intent = new Intent(this, AdminActivity.class);
-                intent.putExtra("nombre",usuarios.get(1).getNombre());
-                intent.putExtra("apellido",usuarios.get(1).getApellido());
+                intent.putExtra("nombre", Usuarios.get(1).getNombre());
+                intent.putExtra("apellido", Usuarios.get(1).getApellido());
                 break;
             case "supervisor":
                 intent = new Intent(this, SupervisorActivity.class);
-                intent.putExtra("nombre",usuarios.get(2).getNombre());
-                intent.putExtra("apellido",usuarios.get(2).getApellido());
+                intent.putExtra("nombre", Usuarios.get(2).getNombre());
+                intent.putExtra("apellido", Usuarios.get(2).getApellido());
                 break;
             default:
                 throw new IllegalArgumentException("Rol no válido: " + rol);

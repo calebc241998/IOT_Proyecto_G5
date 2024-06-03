@@ -14,21 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.usuario;
+import com.example.proyecto_g5.dto.Usuario;
 
 import java.util.List;
 
 public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
-    private List<usuario> dataList;
+    private List<Usuario> dataList;
 
-    public void setSearchList(List<usuario> dataSearchList){
+    public void setSearchList(List<Usuario> dataSearchList){
         this.dataList = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public admin_myAdapter_superLista(Context context, List<usuario> dataList){
+    public admin_myAdapter_superLista(Context context, List<Usuario> dataList){
         this.context = context;
         this.dataList = dataList;
     }

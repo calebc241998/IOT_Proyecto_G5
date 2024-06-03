@@ -24,15 +24,15 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.example.proyecto_g5.dto.equipo;
+import com.example.proyecto_g5.dto.Equipo;
 
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
     SupervisorListaEquiposBinding supervisorListaEquiposBinding;
     RecyclerView recyclerView;
-    List<equipo> datalist;
+    List<Equipo> datalist;
     MyAdapterListaEquipos adapter;
-    equipo androidData;
+    Equipo androidData;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -106,11 +106,11 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist = new ArrayList<>();
 
-        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
+        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
         datalist.add(androidData);
-        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "mal");
+        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "mal");
         datalist.add(androidData);
-        androidData = new equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
+        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
         datalist.add(androidData);
 
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
@@ -135,13 +135,13 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     }
 
     @Override
-    public void onItemClick(equipo item) {
+    public void onItemClick(Equipo item) {
         // Not used since the navigation is handled within the adapter
     }
 
     private void searchList(String text) {
-        List<equipo> dataSearchList = new ArrayList<>();
-        for (equipo data : datalist) {
+        List<Equipo> dataSearchList = new ArrayList<>();
+        for (Equipo data : datalist) {
             if (data.getNombre_tipo().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }

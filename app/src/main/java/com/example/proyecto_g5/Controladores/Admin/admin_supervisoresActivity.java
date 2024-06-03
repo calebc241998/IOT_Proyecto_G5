@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.usuario;
+import com.example.proyecto_g5.dto.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +42,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 // para FIREBASE----------------
-    List<usuario> dataList;
+    List<Usuario> dataList;
 
     DatabaseReference databaseReference;
 
@@ -95,7 +95,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
                 for (DataSnapshot itemSnapshot: snapshot.getChildren()){
-                    usuario usuario = itemSnapshot.getValue(com.example.proyecto_g5.dto.usuario.class);
+                    Usuario usuario = itemSnapshot.getValue(Usuario.class);
                     dataList.add(usuario);
 
                 }
@@ -244,8 +244,8 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        ArrayList<usuario> dataSearchList = new ArrayList<>();
-        for (usuario data : dataList) {
+        ArrayList<Usuario> dataSearchList = new ArrayList<>();
+        for (Usuario data : dataList) {
             if (data.getNombre().toLowerCase().contains(text.toLowerCase()) || data.getApellido().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }

@@ -1,8 +1,6 @@
 package com.example.proyecto_g5.dto;
 
-import java.io.Serializable;
-
-public class usuario{
+public class Usuario {
     private String nombre;
     private String apellido;
     private String dni;
@@ -17,7 +15,7 @@ public class usuario{
 
 
 
-    public usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono) {
+    public Usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -30,7 +28,7 @@ public class usuario{
         this.telefono = telefono;
     }
 
-    public usuario() {
+    public Usuario() {
         // Constructor vacío necesario para Firebase
     }
 

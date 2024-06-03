@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,16 +16,13 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
-import com.example.proyecto_g5.dto.equipo;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.proyecto_g5.dto.Equipo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -111,7 +107,7 @@ public class supervisor_nuevo_equipo extends Fragment {
 
 
 
-            equipo equipo = new equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
+            Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
 
             db.collection("equipos")
                     .document(sku)

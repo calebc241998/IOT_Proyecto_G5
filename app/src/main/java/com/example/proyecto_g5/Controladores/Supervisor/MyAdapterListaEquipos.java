@@ -15,26 +15,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.equipo;
+import com.example.proyecto_g5.dto.Equipo;
 
 import java.util.List;
 
 public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equipos> {
 
     private Context context;
-    private List<equipo> datalist;
+    private List<Equipo> datalist;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(equipo item);
+        void onItemClick(Equipo item);
     }
 
-    public void setSearchList(List<equipo> dataSearchList) {
+    public void setSearchList(List<Equipo> dataSearchList) {
         this.datalist = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public MyAdapterListaEquipos(Context context, List<equipo> datalist, OnItemClickListener listener) {
+    public MyAdapterListaEquipos(Context context, List<Equipo> datalist, OnItemClickListener listener) {
         this.context = context;
         this.datalist = datalist;
         this.listener = listener;
@@ -49,7 +49,7 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder_equipos holder, int position) {
-        equipo currentEquipo = datalist.get(position);
+        Equipo currentEquipo = datalist.get(position);
 
         Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenEquipo);
         Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenStatusEquipo);

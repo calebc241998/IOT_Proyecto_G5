@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -25,7 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.usuario;
+import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -261,7 +260,7 @@ public class admin_editarSuper extends AppCompatActivity {
         String dni = edit_dni.getText().toString();
 
 
-        usuario usuario = new usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", newimageUrl, telefono );
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", newimageUrl, telefono );
 
         databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

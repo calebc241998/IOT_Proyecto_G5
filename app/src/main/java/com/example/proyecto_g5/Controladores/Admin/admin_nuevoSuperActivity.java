@@ -34,7 +34,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.usuario;
+import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -259,7 +259,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         String key_dni = nuevo_dni.getText().toString();
 
 
-        usuario usuario = new usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
 
         FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
                 .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {

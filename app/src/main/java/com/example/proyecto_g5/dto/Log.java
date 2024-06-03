@@ -1,11 +1,11 @@
 package com.example.proyecto_g5.dto;
 
-public class log {
+public class Log {
 
     private String id;
     private String descripcion;
 
-    public log(String id, String descripcion) {
+    public Log(String id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
 
