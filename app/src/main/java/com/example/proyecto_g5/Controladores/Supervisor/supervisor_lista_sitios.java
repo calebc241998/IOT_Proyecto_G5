@@ -1,4 +1,6 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
+
+import android.util.Log;
 import android.widget.SearchView;
 
 import android.os.Bundle;
@@ -12,11 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +32,15 @@ import java.util.List;
  * Use the {@link supervisor_lista_sitios#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_lista_sitios extends Fragment implements MyAdapterListaSitios.OnItemClickListener{
+public class supervisor_lista_sitios extends Fragment implements MyAdapterListaSitios.OnItemClickListener {
 
     RecyclerView recyclerView;
     List<DataListaSitiosClass> datalist;
     MyAdapterListaSitios adapter;
     DataListaSitiosClass androidData;
     SupervisorListaSitiosBinding supervisorListaSitiosBinding;
+    FirebaseFirestore db;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,7 +89,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
 
         supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
 
-
+        db = FirebaseFirestore.getInstance();
         supervisorListaSitiosBinding.BuscarSitios.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,37 +103,57 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
             }
         });
 
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(getActivity(),1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
         recyclerView.setLayoutManager(gridLayoutManager);
-        datalist= new ArrayList<>();
+        datalist = new ArrayList<>();
 
-        androidData= new DataListaSitiosClass("Real Plaza","Lima", R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Real Plaza", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("PUCP","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("PUCP", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("U Lima","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("U Lima", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("Latina","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Latina", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("Machu Picchu","Cusco",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Machu Picchu", "Cusco", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("Area ","Arequipa",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Area ", "Arequipa", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("Area 2","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Area 2", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        androidData= new DataListaSitiosClass("Area 3","Lima",R.drawable.baseline_remove_red_eye_24);
+        androidData = new DataListaSitiosClass("Area 3", "Lima", R.drawable.baseline_remove_red_eye_24);
         datalist.add(androidData);
 
-        adapter= new MyAdapterListaSitios(getActivity(),datalist,this);
+        adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
+
+
+        /*db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                             Usuario usuario= document.toObject(UsuarioDto.class);
+                            Log.d("msg-test", "Nombre: " + usuario.getNombre());
+                            Log.d("msg-test", "Correo: " + usuario.getCorreo());
+                        }
+                    } else {
+                        Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    binding.btnListarUsuarios.setEnabled(true);
+                });*/
+
 
         return supervisorListaSitiosBinding.getRoot();
     }
@@ -135,6 +163,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
         navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
     }
+
     private void searchList(String text) {
         List<DataListaSitiosClass> dataSearchList = new ArrayList<>();
         for (DataListaSitiosClass data : datalist) {
