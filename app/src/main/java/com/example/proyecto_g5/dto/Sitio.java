@@ -2,7 +2,7 @@ package com.example.proyecto_g5.dto;
 
 import java.io.Serializable;
 
-public class Sitio implements Serializable{
+public class Sitio implements Serializable {
     private String nombre;
     private String codigo;
     private String departamento;
@@ -14,6 +14,11 @@ public class Sitio implements Serializable{
     private String tipodezona;
     private String tipodesitio;
 
+    // Constructor sin argumentos
+    public Sitio() {
+    }
+
+    // Constructor con argumentos
     public Sitio(String nombre, String codigo, String departamento, String provincia, String distrito, Long ubigeo, Long latitud, Long longitud, String tipodezona, String tipodesitio) {
         this.nombre = nombre;
         this.codigo = codigo;
@@ -27,6 +32,7 @@ public class Sitio implements Serializable{
         this.tipodesitio = tipodesitio;
     }
 
+    // Getters y setters
     public String getNombre() {
         return nombre;
     }

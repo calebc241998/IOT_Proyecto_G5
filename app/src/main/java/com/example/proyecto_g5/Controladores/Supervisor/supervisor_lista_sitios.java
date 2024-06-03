@@ -20,6 +20,8 @@ import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
+import com.example.proyecto_g5.dto.Sitio;
+import com.example.proyecto_g5.dto.Usuario;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,9 +37,9 @@ import java.util.List;
 public class supervisor_lista_sitios extends Fragment implements MyAdapterListaSitios.OnItemClickListener {
 
     RecyclerView recyclerView;
-    List<DataListaSitiosClass> datalist;
+    List<Sitio> datalist;
     MyAdapterListaSitios adapter;
-    DataListaSitiosClass androidData;
+    Sitio androidData;
     SupervisorListaSitiosBinding supervisorListaSitiosBinding;
     FirebaseFirestore db;
 
@@ -108,66 +110,63 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist = new ArrayList<>();
 
-        androidData = new DataListaSitiosClass("Real Plaza", "Lima", R.drawable.baseline_remove_red_eye_24);
+        androidData = new Sitio("Real Plaza",null, "Lima","Lima","San Miguel",null,null,null,null,null);
         datalist.add(androidData);
 
-        androidData = new DataListaSitiosClass("PUCP", "Lima", R.drawable.baseline_remove_red_eye_24);
+        androidData = new Sitio("Mall Plaza",null, "Lima","Lima","SJL",null,null,null,null,null);
         datalist.add(androidData);
 
-        androidData = new DataListaSitiosClass("U Lima", "Lima", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
-
-        androidData = new DataListaSitiosClass("Latina", "Lima", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
-
-        androidData = new DataListaSitiosClass("Machu Picchu", "Cusco", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
-
-        androidData = new DataListaSitiosClass("Area ", "Arequipa", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
-
-        androidData = new DataListaSitiosClass("Area 2", "Lima", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
-
-        androidData = new DataListaSitiosClass("Area 3", "Lima", R.drawable.baseline_remove_red_eye_24);
-        datalist.add(androidData);
 
         adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
 
 
-        /*db.collection("usuarios")
+        db.collection("usuarios")
+                .whereEqualTo("nombre", "William")  // Filtra por el nombre del usuario
                 .get()
                 .addOnCompleteListener(task -> {
-
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                             Usuario usuario= document.toObject(UsuarioDto.class);
-                            Log.d("msg-test", "Nombre: " + usuario.getNombre());
-                            Log.d("msg-test", "Correo: " + usuario.getCorreo());
+                            // Accede a la subcolección "sitios" del usuario "William"
+                            db.collection("usuarios")
+                                    .document(document.getId())
+                                    .collection("sitios")
+                                    .get()
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            for (QueryDocumentSnapshot sitioDoc : task1.getResult()) {
+                                                Sitio sitio = sitioDoc.toObject(Sitio.class);
+                                                Log.d("msg-test", "Sitio Nombre: " + sitio.getNombre());
+                                                Log.d("msg-test", "Sitio Lugar: " + sitio.getDistrito());
+                                            }
+                                        } else {
+                                            Log.d("msg-test", "Error al obtener sitios: ", task1.getException());
+                                        }
+                                    });
                         }
                     } else {
-                        Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
                     }
+                });
 
 
-                    binding.btnListarUsuarios.setEnabled(true);
-                });*/
+
+
 
 
         return supervisorListaSitiosBinding.getRoot();
     }
 
     @Override
-    public void onItemClick(DataListaSitiosClass item) {
+    public void onItemClick(Sitio item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
         navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
     }
 
     private void searchList(String text) {
-        List<DataListaSitiosClass> dataSearchList = new ArrayList<>();
-        for (DataListaSitiosClass data : datalist) {
-            if (data.getNombreSitio().toLowerCase().contains(text.toLowerCase())) {
+        List<Sitio> dataSearchList = new ArrayList<>();
+        for (Sitio data : datalist) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }
