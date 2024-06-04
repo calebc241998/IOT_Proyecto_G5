@@ -1,7 +1,6 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.util.Log;
-import android.widget.SearchView;
 
 import android.os.Bundle;
 
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 import com.example.proyecto_g5.dto.Sitio;
@@ -108,7 +106,11 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
                                                 Sitio sitio = sitioDoc.toObject(Sitio.class);
                                                 Log.d("msg-test", "Sitio Nombre: " + sitio.getNombre());
                                                 Log.d("msg-test", "Sitio Lugar: " + sitio.getDistrito());
+
+                                                // Agregar el sitio a la lista datalist
+                                                datalist.add(sitio);
                                             }
+                                            adapter.notifyDataSetChanged();
                                         } else {
                                             Log.d("msg-test", "Error al obtener sitios: ", task1.getException());
                                         }
