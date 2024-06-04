@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.DataListaSitiosClass;
+import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 import com.example.proyecto_g5.dto.Sitio;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,10 +27,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class supervisor_lista_sitios extends Fragment {
+public class supervisor_lista_sitios extends Fragment implements MyAdapterListaSitios.OnItemClickListener{
+
+    List<Sitio> datalist;
+    MyAdapterListaSitios adapter;
+    Sitio androidData;
 
     RecyclerView recyclerView;
     FirebaseFirestore db;
+    SupervisorListaSitiosBinding supervisorListaSitiosBinding;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -61,12 +68,25 @@ public class supervisor_lista_sitios extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SupervisorListaSitiosBinding supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
+        supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
         recyclerView.setLayoutManager(gridLayoutManager);
+        datalist = new ArrayList<>();
+
+        androidData = new Sitio("Real Plaza",null, "Lima","Lima","San Miguel",null,null,null,null,null);
+        datalist.add(androidData);
+
+        androidData = new Sitio("Mall Plaza",null, "Lima","Lima","SJL",null,null,null,null,null);
+        datalist.add(androidData);
+
+
+        adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
+        recyclerView.setAdapter(adapter);
+
+
 
         // Obtención de datos de Firestore
         db.collection("usuarios")
@@ -102,5 +122,21 @@ public class supervisor_lista_sitios extends Fragment {
 
 
         return supervisorListaSitiosBinding.getRoot();
+    }
+
+    @Override
+    public void onItemClick(Sitio item) {
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
+        navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
+    }
+
+    private void searchList(String text) {
+        List<Sitio> dataSearchList = new ArrayList<>();
+        for (Sitio data : datalist) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
+                dataSearchList.add(data);
+            }
+        }
+        adapter.setSearchList(dataSearchList);
     }
 }
