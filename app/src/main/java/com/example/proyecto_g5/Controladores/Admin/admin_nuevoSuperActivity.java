@@ -272,7 +272,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         String key_dni = nuevo_dni.getText().toString();
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "admin", "activo", imageUrl, telefono );
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
 
         if(currentUser != null){
             String uid = currentUser.getUid();

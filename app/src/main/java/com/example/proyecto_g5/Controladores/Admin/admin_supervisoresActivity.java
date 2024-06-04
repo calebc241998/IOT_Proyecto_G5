@@ -23,12 +23,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +50,12 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 // para FIREBASE----------------
+
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+
+    //----------
     List<Usuario> dataList;
 
     DatabaseReference databaseReference;
@@ -88,9 +102,37 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
         dialog.show();
 
-        //-------------
+        //------------------------------------- FIRESTORE
 
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("rol", "supervisor")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                dataList.add(usuario);
+                            }
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+
+                        } else {
+                            // Manejar la situación cuando la consulta falla
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        /*eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
@@ -107,7 +149,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        }); */
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
