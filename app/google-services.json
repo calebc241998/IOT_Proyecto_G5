@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "549753181877",
+    "firebase_url": "https://iot-g5-51ebf-default-rtdb.firebaseio.com",
     "project_id": "iot-g5-51ebf",
     "storage_bucket": "iot-g5-51ebf.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.proyecto_g5"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "549753181877-r2a6vdnbcnu38p1o9lv3oq2fmfdb7orf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto_g5",
+            "certificate_hash": "1143586bc6574a1c3ec6a66f6fa0825c0030ee70"
+          }
+        },
+        {
+          "client_id": "549753181877-6hagd08b5q4ktvoq89o9e2f226ask36d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBUGUVsXHjh0bW6stMy-Vdeqhfrt0ZxXMY"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549753181877-6hagd08b5q4ktvoq89o9e2f226ask36d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

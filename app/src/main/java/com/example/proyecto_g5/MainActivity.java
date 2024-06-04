@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnCalcular = findViewById(R.id.buttonIngresar);
         btnCalcular.setOnClickListener(view -> {
 
-            Intent intent = new Intent(MainActivity.this, inicio_sesion.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 

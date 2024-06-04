@@ -40,7 +40,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -49,6 +53,11 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
 
     //----UPLOAD -----
+
+    FirebaseFirestore db;
+    ListenerRegistration snapshotListener;
+    FirebaseUser currentUser;
+
 
     ImageView foto_perfil;
 
@@ -168,6 +177,10 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         // UPLOAD
 
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
         nuevo_nombre = findViewById(R.id.nombre_nuevoSuper);
         nuevo_apellido = findViewById(R.id.apellido_nuevoSuper);
         nuevo_dni = findViewById(R.id.DNI_nuevoSuper);
@@ -259,9 +272,28 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         String key_dni = nuevo_dni.getText().toString();
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "admin", "activo", imageUrl, telefono );
 
-        FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
+        if(currentUser != null){
+            String uid = currentUser.getUid();
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .add(usuario)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e ->{
+                        Toast.makeText(admin_nuevoSuperActivity.this, "Algo paso al guardar", Toast.LENGTH_SHORT).show();
+
+                    });
+        }else {
+            Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
+
+        }
+
+        /*FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
                 .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -275,7 +307,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(admin_nuevoSuperActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }); */
 
 
 
