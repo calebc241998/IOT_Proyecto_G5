@@ -15,6 +15,8 @@ import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 import com.example.proyecto_g5.dto.Sitio;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -64,36 +66,47 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-        recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
-        recyclerView.setLayoutManager(gridLayoutManager);
-        datalist = new ArrayList<>();
+        // Obtener el usuario actual
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
-        recyclerView.setAdapter(adapter);
+        if (user != null) {
+            // Obtener el ID del usuario autenticado
+            String userId = user.getUid();
+            Log.d("msg-test", user.getUid());
 
-        // Obtención de datos de Firestore
-        db.collection("usuarios_por_auth")
-                .document("VDwqr0wPUsfHO8RhjvLPxRgWt3W2")
-                .collection("usuarios")
-                .document("william")
-                .collection("sitios")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Sitio sitio = document.toObject(Sitio.class);
-                            datalist.add(sitio);
+
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
+            recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
+            recyclerView.setLayoutManager(gridLayoutManager);
+            datalist = new ArrayList<>();
+
+            adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
+            recyclerView.setAdapter(adapter);
+
+            // Obtención de datos de Firestore utilizando el ID del usuario
+            db.collection("usuarios_por_auth")
+                    .document(userId)  // Usar el ID del usuario autenticado
+                    .collection("usuarios")
+                    .document("william")  // Esto debería ser dinámico basado en el usuario autenticado
+                    .collection("sitios")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Sitio sitio = document.toObject(Sitio.class);
+                                datalist.add(sitio);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("msg-test", "Error al obtener sitios: ", task.getException());
+                            Toast.makeText(getContext(), "Error al obtener sitios", Toast.LENGTH_SHORT).show();
                         }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.d("msg-test", "Error al obtener sitios: ", task.getException());
-                        Toast.makeText(getContext(), "Error al obtener sitios", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        }
 
         return supervisorListaSitiosBinding.getRoot();
     }
+
 
     @Override
     public void onItemClick(Sitio item) {
