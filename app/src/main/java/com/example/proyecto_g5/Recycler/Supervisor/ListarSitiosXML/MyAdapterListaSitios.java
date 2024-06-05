@@ -10,25 +10,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Sitio;
 
 import java.util.List;
 
 public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
 
     private Context context;
-    private List<DataListaSitiosClass> datalist;
+    private List<Sitio> datalist;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(DataListaSitiosClass item);
+        void onItemClick(Sitio item);
     }
 
-    public void setSearchList(List<DataListaSitiosClass> dataSearchList){
+    public void setSearchList(List<Sitio> dataSearchList){
         this.datalist = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public MyAdapterListaSitios(Context context, List<DataListaSitiosClass> datalist, OnItemClickListener listener) {
+    public MyAdapterListaSitios(Context context, List<Sitio> datalist, OnItemClickListener listener) {
         this.context = context;
         this.datalist = datalist;
         this.listener = listener;
@@ -44,9 +45,9 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        DataListaSitiosClass item = datalist.get(position);
-        holder.recTextSitioRecycler.setText(item.getNombreSitio());
-        holder.recTextUbicacionRecycler.setText(item.getUbicacion());
+        Sitio item = datalist.get(position);
+        holder.recTextSitioRecycler.setText(item.getNombre());
+        holder.recTextUbicacionRecycler.setText(item.getDistrito());
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }

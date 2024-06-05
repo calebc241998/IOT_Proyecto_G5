@@ -77,45 +77,45 @@ public class supervisor_nuevo_equipo extends Fragment {
         NavController navController = NavHostFragment.findNavController(supervisor_nuevo_equipo.this);
 
         supervisorNuevoEquipoBinding.botonGuardar.setOnClickListener(view -> {
-            String tipo = supervisorNuevoEquipoBinding.campoTipo.getSelectedItem().toString();
-            String sku = supervisorNuevoEquipoBinding.campoSKU.getText().toString();
-            String serie = supervisorNuevoEquipoBinding.campoSerie.getText().toString();
-            String marca = supervisorNuevoEquipoBinding.campoMarca.getText().toString();
-            String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
-            String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
+            if (validarCampos()) {
+                String tipo = supervisorNuevoEquipoBinding.campoTipo.getSelectedItem().toString();
+                String sku = supervisorNuevoEquipoBinding.campoSKU.getText().toString();
+                String serie = supervisorNuevoEquipoBinding.campoSerie.getText().toString();
+                String marca = supervisorNuevoEquipoBinding.campoMarca.getText().toString();
+                String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
+                String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
 
-            // Get current date and time with local timezone
-            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-            calendar.add(Calendar.HOUR_OF_DAY, -5); // Restar 5 horas
+                // Get current date and time with local timezone
+                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                calendar.add(Calendar.HOUR_OF_DAY, -5); // Restar 5 horas
 
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH) + 1; // Months are indexed from 0
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1; // Months are indexed from 0
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
 
-            // Format date and time
-            String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
+                // Format date and time
+                String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
 
-            // Get or set date and time for registro and edicion
-            String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
-            if (fecha_registro.isEmpty()) {
-                fecha_registro = dateTime;
-            } else {
-                fecha_registro += " " + hour + ":" + String.format("%02d", minute);
+                // Get or set date and time for registro and edicion
+                String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
+                if (fecha_registro.isEmpty()) {
+                    fecha_registro = dateTime;
+                } else {
+                    fecha_registro += " " + hour + ":" + String.format("%02d", minute);
+                }
+
+                Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
+
+                db.collection("equipos")
+                        .document(sku)
+                        .set(equipo)
+                        .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show());
+
+                navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos);
             }
-
-
-
-            Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
-
-            db.collection("equipos")
-                    .document(sku)
-                    .set(equipo)
-                    .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show());
-
-            navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos);
         });
 
         // Setup ActivityResultLauncher for image picking
@@ -164,4 +164,63 @@ public class supervisor_nuevo_equipo extends Fragment {
 
         datePickerDialog.show();
     }
+
+    private boolean validarCampos() {
+        String tipo = supervisorNuevoEquipoBinding.campoTipo.getSelectedItem().toString();
+        String sku = supervisorNuevoEquipoBinding.campoSKU.getText().toString();
+        String serie = supervisorNuevoEquipoBinding.campoSerie.getText().toString();
+        String marca = supervisorNuevoEquipoBinding.campoMarca.getText().toString();
+        String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
+        String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
+        String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
+
+        boolean valid = true;
+
+        if (tipo.equals("Seleccione el tipo de equipo")) {
+            supervisorNuevoEquipoBinding.errorTipo.setVisibility(View.VISIBLE);
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.errorTipo.setVisibility(View.GONE);
+        }
+        if (sku.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoSKU.setError("Ingrese el SKU");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoSKU.setError(null);
+        }
+        if (serie.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoSerie.setError("Ingrese el número de serie");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoSerie.setError(null);
+        }
+        if (marca.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoMarca.setError("Ingrese la marca");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoMarca.setError(null);
+        }
+        if (modelo.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoModelo.setError("Ingrese el modelo");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoModelo.setError(null);
+        }
+        if (descripcion.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoDescripcion.setError("Ingrese la descripción");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoDescripcion.setError(null);
+        }
+        if (fecha_registro.isEmpty()) {
+            supervisorNuevoEquipoBinding.campoFechaRegistro.setError("Ingrese la fecha de registro");
+            valid = false;
+        } else {
+            supervisorNuevoEquipoBinding.campoFechaRegistro.setError(null);
+        }
+
+        return valid;
+    }
+
+
 }

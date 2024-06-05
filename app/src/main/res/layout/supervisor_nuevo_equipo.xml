@@ -27,6 +27,16 @@
                 android:layout_height="50dp"
                 android:entries="@array/tipos_equipos" />
 
+            <TextView
+                android:id="@+id/errorTipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seleccione un tipo de equipo válido"
+                android:textColor="@android:color/holo_red_dark"
+                android:visibility="gone"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textFieldSKU"
                 android:layout_width="match_parent"
