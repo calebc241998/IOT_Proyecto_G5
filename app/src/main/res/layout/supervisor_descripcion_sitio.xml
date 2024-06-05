@@ -27,7 +27,7 @@
             android:textAlignment="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/ACScodigo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
@@ -146,7 +146,6 @@
             android:textAlignment="center">
 
             <TextView
-                android:id="@+id/ACSubigeo"
                 android:layout_width="125dp"
                 android:layout_height="47dp"
                 android:layout_weight="1"
