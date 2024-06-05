@@ -21,7 +21,11 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Sitio item);
+        void onItemClick(Sitio sitio);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public void setSearchList(List<Sitio> dataSearchList){
@@ -49,8 +53,16 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
         holder.recTextSitioRecycler.setText(item.getNombre());
         holder.recTextUbicacionRecycler.setText(item.getDistrito());
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(item);
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount(){

@@ -104,6 +104,18 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
                     });
         }
 
+        adapter.setOnItemClickListener(new MyAdapterListaSitios.OnItemClickListener() {
+            @Override
+            public void onItemClick(Sitio sitio) {
+                // Aquí navegas a supervisor_descripcion_sitio y pasas los datos del sitio
+                NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("sitio", sitio);
+                navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio, bundle);
+            }
+        });
+
+
         return supervisorListaSitiosBinding.getRoot();
     }
 

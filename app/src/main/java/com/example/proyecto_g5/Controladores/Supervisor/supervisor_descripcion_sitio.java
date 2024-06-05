@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionSitioBinding;
+import com.example.proyecto_g5.dto.Sitio;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,10 +68,24 @@ public class supervisor_descripcion_sitio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         supervisorDescripcionSitioBinding = SupervisorDescripcionSitioBinding.inflate(inflater, container, false);
+
+        // Obtener los datos del sitio de los argumentos
+        Sitio sitio = (Sitio) getArguments().getSerializable("sitio");
+
+        // Mostrar la información en los TextView correspondientes
+        supervisorDescripcionSitioBinding.ACScodigo.setText(sitio.getCodigo());
+        supervisorDescripcionSitioBinding.ACSdepartamento.setText(sitio.getDepartamento());
+        supervisorDescripcionSitioBinding.ACSprovincia.setText(sitio.getProvincia());
+        supervisorDescripcionSitioBinding.ACSdistrito.setText(sitio.getDistrito());
+        supervisorDescripcionSitioBinding.ACSubigeo.setText(String.valueOf(sitio.getUbigeo()));
+        supervisorDescripcionSitioBinding.ACStipoZona.setText(sitio.getTipodezona());
+        supervisorDescripcionSitioBinding.ACStipoSitio.setText(sitio.getTipodesitio());
+
         NavController navController = NavHostFragment.findNavController(supervisor_descripcion_sitio.this);
         supervisorDescripcionSitioBinding.VerListaEquipos.setOnClickListener(view -> {
             navController.navigate(R.id.action_supervisor_descripcion_sitio_to_supervisor_lista_equipos);
         });
         return supervisorDescripcionSitioBinding.getRoot();
     }
+
 }
