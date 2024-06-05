@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/registerRedirectText"
-        android:layout_width="176dp"
-        android:layout_height="31dp"
+        android:layout_width="252dp"
+        android:layout_height="29dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="56dp"
         android:text="¿Aún no tienes una cuenta? Regístrate"
@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -47,16 +47,17 @@
         android:layout_height="57dp"
         android:layout_marginStart="27dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="41dp"
         android:text="Bienvenido"
         android:textAlignment="center"
         android:textColor="#100F0F"
         android:textSize="30sp"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLab"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.359"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -93,64 +94,88 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutUsuario"
-        android:layout_width="264dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="74dp"
-        android:layout_marginBottom="30dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutContrasena"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutContrasena"
-        android:layout_width="264dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="73dp"
-        android:layout_marginEnd="74dp"
-        android:layout_marginBottom="27dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsuario"
-        tools:ignore="MissingConstraints">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            tools:ignore="LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <CheckBox
         android:id="@+id/checkBoxMostrarContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="290dp"
         android:layout_marginTop="350dp"
         android:text="Mostrar contraseña"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.501" />
+
+    <LinearLayout
+        android:layout_width="412dp"
+        android:layout_height="244dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.632">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutUsuario"
+            android:layout_width="264dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="74dp"
+            android:layout_marginEnd="74dp"
+            android:ems="10"
+            android:hint="Usuario"
+            android:inputType="text"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutIDteam"
+            android:layout_width="264dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="74dp"
+            android:layout_marginEnd="74dp"
+            android:ems="10"
+            android:hint="ID Team"
+            android:inputType="text"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginIDTeam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutContrasena"
+            android:layout_width="264dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="74dp"
+            android:layout_marginEnd="74dp"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="text"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.proyecto_g5.LoginActivity;
+import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
 
@@ -112,7 +114,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(AdminActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(AdminActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
