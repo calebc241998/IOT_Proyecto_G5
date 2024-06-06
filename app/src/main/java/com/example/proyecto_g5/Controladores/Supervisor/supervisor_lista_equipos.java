@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,18 +97,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
         supervisorListaEquiposBinding = SupervisorListaEquiposBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
-        supervisorListaEquiposBinding.BuscarEquipos.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchList(newText);
-                return false;
-            }
-        });
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView = supervisorListaEquiposBinding.recyvlerViewEquiposSupervisor;
@@ -121,9 +110,17 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             getDataFromFirestore();
         }
 
-        NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
-        supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
-            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_nuevo_equipo);
+        supervisorListaEquiposBinding.BuscarEquipos.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return false;
+            }
         });
 
         supervisorListaEquiposBinding.qrBoton.setOnClickListener(view -> {
@@ -135,6 +132,11 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             integrator.setBarcodeImageEnabled(true);
             qrScannerLauncher.launch(integrator.createScanIntent());
         });
+
+        /*NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
+        supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
+            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_nuevo_equipo);
+        });*/
 
         return supervisorListaEquiposBinding.getRoot();
     }
@@ -197,7 +199,10 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
     @Override
     public void onItemClick(Equipo item) {
-        // Not used since the navigation is handled within the adapter
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("equipo", item);
+        navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
     }
 
     private void searchList(String text) {

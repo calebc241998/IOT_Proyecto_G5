@@ -346,7 +346,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/ACSfoto"
+                    android:id="@+id/ACSfechaEdicion"
                     android:layout_width="125dp"
                     android:layout_height="47dp"
                     android:layout_weight="1"
