@@ -47,46 +47,43 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        try {
-            Usuario item = dataList.get(position);
-            holder.rec_nombre.setText(item.getNombre());
-            holder.rec_status.setText(item.getEstado());
-            holder.rec_rol.setText(item.getRol());
 
-            // Change the color and image based on status
-            if ("Activo".equalsIgnoreCase(item.getEstado())) {
-                holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark));
-                holder.statusImageView.setImageResource(R.drawable.baseline_check_circle_outline_24);
-            } else {
-                holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
-                holder.statusImageView.setImageResource(R.drawable.baseline_error_24);
-            }
+        Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
+        holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
+        holder.rec_rol.setText(dataList.get(position).getRol());
+        holder.rec_status.setText(dataList.get(position).getEstado());
 
-            Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
-            holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
-
-            holder.rec_status.setText(dataList.get(position).getEstado());
-
-            holder.recCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(context, admin_perfilSuper.class);
-                    intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getImagen());
-                    intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
-                    intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
-                    intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
-                    intent.putExtra("Correo", dataList.get(holder.getAdapterPosition()).getCorreo());
-                    intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
-                    intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());
-                    intent.putExtra("DNI", dataList.get(holder.getAdapterPosition()).getDni());
-                    context.startActivity(intent);
-
-                }
-            });
-        } catch (Exception e) {
-            Log.e("AdapterError", "Error at position " + position + ": " + e.getMessage());
+        // Change the color and image based on status
+        if ("Activo".equalsIgnoreCase(dataList.get(position).getEstado())){
+            holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark));
+            holder.statusImageView.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        } else {
+            holder.rec_status.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
+            holder.statusImageView.setImageResource(R.drawable.baseline_error_24);
         }
+
+        holder.recCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //manda estos valores a perfil supervisor
+
+                Intent intent = new Intent(context, admin_perfilSuper.class);
+                intent.putExtra("uid", dataList.get(holder.getAdapterPosition()).getUid());
+                //intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
+                //intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
+                //intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
+                intent.putExtra("Correo", dataList.get(holder.getAdapterPosition()).getCorreo());
+                intent.putExtra("Correo_temp", dataList.get(holder.getAdapterPosition()).getCorreo_temp());
+                //intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
+                //intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());
+                //intent.putExtra("DNI", dataList.get(holder.getAdapterPosition()).getDni());
+                context.startActivity(intent);
+
+            }
+        });
+
+
     }
 
     @Override

@@ -79,6 +79,12 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.superadmin_lista_usuarios);
 
+        String correo_usuario = getIntent().getStringExtra("correo");
+
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
         initializeDrawer();
@@ -109,14 +115,11 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
 
         //------------------------------------- FIRESTORE
 
-        db = FirebaseFirestore.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
 
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("rol", "supervisor")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -137,24 +140,6 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
                     }
                 });
 
-        /*eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataList.clear();
-                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
-                    Usuario usuario = itemSnapshot.getValue(Usuario.class);
-                    dataList.add(usuario);
-
-                }
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        }); */
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
@@ -172,23 +157,12 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
             }
         });
 
-        //---------------------------
-
-        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
-        addSuperButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Define la nueva Activity que quieres abrir
-                Intent intent = new Intent(superadmin_lista_usuarios.this, superadmin_nuevo_admin.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
-                startActivity(intent);
-            }
-        });
 
     }
 
     private void initializeDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
+        menu = findViewById(R.id.menu_nav_superadmin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
         //--para ir al perfil
 
@@ -198,7 +172,7 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent  = new Intent(superadmin_lista_usuarios.this, admin_perfil.class);
+                Intent intent  = new Intent(superadmin_lista_usuarios.this, superadmin_perfil.class);
                 startActivity(intent);
             }
         });
@@ -261,21 +235,6 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
         }
     }
 
-    /*private void addTestData() {
-        try {
-            admin_DataClass androidData = new admin_DataClass("Juan Perez", R.drawable.avatar, "Activo", "5");
-            dataList.add(androidData);
-            androidData = new admin_DataClass("Liliana", R.drawable.avatar_mujer1, "No Activo", "2");
-            dataList.add(androidData);
-            androidData = new admin_DataClass("Maximo Perez", R.drawable.avatar, "Activo", "1");
-            dataList.add(androidData);
-
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("TestDataError", "Error adding test data", e);
-        }
-    } */
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);

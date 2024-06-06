@@ -205,8 +205,6 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
 
         });
 
-
-
     }
 
     public void saveData(){
