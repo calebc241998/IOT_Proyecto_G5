@@ -14,7 +14,9 @@ public class Equipo {
     private String imagen_equipo;
     private String imagen_status_equipo;
 
-
+    public Equipo() {
+        // Constructor vacío
+    }
 
     public Equipo(String sku, String nombre_tipo, String numerodeserie, String marca, String modelo, String descripcion, String fecharegistro, String fechaedicion, String imagen_equipo, String imagen_status_equipo) {
         this.sku = sku;
@@ -45,7 +47,7 @@ public class Equipo {
         return numerodeserie;
     }
 
-    public void setNumerodeserie(Long numerodeserie) {
+    public void setNumerodeserie(String numerodeserie) {
         this.numerodeserie = String.valueOf(numerodeserie);
     }
 
@@ -77,7 +79,7 @@ public class Equipo {
         return fecharegistro;
     }
 
-    public void setFecharegistro(Date fecharegistro) {
+    public void setFecharegistro(String fecharegistro) {
         this.fecharegistro = String.valueOf(fecharegistro);
     }
 
@@ -85,7 +87,7 @@ public class Equipo {
         return fechaedicion;
     }
 
-    public void setFechaedicion(Date fechaedicion) {
+    public void setFechaedicion(String fechaedicion) {
         this.fechaedicion = String.valueOf(fechaedicion);
     }
     public String getNombre_tipo() {

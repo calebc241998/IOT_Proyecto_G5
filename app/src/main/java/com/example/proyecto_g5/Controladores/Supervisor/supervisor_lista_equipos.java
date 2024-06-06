@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,17 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
+import com.example.proyecto_g5.dto.Sitio;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.example.proyecto_g5.dto.Equipo;
 
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
@@ -33,6 +40,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     List<Equipo> datalist;
     MyAdapterListaEquipos adapter;
     Equipo androidData;
+    FirebaseFirestore db;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -106,15 +114,64 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         recyclerView.setLayoutManager(gridLayoutManager);
         datalist = new ArrayList<>();
 
-        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
-        datalist.add(androidData);
-        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "mal");
-        datalist.add(androidData);
-        androidData = new Equipo("Archer C50", "#Router", "Sin Reportes", "Cisco", "Meraki", "Estaba ahi", "10/02/2023", "10/08/2024", "imagen.com", "ok");
-        datalist.add(androidData);
-
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String userId = user.getUid();
+
+            // Obtención del código enviado desde supervisor_descripcion_sitio
+            String codigoSitio = getArguments().getString("ACScodigo");
+
+            // Consulta Firestore usando el código del sitio para encontrar el documento
+            db.collection("usuarios_por_auth")
+                    .document(userId)
+                    .collection("usuarios")
+                    .document("william")
+                    .collection("sitios")
+                    .whereEqualTo("codigo", codigoSitio)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                // Aquí obtienes el ID del documento que coincide con el código del sitio
+                                String sitioId = document.getId();
+
+                                // Luego, puedes consultar la colección "equipos" dentro de este documento
+                                db.collection("usuarios_por_auth")
+                                        .document(userId)
+                                        .collection("usuarios")
+                                        .document("william")
+                                        .collection("sitios")
+                                        .document(sitioId)
+                                        .collection("equipos")
+                                        .get()
+                                        .addOnCompleteListener(equiposTask -> {
+                                            if (equiposTask.isSuccessful()) {
+                                                for (DocumentSnapshot equipoDoc : equiposTask.getResult()) {
+                                                    Equipo equipo = equipoDoc.toObject(Equipo.class);
+                                                    datalist.add(equipo);
+
+                                                    // Agregar un mensaje de registro (log) para verificar si se está listando correctamente
+                                                    Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
+                                                }
+                                                adapter.notifyDataSetChanged();
+                                            } else {
+                                                Log.d("msg-test", "Error al obtener equipos: ", equiposTask.getException());
+                                                Toast.makeText(getContext(), "Error al obtener equipos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d("msg-test", "Error al obtener sitio: ", task.getException());
+                            Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
 
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
         supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
