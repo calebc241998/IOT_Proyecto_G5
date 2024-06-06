@@ -137,18 +137,7 @@
                             android:textSize="25dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/apellido_super_perfil_admin"
-                            android:layout_width="match_parent"
-                            android:layout_height="51dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="Paredes"
-                            android:paddingLeft="10dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="25dp"
-                            android:textStyle="bold" />
+
                     </LinearLayout>
 
 

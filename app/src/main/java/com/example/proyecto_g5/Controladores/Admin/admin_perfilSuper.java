@@ -8,14 +8,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class admin_perfilSuper extends AppCompatActivity {
 
@@ -32,6 +42,11 @@ public class admin_perfilSuper extends AppCompatActivity {
     //-----FIREBASE--------
 
     String imageUrl = "";
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+
+    //----------
 
     //---------------------
 
@@ -42,6 +57,15 @@ public class admin_perfilSuper extends AppCompatActivity {
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
         setContentView(R.layout.admin_perfil_supervisor_2);
+
+
+        String correo_usuario = getIntent().getStringExtra("Correo_temp");
+        String correo = getIntent().getStringExtra("Correo"); //a editar
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
 
 
         //Drawer------------------------------------------
@@ -62,9 +86,10 @@ public class admin_perfilSuper extends AppCompatActivity {
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent  = new Intent(admin_perfilSuper.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
+
             }
         });
 
@@ -81,7 +106,10 @@ public class admin_perfilSuper extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, AdminActivity.class);
+
+                Intent intent  = new Intent(admin_perfilSuper.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -117,7 +145,7 @@ public class admin_perfilSuper extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_perfilSuper.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_perfilSuper.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -130,7 +158,6 @@ public class admin_perfilSuper extends AppCompatActivity {
         //página en si----------------
 
         perfil_superNombre= findViewById(R.id.nombre_super_perfil_admin);
-        perfil_superApellido= findViewById(R.id.apellido_super_perfil_admin);
         perfil_superCorreo = findViewById(R.id.correo_sup_perfil_admin);
         perfil_superDNI = findViewById(R.id.DNI_super_perfil_admin);
         perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
@@ -146,16 +173,39 @@ public class admin_perfilSuper extends AppCompatActivity {
             //estos valores son mandados desde admin_myadapter
 
 
-            perfil_superNombre.setText(bundle.getString("Nombre"));
-            perfil_superApellido.setText(bundle.getString("Apellido"));
-            perfil_superCorreo.setText(bundle.getString("Correo"));
-            perfil_superTelefono.setText(bundle.getString("Telefono"));
-            perfil_superDireccion.setText(bundle.getString("Direccion"));
-            perfil_superDNI.setText(bundle.getString("DNI"));
-            imageUrl = bundle.getString("Image");
 
-            Glide.with(this).load(bundle.getString("Image")).into(perfil_superImage);
 
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                String nombre = document.getString("nombre");
+                                String apellido = document.getString("apellido");
+
+
+                                perfil_superNombre.setText(nombre + apellido);
+                                perfil_superCorreo.setText(correo_usuario);
+                                perfil_superTelefono.setText(document.getString("telefono"));
+                                perfil_superDireccion.setText(document.getString("direccion"));
+                                perfil_superDNI.setText(document.getString("dni"));
+
+                                Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).into(perfil_superImage);
+
+
+
+
+                            } else {
+                                Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
         }
 
@@ -163,13 +213,14 @@ public class admin_perfilSuper extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
-                        .putExtra("Nombre", perfil_superNombre.getText().toString())
-                        .putExtra("Apellido", perfil_superApellido.getText().toString())
-                        .putExtra("Correo", perfil_superCorreo.getText().toString())
-                        .putExtra("DNI", perfil_superDNI.getText().toString())
-                        .putExtra("Image", imageUrl)
-                        .putExtra("Telefono", perfil_superTelefono.getText().toString())
-                        .putExtra("Direccion", perfil_superDireccion.getText().toString());
+                       // .putExtra("Nombre", perfil_superNombre.getText().toString())
+                       // .putExtra("Apellido", perfil_superApellido.getText().toString())
+                        .putExtra("Correo", correo)
+                        .putExtra("Correo_temp", correo_usuario)
+                        //.putExtra("DNI", perfil_superDNI.getText().toString())
+                        //.putExtra("Image", imageUrl)
+                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
+                        .putExtra("Uid", uid);
                 startActivity(intent);
             }
         });

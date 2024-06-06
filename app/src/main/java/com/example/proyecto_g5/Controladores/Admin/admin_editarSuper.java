@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
@@ -30,8 +32,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -41,6 +50,11 @@ import java.util.Objects;
 public class admin_editarSuper extends AppCompatActivity {
 //----UPLOAD -----
 
+    FirebaseFirestore db;
+    ListenerRegistration snapshotListener;
+    FirebaseUser currentUser;
+
+
     ImageView foto_perfil;
 
     Button boton_guardar_editSuper;
@@ -49,7 +63,7 @@ public class admin_editarSuper extends AppCompatActivity {
 
     EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
 
-    String newimageUrl, edit_estado, oldImageUrl, key_dni;
+    String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit;
 
     Uri uri;
 
@@ -72,6 +86,14 @@ public class admin_editarSuper extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_editar_supervisor);
 
+        //-----------NOTIFICACIONES---------------
+
+        //crearCanalesNot();
+
+
+
+        //----------------------------------------
+
         //DRAWER------------------------------------
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -83,6 +105,13 @@ public class admin_editarSuper extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
+        // correo para hallar el usuario (admin)
+        Bundle bundle = getIntent().getExtras();
+        String correo_usuario = bundle.getString("Correo_temp");
+
+        correo_edit = bundle.getString("Correo");
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //--para ir al perfil
 
@@ -93,6 +122,7 @@ public class admin_editarSuper extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent  = new Intent(admin_editarSuper.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });
@@ -107,11 +137,11 @@ public class admin_editarSuper extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarSuper.this, AdminActivity.class);
+                Intent intent = new Intent(admin_editarSuper.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
-
-
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +153,9 @@ public class admin_editarSuper extends AppCompatActivity {
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarSuper.this, admin_supervisoresActivity.class);
+                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
@@ -143,7 +175,7 @@ public class admin_editarSuper extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_editarSuper.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_editarSuper.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -153,6 +185,9 @@ public class admin_editarSuper extends AppCompatActivity {
         //-----------------------------------
 
         // UPLOAD
+
+
+
 
         edit_nombre = findViewById(R.id.nombre_editSuper);
         edit_apellido = findViewById(R.id.apellido_editSuper);
@@ -182,25 +217,53 @@ public class admin_editarSuper extends AppCompatActivity {
                 }
         );
 
-        Bundle bundle = getIntent().getExtras();
+
 
 
         if(bundle != null){
 
-            Glide.with(this).load(bundle.getString("Image")).into(foto_perfil);
+            //busqueda en base de datos....
 
-            edit_nombre.setText(bundle.getString("Nombre"));
-            edit_apellido.setText(bundle.getString("Apellido"));
-            edit_correo.setText(bundle.getString("Correo"));
-            edit_telefono.setText(bundle.getString("Telefono"));
-            edit_direccion.setText(bundle.getString("Direccion"));
-            edit_dni.setText(bundle.getString("DNI"));
-            key_dni = bundle.getString("DNI");
-            oldImageUrl = bundle.getString("Image");
+            uid = bundle.getString("Uid");
+
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo_edit)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                edit_nombre.setText(document.getString("nombre"));
+                                edit_apellido.setText(document.getString("apellido"));
+                                edit_correo.setText(document.getString("correo"));
+                                edit_telefono.setText(document.getString("telefono"));
+                                edit_dni.setText(document.getString("dni"));
+                                edit_direccion.setText(document.getString("direccion"));
+                                correo_temp = document.getString("correo_temp");
+                                pass_superad = document.getString("pass_superad");
+                                correo_superad = document.getString("correo_superad");
+                                contrasena = document.getString("contrasena");
+                                estado = document.getString("estado");
+
+
+                                Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+
+                                oldImageUrl = document.getString("imagen");
+
+                            } else {
+                                Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
+        //databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
 
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +278,9 @@ public class admin_editarSuper extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveData();
-                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class);
+                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class)
+                .putExtra("correo", correo_usuario)
+                .putExtra("uid", uid);
                 startActivity(intent);
 
             }
@@ -260,9 +325,40 @@ public class admin_editarSuper extends AppCompatActivity {
         String dni = edit_dni.getText().toString();
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", newimageUrl, telefono );
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp);
 
-        databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("correo", correo)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().set(usuario)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("Update", "Usuario actualizado con éxito");
+                                        // Elimina la imagen antigua solo si la actualización fue exitosa
+                                        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                                        reference.delete().addOnSuccessListener(aVoid1 -> {
+                                            Toast.makeText(admin_editarSuper.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }).addOnFailureListener(e -> Toast.makeText(admin_editarSuper.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
+                                    })
+                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                        }
+                        if (task.getResult().isEmpty()) {
+                            Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                        }
+                    } else {
+                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
+                    }
+                });
+
+
+
+
+        /*databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
@@ -277,7 +373,7 @@ public class admin_editarSuper extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(admin_editarSuper.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }); */
 
 
 

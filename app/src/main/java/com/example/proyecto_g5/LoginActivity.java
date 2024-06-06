@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseAuth auth = FirebaseAuth.getInstance();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+
                         // Intentar autenticar con correo y contraseña
                         auth.signInWithEmailAndPassword(email, pass)
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        iniciarSesionExitosa();
+                                        String pass_super = pass;
+                                        iniciarSesionExitosa(pass_super);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -121,9 +125,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-        private void iniciarSesionExitosa() {
+        private void iniciarSesionExitosa(String pass_superad) {
             Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, SuperadminActivity.class));
+
+            Intent intent;
+            intent = new Intent(LoginActivity.this, SuperadminActivity.class);
+            intent.putExtra("pass_superad", pass_superad);
+            startActivity(intent);
             finish();
         }
 
@@ -143,22 +151,47 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful() && !task.getResult().isEmpty()) {
                                 DocumentSnapshot document = task.getResult().getDocuments().get(0);
                                 String role = document.getString("rol");
-                                iniciarSesionSegunRol(role);
+                                String pass_superad = document.getString("pass_superad");
+                                String correo_superad = document.getString("correo_superad");
+
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+                                // Intentar autenticar con correo y contraseña
+                                auth.signInWithEmailAndPassword(correo_superad, pass_superad)
+                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                iniciarSesionSegunRol(role, email);
+                                            }
+                                        });
+
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
         }
 
-        private void iniciarSesionSegunRol(String role) {
+        private void iniciarSesionSegunRol(String role, String email) {
+            Intent intent;
             if (role.equals("admin")) {
-                startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                intent = new Intent(LoginActivity.this, AdminActivity.class);
             } else if (role.equals("supervisor")) {
-                startActivity(new Intent(LoginActivity.this, SupervisorActivity.class));
+                intent = new Intent(LoginActivity.this, SupervisorActivity.class);
             } else {
                 Toast.makeText(LoginActivity.this, "Rol no reconocido", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+
+
+            intent.putExtra("correo", email);
+
+            startActivity(intent);
             finish();
         }
 

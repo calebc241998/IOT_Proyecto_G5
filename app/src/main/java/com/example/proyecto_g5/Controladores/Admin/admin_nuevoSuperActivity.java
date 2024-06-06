@@ -33,6 +33,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
@@ -65,7 +66,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     String canal1 = "importanteDefault";
 
-    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo;
+    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo, nuevo_pass_superad;
 
     String imageUrl;
 
@@ -108,6 +109,12 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
+        // correo para hallar el usuario (admin)
+
+        String correo_usuario = getIntent().getStringExtra("correo");
+
+
 
         //--para ir al perfil
 
@@ -166,7 +173,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_nuevoSuperActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(admin_nuevoSuperActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -188,6 +195,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_correo = findViewById(R.id.correo_nuevoSuper);
         nuevo_telefono = findViewById(R.id.telefono_nuevoSuper);
         foto_perfil = findViewById(R.id.subir_foto_super);
+        nuevo_pass_superad = findViewById(R.id.pass_superad_nuevoSuper);
         boton_guardar_nuevoSuper = findViewById(R.id.botno_guardar);
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -270,12 +278,15 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         String dni = nuevo_dni.getText().toString();
 
         String key_dni = nuevo_dni.getText().toString();
+        String uid = currentUser.getUid();
+        String correo_superad = currentUser.getEmail();
+        String pass_superad = nuevo_pass_superad.getText().toString();
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, "123456", direccion, "supervisor", "activo", imageUrl, telefono );
+
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass_superad, direccion, "supervisor1", "activo", imageUrl, telefono ,uid, correo_superad, pass_superad, "1");
 
         if(currentUser != null){
-            String uid = currentUser.getUid();
 
             db.collection("usuarios_por_auth")
                     .document(uid)

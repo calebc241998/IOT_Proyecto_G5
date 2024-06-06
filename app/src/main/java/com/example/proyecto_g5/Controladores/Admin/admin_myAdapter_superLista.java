@@ -49,22 +49,25 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
         holder.rec_status.setText(dataList.get(position).getEstado());
         holder.rec_numSites.setText("3 ");
 
-        //no se relaicona todavia
+        //aqui le asigna los valores que aparecen en el recycle view
 
 
         holder.recCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //manda estos valores a perfil supervisor
+
                 Intent intent = new Intent(context, admin_perfilSuper.class);
-                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getImagen());
-                intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
-                intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
-                intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
+                intent.putExtra("uid", dataList.get(holder.getAdapterPosition()).getUid());
+                //intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
+                //intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
+                //intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
                 intent.putExtra("Correo", dataList.get(holder.getAdapterPosition()).getCorreo());
-                intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
-                intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());
-                intent.putExtra("DNI", dataList.get(holder.getAdapterPosition()).getDni());
+                intent.putExtra("Correo_temp", dataList.get(holder.getAdapterPosition()).getCorreo_temp());
+                //intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
+                //intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());
+                //intent.putExtra("DNI", dataList.get(holder.getAdapterPosition()).getDni());
                 context.startActivity(intent);
 
             }

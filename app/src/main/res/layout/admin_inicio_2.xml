@@ -23,15 +23,34 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textViewBienvenido"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/AdminBienvenida"
+                android:layout_width="400dp"
+                android:layout_height="65dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
-                android:text="¡Bienvenido Administrador Armando Paredes!"
+                android:text=" Administrador "
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textSize="35sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.052"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textViewBienvenido"
+                android:layout_width="401dp"
+                android:layout_height="99dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textSize="30sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +156,7 @@
                         app:layout_constraintVertical_bias="0.384" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/num_sup_act"
                         android:layout_width="25dp"
                         android:layout_height="24dp"
                         android:text="10"
@@ -187,7 +206,7 @@
                         android:layout_height="38dp"
                         android:layout_margin="8dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/person_off_fill0_wght400_grad0_opsz24"
+                        android:src="@drawable/baseline_person_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.039"
@@ -202,7 +221,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:text="Supervisores Desactivados"
+                        android:text="Supervisores Totales"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -213,7 +232,7 @@
                         app:layout_constraintVertical_bias="0.324" />
 
                     <TextView
-                        android:id="@+id/numero_sup_desac"
+                        android:id="@+id/numero_sup_totales"
                         android:layout_width="25dp"
                         android:layout_height="24dp"
                         android:text="12"

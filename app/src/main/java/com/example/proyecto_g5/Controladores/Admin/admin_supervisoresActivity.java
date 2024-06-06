@@ -21,11 +21,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,6 +45,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class admin_supervisoresActivity extends AppCompatActivity {
 
@@ -74,6 +80,26 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_lista_supervisor);
 
+        // correo para hallar el usuario (admin)
+
+        String correo_usuario = getIntent().getStringExtra("correo");
+
+
+
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+
+
+
+
+
+
+
+
 
 
         initializeDrawer();
@@ -104,14 +130,13 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
         //------------------------------------- FIRESTORE
 
-        db = FirebaseFirestore.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         String uid = currentUser.getUid();
 
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("rol", "supervisor")
+                .whereEqualTo("rol", "supervisor1")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -123,6 +148,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                                 dataList.add(usuario);
                             }
                             adapter.notifyDataSetChanged();
+
                             dialog.dismiss();
 
                         } else {

@@ -72,7 +72,7 @@
                     app:layout_constraintHorizontal_bias="0.172"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.509"
+                    app:layout_constraintVertical_bias="0.709"
                     app:srcCompat="@drawable/circulo_blanco" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     app:layout_constraintHorizontal_bias="0.262"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.964" />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <Button
                     android:id="@+id/botno_guardar"
@@ -129,155 +129,187 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.1" />
 
-            <LinearLayout
-                android:layout_width="278dp"
-                android:layout_height="371dp"
-                android:orientation="horizontal"
+            <ScrollView
+                android:layout_width="300dp"
+                android:layout_height="350dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintHorizontal_bias="0.54"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.348">
+                app:layout_constraintVertical_bias="0.369">
 
                 <LinearLayout
-                    android:layout_width="301dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:textAlignment="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Nombre"
-                        android:inputType="text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
+                        android:layout_height="371dp"
+                        android:orientation="horizontal">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/nombre_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="text"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <LinearLayout
+                            android:layout_width="301dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:textAlignment="center">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_lastname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Apellido"
-                        android:inputType="text"
-                        android:paddingTop="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nombre"
+                                android:inputType="text"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/apellido_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="text"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/nombre_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="text"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_lastname"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Apellido"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_DNI"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="DNI"
-                        android:inputType="text"
-                        android:paddingTop="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/DNI_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="number"
-                            android:maxLength="8"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Correo"
-                        android:inputType="text"
-                        android:paddingTop="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/correo_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="text"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Teléfono"
-                        android:inputType="text"
-                        android:paddingTop="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/telefono_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="number"
-                            android:maxLength="9"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/apellido_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="text"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutSuper_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Dirección"
-                        android:inputType="text"
-                        android:paddingTop="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_DNI"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="DNI"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/direccion_nuevoSuper"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:ems="10"
-                            android:inputType="text"
-                            tools:ignore="LabelFor" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/DNI_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="number"
+                                    android:maxLength="8"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- <LinearLayout
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Correo"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/correo_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="text"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Teléfono"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/telefono_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="number"
+                                    android:maxLength="9"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Dirección"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/direccion_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="text"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayoutSuper_pass_superad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Contraseña"
+                                android:inputType="text"
+                                android:paddingTop="2dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView"
+                                tools:ignore="MissingConstraints">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/pass_superad_nuevoSuper"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="52dp"
+                                    android:ems="10"
+                                    android:inputType="text"
+                                    tools:ignore="LabelFor" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                        </LinearLayout>
+
+                        <!-- <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -325,7 +357,9 @@
 
                 </LinearLayout> -->
 
-            </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

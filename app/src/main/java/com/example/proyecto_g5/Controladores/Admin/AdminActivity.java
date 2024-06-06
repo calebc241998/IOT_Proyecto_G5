@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
@@ -23,6 +26,17 @@ import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -31,9 +45,17 @@ public class AdminActivity extends AppCompatActivity {
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
-    private TextView textViewBienvenido;
+    private TextView super_total, super_activado, total_sitios, textBienvenida;
 
     String canal1 = "importanteDefault";
+
+    // para FIREBASE----------------
+
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+
+    //----------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +63,6 @@ public class AdminActivity extends AppCompatActivity {
         //setContentView(R.layout.admin_inicio);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_inicio_2);
-
-
-
-
-
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
@@ -56,6 +73,11 @@ public class AdminActivity extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
+        // correo para hallar el usuario (admin)
+
+        String correo_usuario = getIntent().getStringExtra("correo");
+
+
         //--para ir al perfil
 
         perfil = findViewById(R.id.boton_perfil);
@@ -65,6 +87,8 @@ public class AdminActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent  = new Intent(AdminActivity.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
+
                 startActivity(intent);
             }
         });
@@ -86,14 +110,20 @@ public class AdminActivity extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_sitiosActivity.class);
+
+                Intent intent = new Intent(AdminActivity.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_supervisoresActivity.class);
+
+                Intent intent = new Intent(AdminActivity.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
@@ -120,6 +150,106 @@ public class AdminActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+        //------------------------------------- FIRESTORE
+
+        db = FirebaseFirestore.getInstance();
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+        super_total = findViewById(R.id.numero_sup_totales);
+        super_activado = findViewById(R.id.num_sup_act);
+        textBienvenida = findViewById(R.id.textViewBienvenido);
+
+        //-Actualizacion db---------------------------------------
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("rol", "supervisor1")
+                .whereEqualTo("estado", "activo")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Aquí actualizas cada documento individualmente
+                            document.getReference().update("correo_temp", correo_usuario)
+                                    .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                        }
+                    } else {
+                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
+                    }
+                });
+
+
+
+
+        //-----------------------------------
+
+
+            //Mensaje Bienvenida ---------------------------
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("correo", correo_usuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String nombre = document.getString("nombre");
+                            String apellido = document.getString("apellido");
+                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
+                        } else {
+                            Toast.makeText(AdminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+        // Variables para contar------------------------------
+        //int[] countSupervisors = new int[1];
+        //int[] countActiveSupervisors = new int[1];
+
+
+
+            // Contar supervisores----------------------------
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("rol", "supervisor1")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int countSupervisors = task.getResult().size();
+                        // Envía el valor a un TextView o cualquier otro componente del layout
+                        super_total.setText(String.valueOf(countSupervisors));
+                    } else {
+                        Log.d("Error", "Error al obtener supervisores: ", task.getException());
+                    }
+                });
+
+             // Contar supervisores activos-----------------------------
+        db.collection("usuarios_por_auth")
+                .document(uid).collection("usuarios")
+                .whereEqualTo("rol", "supervisor1")
+                .whereEqualTo("estado", "activo")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int countActiveSupervisors = task.getResult().size();
+                        // Envía el valor a un TextView o cualquier otro componente del layout
+                        super_activado.setText( String.valueOf(countActiveSupervisors));
+                    } else {
+                        Log.d("Error", "Error al obtener supervisores activos: ", task.getException());
+                    }
+                });
+
 
 
 

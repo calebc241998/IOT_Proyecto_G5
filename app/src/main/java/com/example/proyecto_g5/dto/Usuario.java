@@ -1,5 +1,7 @@
 package com.example.proyecto_g5.dto;
 
+import java.security.PrivateKey;
+
 public class Usuario {
     private String nombre;
     private String apellido;
@@ -13,9 +15,49 @@ public class Usuario {
 
     private String telefono;
 
+    private String correo_superad;
+
+    private String pass_superad;
+
+    private  String correo_temp;
+
+    public String getCorreo_temp() {
+        return correo_temp;
+    }
+
+    public void setCorreo_temp(String correo_temp) {
+        this.correo_temp = correo_temp;
+    }
+
+    public String getCorreo_superad() {
+        return correo_superad;
+    }
+
+    public void setCorreo_superad(String correo_superad) {
+        this.correo_superad = correo_superad;
+    }
+
+    public String getPass_superad() {
+        return pass_superad;
+    }
+
+    public void setPass_superad(String pass_superad) {
+        this.pass_superad = pass_superad;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    private String uid;
 
 
-    public Usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono) {
+
+    public Usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono, String uid, String correo_superad, String pass_superad, String correo_temp) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -23,9 +65,13 @@ public class Usuario {
         this.contrasena = contrasena;
         this.direccion = direccion;
         this.rol = rol;
+        this.uid = uid;
         this.estado = estado;
         this.imagen = imagen;
         this.telefono = telefono;
+        this.correo_superad = correo_superad;
+        this.pass_superad = pass_superad;
+        this.correo_temp = correo_temp;
     }
 
     public Usuario() {
