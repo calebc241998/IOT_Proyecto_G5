@@ -81,8 +81,8 @@ public class supervisor_descripcion_sitio extends Fragment {
         supervisorDescripcionSitioBinding.ACStipoZona.setText(sitio.getTipodezona());
         supervisorDescripcionSitioBinding.ACStipoSitio.setText(sitio.getTipodesitio());
 
+        NavController navController = NavHostFragment.findNavController(supervisor_descripcion_sitio.this);
         supervisorDescripcionSitioBinding.VerListaEquipos.setOnClickListener(v -> {
-            NavController navController = NavHostFragment.findNavController(this);
             Bundle bundle = new Bundle();
             bundle.putString("ACScodigo", sitio.getCodigo());
             navController.navigate(R.id.action_supervisor_descripcion_sitio_to_supervisor_lista_equipos, bundle);

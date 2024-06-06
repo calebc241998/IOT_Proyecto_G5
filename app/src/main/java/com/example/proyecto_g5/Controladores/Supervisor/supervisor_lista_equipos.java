@@ -38,6 +38,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     List<Equipo> datalist;
     MyAdapterListaEquipos adapter;
     FirebaseFirestore db;
+    String codigoDeSitio;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -109,6 +110,12 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             getDataFromFirestore();
         }
 
+        NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
+        supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("ACScodigo", codigoDeSitio);
+            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_nuevo_equipo, bundle);
+        });
         supervisorListaEquiposBinding.BuscarEquipos.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -138,9 +145,11 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     private void getDataFromFirestore() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //de nuevo equipo a lista no envia codigoAS, cambiarluego eso
         if (user != null) {
             String userId = user.getUid();
             String codigoSitio = getArguments().getString("ACScodigo");
+            setCodigoDeSitio(codigoSitio);
 
             db.collection("usuarios_por_auth")
                     .document(userId)
@@ -192,16 +201,26 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
         Bundle bundle = new Bundle();
         bundle.putSerializable("equipo", item);
+        bundle.putString("ACScodigo", getCodigoDeSitio());
+        System.out.println("ESTAS USANDO: " + getCodigoDeSitio());
         navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
     }
 
     private void searchList(String text) {
         List<Equipo> dataSearchList = new ArrayList<>();
         for (Equipo data : datalist) {
-            if (data.getNombre_tipo().toLowerCase().contains(text.toLowerCase())) {
+            if (data.getNumerodeserie().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }
         adapter.setSearchList(dataSearchList);
+    }
+
+    public String getCodigoDeSitio() {
+        return codigoDeSitio;
+    }
+
+    public void setCodigoDeSitio(String codigoDeSitio) {
+        this.codigoDeSitio = codigoDeSitio;
     }
 }

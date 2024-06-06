@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
 import com.example.proyecto_g5.dto.Equipo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -44,6 +48,7 @@ public class supervisor_nuevo_equipo extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private String codigoDeSitio;
 
     public supervisor_nuevo_equipo() {
         // Required empty public constructor
@@ -64,6 +69,7 @@ public class supervisor_nuevo_equipo extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            codigoDeSitio = getArguments().getString("ACScodigo");
         }
     }
 
@@ -108,13 +114,51 @@ public class supervisor_nuevo_equipo extends Fragment {
 
                 Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
 
-                db.collection("equipos")
-                        .document(sku)
-                        .set(equipo)
-                        .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show());
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = user.getUid();
 
-                navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos);
+                // CORRECCIÓN: Aquí utilizamos la variable 'codigoDeSitio' en lugar de 'codigoSitio'
+                db.collection("usuarios_por_auth")
+                        .document(userId)
+                        .collection("usuarios")
+                        .document("william")
+                        .collection("sitios")
+                        .whereEqualTo("codigo", codigoDeSitio)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    String sitioId = document.getId();
+
+                                    // Ahora que hemos filtrado los sitios por el código, podemos agregar el equipo al sitio específico
+                                    db.collection("usuarios_por_auth")
+                                            .document(userId)
+                                            .collection("usuarios")
+                                            .document("william")
+                                            .collection("sitios")
+                                            .document(sitioId)
+                                            .collection("equipos")
+                                            .add(equipo)
+                                            .addOnSuccessListener(documentReference -> {
+                                                Log.d("TAG", "Equipo agregado con ID: " + documentReference.getId());
+                                                Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
+
+                                                // Aquí puedes realizar cualquier acción adicional después de agregar el equipo
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.w("TAG", "Error al agregar equipo", e);
+                                                Toast.makeText(getContext(), "Error al guardar equipo", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            } else {
+                                Log.d("msg-test", "Error al obtener sitio: ", task.getException());
+                                Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                Bundle bundle = new Bundle();
+                bundle.putString("ACScodigo", codigoDeSitio);
+                navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos, bundle);
             }
         });
 
@@ -221,6 +265,4 @@ public class supervisor_nuevo_equipo extends Fragment {
 
         return valid;
     }
-
-
 }
