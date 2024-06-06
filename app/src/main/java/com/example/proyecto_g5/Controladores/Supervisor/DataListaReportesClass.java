@@ -1,4 +1,4 @@
-package com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 public class DataListaReportesClass {
 

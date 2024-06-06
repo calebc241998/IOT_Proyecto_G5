@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
 
 import java.util.List;
 

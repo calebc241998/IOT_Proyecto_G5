@@ -1,4 +1,4 @@
-package com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML;
+package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Context;
 import android.view.LayoutInflater;
