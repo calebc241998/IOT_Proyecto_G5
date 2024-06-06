@@ -9,25 +9,29 @@ public class Sitio implements Serializable {
     private String provincia;
     private String distrito;
     private Long ubigeo;
-    private Long latitud;
-    private Long longitud;
+    private Double latitud;
+    private Double longitud;
     private String tipodezona;
     private String tipodesitio;
+    private String referencia;
+
 
     // Constructor sin argumentos
     public Sitio() {
     }
 
     // Constructor con argumentos
-    public Sitio(String nombre, String codigo, String departamento, String provincia, String distrito, Long ubigeo, Long latitud, Long longitud, String tipodezona, String tipodesitio) {
+
+    public Sitio(String nombre, String codigo, String departamento, String provincia, String distrito, String referencia, Long ubigeo, Double longitud, Double latitud, String tipodezona, String tipodesitio) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.departamento = departamento;
         this.provincia = provincia;
+        this.referencia = referencia;
         this.distrito = distrito;
         this.ubigeo = ubigeo;
-        this.latitud = latitud;
         this.longitud = longitud;
+        this.latitud = latitud;
         this.tipodezona = tipodezona;
         this.tipodesitio = tipodesitio;
     }
@@ -81,19 +85,19 @@ public class Sitio implements Serializable {
         this.ubigeo = ubigeo;
     }
 
-    public Long getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Long latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public Long getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Long longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
@@ -111,5 +115,13 @@ public class Sitio implements Serializable {
 
     public void setTipodesitio(String tipodesitio) {
         this.tipodesitio = tipodesitio;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
     }
 }
