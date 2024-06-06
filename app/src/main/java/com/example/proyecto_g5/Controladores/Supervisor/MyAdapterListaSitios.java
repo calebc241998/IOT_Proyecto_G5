@@ -14,7 +14,7 @@ import com.example.proyecto_g5.dto.Sitio;
 
 import java.util.List;
 
-public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
+public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder_sitios> {
 
     private Context context;
     private List<Sitio> datalist;
@@ -42,13 +42,13 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder_sitios onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_sitios_recycler_item, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder_sitios(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder_sitios holder, int position) {
         Sitio item = datalist.get(position);
         holder.recTextSitioRecycler.setText(item.getNombre());
         holder.recTextUbicacionRecycler.setText(item.getDistrito());
@@ -70,10 +70,10 @@ public class MyAdapterListaSitios extends RecyclerView.Adapter<MyViewHolder> {
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder {
+class MyViewHolder_sitios extends RecyclerView.ViewHolder {
     TextView recTextSitioRecycler, recTextUbicacionRecycler;
 
-    public MyViewHolder(@NonNull View itemView) {
+    public MyViewHolder_sitios(@NonNull View itemView) {
         super(itemView);
         recTextSitioRecycler = itemView.findViewById(R.id.recTextSitioRecycler);
         recTextUbicacionRecycler = itemView.findViewById(R.id.recTextUbicacionRecycler);
