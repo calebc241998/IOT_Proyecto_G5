@@ -95,7 +95,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                              Bundle savedInstanceState) {
 
         supervisorListaEquiposBinding = SupervisorListaEquiposBinding.inflate(inflater, container, false);
-
+        db = FirebaseFirestore.getInstance();
         supervisorListaEquiposBinding.BuscarEquipos.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -117,61 +117,9 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
 
-        db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user != null) {
-            String userId = user.getUid();
-
-            // Obtención del código enviado desde supervisor_descripcion_sitio
-            String codigoSitio = getArguments().getString("ACScodigo");
-
-            // Consulta Firestore usando el código del sitio para encontrar el documento
-            db.collection("usuarios_por_auth")
-                    .document(userId)
-                    .collection("usuarios")
-                    .document("william")
-                    .collection("sitios")
-                    .whereEqualTo("codigo", codigoSitio)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                // Aquí obtienes el ID del documento que coincide con el código del sitio
-                                String sitioId = document.getId();
-
-                                // Luego, puedes consultar la colección "equipos" dentro de este documento
-                                db.collection("usuarios_por_auth")
-                                        .document(userId)
-                                        .collection("usuarios")
-                                        .document("william")
-                                        .collection("sitios")
-                                        .document(sitioId)
-                                        .collection("equipos")
-                                        .get()
-                                        .addOnCompleteListener(equiposTask -> {
-                                            if (equiposTask.isSuccessful()) {
-                                                for (DocumentSnapshot equipoDoc : equiposTask.getResult()) {
-                                                    Equipo equipo = equipoDoc.toObject(Equipo.class);
-                                                    datalist.add(equipo);
-
-                                                    // Agregar un mensaje de registro (log) para verificar si se está listando correctamente
-                                                    Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
-                                                }
-                                                adapter.notifyDataSetChanged();
-                                            } else {
-                                                Log.d("msg-test", "Error al obtener equipos: ", equiposTask.getException());
-                                                Toast.makeText(getContext(), "Error al obtener equipos", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d("msg-test", "Error al obtener sitio: ", task.getException());
-                            Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        if (datalist.isEmpty()) {
+            getDataFromFirestore();
         }
-
 
         NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
         supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
@@ -189,6 +137,62 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         });
 
         return supervisorListaEquiposBinding.getRoot();
+    }
+
+    private void getDataFromFirestore() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String userId = user.getUid();
+            String codigoSitio = getArguments().getString("ACScodigo");
+
+            db.collection("usuarios_por_auth")
+                    .document(userId)
+                    .collection("usuarios")
+                    .document("william")
+                    .collection("sitios")
+                    .whereEqualTo("codigo", codigoSitio)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String sitioId = document.getId();
+
+                                db.collection("usuarios_por_auth")
+                                        .document(userId)
+                                        .collection("usuarios")
+                                        .document("william")
+                                        .collection("sitios")
+                                        .document(sitioId)
+                                        .collection("equipos")
+                                        .get()
+                                        .addOnCompleteListener(equiposTask -> {
+                                            if (equiposTask.isSuccessful()) {
+                                                // Limpiar la lista antes de agregar nuevos datos
+                                                datalist.clear();
+
+                                                for (DocumentSnapshot equipoDoc : equiposTask.getResult()) {
+                                                    Equipo equipo = equipoDoc.toObject(Equipo.class);
+                                                    datalist.add(equipo);
+
+                                                    // Agregar un mensaje de registro (log) para verificar si se está listando correctamente
+                                                    Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
+                                                }
+
+                                                // Notificar al adaptador después de agregar todos los datos
+                                                adapter.notifyDataSetChanged();
+                                            } else {
+                                                Log.d("msg-test", "Error al obtener equipos: ", equiposTask.getException());
+                                                Toast.makeText(getContext(), "Error al obtener equipos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d("msg-test", "Error al obtener sitio: ", task.getException());
+                            Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     @Override
