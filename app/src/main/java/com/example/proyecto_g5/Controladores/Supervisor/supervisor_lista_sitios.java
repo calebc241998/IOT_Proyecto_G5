@@ -60,6 +60,9 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Inicializa la lista de datos aquí
+        datalist = new ArrayList<>();
     }
 
     @Override
@@ -67,42 +70,16 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         supervisorListaSitiosBinding = SupervisorListaSitiosBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
 
-        // Obtener el usuario actual
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
+        recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
+        recyclerView.setLayoutManager(gridLayoutManager);
 
-        if (user != null) {
-            // Obtener el ID del usuario autenticado
-            String userId = user.getUid();
-            Log.d("msg-test", user.getUid());
+        adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
+        recyclerView.setAdapter(adapter);
 
-
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-            recyclerView = supervisorListaSitiosBinding.recyclerViewOficial;
-            recyclerView.setLayoutManager(gridLayoutManager);
-            datalist = new ArrayList<>();
-
-            adapter = new MyAdapterListaSitios(getActivity(), datalist, this);
-            recyclerView.setAdapter(adapter);
-
-            // Obtención de datos de Firestore utilizando el ID del usuario
-            db.collection("usuarios_por_auth")
-                    .document(userId)  // Usar el ID del usuario autenticado
-                    .collection("usuarios")
-                    .document("william")  // Esto debería ser dinámico basado en el usuario autenticado
-                    .collection("sitios")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Sitio sitio = document.toObject(Sitio.class);
-                                datalist.add(sitio);
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("msg-test", "Error al obtener sitios: ", task.getException());
-                            Toast.makeText(getContext(), "Error al obtener sitios", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        // Obtén datos de Firestore solo si la lista está vacía para evitar duplicados al volver al fragmento
+        if (datalist.isEmpty()) {
+            getDataFromFirestore();
         }
 
         // Listener para el SearchView
@@ -121,26 +98,43 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
             }
         });
 
-        adapter.setOnItemClickListener(new MyAdapterListaSitios.OnItemClickListener() {
-            @Override
-            public void onItemClick(Sitio sitio) {
-                // Aquí navegas a supervisor_descripcion_sitio y pasas los datos del sitio
-                NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("sitio", sitio);
-                navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio, bundle);
-            }
-        });
-
-
         return supervisorListaSitiosBinding.getRoot();
+    }
+
+
+    private void getDataFromFirestore() {
+        // Obtención de datos de Firestore
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("usuarios_por_auth")
+                    .document(userId)
+                    .collection("usuarios")
+                    .document("william")
+                    .collection("sitios")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Sitio sitio = document.toObject(Sitio.class);
+                                datalist.add(sitio);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("msg-test", "Error al obtener sitios: ", task.getException());
+                            Toast.makeText(getContext(), "Error al obtener sitios", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
 
     @Override
     public void onItemClick(Sitio item) {
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
-        navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("sitio", item);
+        navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio, bundle);
     }
 
     private void searchList(String text) {
@@ -153,3 +147,4 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         adapter.setSearchList(dataSearchList);
     }
 }
+
