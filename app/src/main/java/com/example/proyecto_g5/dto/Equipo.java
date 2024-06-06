@@ -1,8 +1,9 @@
 package com.example.proyecto_g5.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Equipo {
+public class Equipo implements Serializable {
     private String sku;
     private String nombre_tipo;
     private String numerodeserie;

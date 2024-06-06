@@ -26,7 +26,11 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Equipo item);
+        void onItemClick(Equipo equipo);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public void setSearchList(List<Equipo> dataSearchList) {
@@ -57,7 +61,16 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
         holder.recModelo.setText(currentEquipo.getModelo());
         holder.recDescripción.setText(currentEquipo.getDescripcion());
 
-        holder.itemView.setOnClickListener(v -> {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(currentEquipo);
+                }
+            }
+        });
+        /*holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("Nombre", currentEquipo.getNombre_tipo());
             bundle.putString("Modelo", currentEquipo.getModelo());
@@ -66,7 +79,7 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
             bundle.putString("Imagen_status_equipo", currentEquipo.getImagen_status_equipo());
 
             Navigation.findNavController(v).navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
-        });
+        });/*
 
         //LO Q HABIA ANTES
         //Los Intents no funcionan pq se usa fragmentos y en cambio se usa Bundle

@@ -10,11 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarReportesXML.DataListaReportesClass;
 
 import java.util.List;
 
-public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
+public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder_reportes>{
 
     private Context context;
     private List<DataListaReportesClass> datalist;
@@ -36,14 +35,14 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder_reportes onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //PUNTO CRITICO NAVIGATION
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_reportes_recycler_item, parent,false);
-        return new MyViewHolder(view);
+        return new MyViewHolder_reportes(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder_reportes holder, int position) {
 
         DataListaReportesClass item = datalist.get(position);
 
@@ -60,10 +59,10 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder>{
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder{
+class MyViewHolder_reportes extends RecyclerView.ViewHolder{
     TextView recFechaReportesSupervisor, recHoraReportesSupervisor,recDescripcionReportesSupervisor;
 
-    public MyViewHolder(@NonNull View itemView) {
+    public MyViewHolder_reportes(@NonNull View itemView) {
         super(itemView);
         recFechaReportesSupervisor=itemView.findViewById(R.id.recFechaReportesSupervisor);
         recHoraReportesSupervisor=itemView.findViewById(R.id.recHoraReportesSupervisor);

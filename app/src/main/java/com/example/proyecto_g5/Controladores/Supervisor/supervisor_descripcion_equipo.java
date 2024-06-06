@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
+import com.example.proyecto_g5.dto.Equipo;
+import com.example.proyecto_g5.dto.Sitio;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +70,20 @@ public class supervisor_descripcion_equipo extends Fragment {
         // Inflate the layout for this fragment
         supervisorDescripcionEquipoBinding = SupervisorDescripcionEquipoBinding.inflate(inflater, container, false);
 
+        // Obtener los datos del equipo de los argumentos
+        Equipo equipo = (Equipo) getArguments().getSerializable("equipo");
+
+        // Mostrar la información en los TextView correspondientes
+        supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
+        supervisorDescripcionEquipoBinding.ACSnumeroSerie.setText(equipo.getNumerodeserie());
+        supervisorDescripcionEquipoBinding.ACStipo.setText(equipo.getNombre_tipo());
+        supervisorDescripcionEquipoBinding.ACSMarca.setText(equipo.getMarca());
+        supervisorDescripcionEquipoBinding.ACSmodelo.setText(String.valueOf(equipo.getMarca()));
+        supervisorDescripcionEquipoBinding.ACSDescripcion.setText(equipo.getDescripcion());
+        supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
+        supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
+
+        //Pasar a vista reportes
         NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
         supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
 

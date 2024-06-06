@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
 import com.example.proyecto_g5.databinding.SupervisorListaSitiosBinding;
 import com.example.proyecto_g5.dto.Sitio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
