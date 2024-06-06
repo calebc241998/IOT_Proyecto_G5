@@ -1,9 +1,11 @@
 package com.example.proyecto_g5.Controladores.Superadmin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
@@ -12,14 +14,37 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_myAdapter_superLista;
+import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSitioActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSuperActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
+import com.example.proyecto_g5.Controladores.Admin.admin_sitiosActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_supervisoresActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
-import com.example.proyecto_g5.Controladores.Supervisor.MyAdapterListaUsuarios;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
+import com.example.proyecto_g5.dto.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +52,27 @@ import java.util.List;
 public class superadmin_lista_usuarios extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav, log_out;
 
     RecyclerView recyclerView;
-    List<DataListaUsuariosClass> dataList;
+
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+
+    //----------
+    List<Usuario> dataList;
+
+    DatabaseReference databaseReference;
+
+    ValueEventListener eventListener;
+
     MyAdapterListaUsuarios adapter;
     SearchView searchView;
+
+    Button editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,24 +80,142 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
         setContentView(R.layout.superadmin_lista_usuarios);
 
 
+
         initializeDrawer();
-        setupRecyclerView();
+        recyclerView = findViewById(R.id.recyclerView_listausuarios_superadmin);
+        searchView = findViewById(R.id.search_listausuarios_superadmin);
+        searchView.clearFocus();
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        // firebase----------------
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(superadmin_lista_usuarios.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dataList = new ArrayList<>();
+        adapter = new MyAdapterListaUsuarios(this, dataList);
+        recyclerView.setAdapter(adapter);
+
+        //Firebase-----
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
+        dialog.show();
+
+        //------------------------------------- FIRESTORE
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("rol", "supervisor")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                dataList.add(usuario);
+                            }
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+
+                        } else {
+                            // Manejar la situación cuando la consulta falla
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        /*eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataList.clear();
+                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
+                    Usuario usuario = itemSnapshot.getValue(Usuario.class);
+                    dataList.add(usuario);
+
+                }
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        }); */
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                searchList(newText);
+
+                return true;
+            }
+        });
+
+        //---------------------------
+
+        FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSuper);
+        addSuperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Define la nueva Activity que quieres abrir
+                Intent intent = new Intent(superadmin_lista_usuarios.this, superadmin_nuevo_admin.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initializeDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_superadmin_toolbar);
+        menu = findViewById(R.id.menu_nav_admin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(superadmin_lista_usuarios.this, admin_perfil.class);
+                startActivity(intent);
+            }
+        });
+
+        //-------
 
         setupDrawerLinks();
     }
 
     private void setupDrawerLinks() {
-        inicio_nav = findViewById(R.id.inicio_nav_superadmin);
+        inicio_nav = findViewById(R.id.inicio_nav);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
         lista_logs = findViewById(R.id.lista_logs_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
+
 
         inicio_nav.setOnClickListener(v -> redirectActivity(this, SuperadminActivity.class));
         lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
@@ -92,22 +248,26 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
             adapter = new MyAdapterListaUsuarios(this, dataList);
             recyclerView.setAdapter(adapter);
 
-            addTestData();
+            //Firebase-----
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
+
+
+            //-------------
+
         } catch (Exception e) {
             Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
         }
     }
 
-    private void addTestData() {
+    /*private void addTestData() {
         try {
-            DataListaUsuariosClass androidData = new DataListaUsuariosClass("Juan Perez", R.drawable.avatar, "Administrador", "Activo", "997134887","11223344", "jperez@example.com","Av. Principal 1200");
+            admin_DataClass androidData = new admin_DataClass("Juan Perez", R.drawable.avatar, "Activo", "5");
             dataList.add(androidData);
-            androidData = new DataListaUsuariosClass("Liliana Garay", R.drawable.avatar_mujer1, "Supervisor", "Activo", "987123409","99887700", "lgaray@example.com","Av. Universitaria 1801");
+            androidData = new admin_DataClass("Liliana", R.drawable.avatar_mujer1, "No Activo", "2");
             dataList.add(androidData);
-            androidData = new DataListaUsuariosClass("Admino Baneado", R.drawable.avatar_mujer1, "Administrador", "Inactivo", "944183400","22837700", "abaneado@example.com","Av. Universitaria 101");
-            dataList.add(androidData);
-            androidData = new DataListaUsuariosClass("Supo Baneado", R.drawable.avatar, "Supervisor", "Inactivo", "991432974", "12344321", "sbaneado@example.com","Av. Grau 820");
+            androidData = new admin_DataClass("Maximo Perez", R.drawable.avatar, "Activo", "1");
             dataList.add(androidData);
 
             adapter.notifyDataSetChanged();
@@ -115,7 +275,7 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
             Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("TestDataError", "Error adding test data", e);
         }
-    }
+    } */
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -129,9 +289,9 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        List<DataListaUsuariosClass> dataSearchList = new ArrayList<>();
-        for (DataListaUsuariosClass data : dataList) {
-            if (data.getNombreUsuario().toLowerCase().contains(text.toLowerCase())) {
+        ArrayList<Usuario> dataSearchList = new ArrayList<>();
+        for (Usuario data : dataList) {
+            if (data.getNombre().toLowerCase().contains(text.toLowerCase()) || data.getApellido().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
         }

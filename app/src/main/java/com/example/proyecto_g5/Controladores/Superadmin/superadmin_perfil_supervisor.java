@@ -22,13 +22,13 @@ import com.example.proyecto_g5.inicio_sesion;
 public class superadmin_perfil_supervisor extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav_superadmin, log_out;
 
 
 
-    TextView perfil_superNombre, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
+    TextView perfil_superNombre, perfil_superNombreCompleto, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo;
     ImageView perfil_superImage;
 
     @Override

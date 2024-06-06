@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    android:background="#D9D9D9"
+
+    android:background="@color/background"
     tools:context=".Controladores.Superadmin.superadmin_nuevo_admin">
 
-    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <include
             layout="@layout/superadmin_toolbar"/>
 
@@ -22,22 +24,33 @@
             android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/indicaciones"
-                android:layout_width="248dp"
-                android:layout_height="53dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="Complete los campos requeridos"
-                android:textColor="@android:color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="272dp"
+                android:layout_height="37dp"
+                android:backgroundTint="#FFFFFF"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintHorizontal_bias="0.474"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.166" />
+                app:layout_constraintVertical_bias="0.039">
+
+                <TextView
+                    android:id="@+id/titulo_nuevo"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="Nuevo Administrador"
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/search_bkg"
+
+                    />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -49,37 +62,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.968">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:cardBackgroundColor="#54CCC5"
-                    app:cardCornerRadius="1000dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.378"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.8">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView13"
-                            android:layout_width="24dp"
-                            android:layout_height="14dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_camera_alt_24" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/subir_foto_admin"
                     android:layout_width="161dp"
                     android:layout_height="160dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +93,7 @@
                     app:layout_constraintVertical_bias="0.964" />
 
                 <Button
-                    android:id="@+id/boton_guardar"
+                    android:id="@+id/botno_guardar"
                     android:layout_width="134dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="40dp"
@@ -127,41 +112,33 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="272dp"
-                android:layout_height="37dp"
-                android:backgroundTint="#FFFFFF"
-                app:cardCornerRadius="20dp"
+            <TextView
+                android:id="@+id/indicaciones"
+                android:layout_width="248dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Complete los campos requeridos"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.474"
+                app:layout_constraintHorizontal_bias="0.478"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.071">
-
-                <TextView
-                    android:id="@+id/SANAtitulo"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="Nuevo Administrador"
-                    android:textColor="@android:color/black"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintVertical_bias="0.1" />
 
             <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="282dp"
+                android:layout_width="278dp"
+                android:layout_height="371dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.446">
+                app:layout_constraintVertical_bias="0.348">
 
                 <LinearLayout
                     android:layout_width="301dp"
@@ -175,18 +152,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nombre"
-                        android:textColorHint="@color/color_principal"
                         android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        >
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/nombre_nuevoAdmin"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -198,16 +173,16 @@
                         android:layout_height="wrap_content"
                         android:hint="Apellido"
                         android:inputType="text"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/apellido_nuevoAdmin"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
@@ -220,19 +195,40 @@
                         android:layout_height="wrap_content"
                         android:hint="DNI"
                         android:inputType="text"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/DNI_nuevoAdmin"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="number"
                             android:maxLength="8"
+                            tools:ignore="LabelFor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutAdmin_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Correo"
+                        android:inputType="text"
+                        android:paddingTop="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:ignore="MissingConstraints">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/correo_nuevoAdmin"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:ems="10"
+                            android:inputType="text"
                             tools:ignore="LabelFor" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,19 +238,19 @@
                         android:layout_height="wrap_content"
                         android:hint="Teléfono"
                         android:inputType="text"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/telefono_nuevoAdmin"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
                             android:ems="10"
-                            android:maxLength="9"
                             android:inputType="number"
+                            android:maxLength="9"
                             tools:ignore="LabelFor" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -265,21 +261,42 @@
                         android:layout_height="wrap_content"
                         android:hint="Dirección"
                         android:inputType="text"
+                        android:paddingTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView"
-                        tools:ignore="MissingConstraints"
-                        android:paddingTop="5dp">
+                        tools:ignore="MissingConstraints">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/direccion_nuevoAdmin"
                             android:layout_width="match_parent"
-                            android:layout_height="47dp"
+                            android:layout_height="52dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="LabelFor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutAdmin_pass_superad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contraseña"
+                        android:inputType="text"
+                        android:paddingTop="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:ignore="MissingConstraints">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pass_superad_nuevoAdmin"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
                             android:ems="10"
                             android:inputType="text"
                             tools:ignore="LabelFor" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
 
@@ -296,6 +313,10 @@
         <include
             layout="@layout/superadmin_nav_drawer"
             />
+
     </RelativeLayout>
+
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

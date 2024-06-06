@@ -19,20 +19,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.example.proyecto_g5.Controladores.Admin.admin_editarSuper;
+import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
+import com.example.proyecto_g5.Controladores.Admin.admin_perfilSuper;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
 
 public class superadmin_perfil_admin extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav_superadmin, log_out;
 
 
 
-    TextView perfil_usuarioNombre, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioEstado, perfil_usuarioRol;
+    TextView perfil_usuarioNombre, perfil_usuarioApellido, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioEstado, perfil_usuarioRol;
     ImageView perfil_usuarioImage;
+
+    String imageUrl = "";
+
+    //---------------------
+
+    Button editButton;
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
@@ -48,7 +57,17 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         lista_logs = findViewById(R.id.lista_logs_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+        perfil = findViewById(R.id.boton_perfil);
 
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(superadmin_perfil_admin.this, superadmin_perfil.class);
+                startActivity(intent);
+            }
+        });
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +118,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         });
 
         perfil_usuarioNombre = findViewById(R.id.nombre_usuario_perfil_superadmin);
+        perfil_usuarioApellido = findViewById(R.id.apellido_usuario_perfil_superadmin);
         perfil_usuarioCorreo = findViewById(R.id.correo_usuario_perfil_superadmin);
         perfil_usuarioDNI = findViewById(R.id.DNI_usuario_perfil_superadmin);
         perfil_usuarioTelefono = findViewById(R.id.telefono_usuario_perfil_superadmin);
@@ -106,7 +126,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         perfil_usuarioDireccion = findViewById(R.id.direccin_usuario_perfil_superadmin);
         perfil_usuarioImage = findViewById(R.id.foto_usuario_perfil_superadmin);
         perfil_usuarioRol = findViewById(R.id.rol_usuario_perfil_superadmin);
-        Button editarButton = findViewById(R.id.boton_editar_usuario);
+        editButton = findViewById(R.id.boton_editar_perfil_admin);
         ImageView estadoImageView = findViewById(R.id.imageView_active_status);
 
         Bundle bundle = getIntent().getExtras();
@@ -123,11 +143,26 @@ public class superadmin_perfil_admin extends AppCompatActivity {
 
         }
 
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(superadmin_perfil_admin.this, superadmin_editar_admin.class)
+                        .putExtra("Nombre", perfil_usuarioNombre.getText().toString())
+                        .putExtra("Apellido", perfil_usuarioApellido.getText().toString())
+                        .putExtra("Correo", perfil_usuarioCorreo.getText().toString())
+                        .putExtra("DNI", perfil_usuarioDNI.getText().toString())
+                        .putExtra("Image", imageUrl)
+                        .putExtra("Telefono", perfil_usuarioTelefono.getText().toString())
+                        .putExtra("Direccion", perfil_usuarioDireccion.getText().toString());
+                startActivity(intent);
+            }
+        });
+
         assert bundle != null;
         if ("Administrador".equals(bundle.getString("Rol"))) {
-            editarButton.setVisibility(View.VISIBLE);
+            editButton.setVisibility(View.VISIBLE);
         } else {
-            editarButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.GONE);
         }
 
         // Change the color and image based on status
