@@ -2,6 +2,7 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,9 +11,9 @@ import android.widget.TextView;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.Controladores.Admin.admin_info_sitio;
 import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,8 +70,7 @@ public class SupervisorActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.log_out_button) {
-                    // Cerrar sesión de Firebase y redirigir a MainActivity
-                    FirebaseAuth.getInstance().signOut();
+                    // Redirigir a MainActivity o cualquier otra actividad que desees
                     Intent intent = new Intent(SupervisorActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish(); // Finaliza la actividad actual para evitar que el usuario vuelva atrás.
@@ -86,6 +86,12 @@ public class SupervisorActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
+        return true;
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
