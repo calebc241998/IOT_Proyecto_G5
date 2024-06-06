@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
-import com.example.proyecto_g5.dto.Sitio;
+import com.example.proyecto_g5.dto.Equipo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,11 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.proyecto_g5.dto.Equipo;
 
 public class supervisor_lista_equipos extends Fragment implements MyAdapterListaEquipos.OnItemClickListener {
 
@@ -40,7 +37,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     RecyclerView recyclerView;
     List<Equipo> datalist;
     MyAdapterListaEquipos adapter;
-    Equipo androidData;
     FirebaseFirestore db;
 
     private static final String ARG_PARAM1 = "param1";
@@ -61,7 +57,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                     if (scannedText != null) {
                         Toast.makeText(requireContext(), scannedText, Toast.LENGTH_LONG).show();
                         supervisorListaEquiposBinding.BuscarEquipos.setQuery(scannedText, false);
-                        searchList(scannedText); // Realizar la búsqueda automáticamente
+                        searchList(scannedText);
                     } else {
                         Toast.makeText(requireContext(), "Lectora cancelada", Toast.LENGTH_LONG).show();
                     }
@@ -89,6 +85,9 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Inicializa la lista de datos aquí
+        datalist = new ArrayList<>();
     }
 
     @Override
@@ -101,11 +100,11 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView = supervisorListaEquiposBinding.recyvlerViewEquiposSupervisor;
         recyclerView.setLayoutManager(gridLayoutManager);
-        datalist = new ArrayList<>();
 
         adapter = new MyAdapterListaEquipos(getActivity(), datalist, this);
         recyclerView.setAdapter(adapter);
 
+        // Solo obtener datos si la lista está vacía
         if (datalist.isEmpty()) {
             getDataFromFirestore();
         }
@@ -132,11 +131,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             integrator.setBarcodeImageEnabled(true);
             qrScannerLauncher.launch(integrator.createScanIntent());
         });
-
-        /*NavController navController = NavHostFragment.findNavController(supervisor_lista_equipos.this);
-        supervisorListaEquiposBinding.agregarEquipo.setOnClickListener(view -> {
-            navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_nuevo_equipo);
-        });*/
 
         return supervisorListaEquiposBinding.getRoot();
     }
@@ -170,18 +164,14 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                                         .get()
                                         .addOnCompleteListener(equiposTask -> {
                                             if (equiposTask.isSuccessful()) {
-                                                // Limpiar la lista antes de agregar nuevos datos
                                                 datalist.clear();
 
                                                 for (DocumentSnapshot equipoDoc : equiposTask.getResult()) {
                                                     Equipo equipo = equipoDoc.toObject(Equipo.class);
                                                     datalist.add(equipo);
-
-                                                    // Agregar un mensaje de registro (log) para verificar si se está listando correctamente
                                                     Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
                                                 }
 
-                                                // Notificar al adaptador después de agregar todos los datos
                                                 adapter.notifyDataSetChanged();
                                             } else {
                                                 Log.d("msg-test", "Error al obtener equipos: ", equiposTask.getException());
