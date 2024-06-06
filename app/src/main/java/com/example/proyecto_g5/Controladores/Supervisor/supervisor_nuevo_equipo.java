@@ -44,6 +44,7 @@ public class supervisor_nuevo_equipo extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private String codigoDeSitio;
 
     public supervisor_nuevo_equipo() {
         // Required empty public constructor
@@ -64,6 +65,7 @@ public class supervisor_nuevo_equipo extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            codigoDeSitio = getArguments().getString("ACScodigo");
         }
     }
 
@@ -114,7 +116,9 @@ public class supervisor_nuevo_equipo extends Fragment {
                         .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show());
 
-                navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos);
+                Bundle bundle = new Bundle();
+                bundle.putString("ACScodigo", codigoDeSitio);
+                navController.navigate(R.id.action_supervisor_nuevo_equipo_to_supervisor_lista_equipos, bundle);
             }
         });
 
@@ -221,6 +225,4 @@ public class supervisor_nuevo_equipo extends Fragment {
 
         return valid;
     }
-
-
 }
