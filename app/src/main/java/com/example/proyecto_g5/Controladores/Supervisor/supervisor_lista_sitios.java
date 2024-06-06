@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Supervisor.ListarSitiosXML.MyAdapterListaSitios;
@@ -103,6 +104,22 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
                         }
                     });
         }
+
+        // Listener para el SearchView
+        supervisorListaSitiosBinding.BuscarSitios.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // No necesitas hacer nada aquí, ya que filtramos los resultados mientras se escribe
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filtrar la lista según el texto ingresado
+                searchList(newText);
+                return true;
+            }
+        });
 
         adapter.setOnItemClickListener(new MyAdapterListaSitios.OnItemClickListener() {
             @Override
