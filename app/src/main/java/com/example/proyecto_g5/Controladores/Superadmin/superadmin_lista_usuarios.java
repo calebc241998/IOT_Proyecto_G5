@@ -61,7 +61,6 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser currentUser;
 
-
     //----------
     List<Usuario> dataList;
 
@@ -184,17 +183,17 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
 
     private void setupDrawerLinks() {
         inicio_nav = findViewById(R.id.inicio_nav);
+
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
-        lista_logs = findViewById(R.id.lista_logs_nav);
+
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
+        lista_logs = findViewById(R.id.lista_logs_nav);
         log_out = findViewById(R.id.cerrar_sesion);
-
-
-
         inicio_nav.setOnClickListener(v -> redirectActivity(this, SuperadminActivity.class));
-        lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
+
         lista_usuarios.setOnClickListener(v -> redirectActivity(this, superadmin_lista_usuarios.class));
         nuevo_admin.setOnClickListener(v -> redirectActivity(this, superadmin_nuevo_admin.class));
+        lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
         log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());
     }
 
