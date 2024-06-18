@@ -21,6 +21,9 @@ public class Usuario {
 
     private  String correo_temp;
 
+    public Usuario(String displayName, String email) {
+    }
+
     public String getCorreo_temp() {
         return correo_temp;
     }

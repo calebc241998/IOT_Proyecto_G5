@@ -5,206 +5,190 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
 import com.example.proyecto_g5.Controladores.Superadmin.SuperadminActivity;
 import com.example.proyecto_g5.Controladores.Supervisor.SupervisorActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.proyecto_g5.databinding.Login2Binding;
+import com.example.proyecto_g5.dto.Usuario;
+import com.firebase.ui.auth.AuthMethodPickerLayout;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
+    private Login2Binding login2Binding;
 
-    private FirebaseAuth auth;
-    private EditText loginEmail, loginPassword, idteam;
-    private Button loginButton;
-    private TextView registerRedirectText;
-
-    //prueba
-
-    FirebaseFirestore db;
-    FirebaseUser currentUser;
-    private CheckBox mostrarContrasenaCheckbox;
-
-
-
-
+    private FirebaseFirestore db;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_2);
 
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance().setLanguageCode("es-419");
+        login2Binding = Login2Binding.inflate(getLayoutInflater());
+        setContentView(login2Binding.getRoot());
 
-        idteam =findViewById(R.id.loginIDTeam);
-        loginEmail = findViewById(R.id.loginEmail);
-        loginPassword = findViewById(R.id.loginPassword);
-        loginButton = findViewById(R.id.buttonLogin);
-        registerRedirectText = findViewById(R.id.registerRedirectText);
-        mostrarContrasenaCheckbox = findViewById(R.id.checkBoxMostrarContrasena);
+        db = FirebaseFirestore.getInstance();
 
+        login2Binding.buttonLogin.setOnClickListener(v -> launchSignInFlow(AuthUI.IdpConfig.EmailBuilder.class));
+        login2Binding.buttonPureba.setOnClickListener(v -> launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder.class));
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String email = loginEmail.getText().toString().trim();
-                final String pass = loginPassword.getText().toString().trim();
-                final String idu = idteam.getText().toString().trim();
+        login2Binding.registerRedirectText.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
-                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    if (!pass.isEmpty()) {
-                        // Autenticación con Firebase Auth
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-                        // Intentar autenticar con correo y contraseña
-                        auth.signInWithEmailAndPassword(email, pass)
-                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                    @Override
-                                    public void onSuccess(AuthResult authResult) {
-                                        String pass_super = pass;
-                                        iniciarSesionExitosa(pass_super);
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                        if (!idu.isEmpty()){
-                                            // Si falla, intentar con Firestore
-                                            verificarCredencialesFirestore(db, email, pass, idu);
-                                        }  else {
-                                            idteam.setError("El id del Team no puede estar vacío");
-                                        }
-
-                                    }
-                                });
-                    } else {
-                        loginPassword.setError("La contraseña no puede estar vacía");
-                    }
-                } else {
-                    loginEmail.setError("Ingrese un correo válido");
-                }
-            }
-        });
-
-        registerRedirectText.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-            }
-        });
-
-        mostrarContrasenaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mostrarOcultarContrasena(isChecked);
-            }
-        });
-
+        login2Binding.checkBoxMostrarContrasena.setOnCheckedChangeListener((buttonView, isChecked) -> mostrarOcultarContrasena(isChecked));
     }
 
-        private void iniciarSesionExitosa(String pass_superad) {
-            Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-
-            Intent intent;
-            intent = new Intent(LoginActivity.this, SuperadminActivity.class);
-            intent.putExtra("pass_superad", pass_superad);
-            startActivity(intent);
-            finish();
+    private void launchSignInFlow(Class<? extends AuthUI.IdpConfig.Builder> providerClass) {
+        AuthUI.IdpConfig provider;
+        if (providerClass == AuthUI.IdpConfig.EmailBuilder.class) {
+            provider = new AuthUI.IdpConfig.EmailBuilder().build();
+        } else {
+            provider = new AuthUI.IdpConfig.GoogleBuilder().build();
         }
 
-        private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
+        AuthMethodPickerLayout authMethodPickerLayout = new AuthMethodPickerLayout.Builder(R.layout.login_2)
+                .setGoogleButtonId(R.id.button_pureba)
+                .setEmailButtonId(R.id.buttonLogin)
+                .build();
 
+        Intent intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(provider))
+                .setAuthMethodPickerLayout(authMethodPickerLayout)
+                .build();
+        signInLauncher.launch(intent);
+    }
 
+    ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+            new FirebaseAuthUIActivityResultContract(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        Log.d("msg-test", "Firebase uid: " + user.getUid());
 
-            db.collection("usuarios_por_auth")
-                            .document(id)
-                    .collection("usuarios")
-                    .whereEqualTo("correo", email)
-                    .whereEqualTo("contrasena", pass)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                                String role = document.getString("rol");
-                                String pass_superad = document.getString("pass_superad");
-                                String correo_superad = document.getString("correo_superad");
+                        // Guardar los datos del usuario en Firestore
+                        guardarDatosUsuario(user);
 
-                                FirebaseAuth auth = FirebaseAuth.getInstance();
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-                                // Intentar autenticar con correo y contraseña
-                                auth.signInWithEmailAndPassword(correo_superad, pass_superad)
-                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                            @Override
-                                            public void onSuccess(AuthResult authResult) {
-                                                iniciarSesionSegunRol(role, email);
-                                            }
-                                        });
-
-
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    });
-        }
-
-        private void iniciarSesionSegunRol(String role, String email) {
-            Intent intent;
-            if (role.equals("admin")) {
-                intent = new Intent(LoginActivity.this, AdminActivity.class);
-            } else if (role.equals("supervisor")) {
-                intent = new Intent(LoginActivity.this, SupervisorActivity.class);
-            } else {
-                Toast.makeText(LoginActivity.this, "Rol no reconocido", Toast.LENGTH_SHORT).show();
-                return;
+                        checkUserRole(user);
+                    }
+                } else {
+                    Log.d("msg-test", "Canceló el Log-in");
+                    Toast.makeText(this, "Inicio de sesión cancelado", Toast.LENGTH_SHORT).show();
+                }
             }
+    );
 
+    private void guardarDatosUsuario(FirebaseUser user) {
+        // Crear un objeto Usuario con los datos del usuario
+        Usuario usuario = new Usuario(user.getDisplayName(), "", "", user.getEmail(), "", "", "supervisor", "", "", "", user.getUid(), "", "", "");
 
+        // Obtener una referencia al documento del usuario en la colección "usuarios"
+        DocumentReference userRef = db.collection("usuarios_por_auth").document(user.getUid());
 
-            intent.putExtra("correo", email);
+        // Comprobar si el documento del usuario ya existe
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (!document.exists()) {
+                    // El documento del usuario no existe, crearlo con el UID del usuario y establecer los datos del usuario
+                    userRef.set(usuario)
+                            .addOnSuccessListener(aVoid -> {
+                                Log.d("msg-test", "Usuario guardado exitosamente");
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("msg-test", "Error al guardar usuario", e);
+                                Toast.makeText(this, "Error al guardar datos del usuario", Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Log.e("msg-test", "Error al obtener documento del usuario", task.getException());
+                Toast.makeText(this, "Error al obtener datos del usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-            startActivity(intent);
-            finish();
+    private void checkUserRole(FirebaseUser user) {
+        db.collection("usuarios_por_auth")
+                .document(user.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Usuario usuario = document.toObject(Usuario.class);
+                            if (usuario != null && usuario.getRol() != null) {
+                                iniciarSesionSegunRol(usuario.getRol(), user.getEmail());
+                            } else {
+                                Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // Usuario nuevo, asignar rol de supervisor
+                            assignSupervisorRole(user);
+                        }
+                    } else {
+                        Log.e("msg-test", "Error al obtener documento del usuario", task.getException());
+                        Toast.makeText(this, "Error al obtener datos del usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void assignSupervisorRole(FirebaseUser user) {
+        Usuario newUser = new Usuario(user.getDisplayName(), "", "", user.getEmail(), "", "", "supervisor", "", "", "", user.getUid(), "", "", "");
+
+        db.collection("usuarios_por_auth")
+                .document(user.getUid())
+                .set(newUser)
+                .addOnSuccessListener(aVoid -> {
+                    iniciarSesionSegunRol("supervisor", user.getEmail());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("msg-test", "Error al asignar rol", e);
+                    Toast.makeText(this, "Error al asignar rol", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void iniciarSesionSegunRol(String role, String email) {
+        Intent intent;
+        if ("admin".equals(role)) {
+            intent = new Intent(LoginActivity.this, AdminActivity.class);
+        } else if ("supervisor".equals(role)) {
+            intent = new Intent(LoginActivity.this, SupervisorActivity.class);
+        } else if ("superadmin".equals(role)) {
+            intent = new Intent(LoginActivity.this, SuperadminActivity.class);
+        } else {
+            Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        intent.putExtra("correo", email);
+        startActivity(intent);
+        finish();
+    }
 
     private void mostrarOcultarContrasena(boolean mostrar) {
         if (mostrar) {
             // Mostrar contraseña
-            loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            login2Binding.loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         } else {
             // Ocultar contraseña
-            loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            login2Binding.loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
         // Mover el cursor al final
-        loginPassword.setSelection(loginPassword.getText().length());
+        login2Binding.loginPassword.setSelection(login2Binding.loginPassword.getText().length());
     }
-
 }
