@@ -46,10 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
         login2Binding.buttonLogin.setOnClickListener(v -> launchSignInFlow(AuthUI.IdpConfig.EmailBuilder.class));
         login2Binding.buttonPureba.setOnClickListener(v -> launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder.class));
-
-        login2Binding.registerRedirectText.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
-
-        login2Binding.checkBoxMostrarContrasena.setOnCheckedChangeListener((buttonView, isChecked) -> mostrarOcultarContrasena(isChecked));
     }
 
     private void launchSignInFlow(Class<? extends AuthUI.IdpConfig.Builder> providerClass) {
@@ -180,15 +176,4 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void mostrarOcultarContrasena(boolean mostrar) {
-        if (mostrar) {
-            // Mostrar contraseña
-            login2Binding.loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-        } else {
-            // Ocultar contraseña
-            login2Binding.loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        }
-        // Mover el cursor al final
-        login2Binding.loginPassword.setSelection(login2Binding.loginPassword.getText().length());
-    }
 }
