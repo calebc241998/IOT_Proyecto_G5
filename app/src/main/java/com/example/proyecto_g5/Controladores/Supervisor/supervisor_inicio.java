@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.proyecto_g5.databinding.SupervisorInicioBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,8 +69,10 @@ public class supervisor_inicio extends Fragment {
         supervisorInicioBinding = SupervisorInicioBinding.inflate(inflater, container, false);
         View view = supervisorInicioBinding.getRoot();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
         // Ahora puedes acceder a las vistas del diseño a través de la variable binding
-        supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Supervisor William Espinoza!");
+        supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Supervisor "+user.getDisplayName());
 
         return view;
     }

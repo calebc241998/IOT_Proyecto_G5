@@ -108,23 +108,26 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
             String userId = user.getUid();
             db.collection("usuarios_por_auth")
                     .document(userId)
-                    .collection("usuarios")
-                    .document("william")
                     .collection("sitios")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Sitio sitio = document.toObject(Sitio.class);
-                                datalist.add(sitio);
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("msg-test", "Error al obtener sitios: ", task.getException());
-                            Toast.makeText(getContext(), "Error al obtener sitios", Toast.LENGTH_SHORT).show();
+                    .addSnapshotListener((snapshot, error) -> {
+                        if (error != null) {
+                            Log.w("msg-test", "Listen failed.", error);
+                            return;
                         }
+
+                        List<Sitio> sitioList = new ArrayList<>();
+                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            Sitio sitio = doc.toObject(Sitio.class);
+                            sitioList.add(sitio);
+                        }
+
+                        // Actualiza la lista y notifica al adaptador
+                        datalist.clear();
+                        datalist.addAll(sitioList);
+                        adapter.notifyDataSetChanged();
                     });
         }
+
     }
 
 
