@@ -145,7 +145,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     private void getDataFromFirestore() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //de nuevo equipo a lista no envia codigoAS, cambiarluego eso
         if (user != null) {
             String userId = user.getUid();
             String codigoSitio = getArguments().getString("ACScodigo");
@@ -153,48 +152,44 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
             db.collection("usuarios_por_auth")
                     .document(userId)
-                    .collection("usuarios")
-                    .document("william")
                     .collection("sitios")
                     .whereEqualTo("codigo", codigoSitio)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                String sitioId = document.getId();
-
-                                db.collection("usuarios_por_auth")
-                                        .document(userId)
-                                        .collection("usuarios")
-                                        .document("william")
-                                        .collection("sitios")
-                                        .document(sitioId)
-                                        .collection("equipos")
-                                        .get()
-                                        .addOnCompleteListener(equiposTask -> {
-                                            if (equiposTask.isSuccessful()) {
-                                                datalist.clear();
-
-                                                for (DocumentSnapshot equipoDoc : equiposTask.getResult()) {
-                                                    Equipo equipo = equipoDoc.toObject(Equipo.class);
-                                                    datalist.add(equipo);
-                                                    Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
-                                                }
-
-                                                adapter.notifyDataSetChanged();
-                                            } else {
-                                                Log.d("msg-test", "Error al obtener equipos: ", equiposTask.getException());
-                                                Toast.makeText(getContext(), "Error al obtener equipos", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d("msg-test", "Error al obtener sitio: ", task.getException());
+                    .addSnapshotListener((task, error) -> {
+                        if (error != null) {
+                            Log.d("msg-test", "Error al obtener sitio: ", error);
                             Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (DocumentSnapshot document : task.getDocuments()) {
+                            String sitioId = document.getId();
+
+                            db.collection("usuarios_por_auth")
+                                    .document(userId)
+                                    .collection("sitios")
+                                    .document(sitioId)
+                                    .collection("equipos")
+                                    .addSnapshotListener((equiposTask, equiposError) -> {
+                                        if (equiposError != null) {
+                                            Log.d("msg-test", "Error al obtener equipos: ", equiposError);
+                                            Toast.makeText(getContext(), "Error al obtener equipos", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                        datalist.clear();
+
+                                        for (DocumentSnapshot equipoDoc : equiposTask.getDocuments()) {
+                                            Equipo equipo = equipoDoc.toObject(Equipo.class);
+                                            datalist.add(equipo);
+                                            Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
+                                        }
+
+                                        adapter.notifyDataSetChanged();
+                                    });
                         }
                     });
         }
     }
+
 
     @Override
     public void onItemClick(Equipo item) {

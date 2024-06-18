@@ -120,8 +120,6 @@ public class supervisor_nuevo_equipo extends Fragment {
                 // CORRECCIÓN: Aquí utilizamos la variable 'codigoDeSitio' en lugar de 'codigoSitio'
                 db.collection("usuarios_por_auth")
                         .document(userId)
-                        .collection("usuarios")
-                        .document("william")
                         .collection("sitios")
                         .whereEqualTo("codigo", codigoDeSitio)
                         .get()
@@ -133,8 +131,6 @@ public class supervisor_nuevo_equipo extends Fragment {
                                     // Ahora que hemos filtrado los sitios por el código, podemos agregar el equipo al sitio específico
                                     db.collection("usuarios_por_auth")
                                             .document(userId)
-                                            .collection("usuarios")
-                                            .document("william")
                                             .collection("sitios")
                                             .document(sitioId)
                                             .collection("equipos")
