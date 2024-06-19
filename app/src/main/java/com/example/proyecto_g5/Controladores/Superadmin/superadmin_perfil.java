@@ -90,11 +90,6 @@ public class superadmin_perfil extends AppCompatActivity{
 
     }
 
-
-    //----------------------------------
-
-
-
     //Drawer functions--------------------------------
 
     public  static void openDrawer(DrawerLayout drawerLayout){

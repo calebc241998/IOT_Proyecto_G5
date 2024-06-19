@@ -182,6 +182,8 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(LoginActivity.this, AdminActivity.class);
         } else if (role.equals("supervisor")) {
             intent = new Intent(LoginActivity.this, SupervisorActivity.class);
+        } else if (role.equals("superadmin")) {
+            intent = new Intent(LoginActivity.this, SuperadminActivity.class);
         } else {
             Toast.makeText(LoginActivity.this, "Rol no reconocido", Toast.LENGTH_SHORT).show();
             return;

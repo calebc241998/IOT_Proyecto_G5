@@ -31,8 +31,6 @@ public class inicio_sesion extends AppCompatActivity {
     private CheckBox mostrarContrasenaCheckbox;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
