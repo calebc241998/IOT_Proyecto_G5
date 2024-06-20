@@ -53,7 +53,6 @@ public class admin_perfil extends AppCompatActivity {
         setContentView(R.layout.admin_perfil);
 
 
-
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_admin_toolbar);
@@ -69,10 +68,6 @@ public class admin_perfil extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
-
-
-
-
 
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +159,7 @@ public class admin_perfil extends AppCompatActivity {
 
 
 
-                            perfil_superNombre.setText(nombre + apellido);
+                            perfil_superNombre.setText(nombre +" "+ apellido);
                             perfil_superCorreo.setText(correo_usuario);
                             perfil_superTelefono.setText(document.getString("telefono"));
                             perfil_superDireccion.setText(document.getString("direccion"));

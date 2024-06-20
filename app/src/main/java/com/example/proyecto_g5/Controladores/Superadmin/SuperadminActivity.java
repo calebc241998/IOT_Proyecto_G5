@@ -18,6 +18,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +59,7 @@ public class SuperadminActivity extends AppCompatActivity {
         lista_logs = findViewById(R.id.lista_logs_nav);
         perfil = findViewById(R.id.boton_perfil);
         log_out = findViewById(R.id.cerrar_sesion);
+        String correo_usuario = getIntent().getStringExtra("correo");
 
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +125,6 @@ public class SuperadminActivity extends AppCompatActivity {
         super_desactivado = findViewById(R.id.num_sup_inactivos);
         textBienvenida = findViewById(R.id.textViewBienvenido1);
 
-        fetchAndDisplayUserDetails(uid, currentUser.getEmail());
 
         // Contar supervisores inactivos----------------------------
         countUsersByRoleAndState(uid, "supervisor1", "inactivo", super_desactivado);
@@ -133,13 +137,13 @@ public class SuperadminActivity extends AppCompatActivity {
 
         // Contar administradores activos-----------------------------
         countUsersByRoleAndState(uid, "admin", "activo", admin_activado);
-    }
 
-    private void fetchAndDisplayUserDetails(String uid, String userEmail) {
+
+
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("correo", userEmail)
+                .whereEqualTo("rol", "superadmin")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -148,13 +152,15 @@ public class SuperadminActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             String nombre = document.getString("nombre");
                             String apellido = document.getString("apellido");
-                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido + "!");
+                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
                         } else {
                             Toast.makeText(SuperadminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
     }
+
 
     private void countUsersByRoleAndState(String uid, String role, String state, TextView textView) {
         db.collection("usuarios_por_auth")

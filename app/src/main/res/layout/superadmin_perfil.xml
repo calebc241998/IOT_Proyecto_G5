@@ -9,7 +9,8 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:background="@color/background"
-    tools:context=".Controladores.Superadmin.superadmin_perfil">
+    tools:context=".Controladores.Superadmin.superadmin_perfil_admin">
+
 
 
     <LinearLayout
@@ -57,7 +58,7 @@
                     android:layout_height="51dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:text="Mark Paredes"
+                    android:text="Mark Paredes1"
                     android:textColor="@android:color/black"
                     android:textSize="25dp"
                     android:textStyle="bold"
@@ -174,14 +175,14 @@
                     app:layout_constraintVertical_bias="0.587" />
 
                 <Button
-                    android:id="@+id/cambiar_contra_perfilsuperadmin"
-                    android:layout_width="213dp"
+                    android:id="@+id/button_cambiar_contra_perfilsuperadmin"
+                    android:layout_width="130dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:backgroundTint="#54CBC4"
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
-                    android:text="Cambiar Contraseña"
+                    android:text="Editar"
                     android:textAlignment="textStart"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="5dp"
@@ -211,7 +212,7 @@
                     app:layout_constraintVertical_bias="0.676" />
 
                 <Button
-                    android:id="@+id/cambiar_foto_perfiladmin"
+                    android:id="@+id/cambiar_foto_perfilsuperadmin"
                     android:layout_width="62dp"
                     android:layout_height="41dp"
                     android:layout_weight="1"
