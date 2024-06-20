@@ -91,33 +91,26 @@ public class supervisor_nuevo_equipo extends Fragment {
                 String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
                 String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
 
-                // Get current date and time with local timezone
+                // Obtener la fecha y hora actual con la zona horaria local
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                calendar.add(Calendar.HOUR_OF_DAY, -5); // Restar 5 horas
 
                 int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH) + 1; // Months are indexed from 0
+                int month = calendar.get(Calendar.MONTH) + 1; // Los meses están indexados desde 0
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
-                // Format date and time
+                // Formatear la fecha y hora
                 String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
 
-                // Get or set date and time for registro and edicion
-                String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
-                if (fecha_registro.isEmpty()) {
-                    fecha_registro = dateTime;
-                } else {
-                    fecha_registro += " " + hour + ":" + String.format("%02d", minute);
-                }
+                // Asignar la fecha de registro con la fecha y hora actual
+                String fecha_registro = dateTime;
 
                 Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
 
-                // CORRECCIÓN: Aquí utilizamos la variable 'codigoDeSitio' en lugar de 'codigoSitio'
                 db.collection("usuarios_por_auth")
                         .document(userId)
                         .collection("sitios")
@@ -128,15 +121,15 @@ public class supervisor_nuevo_equipo extends Fragment {
                                 for (DocumentSnapshot document : task.getResult()) {
                                     String sitioId = document.getId();
 
-                                    // Ahora que hemos filtrado los sitios por el código, podemos agregar el equipo al sitio específico
                                     db.collection("usuarios_por_auth")
                                             .document(userId)
                                             .collection("sitios")
                                             .document(sitioId)
                                             .collection("equipos")
-                                            .add(equipo)
-                                            .addOnSuccessListener(documentReference -> {
-                                                Log.d("TAG", "Equipo agregado con ID: " + documentReference.getId());
+                                            .document(serie) // Usa el número de serie como ID del documento
+                                            .set(equipo)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Log.d("TAG", "Equipo agregado con ID: " + serie);
                                                 Toast.makeText(getContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
 
                                                 // Aquí puedes realizar cualquier acción adicional después de agregar el equipo
@@ -161,18 +154,15 @@ public class supervisor_nuevo_equipo extends Fragment {
         // Setup ActivityResultLauncher for image picking
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            if (data != null) {
-                                url_imagen = data.getData();
-                                supervisorNuevoEquipoBinding.imagenEquipo.setImageURI(url_imagen);
-                            }
-                        } else {
-                            Toast.makeText(getContext(), "No ha seleccionado imagen", Toast.LENGTH_SHORT).show();
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            url_imagen = data.getData();
+                            supervisorNuevoEquipoBinding.imagenEquipo.setImageURI(url_imagen);
                         }
+                    } else {
+                        Toast.makeText(getContext(), "No ha seleccionado imagen", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -184,25 +174,7 @@ public class supervisor_nuevo_equipo extends Fragment {
             activityResultLauncher.launch(photopicker);
         });
 
-        // Set OnClickListeners for fecha fields to show DatePickerDialog
-        supervisorNuevoEquipoBinding.campoFechaRegistro.setOnClickListener(v -> showDatePickerDialog(supervisorNuevoEquipoBinding.campoFechaRegistro));
-
         return supervisorNuevoEquipoBinding.getRoot();
-    }
-
-    private void showDatePickerDialog(final TextInputEditText dateField) {
-        final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                (view, year1, month1, dayOfMonth) -> {
-                    String selectedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-                    dateField.setText(selectedDate);
-                }, year, month, day);
-
-        datePickerDialog.show();
     }
 
     private boolean validarCampos() {
@@ -212,7 +184,6 @@ public class supervisor_nuevo_equipo extends Fragment {
         String marca = supervisorNuevoEquipoBinding.campoMarca.getText().toString();
         String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
         String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
-        String fecha_registro = supervisorNuevoEquipoBinding.campoFechaRegistro.getText().toString();
 
         boolean valid = true;
 
@@ -252,13 +223,8 @@ public class supervisor_nuevo_equipo extends Fragment {
         } else {
             supervisorNuevoEquipoBinding.campoDescripcion.setError(null);
         }
-        if (fecha_registro.isEmpty()) {
-            supervisorNuevoEquipoBinding.campoFechaRegistro.setError("Ingrese la fecha de registro");
-            valid = false;
-        } else {
-            supervisorNuevoEquipoBinding.campoFechaRegistro.setError(null);
-        }
 
         return valid;
     }
 }
+
