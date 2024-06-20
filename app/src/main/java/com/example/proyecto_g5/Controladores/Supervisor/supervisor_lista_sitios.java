@@ -35,9 +35,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private String correo;
 
     public supervisor_lista_sitios() {
         // Required empty public constructor
@@ -56,8 +54,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            correo = getArguments().getString("correo");
         }
 
         // Inicializa la lista de datos aquí
@@ -100,36 +97,88 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         return supervisorListaSitiosBinding.getRoot();
     }
 
-
     private void getDataFromFirestore() {
-        // Obtención de datos de Firestore
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String userId = user.getUid();
             db.collection("usuarios_por_auth")
                     .document(userId)
-                    .collection("sitios")
-                    .addSnapshotListener((snapshot, error) -> {
-                        if (error != null) {
-                            Log.w("msg-test", "Listen failed.", error);
-                            return;
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                // Aquí simplemente registramos el nombre del documento del usuario
+                                Log.d("supervisor_lista_sitios", "Nombre del documento: " + doc.getId());
+                                String userDocId = doc.getId();
+                                obtenerCodigosDeSitios(userId, userDocId);
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "No se encontraron usuarios", Toast.LENGTH_SHORT).show();
                         }
-
-                        List<Sitio> sitioList = new ArrayList<>();
-                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                            Sitio sitio = doc.toObject(Sitio.class);
-                            sitioList.add(sitio);
-                        }
-
-                        // Actualiza la lista y notifica al adaptador
-                        datalist.clear();
-                        datalist.addAll(sitioList);
-                        adapter.notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w("supervisor_lista_sitios", "Error al obtener el usuario", e);
+                        Toast.makeText(getContext(), "Error al obtener el usuario", Toast.LENGTH_SHORT).show();
                     });
         }
-
     }
 
+    private void obtenerCodigosDeSitios(String userId, String userDocId) {
+        db.collection("usuarios_por_auth")
+                .document(userId)
+                .collection("usuarios")
+                .document(userDocId)
+                .collection("sitios")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                        List<String> codigosSitios = new ArrayList<>();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            String codigo = doc.getString("codigo");
+                            if (codigo != null) {
+                                codigosSitios.add(codigo);
+                            }
+                        }
+                        buscarSitiosGlobales(userId, codigosSitios);
+                    } else {
+                        Toast.makeText(getContext(), "No se encontraron sitios para el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("supervisor_lista_sitios", "Error al obtener los códigos de sitios", e);
+                    Toast.makeText(getContext(), "Error al obtener los códigos de sitios", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void buscarSitiosGlobales(String userId, List<String> codigosSitios) {
+        if (!codigosSitios.isEmpty()) {
+            db.collection("usuarios_por_auth")
+                    .document(userId)
+                    .collection("sitios")
+                    .whereIn("codigo", codigosSitios)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                            datalist.clear();
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                Sitio sitio = doc.toObject(Sitio.class);
+                                datalist.add(sitio);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "No se encontraron sitios globales", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w("supervisor_lista_sitios", "Error al obtener los sitios globales", e);
+                        Toast.makeText(getContext(), "Error al obtener los sitios globales", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(getContext(), "No se encontraron códigos de sitios", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onItemClick(Sitio item) {
@@ -149,4 +198,3 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         adapter.setSearchList(dataSearchList);
     }
 }
-
