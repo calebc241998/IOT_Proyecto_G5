@@ -298,9 +298,10 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
         String uid = currentUser.getUid();
         String correo_superad = currentUser.getEmail();
         String pass_superad = nuevo_pass_superad.getText().toString();
+        String sitios = "1";
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass_superad, direccion, "admin", "activo", imageUrl, telefono ,uid, correo_superad, pass_superad, "1");
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass_superad, direccion, "admin", "activo", imageUrl, telefono ,uid, correo_superad, pass_superad, "1", sitios);
 
         if(currentUser != null){
 

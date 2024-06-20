@@ -3,6 +3,7 @@ package com.example.proyecto_g5.Controladores.Admin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,10 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Sitio;
+import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +30,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class admin_perfilSuper extends AppCompatActivity {
 
@@ -38,6 +48,17 @@ public class admin_perfilSuper extends AppCompatActivity {
 
     TextView perfil_superNombre, perfil_superNombreCompleto, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido;
     ImageView perfil_superImage;
+
+    //recycler view -----
+
+    RecyclerView recyclerView;
+    List<Sitio> dataList;
+
+    RCAdapter_sitios rcAdapterSitios;
+
+
+
+    //--------------------
 
     //-----FIREBASE--------
 
@@ -170,11 +191,9 @@ public class admin_perfilSuper extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
+
+
             //estos valores son mandados desde admin_myadapter
-
-
-
-
 
             db.collection("usuarios_por_auth")
                     .document(uid)
@@ -191,15 +210,12 @@ public class admin_perfilSuper extends AppCompatActivity {
 
 
                                 perfil_superNombre.setText(nombre + apellido);
-                                perfil_superCorreo.setText(correo_usuario);
+                                perfil_superCorreo.setText(correo);
                                 perfil_superTelefono.setText(document.getString("telefono"));
                                 perfil_superDireccion.setText(document.getString("direccion"));
                                 perfil_superDNI.setText(document.getString("dni"));
 
                                 Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).into(perfil_superImage);
-
-
-
 
                             } else {
                                 Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
@@ -225,7 +241,52 @@ public class admin_perfilSuper extends AppCompatActivity {
             }
         });
 
+        //recycler view------
+
+        recyclerView = findViewById(R.id.recyclerView_listaSitios_asignados);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        dataList = new ArrayList<>();
+        rcAdapterSitios = new RCAdapter_sitios(this, dataList);
+        recyclerView.setAdapter(rcAdapterSitios);
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("correo", correo)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            // Extraer la cadena de códigos del campo "sitios"
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String sitiosStr = document.getString("sitios");
+
+                            if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                // Convertir la cadena a una lista de códigos
+                                List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+                                // Realizar una segunda consulta para obtener los "Sitios"
+                                Toast.makeText(admin_perfilSuper.this, sitiosStr, Toast.LENGTH_SHORT).show();
+
+                                fetchSitesWithCodes(codigos, uid);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No hay códigos disponibles", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // Manejar la situación cuando la consulta falla
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+        //------------------------------
+
     }
+
+
 
     //Drawer functions--------------------------------
 
@@ -246,5 +307,31 @@ public class admin_perfilSuper extends AppCompatActivity {
     }
 
     //------------------Fin Drawer Functions
+
+    //recycler view lista
+        // Función para obtener los sitios con los códigos especificados
+
+    private void fetchSitesWithCodes(List<String> codigos, String uid) {
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("sitios")
+                .whereIn("codigo", codigos)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot siteDoc : task.getResult()) {
+                                Sitio sitio = siteDoc.toObject(Sitio.class);
+                                dataList.add(sitio);
+                            }
+                            rcAdapterSitios.notifyDataSetChanged();
+                        } else {
+                            Log.d("Firestore", "Error getting sitios: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 }

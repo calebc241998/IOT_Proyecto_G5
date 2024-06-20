@@ -63,7 +63,7 @@ public class admin_editarSuper extends AppCompatActivity {
 
     EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
 
-    String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit;
+    String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios;
 
     Uri uri;
 
@@ -249,6 +249,7 @@ public class admin_editarSuper extends AppCompatActivity {
                                 correo_superad = document.getString("correo_superad");
                                 contrasena = document.getString("contrasena");
                                 estado = document.getString("estado");
+                                sitios = document.getString("sitios");
 
 
                                 Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
@@ -325,7 +326,8 @@ public class admin_editarSuper extends AppCompatActivity {
         String dni = edit_dni.getText().toString();
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp);
+
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
 
         db.collection("usuarios_por_auth")
                 .document(uid)

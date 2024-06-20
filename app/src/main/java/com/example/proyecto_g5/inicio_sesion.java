@@ -38,7 +38,6 @@ public class inicio_sesion extends AppCompatActivity {
 
         // Inicializar lista de usuarios
         Usuarios = new ArrayList<>();
-        generarUsuarios();
 
         correoEditText = findViewById(R.id.editUsuario);
         contrasenaEditText = findViewById(R.id.editContrasena);
@@ -64,11 +63,7 @@ public class inicio_sesion extends AppCompatActivity {
     }
 
 
-    private void generarUsuarios() {
-        Usuarios.add(new Usuario("Caleb", "Casapaico", "12345678","superadmin@example.com", "123456", "Av. Universitaria 1801", "superadmin", "1", "xxxxx", "9999999", "9999999", "1", "1","1"));
-        Usuarios.add(new Usuario("Lara", "Ana", "23456789", "admin@example.com", "123456", "Av. Universitaria 1801", "admin","1","zzzzz", "9999999", "9999999", "1", "1","1"));
-        Usuarios.add(new Usuario("William", "Espinoza", "34567890", "", "", "Av. Universitaria 1801", "supervisor", "1", "yyyyy", "9999999", "9999999", "1", "1","1"));
-    }
+
 
     // Método para iniciar sesión
     private void iniciarSesion() {

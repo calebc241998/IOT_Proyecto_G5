@@ -21,6 +21,7 @@ public class Usuario implements Serializable {
     private String pass_superad;
 
     private  String correo_temp;
+    private  String  sitios;
 
     public Usuario(String displayName, String email) {
     }
@@ -61,7 +62,7 @@ public class Usuario implements Serializable {
 
 
 
-    public Usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono, String uid, String correo_superad, String pass_superad, String correo_temp) {
+    public Usuario(String nombre, String apellido, String dni, String correo, String contrasena, String direccion, String rol, String estado, String imagen, String telefono, String uid, String correo_superad, String pass_superad, String correo_temp, String sitios) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -76,10 +77,19 @@ public class Usuario implements Serializable {
         this.correo_superad = correo_superad;
         this.pass_superad = pass_superad;
         this.correo_temp = correo_temp;
+        this.sitios = sitios;
     }
 
     public Usuario() {
         // Constructor vacío necesario para Firebase
+    }
+
+    public String getSitios() {
+        return sitios;
+    }
+
+    public void setSitios(String sitios) {
+        this.sitios = sitios;
     }
 
     public String getNombre() {

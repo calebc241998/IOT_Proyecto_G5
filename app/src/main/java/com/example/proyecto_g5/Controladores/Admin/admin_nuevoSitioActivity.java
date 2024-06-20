@@ -283,10 +283,11 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         Double latitud_sitio = Double.valueOf(txtlatitud.getText().toString());
         String zona_sitio = tipo_de_zona.getSelectedItem().toString();
         String uid = currentUser.getUid();
+        String supervisores = "1";
 
 
 
-        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, uid);
+        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
 
 
 
