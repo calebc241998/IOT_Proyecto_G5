@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="4dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="135dp"
         android:id="@+id/recCard_item_listsitios_admin"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true"
         android:backgroundTint="@color/celeste_barra_lateral">

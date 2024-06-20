@@ -32,6 +32,9 @@ import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Sitio;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
+
+import com.example.proyecto_g5.dto.Llog;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,6 +49,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -60,6 +64,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import androidx.core.content.ContextCompat;
+
+import java.util.UUID;
 
 public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
@@ -295,12 +301,29 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
                 .document(uid)
                 .collection("sitios")
                 .add(sitio)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(admin_nuevoSitioActivity.this, "Sitio guardado", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e ->{
-                    Toast.makeText(admin_nuevoSitioActivity.this, "No se pudo guardar el sitio", Toast.LENGTH_SHORT).show();
+                .addOnSuccessListener(documentReference -> {
+                    // Crear el log después de guardar exitosamente el usuario
+                    String descripcion = "Se ha creado un nuevo sitio: " + nombre;
+                    String usuarioLog = "administrador"; // Usuario por default (superadmin)
 
+                    // Crear el objeto log
+                    Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                    // Guardar el log en Firestore
+                    db.collection("usuarios_por_auth")
+                            .document(uid)
+                            .collection("logs")
+                            .document(log.getId())
+                            .set(log)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(admin_nuevoSitioActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
                 });
 
 

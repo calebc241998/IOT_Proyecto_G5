@@ -245,7 +245,6 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     public void saveData(){
 
-        notificarImportanceDefault();
 
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
@@ -286,7 +285,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         String uid = currentUser.getUid();
         String correo_superad = currentUser.getEmail();
         String pass_superad = nuevo_pass_superad.getText().toString();
-        String sitios = "1";
+        String sitios = "";
 
 
 
@@ -299,6 +298,9 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                     .collection("usuarios")
                     .add(usuario)
                     .addOnSuccessListener(documentReference -> {
+
+                        notificarImportanceDefault();
+
                         // Crear el log después de guardar exitosamente el usuario
                         String descripcion = "Se ha creado un nuevo supervisor: " + nombre + " " + apellido;
                         String usuarioLog = "administrador"; // Usuario por default (superadmin)

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,9 +12,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Sitio;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
 
 public class admin_info_sitio extends AppCompatActivity {
 
@@ -26,10 +33,39 @@ public class admin_info_sitio extends AppCompatActivity {
 
     TextView info_sitioNombre, info_sitioDistrito, info_sitioUbigeo, info_sitioLat, info_sitioLong, info_sitioNumSuper, info_sitioDepart, info_sitioCodigo, info_sitioProv, info_sitioTipoZona, info_sitioTipoSitio;
 
+
+    //recycler view -----
+
+    RecyclerView recyclerView;
+    List<Sitio> dataList;
+
+    RCAdapter_sitios rcAdapterSitios;
+
+
+
+    //--------------------
+
+    //-----FIREBASE--------
+
+    String imageUrl = "";
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+
+    //----------
+
+    //---------------------
+
+    Button editButton;
+    Button addSitioButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
         setContentView(R.layout.admin_vista_sitio);
+
+
 
 
         //Drawer------------------------------------------
