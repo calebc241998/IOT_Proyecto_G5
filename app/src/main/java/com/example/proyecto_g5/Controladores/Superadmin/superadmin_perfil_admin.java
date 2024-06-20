@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -17,13 +18,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.Controladores.Admin.admin_editarSuper;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfilSuper;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class superadmin_perfil_admin extends AppCompatActivity {
 
@@ -39,6 +49,9 @@ public class superadmin_perfil_admin extends AppCompatActivity {
 
     String imageUrl = "";
 
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
     //---------------------
 
     Button editButton;
@@ -47,6 +60,15 @@ public class superadmin_perfil_admin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
         setContentView(R.layout.superadmin_perfil_admin);
+
+
+
+        String correo_usuario = getIntent().getStringExtra("Correo_temp");
+        String correo = getIntent().getStringExtra("Correo"); //a editar
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
 
 
         //Drawer------------------------------------------
@@ -129,17 +151,60 @@ public class superadmin_perfil_admin extends AppCompatActivity {
         editButton = findViewById(R.id.boton_editar_perfil_admin);
         ImageView estadoImageView = findViewById(R.id.imageView_active_status);
 
+
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
-            perfil_usuarioNombre.setText(bundle.getString("Nombre"));
-            perfil_usuarioImage.setImageResource(bundle.getInt("Image"));
-            perfil_usuarioCorreo.setText(bundle.getString("Correo"));
-            perfil_usuarioDNI.setText(bundle.getString("DNI"));
-            perfil_usuarioTelefono.setText(bundle.getString("Telefono"));
-            perfil_usuarioEstado.setText(bundle.getString("Estado"));
-            perfil_usuarioDireccion.setText(bundle.getString("Direccion"));
-            perfil_usuarioRol.setText(bundle.getString("Rol"));
+            //estos valores son mandados desde admin_myadapter
 
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                String nombre = document.getString("nombre");
+                                String apellido = document.getString("apellido");
+                                String rol = document.getString("rol");
+                                String estado = document.getString("estado");
+
+                                perfil_usuarioNombre.setText(nombre);
+                                perfil_usuarioApellido.setText(apellido);
+                                perfil_usuarioCorreo.setText(document.getString("correo"));
+                                perfil_usuarioTelefono.setText(document.getString("telefono"));
+                                perfil_usuarioDireccion.setText(document.getString("direccion"));
+                                perfil_usuarioDNI.setText(document.getString("dni"));
+                                perfil_usuarioRol.setText(document.getString("rol"));
+                                perfil_usuarioEstado.setText(document.getString("estado"));
+
+                                Glide.with(superadmin_perfil_admin.this).load(document.getString("imagen")).into(perfil_usuarioImage);
+
+
+                                if ("admin".equals(rol)) {
+                                    editButton.setVisibility(View.VISIBLE);
+                                } else {
+                                    editButton.setVisibility(View.GONE);
+                                }
+
+                                // Change state color and image based on the estado
+                                if ("inactivo".equals(estado)) {
+                                    perfil_usuarioEstado.setTextColor(ContextCompat.getColor(superadmin_perfil_admin.this, R.color.red));
+                                    estadoImageView.setImageResource(R.drawable.baseline_error_24); // replace with your inactive status image resource
+                                } else if ("activo".equals(estado)) {
+                                    perfil_usuarioEstado.setTextColor(ContextCompat.getColor(superadmin_perfil_admin.this, R.color.green));
+                                    estadoImageView.setImageResource(R.drawable.baseline_check_circle_outline_24); // replace with your active status image resource
+                                }
+
+                            } else {
+                                Toast.makeText(superadmin_perfil_admin.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
         }
 
@@ -147,36 +212,20 @@ public class superadmin_perfil_admin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(superadmin_perfil_admin.this, superadmin_editar_admin.class)
-                        .putExtra("Nombre", perfil_usuarioNombre.getText().toString())
-                        .putExtra("Apellido", perfil_usuarioApellido.getText().toString())
-                        .putExtra("Correo", perfil_usuarioCorreo.getText().toString())
-                        .putExtra("DNI", perfil_usuarioDNI.getText().toString())
-                        .putExtra("Image", imageUrl)
-                        .putExtra("Telefono", perfil_usuarioTelefono.getText().toString())
-                        .putExtra("Direccion", perfil_usuarioDireccion.getText().toString());
+                        // .putExtra("Nombre", perfil_superNombre.getText().toString())
+                        // .putExtra("Apellido", perfil_superApellido.getText().toString())
+                        .putExtra("Correo", correo)
+                        .putExtra("Correo_temp", correo_usuario)
+                        //.putExtra("DNI", perfil_superDNI.getText().toString())
+                        //.putExtra("Image", imageUrl)
+                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
+                        .putExtra("Uid", uid);
                 startActivity(intent);
             }
         });
 
-        assert bundle != null;
-        if ("Administrador".equals(bundle.getString("Rol"))) {
-            editButton.setVisibility(View.VISIBLE);
-        } else {
-            editButton.setVisibility(View.GONE);
-        }
-
-        // Change the color and image based on status
-        assert bundle != null;
-        if ("Activo".equalsIgnoreCase(bundle.getString("Estado"))) {
-            perfil_usuarioEstado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
-            estadoImageView.setImageResource(R.drawable.baseline_check_circle_outline_24);
-        } else {
-            perfil_usuarioEstado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-            estadoImageView.setImageResource(R.drawable.baseline_error_24);
-        }
-
-
     }
+
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);

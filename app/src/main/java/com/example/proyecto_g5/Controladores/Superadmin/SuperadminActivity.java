@@ -16,7 +16,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
-import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,9 +40,9 @@ public class SuperadminActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseUser currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.superadmin_inicio);
 
@@ -56,14 +55,10 @@ public class SuperadminActivity extends AppCompatActivity {
         perfil = findViewById(R.id.boton_perfil);
         log_out = findViewById(R.id.cerrar_sesion);
 
-
-        String correo_usuario = getIntent().getStringExtra("correo");
-
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent  = new Intent(SuperadminActivity.this, superadmin_perfil.class);
+                Intent intent = new Intent(SuperadminActivity.this, superadmin_perfil.class);
                 startActivity(intent);
             }
         });
@@ -95,6 +90,7 @@ public class SuperadminActivity extends AppCompatActivity {
                 redirectActivity(SuperadminActivity.this, superadmin_nuevo_admin.class);
             }
         });
+
         lista_logs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,13 +108,9 @@ public class SuperadminActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         //------------------------------------- FIRESTORE
 
         db = FirebaseFirestore.getInstance();
-
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
         admin_activado = findViewById(R.id.num_adm_activos);
@@ -127,33 +119,26 @@ public class SuperadminActivity extends AppCompatActivity {
         super_desactivado = findViewById(R.id.num_sup_inactivos);
         textBienvenida = findViewById(R.id.textViewBienvenido1);
 
-        //-Actualizacion db---------------------------------------
+        fetchAndDisplayUserDetails(uid, currentUser.getEmail());
 
+        // Contar supervisores inactivos----------------------------
+        countUsersByRoleAndState(uid, "supervisor1", "inactivo", super_desactivado);
+
+        // Contar supervisores activos-----------------------------
+        countUsersByRoleAndState(uid, "supervisor1", "activo", super_activado);
+
+        // Contar administradores inactivos----------------------------
+        countUsersByRoleAndState(uid, "admin", "inactivo", admin_desactivado);
+
+        // Contar administradores activos-----------------------------
+        countUsersByRoleAndState(uid, "admin", "activo", admin_activado);
+    }
+
+    private void fetchAndDisplayUserDetails(String uid, String userEmail) {
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
-                .whereEqualTo("estado", "activo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Aquí actualizas cada documento individualmente
-                            document.getReference().update("correo_temp", correo_usuario)
-                                    .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
-                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
-                        }
-                    } else {
-                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                    }
-                });
-
-        //Mensaje Bienvenida ---------------------------
-
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("rol", "superadmin")
+                .whereEqualTo("correo", userEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -162,104 +147,45 @@ public class SuperadminActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             String nombre = document.getString("nombre");
                             String apellido = document.getString("apellido");
-                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
+                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido + "!");
                         } else {
                             Toast.makeText(SuperadminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-
-        // Contar supervisores inactivos----------------------------
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
-                .whereEqualTo("estado", "inactivo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countInactiveSupervisors = task.getResult().size();
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        super_desactivado.setText(String.valueOf(countInactiveSupervisors));
-                    } else {
-                        Log.d("Error", "Error al obtener supervisores inactivos: ", task.getException());
-                    }
-                });
-
-        // Contar supervisores activos-----------------------------
-        db.collection("usuarios_por_auth")
-                .document(uid).collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
-                .whereEqualTo("estado", "activo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countActiveSupervisors = task.getResult().size();
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        super_activado.setText( String.valueOf(countActiveSupervisors));
-                    } else {
-                        Log.d("Error", "Error al obtener supervisores activos: ", task.getException());
-                    }
-                });
-
-
-        // Contar administradores inactivos----------------------------
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("rol", "admin")
-                .whereEqualTo("estado", "inactivo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countInactiveAdmins = task.getResult().size();
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        admin_desactivado.setText(String.valueOf(countInactiveAdmins));
-                    } else {
-                        Log.d("Error", "Error al obtener admins inactivos: ", task.getException());
-                    }
-                });
-
-        // Contar administradores activos-----------------------------
-        db.collection("usuarios_por_auth")
-                .document(uid).collection("usuarios")
-                .whereEqualTo("rol", "admin")
-                .whereEqualTo("estado", "activo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countActiveAdmins= task.getResult().size();
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        admin_activado.setText( String.valueOf(countActiveAdmins));
-                    } else {
-                        Log.d("Error", "Error al obtener admins activos: ", task.getException());
-                    }
-                });
-
-
     }
 
-    public  static void openDrawer(DrawerLayout drawerLayout){
+    private void countUsersByRoleAndState(String uid, String role, String state, TextView textView) {
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("rol", role)
+                .whereEqualTo("estado", state)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int count = task.getResult().size();
+                        textView.setText(String.valueOf(count));
+                    } else {
+                        Log.d("Error", "Error al obtener usuarios: ", task.getException());
+                    }
+                });
+    }
+
+    public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
     }
-    public static void closeDrawer(DrawerLayout drawerLayout){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+
+    public static void closeDrawer(DrawerLayout drawerLayout) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
 
-    public static  void redirectActivity(Activity activity, Class secondActivity){
+    public static void redirectActivity(Activity activity, Class secondActivity) {
         Intent intent = new Intent(activity, secondActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
         activity.finish();
     }
-
-    //-------Notificaciones---------------
-
-
-
-
-
 }

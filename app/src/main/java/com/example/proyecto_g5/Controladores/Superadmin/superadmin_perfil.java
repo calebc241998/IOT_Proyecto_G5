@@ -4,16 +4,35 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSitioActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSuperActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
+import com.example.proyecto_g5.Controladores.Admin.admin_sitiosActivity;
+import com.example.proyecto_g5.Controladores.Admin.admin_supervisoresActivity;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 public class superadmin_perfil extends AppCompatActivity{
 
     DrawerLayout drawerLayout;
@@ -22,13 +41,29 @@ public class superadmin_perfil extends AppCompatActivity{
     LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav_superadmin, log_out;
 
     TextView perfil_usuarioNombre, perfil_usuarioApellido, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioEstado, perfil_usuarioRol;
+
     ImageView perfil_usuarioImage;
+    String imageUrl = "";
+
+    Button button_edit_perfil_contra, button_edit_perfil_telefono;
+
+    // para FIREBASE----------------
+
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
         setContentView(R.layout.superadmin_perfil);
+
+        String correo_usuario = getIntent().getStringExtra("Correo_temp");
+        String correo = getIntent().getStringExtra("Correo"); //a editar
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
@@ -46,12 +81,13 @@ public class superadmin_perfil extends AppCompatActivity{
             }
         });
 
-
-
         inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(superadmin_perfil.this, SuperadminActivity.class);
+
+                Intent intent = new Intent(superadmin_perfil.this, SuperadminActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -65,7 +101,9 @@ public class superadmin_perfil extends AppCompatActivity{
         lista_usuarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(superadmin_perfil.this, superadmin_lista_usuarios.class);
+                Intent intent = new Intent(superadmin_perfil.this, superadmin_lista_usuarios.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -81,16 +119,66 @@ public class superadmin_perfil extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(superadmin_perfil.this, inicio_sesion.class);
+                Intent intent = new Intent(superadmin_perfil.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
 
+
+
+        //------------------------------------- FIRESTORE
+
+
+        perfil_usuarioNombre= findViewById(R.id.nombre_perfil_superadmin);
+        perfil_usuarioCorreo = findViewById(R.id.correo_perfil_superadmin);
+        perfil_usuarioDNI = findViewById(R.id.DNI_perfil_superadmin);
+        perfil_usuarioTelefono = findViewById(R.id.telefono_perfil_superadmin);
+        perfil_usuarioDireccion = findViewById(R.id.direccin_perfil_superadmin);
+        perfil_usuarioImage = findViewById(R.id.perfil_superadmin_foto);
+
+        button_edit_perfil_telefono = findViewById(R.id.cambiar_telefono_perfilsuperadmin);
+        button_edit_perfil_contra = findViewById(R.id.cambiar_contra_perfilsuperadmin);
+
+
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("correo", correo_usuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String nombre = document.getString("nombre");
+                            String apellido = document.getString("apellido");
+
+
+
+                            perfil_usuarioNombre.setText(nombre + apellido);
+                            perfil_usuarioCorreo.setText(correo_usuario);
+                            perfil_usuarioTelefono.setText(document.getString("telefono"));
+                            perfil_usuarioDireccion.setText(document.getString("direccion"));
+                            perfil_usuarioDNI.setText(document.getString("dni"));
+
+                            Glide.with(superadmin_perfil.this).load(document.getString("imagen")).into(perfil_usuarioImage);
+
+
+
+
+                        } else {
+                            Toast.makeText(superadmin_perfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+//-----------------------------
+
     }
 
-    //Drawer functions--------------------------------
+//Drawer functions--------------------------------
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
@@ -108,6 +196,6 @@ public class superadmin_perfil extends AppCompatActivity{
         activity.finish();
     }
 
-    //------------------Fin Drawer Functions
 
 }
+//------------------Fin Drawer Functions
