@@ -35,6 +35,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +53,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.util.UUID;
+import com.google.firebase.Timestamp;
 
 
 public class superadmin_nuevo_admin extends AppCompatActivity {
@@ -286,7 +290,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
     }
 
 
-    public  void uploadData( ){
+    public void uploadData() {
         String nombre = nuevo_nombre.getText().toString();
         String apellido = nuevo_apellido.getText().toString();
         String correo = nuevo_correo.getText().toString();
@@ -300,28 +304,44 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
         String pass_superad = nuevo_pass_superad.getText().toString();
         String sitios = "1";
 
+        // Crear un nuevo usuario
+        Usuario usuario = new Usuario(nombre, apellido, dni, correo, pass_superad, direccion, "admin", "activo", imageUrl, telefono, uid, correo_superad, pass_superad, "1", sitios);
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass_superad, direccion, "admin", "activo", imageUrl, telefono ,uid, correo_superad, pass_superad, "1", sitios);
-
-        if(currentUser != null){
-
+        // Guardar el usuario en Firestore
+        if (currentUser != null) {
             db.collection("usuarios_por_auth")
                     .document(uid)
                     .collection("usuarios")
                     .add(usuario)
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(superadmin_nuevo_admin.this, "Saved", Toast.LENGTH_SHORT).show();
+                    .addOnSuccessListener(documentReference -> {
+                        // Crear el log después de guardar exitosamente el usuario
+                        String descripcion = "Se ha creado un nuevo administrador: " + nombre + " " + apellido;
+                        String usuarioLog = "superadmin"; // Usuario por default (superadmin)
+
+                        // Crear el objeto log
+                        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                        // Guardar el log en Firestore
+                        db.collection("usuarios_por_auth")
+                                .document(uid)
+                                .collection("logs")
+                                .document(log.getId())
+                                .set(log)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(superadmin_nuevo_admin.this, "Saved", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(superadmin_nuevo_admin.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                });
                     })
-                    .addOnFailureListener(e ->{
-                        Toast.makeText(superadmin_nuevo_admin.this, "Algo paso al guardar", Toast.LENGTH_SHORT).show();
-
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(superadmin_nuevo_admin.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
                     });
-        }else {
-            Toast.makeText(superadmin_nuevo_admin.this, "No esta logueado", Toast.LENGTH_SHORT).show();
-
+        } else {
+            Toast.makeText(superadmin_nuevo_admin.this, "No está logueado", Toast.LENGTH_SHORT).show();
         }
-
     }
+
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);

@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Create log entry
-        crearLog(role, nombre, superadminId);
+        crearLog(role, superadminId);
 
         intent.putExtra("correo", email);
         startActivity(intent);
@@ -190,9 +190,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    private void crearLog(String role, String nombre, String superadminId) {
-        String descripcion = "El " + role + " " + nombre + " se ha logueado";
-        String usuario = nombre + " (" + role + ")";
+    private void crearLog(String role, String superadminId) {
+        String descripcion = "El " + role + " se ha logueado";
+        String usuario = " (" + role + ")";
         Timestamp timestamp = Timestamp.now(); // Obtener el timestamp actual
 
         Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuario, timestamp);
