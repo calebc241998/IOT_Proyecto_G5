@@ -72,6 +72,7 @@ public class admin_perfilSuper extends AppCompatActivity {
     //---------------------
 
     Button editButton;
+    Button addSitioButton;
 
 
     @Override
@@ -186,6 +187,7 @@ public class admin_perfilSuper extends AppCompatActivity {
         perfil_superImage = findViewById(R.id.perfil_super);
 
         editButton = findViewById(R.id.button_editar_perfil_super);
+        addSitioButton = findViewById(R.id.editar_agregar_sitios) ;
 
 
 
@@ -231,6 +233,22 @@ public class admin_perfilSuper extends AppCompatActivity {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
                        // .putExtra("Nombre", perfil_superNombre.getText().toString())
                        // .putExtra("Apellido", perfil_superApellido.getText().toString())
+                        .putExtra("Correo", correo)
+                        .putExtra("Correo_temp", correo_usuario)
+                        //.putExtra("DNI", perfil_superDNI.getText().toString())
+                        //.putExtra("Image", imageUrl)
+                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
+                        .putExtra("Uid", uid);
+                startActivity(intent);
+            }
+        });
+
+        addSitioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin_perfilSuper.this, admin_listaSitiosSupervisor.class)
+                        // .putExtra("Nombre", perfil_superNombre.getText().toString())
+                        // .putExtra("Apellido", perfil_superApellido.getText().toString())
                         .putExtra("Correo", correo)
                         .putExtra("Correo_temp", correo_usuario)
                         //.putExtra("DNI", perfil_superDNI.getText().toString())

@@ -4,112 +4,91 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@android:drawable/btn_star_big_on"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto_G5"
-        android:hardwareAccelerated="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Controladores.Admin.admin_listaSitiosSupervisor"
+            android:exported="false" />
         <activity
             android:name=".Controladores.Admin.AdminActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Admin.admin_supervisoresActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Admin.admin_sitiosActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Admin.admin_nuevoSitioActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Admin.admin_nuevoSuperActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Admin.admin_perfilSuper"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Admin.admin_info_sitio"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Admin.admin_perfil"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Admin.admin_editarSuper"
-            android:exported="false">
-        </activity>
-
-
-
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Admin.admin_perfilSuper"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Admin.admin_info_sitio"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Admin.admin_perfil"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Admin.admin_editarSuper"
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Supervisor.SupervisorActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.Proyecto_G5.NoActionBar">
-        </activity>
-
-
+            android:theme="@style/Theme.Proyecto_G5.NoActionBar"></activity>
         <activity
             android:name=".Controladores.Superadmin.SuperadminActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.Proyecto_G5.NoActionBar">
-        </activity>
-
-
+            android:theme="@style/Theme.Proyecto_G5.NoActionBar"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_lista_usuarios"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_logs"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_nuevo_admin"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Superadmin.superadmin_perfil"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Superadmin.superadmin_perfil_admin"
-            android:exported="false">
-        </activity>
-        <activity android:name=".Controladores.Superadmin.superadmin_editar_admin"
-            android:exported="false">
-        </activity>
-
-        <activity android:name=".Controladores.Superadmin.superadmin_perfil_supervisor"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_perfil"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_perfil_admin"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_editar_admin"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Controladores.Superadmin.superadmin_perfil_supervisor"
+            android:exported="false"></activity>
         <activity
             android:name=".inicio_sesion"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -123,7 +102,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
