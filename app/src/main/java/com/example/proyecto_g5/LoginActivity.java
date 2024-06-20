@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
 import com.example.proyecto_g5.Controladores.Superadmin.SuperadminActivity;
 import com.example.proyecto_g5.Controladores.Supervisor.SupervisorActivity;
+import com.example.proyecto_g5.dto.Llog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,38 +31,33 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.UUID;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private EditText loginEmail, loginPassword, idteam;
     private Button loginButton;
     private TextView registerRedirectText;
-
-    //prueba
-
-    FirebaseFirestore db;
-    FirebaseUser currentUser;
+    private FirebaseFirestore db;
     private CheckBox mostrarContrasenaCheckbox;
 
-
-
-
-
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_2);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        idteam =findViewById(R.id.loginIDTeam);
+        idteam = findViewById(R.id.loginIDTeam);
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.buttonLogin);
         registerRedirectText = findViewById(R.id.registerRedirectText);
         mostrarContrasenaCheckbox = findViewById(R.id.checkBoxMostrarContrasena);
-
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
                         // Autenticación con Firebase Auth
                         FirebaseAuth auth = FirebaseAuth.getInstance();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
                         // Intentar autenticar con correo y contraseña
                         auth.signInWithEmailAndPassword(email, pass)
@@ -137,8 +131,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
 
-
-
         db.collection("usuarios_por_auth")
                 .document(id)
                 .collection("usuarios")
@@ -157,26 +149,23 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseAuth auth = FirebaseAuth.getInstance();
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
                             // Intentar autenticar con correo y contraseña
                             auth.signInWithEmailAndPassword(correo_superad, pass_superad)
                                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
-                                            iniciarSesionSegunRol(role, email);
+                                            iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
                                         }
                                     });
-
 
                         } else {
                             Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
 
-    private void iniciarSesionSegunRol(String role, String email) {
+    private void iniciarSesionSegunRol(String role, String email, String nombre, String superadminId) {
         Intent intent;
         if (role.equals("admin")) {
             intent = new Intent(LoginActivity.this, AdminActivity.class);
@@ -191,13 +180,44 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
+        // Create log entry
+        crearLog(role, nombre, superadminId);
 
         intent.putExtra("correo", email);
-
         startActivity(intent);
         finish();
     }
+
+
+
+    private void crearLog(String role, String nombre, String superadminId) {
+        String descripcion = "El " + role + " " + nombre + " se ha logueado";
+        String usuario = nombre + " (" + role + ")";
+        Timestamp timestamp = Timestamp.now(); // Obtener el timestamp actual
+
+        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuario, timestamp);
+
+        db.collection("usuarios_por_auth")
+                .document(superadminId)
+                .collection("logs")
+                .document(log.getId())
+                .set(log)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Log creado exitosamente
+                        Toast.makeText(LoginActivity.this, "Log creado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Manejar el error
+                        Toast.makeText(LoginActivity.this, "Error al crear el log", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     private void mostrarOcultarContrasena(boolean mostrar) {
         if (mostrar) {
@@ -210,5 +230,5 @@ public class LoginActivity extends AppCompatActivity {
         // Mover el cursor al final
         loginPassword.setSelection(loginPassword.getText().length());
     }
-
 }
+
