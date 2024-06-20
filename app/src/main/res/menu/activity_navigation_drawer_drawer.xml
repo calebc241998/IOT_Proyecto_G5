@@ -8,10 +8,6 @@
             android:id="@+id/supervisor_inicio"
             android:icon="@drawable/home"
             android:title="Inicio" />
-        <item
-            android:id="@+id/supervisor_lista_sitios"
-            android:icon="@drawable/baseline_location_pin_24"
-            android:title="Lista de sitios" />
 
         <item
             android:id="@+id/fragment_chat_list"

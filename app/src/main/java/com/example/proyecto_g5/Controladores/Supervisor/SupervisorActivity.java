@@ -48,7 +48,7 @@ public class SupervisorActivity extends AppCompatActivity {
 
         // Configurar el AppBarConfiguration con los fragments de destino y el DrawerLayout
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.supervisor_inicio, R.id.supervisor_lista_sitios, R.id.fragment_chat_list)
+                R.id.supervisor_inicio, R.id.fragment_chat_list)
                 .setOpenableLayout(binding.drawerLayout)
                 .build();
 

@@ -9,7 +9,11 @@
         android:id="@+id/supervisor_inicio"
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_inicio"
         android:label=""
-        tools:layout="@layout/supervisor_inicio" />
+        tools:layout="@layout/supervisor_inicio" >
+        <action
+            android:id="@+id/action_supervisor_inicio_to_supervisor_lista_sitios"
+            app:destination="@id/supervisor_lista_sitios" />
+    </fragment>
     <fragment
         android:id="@+id/supervisor_lista_sitios"
         android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_lista_sitios"
