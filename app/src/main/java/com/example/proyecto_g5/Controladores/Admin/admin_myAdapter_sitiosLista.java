@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,20 +14,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Sitio;
 
 import java.util.List;
 
 public class admin_myAdapter_sitiosLista extends RecyclerView.Adapter<MyViewHolder_sitios> {
 
     private Context context;
-    private List<admin_sitioDataClass> dataList;
+    private List<Sitio> dataList;
 
-    public void setSearchList_sitios(List<admin_sitioDataClass> dataSearchList){
+    public void setSearchList_sitios(List<Sitio> dataSearchList){
         this.dataList = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public admin_myAdapter_sitiosLista(Context context, List<admin_sitioDataClass> dataList){
+    public admin_myAdapter_sitiosLista(Context context, List<Sitio> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -41,16 +43,16 @@ public class admin_myAdapter_sitiosLista extends RecyclerView.Adapter<MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder_sitios holder, int position) {
         try {
-            admin_sitioDataClass item = dataList.get(position);
+            Sitio item = dataList.get(position);
             holder.rec_nombre.setText(item.getNombre());
             holder.rec_distrito.setText(item.getDistrito());
-            holder.rec_numSuper.setText(item.getNumSuper());
+            //holder.rec_numSuper.setText(item.getNumSuper());
 
             holder.recCard.setOnClickListener(v -> {
                 Intent intent = new Intent(context, admin_info_sitio.class);
                 intent.putExtra("Nombre", item.getNombre());
                 intent.putExtra("Distrito", item.getDistrito());
-                intent.putExtra("NumSuper", item.getNumSuper());
+                //intent.putExtra("NumSuper", item.getNumSuper());
                 intent.putExtra("Codigo", item.getCodigo());
                 intent.putExtra("Departamento", item.getDepartamento());
                 intent.putExtra("Provincia", item.getProvincia());
@@ -82,7 +84,7 @@ class MyViewHolder_sitios extends RecyclerView.ViewHolder{
 
         rec_nombre = itemView.findViewById(R.id.textView_nameSitio_cardRC_admin);
         rec_distrito = itemView.findViewById(R.id.textView_distrito_cardRC_admin);
-        rec_numSuper = itemView.findViewById(R.id.textView_numSuper_cardRC_admin);
+        //rec_numSuper = itemView.findViewById(R.id.textView_numSuper_cardRC_admin);
         recCard = itemView.findViewById(R.id.recCard_item_listsitios_admin);
     }
 }

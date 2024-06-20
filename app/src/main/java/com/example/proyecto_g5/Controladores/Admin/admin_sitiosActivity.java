@@ -1,6 +1,7 @@
 package com.example.proyecto_g5.Controladores.Admin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
@@ -18,10 +20,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.proyecto_g5.dto.Sitio;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class admin_sitiosActivity extends AppCompatActivity {
 
@@ -31,10 +44,13 @@ public class admin_sitiosActivity extends AppCompatActivity {
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
     RecyclerView recyclerView;
-    List<admin_sitioDataClass> dataList;
+    List<Sitio> dataList;
     admin_myAdapter_sitiosLista adapter;
     SearchView searchView;
 
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+    DatabaseReference databaseReference;
     Button editButton;
 
     @Override
@@ -42,8 +58,74 @@ public class admin_sitiosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_lista_sitios);
 
+
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         initializeDrawer();
-        setupRecyclerView();
+        recyclerView = findViewById(R.id.recyclerView_listasitios_admin);
+        searchView = findViewById(R.id.search_listasitios_admin);
+        searchView.clearFocus();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        //Firebase//
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(admin_sitiosActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dataList = new ArrayList<>();
+        adapter = new admin_myAdapter_sitiosLista(this, dataList);
+        recyclerView.setAdapter(adapter);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("sitios");
+        dialog.show();
+
+        String uid = currentUser.getUid();
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("sitios")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Sitio sitio = document.toObject(Sitio.class);
+                                dataList.add(sitio);
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            dialog.dismiss();
+
+                        } else {
+                            // Manejar la situación cuando la consulta falla
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                searchList(newText);
+
+                return true;
+            }
+        });
 
         FloatingActionButton addSuperButton = findViewById(R.id.floatingButton_addSitio);
         addSuperButton.setOnClickListener(new View.OnClickListener() {
@@ -116,31 +198,14 @@ public class admin_sitiosActivity extends AppCompatActivity {
             adapter = new admin_myAdapter_sitiosLista(this, dataList);
             recyclerView.setAdapter(adapter);
 
-            addTestData();
+            //addTestData();
         } catch (Exception e) {
             Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
         }
     }
 
-    private void addTestData() {
-        try {
-            admin_sitioDataClass androidData = new admin_sitioDataClass("Area Telecom1", "5","12345678", "Lima", "Lima", "Lima", 45632L,93871388L, 93841388L, "urbana", "movil" );
-            dataList.add(androidData);
-            androidData = new admin_sitioDataClass("Area Telecom2", "5","12345678", "Lima", "Lima", "la Victoria", 45632L,93871388L, 93841388L, "urbana", "movil" );
-            dataList.add(androidData);
-            androidData = new admin_sitioDataClass("Area Telecom3", "5","12345678", "Lima", "Lima", "Surco", 45632L,93871388L, 93841388L, "rural", "movil" );
-            dataList.add(androidData);
-            androidData = new admin_sitioDataClass("Area Telecom5", "2","12345678", "Lima", "Lima", "La Molina", 45632L,93871388L, 93841388L, "urbana", "movil" );
-            dataList.add(androidData);
 
-            adapter.notifyDataSetChanged();
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("TestDataError", "Error adding test data", e);
-        }
-    }
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -154,8 +219,8 @@ public class admin_sitiosActivity extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        List<admin_sitioDataClass> dataSearchList = new ArrayList<>();
-        for (admin_sitioDataClass data : dataList) {
+        List<Sitio> dataSearchList = new ArrayList<>();
+        for (Sitio data : dataList) {
             if (data.getNombre().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }

@@ -69,6 +69,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
     ImageView menu,perfil;
     Button boton_guardar_sitio;
 
+    FirebaseUser currentUser;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
     private Spinner departamento, provincia, distrito,  tipo_de_lugar, tipo_de_zona;
@@ -225,6 +226,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         db = FirebaseFirestore.getInstance();
         //currentUser = FirebaseAuth.getInstance().getCurrentUser();
         nombre_sitio = findViewById(R.id.nombre_nuevoSitio);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         //codigo, departamento, provincia, distrito, ubigeo, tipo_de_lugar, referencia
         codigo = findViewById(R.id.codigo_nuevoSitio);
         departamento = findViewById(R.id.ACSspinner2);
@@ -264,6 +266,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         uploadData();
         dialog.dismiss();
 
+
+
     }
 
     public  void uploadData( ){
@@ -278,16 +282,18 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         Double longitud_sitio = Double.valueOf(txtlongitud.getText().toString());
         Double latitud_sitio = Double.valueOf(txtlatitud.getText().toString());
         String zona_sitio = tipo_de_zona.getSelectedItem().toString();
+        String uid = currentUser.getUid();
 
 
 
-        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio);
+        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, uid);
 
 
 
-        db.collection("sitios")
-                .document(codigo_sitio)
-                .set(sitio)
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("sitios")
+                .add(sitio)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(admin_nuevoSitioActivity.this, "Sitio guardado", Toast.LENGTH_SHORT).show();
                 })

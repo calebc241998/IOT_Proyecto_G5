@@ -15,6 +15,7 @@ public class Sitio implements Serializable {
     private String tipodesitio;
     private String referencia;
 
+    private String uid;
 
     // Constructor sin argumentos
     public Sitio() {
@@ -22,7 +23,7 @@ public class Sitio implements Serializable {
 
     // Constructor con argumentos
 
-    public Sitio(String nombre, String codigo, String departamento, String provincia, String distrito, String referencia, Long ubigeo, Double longitud, Double latitud, String tipodezona, String tipodesitio) {
+    public Sitio(String nombre, String codigo, String departamento, String provincia, String distrito, String referencia, Long ubigeo, Double longitud, Double latitud, String tipodezona, String tipodesitio, String uid) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.departamento = departamento;
@@ -34,6 +35,7 @@ public class Sitio implements Serializable {
         this.latitud = latitud;
         this.tipodezona = tipodezona;
         this.tipodesitio = tipodesitio;
+        this.uid = uid;
     }
 
     // Getters y setters
@@ -123,5 +125,13 @@ public class Sitio implements Serializable {
 
     public void setReferencia(String referencia) {
         this.referencia = referencia;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
