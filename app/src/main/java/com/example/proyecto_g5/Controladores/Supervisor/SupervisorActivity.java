@@ -2,18 +2,9 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
-import com.example.proyecto_g5.MainActivity;
-import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Controladores.Admin.admin_info_sitio;
-import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,48 +14,52 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
+import com.example.proyecto_g5.MainActivity;
+import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
+import com.google.android.material.navigation.NavigationView;
+
 public class SupervisorActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SupervisorActivityNavigationDrawerBinding binding;
-    private TextView textViewBienvenido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String nombre = getIntent().getStringExtra("nombre");
-        String apellido = getIntent().getStringExtra("apellido");
-
         super.onCreate(savedInstanceState);
 
         binding = SupervisorActivityNavigationDrawerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ImageView imagen = findViewById(R.id.imagenPrueba);
-
-        imagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Redirigir a la vista de chat
-                Intent intent = new Intent(SupervisorActivity.this, admin_perfil.class);
-                startActivity(intent);
-            }
-        });
-
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        String correo = getIntent().getStringExtra("correo"); // Recibir correo del Intent
 
+        // Configurar el NavController para manejar la navegación
+        NavController navController = Navigation.findNavController(this, R.id.supervisor_nav_host_fragment_content_navigation_drawer);
+
+        // Crear un Bundle y configurarlo
+        Bundle bundle = new Bundle();
+        bundle.putString("correo", correo);
+
+        // Navegar al fragmento supervisor_inicio con el Bundle
+        navController.navigate(R.id.supervisor_inicio, bundle);
+
+        // Configurar el AppBarConfiguration con los fragments de destino y el DrawerLayout
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.supervisor_inicio, R.id.supervisor_lista_sitios, R.id.fragment_chat_list)
-                .setOpenableLayout(drawer)
+                R.id.supervisor_inicio, R.id.fragment_chat_list)
+                .setOpenableLayout(binding.drawerLayout)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.supervisor_nav_host_fragment_content_navigation_drawer);
+        // Configurar la ActionBar para que siga al NavController
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        // Configurar el NavigationView para que siga al NavController
+        NavigationUI.setupWithNavController(binding.navView, navController);
+
+        // Manejar clics en los elementos del NavigationView
+        binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -79,24 +74,32 @@ public class SupervisorActivity extends AppCompatActivity {
                     // Deja que el NavController maneje el resto de elementos del menú
                     boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
                     if (handled) {
-                        drawer.closeDrawer(navigationView);
+                        binding.drawerLayout.closeDrawers(); // Cerrar el drawer si se seleccionó un elemento
                     }
                     return handled;
                 }
             }
         });
-    }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
-        return true;
-    }*/
+        // Configurar clic en la imagen de prueba (ejemplo)
+        ImageView imagen = findViewById(R.id.imagenPrueba);
+        imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ejemplo: Redirigir a la vista de perfil de admin
+                Intent intent = new Intent(SupervisorActivity.this, admin_perfil.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
+        // Manejar la navegación hacia arriba
         NavController navController = Navigation.findNavController(this, R.id.supervisor_nav_host_fragment_content_navigation_drawer);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

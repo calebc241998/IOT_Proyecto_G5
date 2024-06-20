@@ -1,8 +1,9 @@
 package com.example.proyecto_g5.dto;
 
+import java.io.Serializable;
 import java.security.PrivateKey;
 
-public class Usuario {
+public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
     private String dni;
