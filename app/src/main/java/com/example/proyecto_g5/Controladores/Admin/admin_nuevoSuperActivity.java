@@ -33,14 +33,17 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.proyecto_g5.Controladores.Superadmin.superadmin_nuevo_admin;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -49,6 +52,8 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 public class admin_nuevoSuperActivity extends AppCompatActivity {
 
@@ -293,12 +298,29 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                     .document(uid)
                     .collection("usuarios")
                     .add(usuario)
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e ->{
-                        Toast.makeText(admin_nuevoSuperActivity.this, "Algo paso al guardar", Toast.LENGTH_SHORT).show();
+                    .addOnSuccessListener(documentReference -> {
+                        // Crear el log después de guardar exitosamente el usuario
+                        String descripcion = "Se ha creado un nuevo supervisor: " + nombre + " " + apellido;
+                        String usuarioLog = "administrador"; // Usuario por default (superadmin)
 
+                        // Crear el objeto log
+                        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                        // Guardar el log en Firestore
+                        db.collection("usuarios_por_auth")
+                                .document(uid)
+                                .collection("logs")
+                                .document(log.getId())
+                                .set(log)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
                     });
         }else {
             Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
