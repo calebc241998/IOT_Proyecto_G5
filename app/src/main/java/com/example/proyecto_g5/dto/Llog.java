@@ -1,14 +1,18 @@
 package com.example.proyecto_g5.dto;
 
-public class Log {
+public class Llog {
 
     private String id;
     private String descripcion;
 
-    public Log(String id, String descripcion) {
+    public Llog(String id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
 
+    }
+
+    public Llog() {
+        // Constructor vacío necesario para Firebase
     }
 
     public String getId() {

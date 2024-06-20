@@ -22,14 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
-import com.example.proyecto_g5.Controladores.Admin.admin_myAdapter_superLista;
-import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSitioActivity;
-import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSuperActivity;
-import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
-import com.example.proyecto_g5.Controladores.Admin.admin_sitiosActivity;
-import com.example.proyecto_g5.Controladores.Admin.admin_supervisoresActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;

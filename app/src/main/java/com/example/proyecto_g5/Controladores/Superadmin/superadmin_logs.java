@@ -1,9 +1,11 @@
 package com.example.proyecto_g5.Controladores.Superadmin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
@@ -12,43 +14,161 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.DataListaLogsClass;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyAdapterListaLogs;
+import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
+import com.example.proyecto_g5.dto.Llog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class superadmin_logs extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageView menu;
+    ImageView menu, perfil;
 
     LinearLayout lista_usuarios, lista_logs, nuevo_admin, inicio_nav, log_out;
 
     RecyclerView recyclerView;
-    List<DataListaLogsClass> dataList;
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+
+    //----------
+    List<Llog> dataList;
+
+    DatabaseReference databaseReference;
+
+    ValueEventListener eventListener;
+
     MyAdapterListaLogs adapter;
     SearchView searchView;
+
+    Button editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.superadmin_logs);
 
+        String correo_usuario = getIntent().getStringExtra("correo");
+
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
         initializeDrawer();
-        setupRecyclerView();
+        recyclerView = findViewById(R.id.recyclerView_listalogs_superadmin);
+        searchView = findViewById(R.id.search_listalogs_superadmin);
+        searchView.clearFocus();
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        // firebase----------------
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(superadmin_logs.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dataList = new ArrayList<>();
+        adapter = new MyAdapterListaLogs(this, dataList);
+        recyclerView.setAdapter(adapter);
+
+        //Firebase-----
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("logs");
+        dialog.show();
+
+        //------------------------------------- FIRESTORE
+
+        String uid = currentUser.getUid();
+
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("logs")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            dataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    Llog llog = document.toObject(Llog.class);
+                                    dataList.add(llog);
+                                } catch (Exception e) {
+                                    Log.e("Firestore", "Error deserializing document: " + document.getId(), e);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Log.e("Firestore", "Error getting documents: ", task.getException());
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                searchList(newText);
+
+                return true;
+            }
+        });
+
+
     }
 
     private void initializeDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(superadmin_logs.this, superadmin_perfil.class);
+                startActivity(intent);
+            }
+        });
+
+        //-------
 
         setupDrawerLinks();
     }
@@ -56,14 +176,14 @@ public class superadmin_logs extends AppCompatActivity {
     private void setupDrawerLinks() {
         inicio_nav = findViewById(R.id.inicio_nav_superadmin);
         lista_usuarios = findViewById(R.id.lista_usuarios_nav);
-        lista_logs = findViewById(R.id.lista_logs_nav);
         nuevo_admin = findViewById(R.id.nuevo_admin_nav);
+        lista_logs = findViewById(R.id.lista_logs_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
         inicio_nav.setOnClickListener(v -> redirectActivity(this, SuperadminActivity.class));
-        lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
         lista_usuarios.setOnClickListener(v -> redirectActivity(this, superadmin_lista_usuarios.class));
         nuevo_admin.setOnClickListener(v -> redirectActivity(this, superadmin_nuevo_admin.class));
+        lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
         log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());
     }
 
@@ -91,33 +211,19 @@ public class superadmin_logs extends AppCompatActivity {
             adapter = new MyAdapterListaLogs(this, dataList);
             recyclerView.setAdapter(adapter);
 
-            addTestData();
+            //Firebase-----
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("logs");
+
+
+            //-------------
+
         } catch (Exception e) {
             Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
         }
     }
 
-    private void addTestData() {
-        try {
-            DataListaLogsClass androidData = new DataListaLogsClass("Juan Perez ha creado un sitio");
-            dataList.add(androidData);
-            androidData = new DataListaLogsClass("Liliana ha creado un sitio");
-            dataList.add(androidData);
-            androidData = new DataListaLogsClass("Maximo Perez ha creado un supervisor");
-            dataList.add(androidData);
-            androidData = new DataListaLogsClass("Caleb Casapaico ha creado un supervisor");
-            dataList.add(androidData);
-            androidData = new DataListaLogsClass("Oscar Diaz ha creado un supervisor");
-            dataList.add(androidData);
-
-
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("TestDataError", "Error adding test data", e);
-        }
-    }
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -131,8 +237,8 @@ public class superadmin_logs extends AppCompatActivity {
     }
 
     private void searchList(String text) {
-        List<DataListaLogsClass> dataSearchList = new ArrayList<>();
-        for (DataListaLogsClass data : dataList) {
+        ArrayList<Llog> dataSearchList = new ArrayList<>();
+        for (Llog data : dataList) {
             if (data.getDescripcion().toLowerCase().contains(text.toLowerCase())) {
                 dataSearchList.add(data);
             }
@@ -143,5 +249,4 @@ public class superadmin_logs extends AppCompatActivity {
             adapter.setSearchList(dataSearchList);
         }
     }
-
 }

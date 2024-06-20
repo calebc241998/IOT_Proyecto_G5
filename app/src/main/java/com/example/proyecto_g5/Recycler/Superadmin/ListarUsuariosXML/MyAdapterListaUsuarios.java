@@ -68,7 +68,7 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
 
                 //manda estos valores a perfil supervisor
 
-                Intent intent = new Intent(context, admin_perfilSuper.class);
+                Intent intent = new Intent(context, superadmin_perfil_admin.class);
                 intent.putExtra("uid", dataList.get(holder.getAdapterPosition()).getUid());
                 //intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
                 //intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
