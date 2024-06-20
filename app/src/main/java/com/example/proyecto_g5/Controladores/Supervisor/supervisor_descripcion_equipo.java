@@ -73,36 +73,55 @@ public class supervisor_descripcion_equipo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         supervisorDescripcionEquipoBinding = SupervisorDescripcionEquipoBinding.inflate(inflater, container, false);
 
-        // Obtener los datos del equipo de los argumentos
-        Equipo equipo = (Equipo) getArguments().getSerializable("equipo");
-        String codigoSitio = getArguments().getString("ACScodigo");
-        Log.d("msg-test",equipo.getNumerodeserie()+" "+ codigoSitio);
+        // Verifica si el Bundle tiene el objeto 'equipo'
+        if (getArguments() != null) {
+            Equipo equipo = (Equipo) getArguments().getSerializable("equipo");
+            String codigoSitio = getArguments().getString("ACScodigo");
 
-        // Mostrar la información en los TextView correspondientes
-        supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
-        supervisorDescripcionEquipoBinding.ACSnumeroSerie.setText(equipo.getNumerodeserie());
-        supervisorDescripcionEquipoBinding.ACStipo.setText(equipo.getNombre_tipo());
-        supervisorDescripcionEquipoBinding.ACSMarca.setText(equipo.getMarca());
-        supervisorDescripcionEquipoBinding.ACSmodelo.setText(String.valueOf(equipo.getMarca()));
-        supervisorDescripcionEquipoBinding.ACSDescripcion.setText(equipo.getDescripcion());
-        supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
-        supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
+            // Verifica que el objeto 'equipo' no sea null
+            if (equipo != null) {
+                Log.d("msg-test", equipo.getNumerodeserie() + " " + codigoSitio);
 
-        //El nombre del documento debe de ser el numero de serie del equipo para q pueda borrarlo
-        supervisorDescripcionEquipoBinding.borrarEquipo.setOnClickListener(v -> eliminarIngreso(equipo.getNumerodeserie(),codigoSitio));
+                // Mostrar la información en los TextView correspondientes
+                supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
+                supervisorDescripcionEquipoBinding.ACSnumeroSerie.setText(equipo.getNumerodeserie());
+                supervisorDescripcionEquipoBinding.ACStipo.setText(equipo.getNombre_tipo());
+                supervisorDescripcionEquipoBinding.ACSMarca.setText(equipo.getMarca());
+                supervisorDescripcionEquipoBinding.ACSmodelo.setText(String.valueOf(equipo.getModelo()));
+                supervisorDescripcionEquipoBinding.ACSDescripcion.setText(equipo.getDescripcion());
+                supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
+                supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
 
-        //Pasar a vista reportes
-        NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
-        supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
+                // El nombre del documento debe de ser el numero de serie del equipo para q pueda borrarlo
+                supervisorDescripcionEquipoBinding.borrarEquipo.setOnClickListener(v -> eliminarIngreso(equipo.getNumerodeserie(), codigoSitio));
 
-            navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_lista_reportes);
-        });
+                // Pasar a vista reportes
+                NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
+                supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
+                    navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_lista_reportes);
+                });
+
+                // Pasar a vista de editar equipo
+                supervisorDescripcionEquipoBinding.editarEquipo.setOnClickListener(view -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("equipo", equipo);
+                    bundle.putString("ACScodigo", codigoSitio);
+                    navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_editar_equipo, bundle);
+                });
+            } else {
+                Log.e("msg-test", "El objeto 'equipo' es null");
+                // Manejar el caso donde el objeto 'equipo' es null
+            }
+        } else {
+            Log.e("msg-test", "El Bundle de argumentos es null");
+            // Manejar el caso donde el Bundle es null
+        }
 
         return supervisorDescripcionEquipoBinding.getRoot();
     }
+
 
     private void eliminarIngreso(String numero_serie, String codigoSitio) {
         db = FirebaseFirestore.getInstance();
