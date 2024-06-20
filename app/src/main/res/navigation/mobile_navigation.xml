@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_supervisor_lista_equipos_to_supervisor_nuevo_equipo"
             app:destination="@id/supervisor_nuevo_equipo" />
+        <action
+            android:id="@+id/action_supervisor_lista_equipos_to_supervisor_nuevo_equipo2"
+            app:destination="@id/supervisor_nuevo_equipo" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_lista_reportes"
@@ -60,6 +63,9 @@
         <action
             android:id="@+id/action_supervisor_descripcion_equipo_to_supervisor_lista_reportes"
             app:destination="@id/supervisor_lista_reportes" />
+        <action
+            android:id="@+id/action_supervisor_descripcion_equipo_to_supervisor_editar_equipo"
+            app:destination="@id/supervisor_editar_equipo" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_reporte_descripcion"
@@ -98,6 +104,15 @@
         <action
             android:id="@+id/action_fragment_chat_list_to_chat_inbox"
             app:destination="@id/chat_inbox" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_editar_equipo"
+        android:name="com.example.proyecto_g5.Controladores.Supervisor.supervisor_editar_equipo"
+        android:label="supervisor_editar_equipo"
+        tools:layout="@layout/supervisor_editar_equipo" >
+        <action
+            android:id="@+id/action_supervisor_editar_equipo_to_supervisor_descripcion_equipo"
+            app:destination="@id/supervisor_descripcion_equipo" />
     </fragment>
 
 </navigation>
