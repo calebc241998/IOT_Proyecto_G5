@@ -17,9 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.proyecto_g5.Controladores.Admin.admin_nuevoSitioActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorNuevoEquipoBinding;
 import com.example.proyecto_g5.dto.Equipo;
+import com.example.proyecto_g5.dto.Llog;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.UUID;
 
 public class supervisor_nuevo_equipo extends Fragment {
 
@@ -112,6 +116,23 @@ public class supervisor_nuevo_equipo extends Fragment {
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("ACScodigo", codigoDeSitio);
                                                 navController.navigate(R.id.supervisor_lista_equipos, bundle);
+                                            })
+
+                                            .addOnSuccessListener(documentReference -> {
+                                                // Crear el log después de guardar exitosamente el usuario
+                                                String descripcionlog = "Se ha creado un nuevo equipo: " + serie + " al sitio "+ codigoDeSitio ;
+                                                String usuarioLog = "supervisor"; // Usuario por default (superadmin)
+
+                                                // Crear el objeto log
+                                                Llog log = new Llog(UUID.randomUUID().toString(), descripcionlog, usuarioLog, Timestamp.now());
+
+                                                // Guardar el log en Firestore
+                                                db.collection("usuarios_por_auth")
+                                                        .document(userId)
+                                                        .collection("logs")
+                                                        .document(log.getId())
+                                                        .set(log);
+
                                             })
                                             .addOnFailureListener(e -> {
                                                 Log.w("TAG", "Error al agregar equipo", e);
