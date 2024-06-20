@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolder> {
@@ -43,11 +44,22 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
+        Glide.with(context).load(dataList.get(position).getImagen()).circleCrop().into(holder.recImage);
         holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
 
         holder.rec_status.setText(dataList.get(position).getEstado());
-        holder.rec_numSites.setText("3 ");
+
+        //holder.rec_numSites.setText("3 ");
+        String sitiosStr = dataList.get(position).getSitios();
+        if (sitiosStr != null && !sitiosStr.isEmpty()) {
+            // Convertir el String en una lista de códigos
+            List<String> sitiosList = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+            // Asignar el número de elementos en la lista al TextView
+            holder.rec_numSites.setText(String.valueOf(sitiosList.size()));
+        } else {
+            // Si no hay sitios, asignar 0
+            holder.rec_numSites.setText("0");
+        }
 
         //aqui le asigna los valores que aparecen en el recycle view
 

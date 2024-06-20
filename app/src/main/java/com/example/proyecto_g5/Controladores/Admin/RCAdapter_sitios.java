@@ -31,7 +31,7 @@ public class RCAdapter_sitios extends RecyclerView.Adapter<MyViewHolder_sitiosSu
     @NonNull
     @Override
     public MyViewHolder_sitiosSuper onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_item_sitio, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_item_sitio_seleccionado, parent, false);
         return new MyViewHolder_sitiosSuper(view);
     }
 

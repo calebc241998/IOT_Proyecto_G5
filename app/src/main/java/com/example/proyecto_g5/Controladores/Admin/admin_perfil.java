@@ -165,7 +165,10 @@ public class admin_perfil extends AppCompatActivity {
                             perfil_superDireccion.setText(document.getString("direccion"));
                             perfil_superDNI.setText(document.getString("dni"));
 
-                            Glide.with(admin_perfil.this).load(document.getString("imagen")).into(perfil_superImage);
+
+
+
+                            Glide.with(admin_perfil.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
 
 
 

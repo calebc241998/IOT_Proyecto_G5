@@ -211,13 +211,13 @@ public class admin_perfilSuper extends AppCompatActivity {
                                 String apellido = document.getString("apellido");
 
 
-                                perfil_superNombre.setText(nombre + apellido);
+                                perfil_superNombre.setText(nombre +" "+ apellido);
                                 perfil_superCorreo.setText(correo);
                                 perfil_superTelefono.setText(document.getString("telefono"));
                                 perfil_superDireccion.setText(document.getString("direccion"));
                                 perfil_superDNI.setText(document.getString("dni"));
 
-                                Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).into(perfil_superImage);
+                                Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
 
                             } else {
                                 Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
@@ -285,7 +285,6 @@ public class admin_perfilSuper extends AppCompatActivity {
                                 // Convertir la cadena a una lista de códigos
                                 List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
                                 // Realizar una segunda consulta para obtener los "Sitios"
-                                Toast.makeText(admin_perfilSuper.this, sitiosStr, Toast.LENGTH_SHORT).show();
 
                                 fetchSitesWithCodes(codigos, uid);
                             } else {

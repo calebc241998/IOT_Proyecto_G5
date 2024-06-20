@@ -66,7 +66,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.38" />
+                    app:layout_constraintVertical_bias="0.401" />
 
                 <TextView
                     android:id="@+id/titulo_telefono"
@@ -132,6 +132,7 @@
                     android:text="DNI:"
                     android:textColor="#151384"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.118"
@@ -148,7 +149,7 @@
                     android:gravity="center"
                     android:text="mark.paredes@gmail.com"
                     android:textColor="#151385"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -193,39 +194,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.93" />
 
-                <Button
-                    android:id="@+id/cambiar_telefono_perfilsuperadmin"
-                    android:layout_width="62dp"
-                    android:layout_height="41dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#54CBC4"
-                    android:gravity="center"
-                    android:textColor="#FFFFFF"
-                    app:cornerRadius="5dp"
-                    app:icon="@drawable/baseline_edit_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.812"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.676" />
 
-                <Button
-                    android:id="@+id/cambiar_foto_perfilsuperadmin"
-                    android:layout_width="62dp"
-                    android:layout_height="41dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#54CBC4"
-                    android:gravity="center"
-                    android:textColor="#FFFFFF"
-                    app:cornerRadius="5dp"
-                    app:icon="@drawable/baseline_camera_alt_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.812"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.27" />
 
                 <TextView
                     android:id="@+id/titulo_direccion"

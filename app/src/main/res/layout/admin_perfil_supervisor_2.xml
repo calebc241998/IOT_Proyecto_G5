@@ -31,70 +31,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="381dp"
-            android:layout_height="214dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.878">
-
-            <TextView
-                android:id="@+id/titulo_lista"
-                android:layout_width="207dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Sitios Asignados"
-                android:textColor="@android:color/black"
-                android:textSize="22dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_listaSitios_asignados"
-
-                android:layout_width="348dp"
-                android:layout_height="152dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.484"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.741" />
-
-            <Button
-                android:id="@+id/editar_agregar_sitios"
-                android:layout_width="63dp"
-                android:layout_height="40dp"
-                android:backgroundTint="#54CBC4"
-                android:gravity="center|fill_vertical"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="5dp"
-                app:icon="@android:drawable/ic_input_add"
-                app:iconPadding="20dp"
-                app:iconTint="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.65"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.011" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="387dp"
-            android:layout_height="375dp"
+            android:layout_width="365dp"
+            android:layout_height="317dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,8 +54,7 @@
                     android:layout_height="158dp"
                     android:padding="15dp"
 
-                    app:srcCompat="@drawable/circulo_blanco"
-                    />
+                    app:srcCompat="@drawable/circulo_blanco" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -125,11 +64,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="2dp">
 
                         <TextView
                             android:id="@+id/nombre_super_perfil_admin"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="51dp"
                             android:layout_gravity="center_vertical"
                             android:gravity="center"
@@ -141,7 +81,6 @@
 
 
                     </LinearLayout>
-
 
 
                     <TextView
@@ -168,11 +107,12 @@
                             android:layout_width="96dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:paddingLeft="50dp"
+                            android:paddingLeft="45dp"
                             android:paddingTop="5dp"
                             android:text="DNI:"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
+                            android:textColor="#151385"
+                            android:textSize="18sp"
+                            android:textStyle="bold"  />
 
                         <TextView
                             android:id="@+id/DNI_super_perfil_admin"
@@ -271,8 +211,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="108dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="205dp"
@@ -335,9 +276,67 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             </LinearLayout>
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="365dp"
+            android:layout_height="292dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.558"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.975">
+
+            <TextView
+                android:id="@+id/titulo_lista"
+                android:layout_width="207dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Sitios Asignados"
+                android:textColor="@android:color/black"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_listaSitios_asignados"
+
+                android:layout_width="343dp"
+                android:layout_height="246dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.948" />
+
+            <Button
+                android:id="@+id/editar_agregar_sitios"
+                android:layout_width="63dp"
+                android:layout_height="40dp"
+                android:backgroundTint="#54CBC4"
+                android:gravity="center|fill_vertical"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="5dp"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconPadding="20dp"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.65"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.011" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
