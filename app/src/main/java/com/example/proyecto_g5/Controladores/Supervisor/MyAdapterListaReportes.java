@@ -10,45 +10,46 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Reporte;
 
 import java.util.List;
 
-public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder_reportes>{
+public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaReportes.MyViewHolder> {
 
     private Context context;
-    private List<DataListaReportesClass> datalist;
+    private List<Reporte> datalist;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(DataListaReportesClass item);
+        void onItemClick(Reporte item);
     }
 
-    public void setSearchList(List<DataListaReportesClass> dataSearchList){
-        this.datalist=dataSearchList;
+    public void setSearchList(List<Reporte> dataSearchList){
+        this.datalist = dataSearchList;
         notifyDataSetChanged();
     }
-    public MyAdapterListaReportes(Context context, List<DataListaReportesClass> datalist, OnItemClickListener listener){
-        this.context=context;
-        this.datalist=datalist;
+
+    public MyAdapterListaReportes(Context context, List<Reporte> datalist, OnItemClickListener listener){
+        this.context = context;
+        this.datalist = datalist;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public MyViewHolder_reportes onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //PUNTO CRITICO NAVIGATION
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_reportes_recycler_item, parent,false);
-        return new MyViewHolder_reportes(view);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.supervisor_lista_reportes_recycler_item, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder_reportes holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Reporte item = datalist.get(position);
 
-        DataListaReportesClass item = datalist.get(position);
-
-        holder.recFechaReportesSupervisor.setText(item.getFecha());
-        holder.recHoraReportesSupervisor.setText(item.getHora());
-        holder.recDescripcionReportesSupervisor.setText(item.getDescripcionEquipo());
+        holder.recFechaReportesSupervisor.setText(item.getFecharegistro());
+        holder.recHoraReportesSupervisor.setText(item.getFechaedicion());
+        holder.recStringStatusSupervisor.setText(item.getEstado());
+        holder.recTituloReportesSupervisor.setText(item.getTitulo());
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }
@@ -57,15 +58,16 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyViewHolder_re
     public int getItemCount(){
         return datalist.size();
     }
-}
 
-class MyViewHolder_reportes extends RecyclerView.ViewHolder{
-    TextView recFechaReportesSupervisor, recHoraReportesSupervisor,recDescripcionReportesSupervisor;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView recFechaReportesSupervisor, recHoraReportesSupervisor, recStringStatusSupervisor, recTituloReportesSupervisor;
 
-    public MyViewHolder_reportes(@NonNull View itemView) {
-        super(itemView);
-        recFechaReportesSupervisor=itemView.findViewById(R.id.recFechaReportesSupervisor);
-        recHoraReportesSupervisor=itemView.findViewById(R.id.recHoraReportesSupervisor);
-        recDescripcionReportesSupervisor=itemView.findViewById(R.id.recDescripcionReportesSupervisor);
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            recFechaReportesSupervisor = itemView.findViewById(R.id.recFechaReportesSupervisor);
+            recHoraReportesSupervisor = itemView.findViewById(R.id.recHoraReportesSupervisor);
+            recStringStatusSupervisor = itemView.findViewById(R.id.recStringStatusSupervisor);
+            recTituloReportesSupervisor = itemView.findViewById(R.id.recTituloReportesSupervisor);
+        }
     }
 }

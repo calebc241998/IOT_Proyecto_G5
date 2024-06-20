@@ -59,19 +59,6 @@
         app:layout_constraintHorizontal_bias="0.814"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@drawable/eliminar"
-        app:backgroundTint="#CA2C2C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="wrap_content"
