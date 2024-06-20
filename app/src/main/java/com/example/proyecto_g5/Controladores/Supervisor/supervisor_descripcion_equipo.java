@@ -6,14 +6,19 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
 import com.example.proyecto_g5.dto.Equipo;
 import com.example.proyecto_g5.dto.Sitio;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +28,7 @@ import com.example.proyecto_g5.dto.Sitio;
 public class supervisor_descripcion_equipo extends Fragment {
 
     SupervisorDescripcionEquipoBinding supervisorDescripcionEquipoBinding;
+    FirebaseFirestore db;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +78,8 @@ public class supervisor_descripcion_equipo extends Fragment {
 
         // Obtener los datos del equipo de los argumentos
         Equipo equipo = (Equipo) getArguments().getSerializable("equipo");
+        String codigoSitio = getArguments().getString("ACScodigo");
+        Log.d("msg-test",equipo.getNumerodeserie()+" "+ codigoSitio);
 
         // Mostrar la información en los TextView correspondientes
         supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
@@ -83,6 +91,9 @@ public class supervisor_descripcion_equipo extends Fragment {
         supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
         supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
 
+        //El nombre del documento debe de ser el numero de serie del equipo para q pueda borrarlo
+        supervisorDescripcionEquipoBinding.borrarEquipo.setOnClickListener(v -> eliminarIngreso(equipo.getNumerodeserie(),codigoSitio));
+
         //Pasar a vista reportes
         NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
         supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
@@ -92,6 +103,32 @@ public class supervisor_descripcion_equipo extends Fragment {
 
         return supervisorDescripcionEquipoBinding.getRoot();
     }
+
+    private void eliminarIngreso(String numero_serie, String codigoSitio) {
+        db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // Eliminar el ingreso de Firestore
+        db.collection("usuarios_por_auth")
+                .document(user.getUid())
+                .collection("sitios")
+                .document(codigoSitio)
+                .collection("equipos")
+                .document(numero_serie)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "Equipo eliminado exitosamente", Toast.LENGTH_SHORT).show();
+
+                    // Navegar hacia atrás en la pila de fragmentos
+                    NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
+                    navController.popBackStack(); // Regresar al fragmento anterior
+
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error al eliminar el ingreso", Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
 
 
