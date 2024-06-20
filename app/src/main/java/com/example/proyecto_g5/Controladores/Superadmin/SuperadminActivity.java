@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.proyecto_g5.Controladores.Admin.AdminActivity;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -101,7 +102,7 @@ public class SuperadminActivity extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SuperadminActivity.this, inicio_sesion.class);
+                Intent intent = new Intent(SuperadminActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

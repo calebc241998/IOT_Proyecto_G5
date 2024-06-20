@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.Controladores.Admin.admin_editarSuper;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfilSuper;
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -132,7 +133,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(superadmin_perfil_admin.this, inicio_sesion.class);
+                Intent intent = new Intent(superadmin_perfil_admin.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

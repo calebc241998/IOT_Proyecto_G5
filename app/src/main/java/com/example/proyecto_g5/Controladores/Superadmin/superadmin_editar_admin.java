@@ -144,7 +144,7 @@ public class superadmin_editar_admin extends AppCompatActivity{
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(superadmin_editar_admin.this, inicio_sesion.class);
+                Intent intent = new Intent(superadmin_editar_admin.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
