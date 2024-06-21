@@ -48,7 +48,7 @@ public class MyAdapterListaUsuarios extends RecyclerView.Adapter<com.example.pro
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Glide.with(context).load(dataList.get(position).getImagen()).into(holder.recImage);
+        Glide.with(context).load(dataList.get(position).getImagen()).circleCrop().into(holder.recImage);
         holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
         holder.rec_rol.setText(dataList.get(position).getRol());
         holder.rec_status.setText(dataList.get(position).getEstado());
