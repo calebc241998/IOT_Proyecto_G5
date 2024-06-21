@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Controladores.Supervisor.supervisor_nuevo_reporte">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
@@ -19,10 +17,9 @@
         app:icon="@drawable/baseline_upload_24"
         app:iconGravity="textEnd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintHorizontal_bias="0.863"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/textViewDescripcion"
@@ -50,45 +47,34 @@
         android:textColor="@android:color/black"
         android:textSize="15dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="698dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView12"
+        app:layout_constraintVertical_bias="0.157" />
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="350dp"
         android:layout_height="150dp"
-        android:background="@drawable/contorno_negro"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcion">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/campoDescripcionReporte"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR "
-                android:textSize="16dp" />
-        </ScrollView>
-
-    </androidx.cardview.widget.CardView>
-
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="220dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcion">
 
-    </FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/campoDescripcionReporte"
+                android:layout_width="match_parent"
+                android:layout_height="138dp"
+                android:hint="Escribe aquí" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/textViewTITULO"
@@ -129,17 +115,6 @@
             android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:backgroundTint="#54CCC5"
-        app:icon="@drawable/baseline_camera_alt_24"
-        app:iconGravity="top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="650dp" />
 
     <ImageView
         android:id="@+id/imageView12"

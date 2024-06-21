@@ -1,14 +1,18 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.databinding.SupervisorNuevoReporteBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +20,7 @@ import com.example.proyecto_g5.R;
  * create an instance of this fragment.
  */
 public class supervisor_nuevo_reporte extends Fragment {
+    private SupervisorNuevoReporteBinding supervisorNuevoReporteBinding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +65,31 @@ public class supervisor_nuevo_reporte extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        supervisorNuevoReporteBinding = SupervisorNuevoReporteBinding.inflate(inflater, container, false);
+
+        // Obtener referencias a los componentes de la vista
+        ScrollView scrollView = supervisorNuevoReporteBinding.scrollView;
+        TextInputEditText textInputEditText = supervisorNuevoReporteBinding.campoDescripcionReporte;
+
+        // Agregar TextWatcher para desplazar el ScrollView hacia abajo mientras se escribe texto
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No se necesita implementación aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No se necesita implementación aquí
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_nuevo_reporte, container, false);
+        return supervisorNuevoReporteBinding.getRoot();
     }
 }
