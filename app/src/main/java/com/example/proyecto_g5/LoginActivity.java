@@ -145,19 +145,23 @@ public class LoginActivity extends AppCompatActivity {
                             String role = document.getString("rol");
                             String pass_superad = document.getString("pass_superad");
                             String correo_superad = document.getString("correo_superad");
+                            String estado = document.getString("estado");
 
-                            FirebaseAuth auth = FirebaseAuth.getInstance();
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            if ("inactivo".equalsIgnoreCase(estado)) {
+                                Toast.makeText(LoginActivity.this, "Cuenta suspendida", Toast.LENGTH_SHORT).show();
+                            } else {
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                            // Intentar autenticar con correo y contraseña
-                            auth.signInWithEmailAndPassword(correo_superad, pass_superad)
-                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                        @Override
-                                        public void onSuccess(AuthResult authResult) {
-                                            iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
-                                        }
-                                    });
-
+                                // Intentar autenticar con correo y contraseña
+                                auth.signInWithEmailAndPassword(correo_superad, pass_superad)
+                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
+                                            }
+                                        });
+                            }
                         } else {
                             Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
@@ -187,6 +191,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 
 
     private void crearLog(String role, String nombre, String superadminId) {
