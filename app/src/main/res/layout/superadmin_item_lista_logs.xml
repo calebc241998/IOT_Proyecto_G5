@@ -42,6 +42,15 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/textView_timestamp_cardRC_superadmin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="2024-07-08 14:35:20"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+
 
             </LinearLayout>
 
