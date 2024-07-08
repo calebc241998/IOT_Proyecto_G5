@@ -147,9 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                             String correo_superad = document.getString("correo_superad");
                             String estado = document.getString("estado");
 
-                            if ("inactivo".equalsIgnoreCase(estado)) {
-                                Toast.makeText(LoginActivity.this, "Cuenta suspendida", Toast.LENGTH_SHORT).show();
-                            } else {
+                            if ("activo".equals(estado)) {
                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -161,6 +159,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
                                             }
                                         });
+                            } else {
+                                Toast.makeText(LoginActivity.this, "La cuenta se encuentra suspendida", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
@@ -192,35 +192,32 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-
-
     private void crearLog(String role, String nombre, String superadminId) {
         String descripcion = "El " + role + " " + nombre + " se ha logueado";
-        String usuario = nombre + " (" + role + ")";
-        Timestamp timestamp = Timestamp.now(); // Obtener el timestamp actual
+        String usuario = nombre; // Aquí podrías usar el valor adecuado para usuario
+        Timestamp timestamp = Timestamp.now();
 
-        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuario, timestamp);
+        Llog llog = new Llog(UUID.randomUUID().toString(), descripcion, usuario, timestamp);
 
         db.collection("usuarios_por_auth")
                 .document(superadminId)
                 .collection("logs")
-                .document(log.getId())
-                .set(log)
+                .document(llog.getId())
+                .set(llog)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // Log creado exitosamente
-                        Toast.makeText(LoginActivity.this, "Log creado", Toast.LENGTH_SHORT).show();
+                        // Log created successfully
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Manejar el error
-                        Toast.makeText(LoginActivity.this, "Error al crear el log", Toast.LENGTH_SHORT).show();
+                        // Handle the error
                     }
                 });
     }
+
     private void mostrarOcultarContrasena(boolean mostrar) {
         if (mostrar) {
             // Mostrar contraseña
@@ -233,4 +230,3 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword.setSelection(loginPassword.getText().length());
     }
 }
-
