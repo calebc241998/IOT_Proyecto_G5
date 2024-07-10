@@ -27,7 +27,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="272dp"
                 android:layout_height="37dp"
-                android:layout_marginBottom="600dp"
+                android:layout_marginBottom="590dp"
                 android:backgroundTint="#FFFFFF"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +52,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="477dp"
+                android:layout_height="550dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

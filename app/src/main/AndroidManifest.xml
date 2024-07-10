@@ -61,9 +61,11 @@
             android:theme="@style/Theme.Proyecto_G5.NoActionBar"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_lista_usuarios"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_logs"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false"></activity>
         <activity
             android:name=".Controladores.Superadmin.superadmin_nuevo_admin"

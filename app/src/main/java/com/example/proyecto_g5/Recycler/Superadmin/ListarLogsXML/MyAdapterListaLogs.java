@@ -22,6 +22,7 @@ public class MyAdapterListaLogs extends RecyclerView.Adapter<MyAdapterListaLogs.
     private Context context;
     private List<Llog> dataList;
 
+
     public void setSearchList(List<Llog> dataSearchList) {
         this.dataList = dataSearchList;
         notifyDataSetChanged();
