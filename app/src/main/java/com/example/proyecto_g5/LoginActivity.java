@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.UUID;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerRedirectText;
     private FirebaseFirestore db;
     private CheckBox mostrarContrasenaCheckbox;
+    private String uid_empresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
 
                                         if (!idu.isEmpty()){
+
+
+
                                             // Si falla, intentar con Firestore
+
                                             verificarCredencialesFirestore(db, email, pass, idu);
                                         }  else {
                                             idteam.setError("El id del Team no puede estar vacío");
@@ -119,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
     private void iniciarSesionExitosa(String pass_superad) {
         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
@@ -131,42 +139,79 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
 
-        db.collection("usuarios_por_auth")
-                .document(id)
-                .collection("usuarios")
-                .whereEqualTo("correo", email)
-                .whereEqualTo("contrasena", pass)
+
+
+        db.collection("empresas")
+                .whereEqualTo("nombre", "Cibertec")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                            String role = document.getString("rol");
-                            String pass_superad = document.getString("pass_superad");
-                            String correo_superad = document.getString("correo_superad");
-                            String estado = document.getString("estado");
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                uid_empresa = document.getString("uid");
 
-                            if ("activo".equals(estado)) {
-                                FirebaseAuth auth = FirebaseAuth.getInstance();
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                                // Intentar autenticar con correo y contraseña
-                                auth.signInWithEmailAndPassword(correo_superad, pass_superad)
-                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                //- Inicio sesion-----------------------------
+
+
+                                db.collection("usuarios_por_auth")
+                                        .document(uid_empresa)
+                                        .collection("usuarios")
+                                        .whereEqualTo("correo", email)
+                                        .whereEqualTo("contrasena", pass)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
-                                            public void onSuccess(AuthResult authResult) {
-                                                iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                    String role = document.getString("rol");
+                                                    String pass_superad = document.getString("pass_superad");
+                                                    String correo_superad = document.getString("correo_superad");
+                                                    String estado = document.getString("estado");
+
+                                                    if ("activo".equals(estado)) {
+                                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                                                        // Intentar autenticar con correo y contraseña
+                                                        auth.signInWithEmailAndPassword(correo_superad, pass_superad)
+                                                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                                                    @Override
+                                                                    public void onSuccess(AuthResult authResult) {
+                                                                        iniciarSesionSegunRol(role, email, document.getString("nombre"), uid_empresa);
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        Toast.makeText(LoginActivity.this, "La cuenta se encuentra suspendida", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         });
-                            } else {
-                                Toast.makeText(LoginActivity.this, "La cuenta se encuentra suspendida", Toast.LENGTH_SHORT).show();
+
+                                //----------------------------------
+
+
+                                System.out.println(uid_empresa);
+
+                                //Toast.makeText(LoginActivity.this, uid_empresa, Toast.LENGTH_SHORT).show();
+
+                                // Puedes hacer algo con el UID aquí
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            System.out.println("No se encontró una empresa con ese nombre.");
                         }
+                    } else {
+                        System.out.println("Consulta fallida: " + task.getException());
                     }
                 });
+
+
+
+
     }
 
     private void iniciarSesionSegunRol(String role, String email, String nombre, String superadminId) {
