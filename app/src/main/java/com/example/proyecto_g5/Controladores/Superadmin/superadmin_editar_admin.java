@@ -46,7 +46,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
-public class superadmin_editar_admin extends AppCompatActivity{
+
+public class superadmin_editar_admin extends AppCompatActivity {
+//----UPLOAD -----
+
     FirebaseFirestore db;
     ListenerRegistration snapshotListener;
     FirebaseUser currentUser;
@@ -64,21 +67,32 @@ public class superadmin_editar_admin extends AppCompatActivity{
 
     Uri uri;
 
-
     DatabaseReference databaseReference;
     StorageReference storageReference;
 
 
+    //----------------------------------
+
     DrawerLayout drawerLayout;
     ImageView menu, perfil;
 
+
     LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav_superadmin, log_out;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.superadmin_editar_admin);
+        setContentView(R.layout.admin_editar_supervisor);
+
+        //-----------NOTIFICACIONES---------------
+
+        //crearCanalesNot();
+
+
+
+        //----------------------------------------
 
         //DRAWER------------------------------------
 
@@ -91,6 +105,7 @@ public class superadmin_editar_admin extends AppCompatActivity{
         perfil = findViewById(R.id.boton_perfil);
         log_out = findViewById(R.id.cerrar_sesion);
 
+        // correo para hallar el usuario (admin)
         Bundle bundle = getIntent().getExtras();
         String correo_usuario = bundle.getString("Correo_temp");
 
@@ -98,11 +113,16 @@ public class superadmin_editar_admin extends AppCompatActivity{
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent  = new Intent(superadmin_editar_admin.this, superadmin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });
@@ -117,23 +137,12 @@ public class superadmin_editar_admin extends AppCompatActivity{
         inicio_nav_superadmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(superadmin_editar_admin.this, SuperadminActivity.class);
+                Intent intent = new Intent(superadmin_editar_admin.this, SuperadminActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
-        lista_usuarios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                redirectActivity(superadmin_editar_admin.this, superadmin_lista_usuarios.class);
-            }
-        });
-
-        nuevo_admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                redirectActivity(superadmin_editar_admin.this, superadmin_nuevo_admin.class);
-            }
-        });
         lista_logs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,9 +150,25 @@ public class superadmin_editar_admin extends AppCompatActivity{
             }
         });
 
+        lista_usuarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(superadmin_editar_admin.this, superadmin_lista_usuarios.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
+            }
+        });
+
+        nuevo_admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recreate();            }
+        });
+
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Cerrar sesión y redirigir a MainActivity
                 Intent intent = new Intent(superadmin_editar_admin.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -154,6 +179,9 @@ public class superadmin_editar_admin extends AppCompatActivity{
         //-----------------------------------
 
         // UPLOAD
+
+
+
 
         edit_nombre = findViewById(R.id.nombre_editAdmin);
         edit_apellido = findViewById(R.id.apellido_editAdmin);
@@ -182,6 +210,8 @@ public class superadmin_editar_admin extends AppCompatActivity{
                     }
                 }
         );
+
+
 
 
         if(bundle != null){
@@ -213,8 +243,6 @@ public class superadmin_editar_admin extends AppCompatActivity{
                                 correo_superad = document.getString("correo_superad");
                                 contrasena = document.getString("contrasena");
                                 estado = document.getString("estado");
-                                sitios = document.getString("sitios");
-
 
 
                                 Glide.with(superadmin_editar_admin.this).load(document.getString("imagen")).into(foto_perfil);
@@ -292,7 +320,7 @@ public class superadmin_editar_admin extends AppCompatActivity{
 
 
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "administrador", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "admin", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
 
         db.collection("usuarios_por_auth")
                 .document(uid)
@@ -322,6 +350,25 @@ public class superadmin_editar_admin extends AppCompatActivity{
                     }
                 });
 
+
+
+
+        /*databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                            reference.delete();
+                            Toast.makeText(admin_editarSuper.this, "Updated", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(admin_editarSuper.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }); */
 
 
 
