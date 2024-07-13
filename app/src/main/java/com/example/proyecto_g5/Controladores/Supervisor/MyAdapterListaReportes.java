@@ -46,8 +46,13 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Reporte item = datalist.get(position);
 
-        holder.recFechaReportesSupervisor.setText(item.getFecharegistro());
-        holder.recHoraReportesSupervisor.setText(item.getFechaedicion());
+        // Separar la fecha y la hora de fecharegistro
+        String[] fechaHora = item.getFecharegistro().split(" ");
+        String fecha = fechaHora.length > 0 ? fechaHora[0] : "";
+        String hora = fechaHora.length > 1 ? fechaHora[1] : "";
+
+        holder.recFechaReportesSupervisor.setText(fecha);
+        holder.recHoraReportesSupervisor.setText(hora);
         holder.recStringStatusSupervisor.setText(item.getEstado());
         holder.recTituloReportesSupervisor.setText(item.getTitulo());
 
