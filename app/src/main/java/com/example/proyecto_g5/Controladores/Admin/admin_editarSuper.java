@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class admin_editarSuper extends AppCompatActivity {
 //----UPLOAD -----
@@ -89,8 +91,6 @@ public class admin_editarSuper extends AppCompatActivity {
         //-----------NOTIFICACIONES---------------
 
         //crearCanalesNot();
-
-
 
         //----------------------------------------
 
@@ -186,9 +186,6 @@ public class admin_editarSuper extends AppCompatActivity {
 
         // UPLOAD
 
-
-
-
         edit_nombre = findViewById(R.id.nombre_editSuper);
         edit_apellido = findViewById(R.id.apellido_editSuper);
         edit_dni = findViewById(R.id.DNI_editSuper);
@@ -275,7 +272,7 @@ public class admin_editarSuper extends AppCompatActivity {
             }
         });
 
-        boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
+       /*boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveData();
@@ -287,9 +284,35 @@ public class admin_editarSuper extends AppCompatActivity {
             }
         });
 
+
+        */
+        boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validarCampos() && validarEmail(edit_correo.getText().toString().trim())) {
+                    saveData();
+                    Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class)
+                            .putExtra("correo", correo_usuario)
+                            .putExtra("uid", uid);
+                    startActivity(intent);// Solo llama a saveData si las validaciones son correctas
+                }
+                // No hay redirección si las validaciones fallan
+            }
+        });
+
     }
 
-    public void saveData(){
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        if (pattern.matcher(email).matches()) {
+            return true;
+        } else {
+            Toast.makeText(admin_editarSuper.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    /*public void saveData(){
 
         storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
 
@@ -315,9 +338,69 @@ public class admin_editarSuper extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }*/
+    private boolean validarCampos() {
+        if (edit_nombre.getText().toString().trim().isEmpty() ||
+                edit_apellido.getText().toString().trim().isEmpty() ||
+                edit_dni.getText().toString().trim().isEmpty() ||
+                edit_direccion.getText().toString().trim().isEmpty() ||
+                edit_correo.getText().toString().trim().isEmpty() ||
+                edit_telefono.getText().toString().trim().isEmpty()) {
+
+            Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (edit_telefono.getText().toString().trim().length() != 9) {
+            Toast.makeText(this, "Phone number must be 9 digits.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
-    public  void updateData( ){
+    public void saveData(){
+        // Verifica que los campos no estén vacíos antes de guardar
+        if (validarCampos()) {
+            storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri != null ? uri.getLastPathSegment() : oldImageUrl));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper.this);
+            builder.setCancelable(false);
+            builder.setView(R.layout.admin_progress_layout);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            if (uri != null) { // Solo subir imagen si se seleccionó una nueva
+                storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isComplete());
+                        Uri urlImage = uriTask.getResult();
+                        newimageUrl = urlImage.toString();
+                        updateData();
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(admin_editarSuper.this, "Failed to upload new image", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                // Si no se seleccionó una nueva imagen, usar la antigua
+                newimageUrl = oldImageUrl;
+                updateData();
+                dialog.dismiss();
+            }
+        }
+    }
+
+
+
+
+   /* public  void updateData( ){
         String nombre = edit_nombre.getText().toString();
         String apellido = edit_apellido.getText().toString();
         String correo = edit_correo.getText().toString();
@@ -356,29 +439,37 @@ public class admin_editarSuper extends AppCompatActivity {
                         Log.d("Firestore", "Error al obtener documentos: ", task.getException());
                     }
                 });
+    }*/
 
+    public void updateData( ){
+        String nombre = edit_nombre.getText().toString().trim();
+        String apellido = edit_apellido.getText().toString().trim();
+        String correo = edit_correo.getText().toString().trim();
+        String telefono = edit_telefono.getText().toString().trim();
+        String direccion = edit_direccion.getText().toString().trim();
+        String dni = edit_dni.getText().toString().trim();
 
+        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
 
-
-        /*databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                            reference.delete();
-                            Toast.makeText(admin_editarSuper.this, "Updated", Toast.LENGTH_SHORT).show();
-                            finish();
+        db.collection("usuarios_por_auth")
+                .document(uid)
+                .collection("usuarios")
+                .whereEqualTo("correo", correo)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().set(usuario)
+                                    .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                         }
+                        if (task.getResult().isEmpty()) {
+                            Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                        }
+                    } else {
+                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(admin_editarSuper.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }); */
-
-
-
+                });
     }
 
 
