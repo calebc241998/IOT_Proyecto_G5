@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarLogsXML.MyAdapterListaLogs;
-import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
 import com.example.proyecto_g5.dto.Llog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,8 +34,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+import java.util.Calendar;
+
 import java.util.ArrayList;
+
 import java.util.List;
+import com.google.firebase.Timestamp;
+
+
 
 
 public class superadmin_logs extends AppCompatActivity {
@@ -50,17 +57,12 @@ public class superadmin_logs extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser currentUser;
 
-    //----------
     List<Llog> dataList;
-
     DatabaseReference databaseReference;
-
     ValueEventListener eventListener;
-
     MyAdapterListaLogs adapter;
     SearchView searchView;
-
-    Button editButton;
+    ImageView btnDatePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,22 +71,17 @@ public class superadmin_logs extends AppCompatActivity {
 
         String correo_usuario = getIntent().getStringExtra("correo");
 
-
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
         initializeDrawer();
         recyclerView = findViewById(R.id.recyclerView_listalogs_superadmin);
         searchView = findViewById(R.id.search_listalogs_superadmin);
+        btnDatePicker = findViewById(R.id.btn_datepicker);
         searchView.clearFocus();
-
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
-
-        // firebase----------------
 
         AlertDialog.Builder builder = new AlertDialog.Builder(superadmin_logs.this);
         builder.setCancelable(false);
@@ -96,12 +93,8 @@ public class superadmin_logs extends AppCompatActivity {
         adapter = new MyAdapterListaLogs(this, dataList);
         recyclerView.setAdapter(adapter);
 
-        //Firebase-----
-
         databaseReference = FirebaseDatabase.getInstance().getReference("logs");
         dialog.show();
-
-        //------------------------------------- FIRESTORE
 
         String uid = currentUser.getUid();
 
@@ -131,9 +124,7 @@ public class superadmin_logs extends AppCompatActivity {
                     }
                 });
 
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -141,34 +132,32 @@ public class superadmin_logs extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 searchList(newText);
-
                 return true;
             }
         });
 
-
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
     }
 
     private void initializeDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
         menu.setOnClickListener(v -> openDrawer(drawerLayout));
-        //--para ir al perfil
 
         perfil = findViewById(R.id.boton_perfil);
-
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent  = new Intent(superadmin_logs.this, superadmin_perfil.class);
                 startActivity(intent);
             }
         });
-
-        //-------
 
         setupDrawerLinks();
     }
@@ -211,19 +200,13 @@ public class superadmin_logs extends AppCompatActivity {
             adapter = new MyAdapterListaLogs(this, dataList);
             recyclerView.setAdapter(adapter);
 
-            //Firebase-----
-
             databaseReference = FirebaseDatabase.getInstance().getReference("logs");
-
-
-            //-------------
 
         } catch (Exception e) {
             Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
         }
     }
-
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
@@ -249,4 +232,44 @@ public class superadmin_logs extends AppCompatActivity {
             adapter.setSearchList(dataSearchList);
         }
     }
-}
+
+    private void showDatePickerDialog() {
+        // Get current date to set as default in DatePickerDialog
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create and show DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(superadmin_logs.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                filterByDate(year, monthOfYear, dayOfMonth);
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void filterByDate(int year, int month, int day) {
+        Calendar selectedDate = Calendar.getInstance();
+        selectedDate.set(year, month, day, 0, 0, 0);
+        Timestamp startTimestamp = new Timestamp(selectedDate.getTime());
+
+        selectedDate.set(year, month, day, 23, 59, 59);
+        Timestamp endTimestamp = new Timestamp(selectedDate.getTime());
+
+        ArrayList<Llog> filteredList = new ArrayList<>();
+        for (Llog log : dataList) {
+            Timestamp logTimestamp = log.getTimestamp();
+            if (logTimestamp.compareTo(startTimestamp) >= 0 && logTimestamp.compareTo(endTimestamp) <= 0) {
+                filteredList.add(log);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "No logs found for the selected date", Toast.LENGTH_SHORT).show();
+        } else {
+            adapter.setSearchList(filteredList);
+        }
+    }
+ }

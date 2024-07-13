@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9D9D9"
+    android:background="@color/background"
     tools:context=".Controladores.Superadmin.superadmin_logs">
 
     <!-- Main content -->
@@ -26,7 +26,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="272dp"
                 android:layout_height="37dp"
-                android:layout_marginBottom="600dp"
+                android:layout_marginBottom="590dp"
                 android:backgroundTint="#FFFFFF"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,64 +49,59 @@
             </androidx.cardview.widget.CardView>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="477dp"
-                android:orientation="vertical"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_listalogs_superadmin"
+                android:layout_width="0dp"
+                android:layout_height="440dp"
+                android:layout_marginTop="10dp"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/search_listalogs_superadmin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="NotSibling" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_listalogs_superadmin"
+                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="490dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_bkg"
+                android:focusable="false"
+                app:closeIcon="@drawable/close_fill0_wght400_grad0_opsz24"
+                app:iconifiedByDefault="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.657">
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:queryHint="Buscar por texto"
+                app:searchHintIcon="@null"
+                app:searchIcon="@drawable/search_fill0_wght400_grad0_opsz24" />
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_listalogs_superadmin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/search_bkg"
-                    android:focusable="false"
-                    app:closeIcon="@drawable/close_fill0_wght400_grad0_opsz24"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="Buscar por Usuario..."
-                    app:searchHintIcon="@null"
-                    app:searchIcon="@drawable/search_fill0_wght400_grad0_opsz24" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/recyclerView_listalogs_superadmin"
-                    android:layout_marginTop="10dp"
-                    android:scrollbars="vertical"
-                    android:layout_below="@id/search_listalogs_superadmin"/>
-
-
-            </RelativeLayout>
-
-
+            <ImageView
+                android:id="@+id/btn_datepicker"
+                android:layout_height="70dp"
+                android:layout_width="70dp"
+                android:layout_marginBottom="470dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/calendario"
+                app:layout_constraintBottom_toBottomOf="@+id/recyclerView_listalogs_superadmin"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+                app:layout_constraintStart_toEndOf="@+id/search_listalogs_superadmin"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </LinearLayout>
-
-
 
     <RelativeLayout
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:layout_gravity = "start">
+        android:layout_gravity="start">
 
         <include
-            layout="@layout/superadmin_nav_drawer"
-            />
-
+            layout="@layout/superadmin_nav_drawer" />
     </RelativeLayout>
-
-
-
-
 </androidx.drawerlayout.widget.DrawerLayout>
-
