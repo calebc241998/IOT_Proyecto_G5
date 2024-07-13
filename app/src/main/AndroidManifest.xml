@@ -43,6 +43,9 @@
             android:name=".Controladores.Admin.admin_perfilSuper"
             android:exported="false"></activity>
         <activity
+            android:name=".Controladores.Admin.admin_editarPerfil"
+            android:exported="false"></activity>
+        <activity
             android:name=".Controladores.Admin.admin_info_sitio"
             android:exported="false"></activity>
         <activity

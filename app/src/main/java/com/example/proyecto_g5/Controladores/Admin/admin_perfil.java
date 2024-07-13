@@ -140,7 +140,7 @@ public class admin_perfil extends AppCompatActivity {
         perfil_superDireccion = findViewById(R.id.direccin_perfil_admin);
         perfil_superImage = findViewById(R.id.perfil_admin_foto);
 
-        button_edit_perfil_admin = findViewById(R.id.button_editar_perfil_super);
+        button_edit_perfil_admin = findViewById(R.id.button_cambiar_contra_perfiladmin);
 
 
 
@@ -180,7 +180,25 @@ public class admin_perfil extends AppCompatActivity {
                 });
 
 
+        button_edit_perfil_admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin_perfil.this, admin_editarPerfil.class)
+                        // .putExtra("Nombre", perfil_superNombre.getText().toString())
+                        // .putExtra("Apellido", perfil_superApellido.getText().toString())
+                        .putExtra("Correo_temp", correo_usuario)
+                        //.putExtra("DNI", perfil_superDNI.getText().toString())
+                        //.putExtra("Image", imageUrl)
+                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
+                        .putExtra("Uid", uid);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
+
 
 
     //----------------------------------
