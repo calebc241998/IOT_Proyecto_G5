@@ -54,6 +54,7 @@ public class supervisor_inicio extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             correo = getArguments().getString(ARG_CORREO);
+
         }
     }
 
