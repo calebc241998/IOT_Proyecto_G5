@@ -1,17 +1,14 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
 import com.example.proyecto_g5.dto.Equipo;
@@ -19,9 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class supervisor_descripcion_equipo extends Fragment {
 
     private SupervisorDescripcionEquipoBinding supervisorDescripcionEquipoBinding;
@@ -34,17 +28,14 @@ public class supervisor_descripcion_equipo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         supervisorDescripcionEquipoBinding = SupervisorDescripcionEquipoBinding.inflate(inflater, container, false);
 
-        // Obtener argumentos pasados desde supervisor_lista_reportes
         Bundle bundle = getArguments();
         if (bundle != null) {
             Equipo equipo = (Equipo) bundle.getSerializable("equipo");
             String codigoSitio = bundle.getString("ACScodigo");
 
             if (equipo != null) {
-                // Mostrar la información del equipo en los TextView
                 supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
                 supervisorDescripcionEquipoBinding.ACSnumeroSerie.setText(equipo.getNumerodeserie());
                 supervisorDescripcionEquipoBinding.ACStipo.setText(equipo.getNombre_tipo());
@@ -54,7 +45,6 @@ public class supervisor_descripcion_equipo extends Fragment {
                 supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
                 supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
 
-                // Configurar listener para el botón de editar equipo
                 supervisorDescripcionEquipoBinding.editarEquipo.setOnClickListener(view -> {
                     Bundle editBundle = new Bundle();
                     editBundle.putSerializable("equipo", equipo);
@@ -63,12 +53,10 @@ public class supervisor_descripcion_equipo extends Fragment {
                     navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_editar_equipo, editBundle);
                 });
 
-                // Configurar listener para el botón de borrar equipo
                 supervisorDescripcionEquipoBinding.borrarEquipo.setOnClickListener(view -> {
                     eliminarEquipo(equipo.getNumerodeserie(), codigoSitio);
                 });
 
-                // Configurar listener para el botón de listar reportes
                 supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
                     Bundle reportesBundle = new Bundle();
                     reportesBundle.putString("numero_serie_equipo", equipo.getNumerodeserie());

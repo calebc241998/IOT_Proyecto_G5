@@ -3,6 +3,7 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +90,24 @@ public class supervisor_nuevo_reporte extends Fragment {
             }
         });
 
+        // Verificar los datos recibidos en el Bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String numeroSerieEquipo = bundle.getString("numero_serie_equipo");
+            String codigoSitio = bundle.getString("ACScodigo");
+            String codigoReporte = bundle.getString("codigoReporte");
+
+            // Log para verificar los valores
+            Log.d("supervisor_nuevo_reporte", "Número de serie del equipo: " + numeroSerieEquipo);
+            Log.d("supervisor_nuevo_reporte", "Código de sitio: " + codigoSitio);
+            Log.d("supervisor_nuevo_reporte", "Código del reporte: " + codigoReporte);
+        } else {
+            Log.e("supervisor_nuevo_reporte", "No se recibieron argumentos en el Bundle");
+        }
+
+
         // Inflate the layout for this fragment
         return supervisorNuevoReporteBinding.getRoot();
     }
+
 }
