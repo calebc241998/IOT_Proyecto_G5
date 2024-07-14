@@ -179,6 +179,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
         NavController navController = NavHostFragment.findNavController(supervisor_lista_sitios.this);
         Bundle bundle = new Bundle();
         bundle.putSerializable("sitio", item);
+        bundle.putSerializable("correo", correo);
         navController.navigate(R.id.action_supervisor_lista_sitios_to_supervisor_descripcion_sitio, bundle);
     }
 

@@ -20,6 +20,15 @@ public class supervisor_descripcion_equipo extends Fragment {
 
     private SupervisorDescripcionEquipoBinding supervisorDescripcionEquipoBinding;
     private FirebaseFirestore db;
+    private String correo;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            correo = getArguments().getString("correo");
+        }
+    }
 
     public supervisor_descripcion_equipo() {
         // Required empty public constructor
@@ -61,6 +70,7 @@ public class supervisor_descripcion_equipo extends Fragment {
                     Bundle reportesBundle = new Bundle();
                     reportesBundle.putString("numero_serie_equipo", equipo.getNumerodeserie());
                     reportesBundle.putString("ACScodigo", codigoSitio);
+                    reportesBundle.putSerializable("correo", correo);
                     NavController navController = NavHostFragment.findNavController(supervisor_descripcion_equipo.this);
                     navController.navigate(R.id.action_supervisor_descripcion_equipo_to_supervisor_lista_reportes, reportesBundle);
                 });

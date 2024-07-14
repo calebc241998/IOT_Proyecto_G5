@@ -33,6 +33,15 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
     private FirebaseFirestore db;
     private String codigoDeSitio;
     private String numeroSerieEquipo;
+    private String correo;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            correo = getArguments().getString("correo");
+        }
+    }
 
     public supervisor_lista_reportes() {
         // Required empty public constructor
@@ -73,6 +82,7 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
             Bundle newBundle = new Bundle();
             newBundle.putString("ACScodigo", codigoDeSitio);
             newBundle.putString("numero_serie_equipo", numeroSerieEquipo);
+            newBundle.putSerializable("correo", correo);
             navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte, newBundle);
         });
 

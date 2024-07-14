@@ -45,6 +45,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
 
     private String mParam1;
     private String mParam2;
+    private String correo;
 
     private ActivityResultLauncher<Intent> qrScannerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -83,9 +84,9 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            correo = getArguments().getString("correo");
         }
+
 
         // Inicializa la lista de datos aquí
         datalist = new ArrayList<>();
@@ -197,7 +198,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         Bundle bundle = new Bundle();
         bundle.putSerializable("equipo", item);
         bundle.putString("ACScodigo", getCodigoDeSitio());
-        System.out.println("ESTAS USANDO: " + getCodigoDeSitio());
+        bundle.putSerializable("correo", correo);
         navController.navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
     }
 
