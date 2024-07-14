@@ -28,7 +28,6 @@ import java.util.List;
 public class supervisor_lista_reportes extends Fragment implements MyAdapterListaReportes.OnItemClickListener {
 
     private SupervisorListaReportesBinding supervisorListaReportesBinding;
-    private RecyclerView recyclerView;
     private List<Reporte> datalist;
     private MyAdapterListaReportes adapter;
     private FirebaseFirestore db;
@@ -37,6 +36,7 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
 
     public supervisor_lista_reportes() {
         // Required empty public constructor
+        datalist = new ArrayList<>();
     }
 
     @Override
@@ -48,22 +48,26 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         if (bundle != null) {
             codigoDeSitio = bundle.getString("ACScodigo");
             numeroSerieEquipo = bundle.getString("numero_serie_equipo");
-            Log.d("supervisor_lista_reportes", "Código de sitio: " + codigoDeSitio);
-            Log.d("supervisor_lista_reportes", "Número de serie equipo: " + numeroSerieEquipo);
         }
 
-        datalist = new ArrayList<>();
-        adapter = new MyAdapterListaReportes(getActivity(), datalist, this);
-        recyclerView = supervisorListaReportesBinding.recyclerViewReportesSupervisor;
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        recyclerView.setAdapter(adapter);
+        setupRecyclerView();
 
         if (codigoDeSitio != null && numeroSerieEquipo != null) {
             getDataFromFirestore(codigoDeSitio, numeroSerieEquipo);
-        } else {
-            Log.e("supervisor_lista_reportes", "Código de sitio o número de serie son nulos");
         }
 
+        setupListeners();
+
+        return supervisorListaReportesBinding.getRoot();
+    }
+
+    private void setupRecyclerView() {
+        adapter = new MyAdapterListaReportes(getActivity(), datalist, this);
+        supervisorListaReportesBinding.recyclerViewReportesSupervisor.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        supervisorListaReportesBinding.recyclerViewReportesSupervisor.setAdapter(adapter);
+    }
+
+    private void setupListeners() {
         NavController navController = NavHostFragment.findNavController(this);
         supervisorListaReportesBinding.agregarReporte.setOnClickListener(view -> {
             Bundle newBundle = new Bundle();
@@ -84,8 +88,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                 return false;
             }
         });
-
-        return supervisorListaReportesBinding.getRoot();
     }
 
     private void getDataFromFirestore(String codigoSitio, String numeroSerieEquipo) {
@@ -93,7 +95,7 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         if (user != null) {
             String userId = user.getUid();
 
-            // Obtener el sitio específico
+            // Obtener reportes del equipo específico
             db.collection("usuarios_por_auth")
                     .document(userId)
                     .collection("sitios")
@@ -101,14 +103,12 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                     .addSnapshotListener((sitiosTask, sitiosError) -> {
                         if (sitiosError != null) {
                             Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
-                            Log.e("supervisor_lista_reportes", "Error al obtener sitio", sitiosError);
                             return;
                         }
 
                         for (DocumentSnapshot sitioDoc : sitiosTask.getDocuments()) {
                             String sitioId = sitioDoc.getId();
 
-                            // Obtener reportes del equipo específico
                             db.collection("usuarios_por_auth")
                                     .document(userId)
                                     .collection("sitios")
@@ -119,7 +119,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                                     .addSnapshotListener((reportesTask, reportesError) -> {
                                         if (reportesError != null) {
                                             Toast.makeText(getContext(), "Error al obtener reportes", Toast.LENGTH_SHORT).show();
-                                            Log.e("supervisor_lista_reportes", "Error al obtener reportes", reportesError);
                                             return;
                                         }
 
@@ -128,7 +127,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                                             Reporte reporte = reporteDoc.toObject(Reporte.class);
                                             if (reporte != null) {
                                                 datalist.add(reporte);
-                                                Log.d("supervisor_lista_reportes", "Reporte: " + reporte.getTitulo() + " listado correctamente.");
                                             }
                                         }
                                         adapter.notifyDataSetChanged();
@@ -138,7 +136,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         }
     }
 
-
     @Override
     public void onItemClick(Reporte item) {
         NavController navController = NavHostFragment.findNavController(this);
@@ -146,8 +143,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         bundle.putString("numero_serie_equipo", numeroSerieEquipo);
         bundle.putString("ACScodigo", codigoDeSitio);
         bundle.putString("codigoReporte", item.getCodigo());
-
-        Log.d("supervisor_lista_reportes", "Enviando código de reporte: " + item.getCodigo());
         navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte, bundle);
     }
 
