@@ -43,7 +43,6 @@ public class admin_perfil extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser currentUser;
 
-
     //----------
 
 
@@ -69,7 +68,6 @@ public class admin_perfil extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
 
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +84,6 @@ public class admin_perfil extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
             lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,10 +125,7 @@ public class admin_perfil extends AppCompatActivity {
             }
         });
 
-
-
         //------------------------------------- FIRESTORE
-
 
         perfil_superNombre= findViewById(R.id.nombre_perfil_admin);
         perfil_superCorreo = findViewById(R.id.correo_perfil_admin);
@@ -139,10 +133,7 @@ public class admin_perfil extends AppCompatActivity {
         perfil_superTelefono = findViewById(R.id.telefono_perfil_admin);
         perfil_superDireccion = findViewById(R.id.direccin_perfil_admin);
         perfil_superImage = findViewById(R.id.perfil_admin_foto);
-
         button_edit_perfil_admin = findViewById(R.id.button_cambiar_contra_perfiladmin);
-
-
 
         db.collection("usuarios_por_auth")
                 .document(uid)
@@ -157,28 +148,19 @@ public class admin_perfil extends AppCompatActivity {
                             String nombre = document.getString("nombre");
                             String apellido = document.getString("apellido");
 
-
-
                             perfil_superNombre.setText(nombre +" "+ apellido);
                             perfil_superCorreo.setText(correo_usuario);
                             perfil_superTelefono.setText(document.getString("telefono"));
                             perfil_superDireccion.setText(document.getString("direccion"));
                             perfil_superDNI.setText(document.getString("dni"));
 
-
-
-
                             Glide.with(admin_perfil.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
-
-
-
 
                         } else {
                             Toast.makeText(admin_perfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
 
         button_edit_perfil_admin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,16 +176,9 @@ public class admin_perfil extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
-
-
-
     //----------------------------------
-
-
 
     //Drawer functions--------------------------------
 

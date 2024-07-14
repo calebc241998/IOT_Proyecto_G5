@@ -55,24 +55,14 @@ public class admin_editarSuper extends AppCompatActivity {
     FirebaseFirestore db;
     ListenerRegistration snapshotListener;
     FirebaseUser currentUser;
-
-
     ImageView foto_perfil;
-
     Button boton_guardar_editSuper;
-
     Switch switch_editarEstado;
-
     EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
-
     String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios;
-
     Uri uri;
-
     DatabaseReference databaseReference;
     StorageReference storageReference;
-
-
     //----------------------------------
 
     DrawerLayout drawerLayout;
@@ -83,7 +73,6 @@ public class admin_editarSuper extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_editar_supervisor);
@@ -214,9 +203,6 @@ public class admin_editarSuper extends AppCompatActivity {
                 }
         );
 
-
-
-
         if(bundle != null){
 
             //busqueda en base de datos....
@@ -261,7 +247,6 @@ public class admin_editarSuper extends AppCompatActivity {
 
         }
 
-        //databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
 
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,20 +257,7 @@ public class admin_editarSuper extends AppCompatActivity {
             }
         });
 
-       /*boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveData();
-                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class)
-                .putExtra("correo", correo_usuario)
-                .putExtra("uid", uid);
-                startActivity(intent);
 
-            }
-        });
-
-
-        */
         boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,33 +284,7 @@ public class admin_editarSuper extends AppCompatActivity {
         }
     }
 
-    /*public void saveData(){
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper.this);
-        builder.setCancelable(false);
-        builder.setView(R.layout.admin_progress_layout);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
-                Uri urlImage = uriTask.getResult();
-                newimageUrl = urlImage.toString();
-                updateData();
-                dialog.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-            }
-        });
-    }*/
     private boolean validarCampos() {
         if (edit_nombre.getText().toString().trim().isEmpty() ||
                 edit_apellido.getText().toString().trim().isEmpty() ||
@@ -347,15 +293,19 @@ public class admin_editarSuper extends AppCompatActivity {
                 edit_correo.getText().toString().trim().isEmpty() ||
                 edit_telefono.getText().toString().trim().isEmpty()) {
 
-            Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (edit_telefono.getText().toString().trim().length() != 9) {
-            Toast.makeText(this, "Phone number must be 9 digits.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "El telefono debe tener 9 dígitos", Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        if (edit_dni.getText().toString().trim().length() != 8) {
+            Toast.makeText(this, "El DNI debe tener 8 dígitos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -397,49 +347,6 @@ public class admin_editarSuper extends AppCompatActivity {
         }
     }
 
-
-
-
-   /* public  void updateData( ){
-        String nombre = edit_nombre.getText().toString();
-        String apellido = edit_apellido.getText().toString();
-        String correo = edit_correo.getText().toString();
-        String telefono = edit_telefono.getText().toString();
-        String direccion = edit_direccion.getText().toString();
-        String dni = edit_dni.getText().toString();
-
-
-
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
-
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().set(usuario)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Log.d("Update", "Usuario actualizado con éxito");
-                                        // Elimina la imagen antigua solo si la actualización fue exitosa
-                                        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                                        reference.delete().addOnSuccessListener(aVoid1 -> {
-                                            Toast.makeText(admin_editarSuper.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
-                                            finish();
-                                        }).addOnFailureListener(e -> Toast.makeText(admin_editarSuper.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
-                                    })
-                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
-                        }
-                        if (task.getResult().isEmpty()) {
-                            Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
-                        }
-                    } else {
-                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                    }
-                });
-    }*/
 
     public void updateData( ){
         String nombre = edit_nombre.getText().toString().trim();

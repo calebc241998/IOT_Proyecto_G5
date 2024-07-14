@@ -280,46 +280,85 @@ public class admin_editarPerfil extends AppCompatActivity {
             }
         });
 
+
+
+
+
         boton_guardar_editAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
-                Intent intent = new Intent(admin_editarPerfil.this, admin_perfil.class)
-                .putExtra("correo", correo_usuario)
-                .putExtra("uid", uid);
-                startActivity(intent);
 
+                if (validarCampos()){
+                    saveData();
+                    Intent intent = new Intent(admin_editarPerfil.this, admin_perfil.class)
+                            .putExtra("correo", correo_usuario)
+                            .putExtra("uid", uid);
+                    startActivity(intent);
+                }
+                // No hay redirección si las validaciones fallan
             }
         });
-
     }
+
+    private boolean validarCampos() {
+        if (edit_telefono.getText().toString().trim().isEmpty()) {
+
+            Toast.makeText(this, "Complete el campo requerido", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (edit_telefono.getText().toString().trim().length() != 9) {
+            Toast.makeText(this, "El telefono debe tener 9 dígitos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+
 
     public void saveData(){
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
+        if (validarCampos()){
+            storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
-        builder.setCancelable(false);
-        builder.setView(R.layout.admin_progress_layout);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
+            builder.setCancelable(false);
+            builder.setView(R.layout.admin_progress_layout);
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
-                Uri urlImage = uriTask.getResult();
-                newimageUrl = urlImage.toString();
+            if (uri != null){ // Solo subir imagen si se seleccionó una nueva
+
+                storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isComplete());
+                        Uri urlImage = uriTask.getResult();
+                        newimageUrl = urlImage.toString();
+                        updateData();
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                    }
+                });
+            } else {
+                // Si no se seleccionó una nueva imagen, usar la antigua
+                newimageUrl = oldImageUrl;
                 updateData();
                 dialog.dismiss();
+
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-            }
-        });
+
+
+
+        }
+
+
     }
 
     public  void updateData( ){
