@@ -15,10 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
+
+    private FirebaseFirestore db;
+
     private EditText signupEmail, signupPassword;
     private Button signupButton;
     private TextView loginRedirectText;
@@ -32,6 +36,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.registro_nuevo);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         signupEmail = findViewById(R.id.signupEmail);
         signupPassword = findViewById(R.id.signupPassword);
         signupButton = findViewById(R.id.buttonSignUp);

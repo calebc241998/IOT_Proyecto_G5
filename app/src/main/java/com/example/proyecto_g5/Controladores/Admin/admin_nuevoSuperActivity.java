@@ -231,21 +231,16 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
         boton_guardar_nuevoSuper.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
                 saveData();
-
             }
-
 
         });
 
     }
 
     public void saveData(){
-
-
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
 
@@ -328,22 +323,6 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
 
         }
-
-        /*FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
-                .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(admin_nuevoSuperActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }); */
 
 
 

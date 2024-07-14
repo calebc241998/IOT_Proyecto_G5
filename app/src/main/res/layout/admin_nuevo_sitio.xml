@@ -15,34 +15,45 @@
         <include
             layout="@layout/admin_toolbar"/>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
+            <TextView
+                android:id="@+id/ACStextView"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/search_bkg"
+                android:gravity="center"
+                android:text="Nuevo Sitio"
+                android:textColor="@android:color/black"
+                app:layout_constraintHeight_percent="0.05"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintHeight_percent="0.8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ACStextView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/ACStextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/search_bkg"
-                        android:gravity="center"
-                        android:text="Nuevo Sitio"
-                        android:textColor="@android:color/black"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
 
                     <!-- Nombre del sitio -->
                     <LinearLayout
@@ -112,117 +123,30 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <!-- Departamento -->
+                    <!-- Tipo de Zona -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/ACSdepartamento"
+                            android:id="@+id/ACStextViewTipoZona"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10dp"
-                            android:text="Departamento:"
+                            android:text="Tipo de Zona:"
                             android:textColor="#000000"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <Spinner
-                            android:id="@+id/ACSspinner2"
+                            android:id="@+id/ACSspinnerTipoZona"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:entries="@array/dep_array"
+                            android:entries="@array/tipZona_array"
                             android:paddingTop="6dp" />
-                    </LinearLayout>
-
-                    <!-- Provincia -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ACSprovincia"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingTop="10dp"
-                            android:text="Provincia:"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <Spinner
-                            android:id="@+id/ACSspinner3"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:entries="@array/prov_array"
-                            android:paddingTop="8dp" />
-                    </LinearLayout>
-
-                    <!-- Distrito -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ACSdistrito"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingTop="10dp"
-                            android:text="Distrito:"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <Spinner
-                            android:id="@+id/ACSspinner4"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:entries="@array/dis_array"
-                            android:paddingTop="4dp" />
-                    </LinearLayout>
-
-                    <!-- Ubigeo -->
-                    <!-- Código del sitio -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ACSubigeo_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingTop="10dp"
-                            android:text="Ubigeo:"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ACSubigeo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:hint="Ubigeo"
-                            android:inputType="text">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/ACSspinner5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ems="10"
-                                android:inputType="text" />
-                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <!-- Tipo de Lugar -->
@@ -251,32 +175,147 @@
                             android:paddingTop="6dp" />
                     </LinearLayout>
 
-                    <!-- Referencia -->
+                    <TextView
+                        android:id="@+id/ACStextView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:text="Seleccionar en el mapa:"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <!-- Departamento -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/ACStextView3"
+                            android:id="@+id/ACSdepartamento"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10dp"
-                            android:text="Referencia:"
+                            android:text="Departamento:"
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ACSdep"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:hint="Departamento"
+                            android:inputType="text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/ACSspinner2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Provincia -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ACSprovincia"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:text="Provincia:"
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ACSpro"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:hint="Provincia"
+                            android:inputType="text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/ACSspinner3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Distrito -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ACSdistrito"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:text="Distrito:"
                             android:textColor="#000000"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ACSdist"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:hint="Referencia"
+                            android:hint="Distrito"
                             android:inputType="text">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/ACStextInputEditText2"
+                                android:id="@+id/ACSspinner4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Ubigeo -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ACSubigeo_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:text="Ubigeo:"
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ACSubigeo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:hint="Ubigeo"
+                            android:inputType="text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/ACSspinner5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
@@ -350,31 +389,39 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <!-- Tipo de Zona -->
+                    <!-- Referencia -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/ACStextViewTipoZona"
+                            android:id="@+id/ACStextView3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10dp"
-                            android:text="Tipo de Zona:"
+                            android:text="Referencia:"
                             android:textColor="#000000"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
-                        <Spinner
-                            android:id="@+id/ACSspinnerTipoZona"
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:entries="@array/tipZona_array"
-                            android:paddingTop="6dp" />
+                            android:hint="Referencia"
+                            android:inputType="text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/ACStextInputEditText2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
+
 
                     <!-- Mapa -->
                     <TextView
@@ -392,30 +439,32 @@
                         android:id="@+id/map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        map:cameraZoom="10"
+                        android:layout_height="214dp"
+                        map:cameraZoom="15"
                         map:uiRotateGestures="true"
                         map:uiZoomControls="true" />
+
+                    <Button
+                        android:id="@+id/botton_guardar"
+                        android:layout_width="134dp"
+                        android:layout_height="42dp"
+                        android:layout_marginTop="5dp"
+                        android:backgroundTint="#54CCC5"
+                        android:text="Guardar"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="5dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintWidth_percent="0.4"
+                        app:icon="@drawable/baseline_upload_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+                       />
                 </LinearLayout>
 
             </ScrollView>
-            <Button
-                android:id="@+id/botton_guardar"
-                android:layout_width="134dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="40dp"
-                android:backgroundTint="#54CCC5"
-                android:text="Guardar"
-                android:textAlignment="textStart"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/baseline_upload_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.418"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.94" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -92,4 +92,10 @@ dependencies {
     // Maps SDK for Android
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
 
+    //pruebas para distrito provincia, etc
+
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.maps:google-maps-services:0.9.+'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0' // Cliente HTTP
+
 }

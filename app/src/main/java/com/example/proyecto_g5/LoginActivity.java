@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         db.collection("empresas")
-                .whereEqualTo("nombre", "Cibertec")
+                .whereEqualTo("nombre", id)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -233,6 +233,7 @@ public class LoginActivity extends AppCompatActivity {
         crearLog(role, nombre, superadminId);
 
         intent.putExtra("correo", email);
+        //se envia correo del usuario que se loguea
         startActivity(intent);
         finish();
     }

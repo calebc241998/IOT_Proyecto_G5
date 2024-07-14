@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,8 +65,16 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+
 import androidx.core.content.ContextCompat;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
@@ -78,8 +88,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
     FirebaseUser currentUser;
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
-    private Spinner departamento, provincia, distrito,  tipo_de_lugar, tipo_de_zona;
-    private TextInputEditText nombre_sitio, codigo, referencia,txtlatitud, txtlongitud,ubigeo;
+    private Spinner   tipo_de_lugar, tipo_de_zona;
+    private TextInputEditText nombre_sitio, codigo, referencia,txtlatitud, txtlongitud,ubigeo,departamento, provincia, distrito;
     Uri uri;
     private TextView textViewBienvenido;
 
@@ -104,6 +114,11 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
+        // correo para hallar el usuario (admin)
+
+        String correo_usuario = getIntent().getStringExtra("correo");
+
 
 
         //--Google Maps//
@@ -150,6 +165,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             public void onClick(View v) {
 
                 Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
+
                 startActivity(intent);
             }
         });
@@ -251,19 +268,28 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             @Override
             public void onClick(View v) {
                 saveData();
+                Intent intent = new Intent(admin_nuevoSitioActivity.this, admin_sitiosActivity.class);
+                        //.putExtra("correo", correo_usuario)
+                       // .putExtra("uid", uid);
+                startActivity(intent);
             }
+
         });
 
 
     }
 
+
+
     public void saveData(){
 
         //notificarImportanceDefault();
 
+        if (!validarCampos()) {
+            return;
 
-        //StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(uri.getLastPathSegment());
 
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSitioActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.admin_progress_layout);
@@ -276,12 +302,107 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
     }
 
-    public  void uploadData( ){
+    private boolean validarCampos() {
+        boolean valid = true;
+
         String nombre = nombre_sitio.getText().toString();
         String codigo_sitio = codigo.getText().toString();
-        String departamento_sitio = departamento.getSelectedItem().toString();
-        String provincia_sitio = provincia.getSelectedItem().toString();
-        String distrito_sitio = distrito.getSelectedItem().toString();
+        String departamento_sitio = departamento.getText().toString();
+        String provincia_sitio = provincia.getText().toString();
+        String distrito_sitio = distrito.getText().toString();
+        String ubigeo_sitio_str = ubigeo.getText().toString();
+        String tipo_lugar_sitio = tipo_de_lugar.getSelectedItem().toString();
+        String referencia_sitio = referencia.getText().toString();
+        String longitud_sitio_str = txtlongitud.getText().toString();
+        String latitud_sitio_str = txtlatitud.getText().toString();
+        String zona_sitio = tipo_de_zona.getSelectedItem().toString();
+
+        if (nombre.isEmpty()) {
+            nombre_sitio.setError("Nombre es requerido");
+            valid = false;
+        }
+
+        if (codigo_sitio.isEmpty()) {
+            codigo.setError("Código es requerido");
+            valid = false;
+        }
+
+        if (departamento_sitio.isEmpty()) {
+            departamento.setError("Departamento es requerido");
+            valid = false;
+        }
+
+        if (provincia_sitio.isEmpty()) {
+            provincia.setError("Provincia es requerida");
+            valid = false;
+        }
+
+        if (distrito_sitio.isEmpty()) {
+            distrito.setError("Distrito es requerido");
+            valid = false;
+        }
+
+        if (ubigeo_sitio_str.isEmpty()) {
+            ubigeo.setError("Ubigeo es requerido");
+            valid = false;
+        } else {
+            try {
+                Long.parseLong(ubigeo_sitio_str);
+            } catch (NumberFormatException e) {
+                ubigeo.setError("Ubigeo debe ser un número válido");
+                valid = false;
+            }
+        }
+
+        if (tipo_lugar_sitio.isEmpty()) {
+            Toast.makeText(this, "Seleccione un tipo de lugar", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        if (referencia_sitio.isEmpty()) {
+            referencia.setError("Referencia es requerida");
+            valid = false;
+        }
+
+        if (longitud_sitio_str.isEmpty()) {
+            txtlongitud.setError("Longitud es requerida");
+            valid = false;
+        } else {
+            try {
+                Double.parseDouble(longitud_sitio_str);
+            } catch (NumberFormatException e) {
+                txtlongitud.setError("Longitud debe ser un número válido");
+                valid = false;
+            }
+        }
+
+        if (latitud_sitio_str.isEmpty()) {
+            txtlatitud.setError("Latitud es requerida");
+            valid = false;
+        } else {
+            try {
+                Double.parseDouble(latitud_sitio_str);
+            } catch (NumberFormatException e) {
+                txtlatitud.setError("Latitud debe ser un número válido");
+                valid = false;
+            }
+        }
+
+        if (zona_sitio.isEmpty()) {
+            Toast.makeText(this, "Seleccione un tipo de zona", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    public  void uploadData( ){
+
+        String nombre = nombre_sitio.getText().toString();
+        String codigo_sitio = codigo.getText().toString();
+        String departamento_sitio = departamento.getText().toString();
+        String provincia_sitio = provincia.getText().toString();
+        String distrito_sitio = distrito.getText().toString();
         Long ubigeo_sitio = Long.valueOf(ubigeo.getText().toString());
         String tipo_lugar_sitio = tipo_de_lugar.getSelectedItem().toString();
         String referencia_sitio = referencia.getText().toString();
@@ -289,7 +410,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         Double latitud_sitio = Double.valueOf(txtlatitud.getText().toString());
         String zona_sitio = tipo_de_zona.getSelectedItem().toString();
         String uid = currentUser.getUid();
-        String supervisores = "1";
+        String supervisores = "0";
 
 
 
@@ -327,23 +448,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
                 });
 
 
-        /*FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni)
-                .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(admin_nuevoSuperActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }); */
-
-
 
     }
     public  static void openDrawer(DrawerLayout drawerLayout){
@@ -354,7 +458,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
-
     public static  void redirectActivity(Activity activity, Class secondActivity){
         Intent intent = new Intent(activity, secondActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -378,7 +481,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
     }
 
-
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
         txtlatitud.setText("" +latLng.latitude);
@@ -387,6 +489,27 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             mMarker.setPosition(latLng);
         } else {
             mMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Nueva ubicación"));
+        }
+
+        // Uso de Geocoder para obtener información de ubicación
+        Geocoder geocoder = new Geocoder(admin_nuevoSitioActivity.this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                // Aquí puedes ajustar los índices según lo que devuelve el geocoder
+                String country = address.getCountryName(); // País
+                String state = address.getAdminArea(); // Departamento
+                String city = address.getSubAdminArea(); // Provincia
+                String district = address.getLocality(); // Distrito
+
+                // Asignar los valores a tus TextViews o variables
+                departamento.setText(state);
+                provincia.setText(city);
+                distrito.setText(district);
+            }
+        } catch (Exception e) {
+            Log.e("Geocoder", "Error al obtener la dirección", e);
         }
 
     }

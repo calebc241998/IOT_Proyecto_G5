@@ -85,22 +85,8 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         String correo_usuario = getIntent().getStringExtra("correo");
 
 
-
-
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
-
-
-
-
-
-
-
-
-
-
 
         initializeDrawer();
         recyclerView = findViewById(R.id.recyclerView_listasuper_admin);
@@ -136,7 +122,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
+                .whereEqualTo("rol", "supervisor")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -158,24 +144,6 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                     }
                 });
 
-        /*eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataList.clear();
-                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
-                    Usuario usuario = itemSnapshot.getValue(Usuario.class);
-                    dataList.add(usuario);
-
-                }
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        }); */
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
@@ -284,21 +252,6 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         }
     }
 
-    /*private void addTestData() {
-        try {
-            admin_DataClass androidData = new admin_DataClass("Juan Perez", R.drawable.avatar, "Activo", "5");
-            dataList.add(androidData);
-            androidData = new admin_DataClass("Liliana", R.drawable.avatar_mujer1, "No Activo", "2");
-            dataList.add(androidData);
-            androidData = new admin_DataClass("Maximo Perez", R.drawable.avatar, "Activo", "1");
-            dataList.add(androidData);
-
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            Toast.makeText(this, "Error adding test data: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("TestDataError", "Error adding test data", e);
-        }
-    } */
 
     public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);

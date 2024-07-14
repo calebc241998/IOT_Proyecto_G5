@@ -68,7 +68,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.401" />
+                    app:layout_constraintVertical_bias="0.355" />
 
                 <TextView
                     android:id="@+id/correo_perfil_admin"
@@ -85,7 +85,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.453" />
 
                 <TextView
                     android:id="@+id/DNI_perfil_admin"
@@ -102,7 +103,7 @@
                     app:layout_constraintHorizontal_bias="0.706"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.577" />
+                    app:layout_constraintVertical_bias="0.541" />
 
                 <TextView
                     android:id="@+id/textView24"
@@ -120,25 +121,31 @@
                     app:layout_constraintHorizontal_bias="0.157"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.572" />
+                    app:layout_constraintVertical_bias="0.536" />
 
-                <TextView
-                    android:id="@+id/titulo_direccion"
-                    android:layout_width="82dp"
-                    android:layout_height="31dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/bree_serif"
-                    android:paddingTop="5dp"
-                    android:text="Dirección:"
-                    android:textColor="#151384"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutSuper_phone_edit"
+                    android:layout_width="160dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="180dp"
+                    android:hint="Teléfono"
+                    android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.187"
+                    app:layout_constraintHorizontal_bias="0.8"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.734" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:ignore="MissingConstraints">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/telefono_editPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        tools:ignore="LabelFor" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/titulo_telefono"
@@ -147,7 +154,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/bree_serif"
                     android:paddingTop="5dp"
-                    android:text="Telefono:"
+                    android:text="Teléfono:"
                     android:textColor="#151384"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -156,7 +163,7 @@
                     app:layout_constraintHorizontal_bias="0.183"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.649" />
+                    app:layout_constraintVertical_bias="0.643" />
 
                 <TextView
                     android:id="@+id/direccin_perfil_admin"
@@ -171,10 +178,28 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.884"
+                    app:layout_constraintHorizontal_bias="0.879"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.733" />
+                    app:layout_constraintVertical_bias="0.755" />
+
+                <TextView
+                    android:id="@+id/titulo_direccion"
+                    android:layout_width="82dp"
+                    android:layout_height="31dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/bree_serif"
+                    android:paddingTop="5dp"
+                    android:text="Dirección:"
+                    android:textColor="#151384"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.183"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.756" />
 
                 <Button
                     android:id="@+id/button_guardar_perfiladmin"
@@ -195,31 +220,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.93" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutSuper_phone_edit"
-                    android:layout_width="195dp"
-                    android:layout_height="46dp"
-                    android:layout_marginBottom="180dp"
-                    android:hint="Teléfono"
-                    android:inputType="text"
-                    android:paddingTop="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.866"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    tools:ignore="MissingConstraints">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/telefono_editPerfil"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:maxLength="9"
-                        tools:ignore="LabelFor" />
-                </com.google.android.material.textfield.TextInputLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

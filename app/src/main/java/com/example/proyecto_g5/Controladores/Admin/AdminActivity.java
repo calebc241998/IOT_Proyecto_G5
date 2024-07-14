@@ -38,6 +38,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdminActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
@@ -48,6 +51,9 @@ public class AdminActivity extends AppCompatActivity {
     private TextView super_total, super_activado, total_sitios, textBienvenida;
 
     String canal1 = "importanteDefault";
+
+    List<String> nombres = new ArrayList<>();
+
 
     // para FIREBASE----------------
 
@@ -73,7 +79,7 @@ public class AdminActivity extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
-        // correo para hallar el usuario (admin)
+        // correo para hallar el usuario actual (admin)
 
         String correo_usuario = getIntent().getStringExtra("correo");
 
@@ -130,14 +136,17 @@ public class AdminActivity extends AppCompatActivity {
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSuperActivity.class);
+                Intent intent = new Intent(AdminActivity.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(AdminActivity.this, admin_nuevoSitioActivity.class);
-            }
+                Intent intent = new Intent(AdminActivity.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);            }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
@@ -204,18 +213,33 @@ public class AdminActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             String nombre = document.getString("nombre");
                             String apellido = document.getString("apellido");
-                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
+
+                            db.collection("usuarios_por_auth")
+                                    .get()
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                                String nombr = document1.getString("nombre");
+                                                if (nombr != null) {
+                                                    nombres.add(nombr);
+                                                }
+                                            }
+                                            mostrarNombres(nombres);
+                                        } else {
+                                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                                        }
+                                    });
+
+
+
+
+
+                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!" + nombres);
                         } else {
                             Toast.makeText(AdminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-
-        // Variables para contar------------------------------
-        //int[] countSupervisors = new int[1];
-        //int[] countActiveSupervisors = new int[1];
-
 
 
             // Contar supervisores----------------------------
@@ -264,6 +288,14 @@ public class AdminActivity extends AppCompatActivity {
         //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
 
 
+    }
+
+    private void mostrarNombres(List<String> nombres) {
+        // Puedes mostrar los nombres en un Log, en una vista, o usarlos según tu necesidad
+        for (String nombre : nombres) {
+            Log.d("NombreSupervisor", nombre);
+        }
+        // O puedes mostrar los nombres en un TextView, Spinner, etc.
     }
 
     public  static void openDrawer(DrawerLayout drawerLayout){
