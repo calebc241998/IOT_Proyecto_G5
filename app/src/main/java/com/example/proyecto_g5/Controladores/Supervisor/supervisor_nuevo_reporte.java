@@ -101,6 +101,8 @@ public class supervisor_nuevo_reporte extends Fragment {
                                             Bundle bundle = new Bundle();
                                             bundle.putString("ACScodigo", codigoSitio);
                                             bundle.putString("numero_serie_equipo", numeroSerieEquipo);
+                                            bundle.putSerializable("correo", correo);
+
                                             navController.navigate(R.id.supervisor_lista_reportes, bundle);
                                         })
                                         .addOnFailureListener(error -> {
