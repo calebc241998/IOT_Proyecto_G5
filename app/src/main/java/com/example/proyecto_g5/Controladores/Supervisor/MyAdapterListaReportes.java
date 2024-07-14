@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,16 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
         holder.recFechaReportesSupervisor.setText(fecha);
         holder.recHoraReportesSupervisor.setText(hora);
         holder.recStringStatusSupervisor.setText(item.getEstado());
+
+        // Cambiar el color del texto y la imagen según el estado
+        if (item.getEstado().equals("Solucionado")) {
+            holder.recStringStatusSupervisor.setTextColor(context.getResources().getColor(R.color.verde_solucionado));
+            holder.recImagenStatusReporteSupervisor.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        } else if (item.getEstado().equals("Sin resolver")) {
+            holder.recStringStatusSupervisor.setTextColor(context.getResources().getColor(R.color.rojo_sin_resolver));
+            holder.recImagenStatusReporteSupervisor.setImageResource(R.drawable.baseline_error_24);
+        }
+
         holder.recTituloReportesSupervisor.setText(item.getTitulo());
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
@@ -66,6 +77,7 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView recFechaReportesSupervisor, recHoraReportesSupervisor, recStringStatusSupervisor, recTituloReportesSupervisor;
+        ImageView recImagenStatusReporteSupervisor;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +85,7 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
             recHoraReportesSupervisor = itemView.findViewById(R.id.recHoraReportesSupervisor);
             recStringStatusSupervisor = itemView.findViewById(R.id.recStringStatusSupervisor);
             recTituloReportesSupervisor = itemView.findViewById(R.id.recTituloReportesSupervisor);
+            recImagenStatusReporteSupervisor = itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
         }
     }
 }

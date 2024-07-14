@@ -143,7 +143,7 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         bundle.putString("numero_serie_equipo", numeroSerieEquipo);
         bundle.putString("ACScodigo", codigoDeSitio);
         bundle.putString("codigoReporte", item.getCodigo());
-        navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_nuevo_reporte, bundle);
+        navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_reporte_descripcion, bundle);
     }
 
     private void searchList(String text) {
