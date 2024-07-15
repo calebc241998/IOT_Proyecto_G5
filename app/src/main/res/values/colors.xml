@@ -12,5 +12,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="red">#FF0000</color>
     <color name="green">#5FCD2B</color>
+    <color name="verde_solucionado">#5FCD2B</color>
+    <color name="rojo_sin_resolver">#FF0000</color>
 
 </resources>
