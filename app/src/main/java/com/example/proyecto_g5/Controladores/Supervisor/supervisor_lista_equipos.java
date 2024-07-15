@@ -151,7 +151,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         if (user != null) {
             String userId = user.getUid();
             String codigoSitio = getArguments().getString("ACScodigo");
-            Log.d("message",codigoSitio);
+            Log.d("message", codigoSitio);
             setCodigoDeSitio(codigoSitio);
 
 
@@ -178,7 +178,6 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
         }
 
     }
-
 
 
     @Override

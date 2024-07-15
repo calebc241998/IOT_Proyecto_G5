@@ -92,19 +92,9 @@ public class supervisor_nuevo_equipo extends Fragment {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
 
-                db.collection("usuarios_por_auth")
-                        .document(userId)
-                        .collection("sitios")
-                        .whereEqualTo("codigo", codigoDeSitio)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    String sitioId = document.getId();
-                                    db.collection("usuarios_por_auth")
-                                            .document(userId)
-                                            .collection("sitios")
-                                            .document(sitioId)
+
+                                    db.collection("sitios")
+                                            .document(codigoDeSitio)
                                             .collection("equipos")
                                             .document(serie) // Usa el número de serie como ID del documento
                                             .set(equipo)
@@ -120,7 +110,7 @@ public class supervisor_nuevo_equipo extends Fragment {
 
                                             .addOnSuccessListener(documentReference -> {
                                                 // Crear el log después de guardar exitosamente el usuario
-                                                String descripcionlog = "Se ha creado un nuevo equipo: " + serie + " al sitio "+ codigoDeSitio ;
+                                                String descripcionlog = "Se ha creado un nuevo equipo: " + serie + " al sitio " + codigoDeSitio;
                                                 String usuarioLog = "supervisor"; // Usuario por default (superadmin)
 
                                                 // Crear el objeto log
@@ -139,12 +129,7 @@ public class supervisor_nuevo_equipo extends Fragment {
                                                 Toast.makeText(requireContext(), "Error al guardar equipo", Toast.LENGTH_SHORT).show();
                                             });
                                 }
-                            } else {
-                                Log.d("msg-test", "Error al obtener sitio: ", task.getException());
-                                Toast.makeText(requireContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
+
         });
 
         // Setup ActivityResultLauncher for image picking
