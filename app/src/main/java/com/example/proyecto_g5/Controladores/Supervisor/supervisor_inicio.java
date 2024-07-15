@@ -16,14 +16,16 @@ import android.widget.Toast;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorInicioBinding;
 import com.example.proyecto_g5.dto.Usuario;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import javax.annotation.Nullable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class supervisor_inicio extends Fragment {
     private SupervisorInicioBinding supervisorInicioBinding;
     private FirebaseFirestore db;
+    private ListenerRegistration usuarioListener;
 
     private static final String ARG_CORREO = "correo";
     private String correo; // Variable para almacenar el correo electrónico recibido
@@ -54,7 +57,6 @@ public class supervisor_inicio extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             correo = getArguments().getString(ARG_CORREO);
-
         }
     }
 
@@ -66,13 +68,13 @@ public class supervisor_inicio extends Fragment {
         View view = supervisorInicioBinding.getRoot();
 
         // Establecer el mensaje de bienvenida con el correo electrónico
-        supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Supervisor " + correo);
+        supervisorInicioBinding.textViewBienvenido.setText("¡Bienvenido Supervisor " + correo + "!");
 
         // Inicializar Firestore
         db = FirebaseFirestore.getInstance();
 
         // Consultar el usuario por su correo electrónico
-        consultarUsuarioPorCorreo();
+        consultarUsuario();
 
         // Configurar un listener para el botón que navega a supervisor_lista_sitios
         supervisorInicioBinding.buttonListaSitios.setOnClickListener(new View.OnClickListener() {
@@ -91,23 +93,34 @@ public class supervisor_inicio extends Fragment {
         return view;
     }
 
-    private void consultarUsuarioPorCorreo() {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Detener la escucha cuando la vista sea destruida
+        if (usuarioListener != null) {
+            usuarioListener.remove();
+        }
+    }
+
+    private void consultarUsuario() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid();
+        Log.d("message", userId);
 
-        db.collection("usuarios_por_auth")
+        usuarioListener = db.collection("usuarios_por_auth")
                 .document(userId)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            // Debería haber solo un usuario con el correo electrónico único
-                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                            Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            // Error al obtener los datos del usuario
+                            Toast.makeText(getContext(), "Error al obtener datos del usuario", Toast.LENGTH_SHORT).show();
+                            Log.e("supervisor_inicio", "Error al obtener datos del usuario", e);
+                            return;
+                        }
 
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            Usuario usuario = documentSnapshot.toObject(Usuario.class);
                             // Aquí puedes hacer lo que necesites con el objeto Usuario
                             // Por ejemplo, mostrar datos en la UI
                             mostrarDatosUsuario(usuario);
@@ -116,21 +129,13 @@ public class supervisor_inicio extends Fragment {
                             Toast.makeText(getContext(), "Usuario no encontrado", Toast.LENGTH_SHORT).show();
                         }
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Error al obtener los datos del usuario
-                        Toast.makeText(getContext(), "Error al obtener datos del usuario", Toast.LENGTH_SHORT).show();
-                        Log.e("supervisor_inicio", "Error al obtener datos del usuario", e);
-                    }
                 });
     }
 
     private void mostrarDatosUsuario(Usuario usuario) {
         // Aquí puedes implementar la lógica para mostrar los datos del usuario en tu UI
         // Ejemplo:
-        supervisorInicioBinding.textViewBienvenido.setText("Bienvenido "+usuario.getNombre());
+        supervisorInicioBinding.textViewBienvenido.setText("Bienvenido " + usuario.getNombre());
 
         // y así sucesivamente para los demás campos
     }
