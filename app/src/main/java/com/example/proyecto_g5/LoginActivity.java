@@ -178,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
             if (rol_login.equals("admin")) {
                 intent = new Intent(LoginActivity.this, AdminActivity.class);
                 intent.putExtra("correo", "1");
+
             } else if (rol_login.equals("supervisor")) {
                 intent = new Intent(LoginActivity.this, SupervisorActivity.class);
                 //ya no seria necesario el bundle o mandarle otro valor
@@ -196,17 +197,21 @@ public class LoginActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+        } else {
+
+            if (rol_login.equals("admin")){
+                rol_a_preguntar = "SuperAdministrador";
+
+            }else if (rol_login.equals("supervisor")){
+                rol_a_preguntar = "Administrador";
+
+            }
+
+            Toast.makeText(LoginActivity.this, "Usuario Inactivo, comuniquese con su "+rol_a_preguntar, Toast.LENGTH_SHORT).show();
+
         }
 
-        if (rol_login.equals("admin")){
-            rol_a_preguntar = "SuperAdministrador";
 
-        }else if (rol_login.equals("supervisor")){
-            rol_a_preguntar = "Administrador";
-
-        }
-
-        Toast.makeText(LoginActivity.this, "Usuario Inactivo, comuniquese con su "+rol_a_preguntar, Toast.LENGTH_SHORT).show();
 
 
 

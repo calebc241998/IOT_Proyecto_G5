@@ -55,6 +55,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
@@ -97,6 +98,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
     private Marker mMarker;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    String correo_usuario;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -117,7 +119,12 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
         // correo para hallar el usuario (admin)
 
-        String correo_usuario = getIntent().getStringExtra("correo");
+        correo_usuario = getIntent().getStringExtra("correo");
+
+        //empezamos con los dos tipos de login-----------------
+
+
+        //-----------------------------------------------------
 
 
 
@@ -166,7 +173,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
                 Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_perfil.class);
                 intent.putExtra("correo", correo_usuario);
-
                 startActivity(intent);
             }
         });
@@ -183,28 +189,36 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(admin_nuevoSitioActivity.this, AdminActivity.class);
+                Intent intent  = new Intent(admin_nuevoSitioActivity.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(admin_nuevoSitioActivity.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(admin_nuevoSitioActivity.this, admin_supervisoresActivity.class);
+                Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(admin_nuevoSitioActivity.this, admin_nuevoSuperActivity.class);
+                Intent intent  = new Intent(admin_nuevoSitioActivity.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
@@ -224,28 +238,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             }
         });
 
-
-
-
-        //Spinner spinner = findViewById(R.id.spinne);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-          //      R.array.ubigeo_array, android.R.layout.simple_spinner_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //spinner.setAdapter(adapter);
-
-
-
-
-
-
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
-
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
-
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
         db = FirebaseFirestore.getInstance();
         //currentUser = FirebaseAuth.getInstance().getCurrentUser();
         nombre_sitio = findViewById(R.id.nombre_nuevoSitio);
@@ -267,11 +259,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         boton_guardar_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
-                Intent intent = new Intent(admin_nuevoSitioActivity.this, admin_sitiosActivity.class);
-                        //.putExtra("correo", correo_usuario)
-                       // .putExtra("uid", uid);
-                startActivity(intent);
+                saveData(correo_usuario);
+
             }
 
         });
@@ -281,13 +270,12 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
 
 
-    public void saveData(){
+    public void saveData(String correo_usuario){
 
         //notificarImportanceDefault();
 
         if (!validarCampos()) {
             return;
-
 
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSitioActivity.this);
@@ -295,9 +283,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         builder.setView(R.layout.admin_progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
-        uploadData();
+        uploadData(correo_usuario);
         dialog.dismiss();
-
 
 
     }
@@ -396,7 +383,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         return valid;
     }
 
-    public  void uploadData( ){
+    public  void uploadData( String correo_usuario){
 
         String nombre = nombre_sitio.getText().toString();
         String codigo_sitio = codigo.getText().toString();
@@ -409,45 +396,116 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
         Double longitud_sitio = Double.valueOf(txtlongitud.getText().toString());
         Double latitud_sitio = Double.valueOf(txtlatitud.getText().toString());
         String zona_sitio = tipo_de_zona.getSelectedItem().toString();
-        String uid = currentUser.getUid();
+        String uid;
         String supervisores = "0";
 
 
+        if (correo_usuario.equals("1")){
 
-        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
+            // si es usuario autenticado
+            //se enviara el valor del correo = 1 para poder validar en todas las vistas
 
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
 
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uid_nuevo = document.getString("uid");
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("sitios")
-                .add(sitio)
-                .addOnSuccessListener(documentReference -> {
-                    // Crear el log después de guardar exitosamente el usuario
-                    String descripcion = "Se ha creado un nuevo sitio: " + nombre;
-                    String usuarioLog = "administrador"; // Usuario por default (superadmin)
-
-                    // Crear el objeto log
-                    Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
-
-                    // Guardar el log en Firestore
-                    db.collection("usuarios_por_auth")
-                            .document(uid)
-                            .collection("logs")
-                            .document(log.getId())
-                            .set(log)
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(admin_nuevoSitioActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
-                            });
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
-                });
+                                Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid_nuevo);
 
 
+                                db.collection("sitios")
+                                        .add(sitio)
+                                        .addOnSuccessListener(documentReference -> {
+                                            // Crear el log después de guardar exitosamente el usuario
+
+                                            String descripcion = "Se ha creado un nuevo sitio: " + nombre;
+                                            String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                                            // Crear el objeto log
+                                            Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                                            // Guardar el log en Firestore
+                                            db.collection("usuarios_por_auth")
+                                                    .document(uid_nuevo)
+                                                    .collection("logs")
+                                                    .document(log.getId())
+                                                    .set(log)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Toast.makeText(admin_nuevoSitioActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                                    });
+
+                                            Intent intent = new Intent(admin_nuevoSitioActivity.this, admin_sitiosActivity.class)
+                                                    .putExtra("correo", correo_usuario);
+                                            // .putExtra("uid", uid);
+                                            startActivity(intent);
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
+                                        });
+
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                        }
+                    });
+
+
+        }else {
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
+
+
+            Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
+
+            db.collection("sitios")
+                    .add(sitio)
+                    .addOnSuccessListener(documentReference -> {
+                        // Crear el log después de guardar exitosamente el usuario
+                        String descripcion = "Se ha creado un nuevo sitio: " + nombre;
+                        String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                        // Crear el objeto log
+                        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                        // Guardar el log en Firestore
+                        db.collection("usuarios_por_auth")
+                                .document(uid)
+                                .collection("logs")
+                                .document(log.getId())
+                                .set(log)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(admin_nuevoSitioActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                });
+
+                        Intent intent = new Intent(admin_nuevoSitioActivity.this, admin_sitiosActivity.class)
+                                .putExtra("correo", correo_usuario);
+                        // .putExtra("uid", uid);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(admin_nuevoSitioActivity.this, "Algo pasó al guardar el sitio", Toast.LENGTH_SHORT).show();
+                    });
+
+        }
 
     }
     public  static void openDrawer(DrawerLayout drawerLayout){
