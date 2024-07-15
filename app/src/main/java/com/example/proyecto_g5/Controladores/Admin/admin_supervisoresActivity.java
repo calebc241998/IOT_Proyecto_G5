@@ -74,6 +74,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
     SearchView searchView;
 
     Button editButton;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,22 +118,107 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         //------------------------------------- FIRESTORE
 
 
-        String uid = currentUser.getUid();
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("rol", "supervisor")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        if (correo_usuario.equals("1")){
+
+            // si es usuario autenticado
+
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            dataList.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Usuario usuario = document.toObject(Usuario.class);
-                                dataList.add(usuario);
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                 String uid_nuevo = document.getString("uid");
 
+                                db.collection("usuarios_por_auth")
+                                        .document(uid_nuevo)
+                                        .collection("usuarios")
+                                        .whereEqualTo("rol", "supervisor")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    dataList.clear();
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Usuario usuario = document.toObject(Usuario.class);
+                                                        dataList.add(usuario);
+
+                                                    }
+
+                                                    db.collection("usuarios_por_auth")
+                                                            .whereEqualTo("rol", "supervisor")
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                            Usuario usuario = document.toObject(Usuario.class);
+                                                                            dataList.add(usuario);
+                                                                        }
+                                                                        adapter.notifyDataSetChanged();
+
+                                                                        dialog.dismiss();
+
+                                                                    } else {
+                                                                        // Manejar la situación cuando la consulta falla
+                                                                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                    }
+                                                                }
+                                                            });
+
+                                                } else {
+                                                    // Manejar la situación cuando la consulta falla
+                                                    Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+
+
+
+
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                        }
+                    });
+
+
+
+
+
+        }else {
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("rol", "supervisor")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                dataList.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Usuario usuario = document.toObject(Usuario.class);
+                                    dataList.add(usuario);
+
+
+
+                                }
                                 db.collection("usuarios_por_auth")
                                         .whereEqualTo("rol", "supervisor")
                                         .get()
@@ -155,14 +241,16 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                                             }
                                         });
 
+                            } else {
+                                // Manejar la situación cuando la consulta falla
+                                Log.d("Firestore", "Error getting documents: ", task.getException());
                             }
-
-                        } else {
-                            // Manejar la situación cuando la consulta falla
-                            Log.d("Firestore", "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+
+
+
+        }
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){

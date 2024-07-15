@@ -3,6 +3,7 @@ package com.example.proyecto_g5.Controladores.Admin;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -27,12 +29,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +50,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class admin_editarSuper extends AppCompatActivity {
@@ -58,8 +65,9 @@ public class admin_editarSuper extends AppCompatActivity {
     ImageView foto_perfil;
     Button boton_guardar_editSuper;
     Switch switch_editarEstado;
+    TextView statusTextView;
     EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
-    String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios;
+    String newimageUrl, contrasena, oldImageUrl, correo_pasado, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios, estado_final, estado_nuevo;
     Uri uri;
     DatabaseReference databaseReference;
     StorageReference storageReference;
@@ -135,7 +143,9 @@ public class admin_editarSuper extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarSuper.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_editarSuper.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -151,12 +161,18 @@ public class admin_editarSuper extends AppCompatActivity {
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();            }
+
+                Intent intent = new Intent(admin_editarSuper.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
+            }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarSuper.this, admin_nuevoSitioActivity.class);
+                Intent intent = new Intent(admin_editarSuper.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
@@ -184,6 +200,11 @@ public class admin_editarSuper extends AppCompatActivity {
         foto_perfil = findViewById(R.id.image_editSuper);
         boton_guardar_editSuper = findViewById(R.id.boton_guardar_editado);
         switch_editarEstado = findViewById(R.id.editStatus_switch);
+        statusTextView = findViewById(R.id.statusTextView);
+
+
+
+
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -207,43 +228,222 @@ public class admin_editarSuper extends AppCompatActivity {
 
             //busqueda en base de datos....
 
-            uid = bundle.getString("Uid");
+            if (correo_usuario.equals("1")){
+
+                // si es usuario autenticado
+                //se enviara el valor del correo = 1 para poder validar en todas las vistas
+
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                uid = currentUser.getUid();
+                System.out.println("con auth: "+ uid);
+
+                // Acceder al documento específico usando el UID
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String uid_nuevo = document.getString("uid");
+
+                                    db.collection("usuarios_por_auth")
+                                            .document(uid_nuevo)
+                                            .collection("usuarios")
+                                            .whereEqualTo("correo", correo_edit)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+
+                                                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                                        edit_nombre.setText(document.getString("nombre"));
+                                                        edit_apellido.setText(document.getString("apellido"));
+                                                        edit_correo.setText(document.getString("correo"));
+                                                        correo_pasado = document.getString("correo");
+                                                        edit_telefono.setText(document.getString("telefono"));
+                                                        edit_dni.setText(document.getString("dni"));
+                                                        edit_direccion.setText(document.getString("direccion"));
+                                                        correo_temp = document.getString("correo_temp");
+                                                        pass_superad = document.getString("pass_superad");
+                                                        correo_superad = document.getString("correo_superad");
+                                                        contrasena = document.getString("contrasena");
+                                                        estado = document.getString("estado");
+                                                        sitios = document.getString("sitios");
+
+                                                        boolean isActive = estado.equalsIgnoreCase("activo");
+                                                        switch_editarEstado.setChecked(isActive);
+                                                        updateStatusText(isActive);
+
+                                                        switch_editarEstado.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                                            updateStatusText(isChecked);
+                                                            estado_final = isChecked ? "activo" : "inactivo";
+                                                        });
 
 
-            db.collection("usuarios_por_auth")
-                    .document(uid)
-                    .collection("usuarios")
-                    .whereEqualTo("correo", correo_edit)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                        Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
 
-                                edit_nombre.setText(document.getString("nombre"));
-                                edit_apellido.setText(document.getString("apellido"));
-                                edit_correo.setText(document.getString("correo"));
-                                edit_telefono.setText(document.getString("telefono"));
-                                edit_dni.setText(document.getString("dni"));
-                                edit_direccion.setText(document.getString("direccion"));
-                                correo_temp = document.getString("correo_temp");
-                                pass_superad = document.getString("pass_superad");
-                                correo_superad = document.getString("correo_superad");
-                                contrasena = document.getString("contrasena");
-                                estado = document.getString("estado");
-                                sitios = document.getString("sitios");
+                                                        oldImageUrl = document.getString("imagen");
+
+                                                    } else {
+                                                        Toast.makeText(admin_editarSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                                        db.collection("usuarios_por_auth")
+                                                                .whereEqualTo("correo", correo_edit)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                                            edit_nombre.setText(document.getString("nombre"));
+                                                                            edit_apellido.setText(document.getString("apellido"));
+                                                                            correo_pasado = document.getString("correo");
+                                                                            edit_correo.setText(document.getString("correo"));
+                                                                            edit_telefono.setText(document.getString("telefono"));
+                                                                            edit_dni.setText(document.getString("dni"));
+                                                                            edit_direccion.setText(document.getString("direccion"));
+                                                                            correo_temp = document.getString("correo_temp");
+                                                                            pass_superad = document.getString("pass_superad");
+                                                                            correo_superad = document.getString("correo_superad");
+                                                                            contrasena = document.getString("contrasena");
+                                                                            estado = document.getString("estado");
+                                                                            sitios = document.getString("sitios");
+
+                                                                            boolean isActive = estado.equalsIgnoreCase("activo");
+                                                                            switch_editarEstado.setChecked(isActive);
+                                                                            updateStatusText(isActive);
+
+                                                                            switch_editarEstado.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                                                                updateStatusText(isChecked);
+                                                                                estado_final = isChecked ? "activo" : "inactivo";
+                                                                            });
 
 
-                                Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+                                                                            Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
 
-                                oldImageUrl = document.getString("imagen");
+                                                                            oldImageUrl = document.getString("imagen");
 
+                                                                        } else {
+                                                                            Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    Log.d("Firestore", "No se encontró el documento");
+                                }
                             } else {
-                                Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                             }
-                        }
-                    });
+                        });
+
+
+            }else {
+
+                //solo se hace si no esta con auth
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                uid = currentUser.getUid();
+                System.out.println("sin auth: "+ uid);
+
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .collection("usuarios")
+                        .whereEqualTo("correo", correo_edit)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                    edit_nombre.setText(document.getString("nombre"));
+                                    edit_apellido.setText(document.getString("apellido"));
+                                    edit_correo.setText(document.getString("correo"));
+                                    correo_pasado = document.getString("correo");
+                                    edit_telefono.setText(document.getString("telefono"));
+                                    edit_dni.setText(document.getString("dni"));
+                                    edit_direccion.setText(document.getString("direccion"));
+                                    correo_temp = document.getString("correo_temp");
+                                    pass_superad = document.getString("pass_superad");
+                                    correo_superad = document.getString("correo_superad");
+                                    contrasena = document.getString("contrasena");
+                                    estado = document.getString("estado");
+                                    sitios = document.getString("sitios");
+
+                                    boolean isActive = estado.equalsIgnoreCase("activo");
+                                    switch_editarEstado.setChecked(isActive);
+                                    updateStatusText(isActive);
+
+                                    switch_editarEstado.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                        updateStatusText(isChecked);
+                                        estado_final = isChecked ? "activo" : "inactivo";
+                                    });
+
+
+                                    Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+
+                                    oldImageUrl = document.getString("imagen");
+
+                                } else {
+                                    Toast.makeText(admin_editarSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                    db.collection("usuarios_por_auth")
+                                            .whereEqualTo("correo", correo_edit)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                        edit_nombre.setText(document.getString("nombre"));
+                                                        edit_apellido.setText(document.getString("apellido"));
+                                                        edit_correo.setText(document.getString("correo"));
+                                                        edit_telefono.setText(document.getString("telefono"));
+                                                        correo_pasado = document.getString("correo");
+                                                        edit_dni.setText(document.getString("dni"));
+                                                        edit_direccion.setText(document.getString("direccion"));
+                                                        correo_temp = document.getString("correo_temp");
+                                                        pass_superad = document.getString("pass_superad");
+                                                        correo_superad = document.getString("correo_superad");
+                                                        contrasena = document.getString("contrasena");
+                                                        estado = document.getString("estado");
+                                                        sitios = document.getString("sitios");
+
+                                                        boolean isActive = estado.equalsIgnoreCase("activo");
+                                                        switch_editarEstado.setChecked(isActive);
+                                                        updateStatusText(isActive);
+
+                                                        switch_editarEstado.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                                            updateStatusText(isChecked);
+                                                            estado_final = isChecked ? "activo" : "inactivo";
+                                                        });
+
+
+                                                        Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+
+                                                        oldImageUrl = document.getString("imagen");
+
+                                                    } else {
+                                                        Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+
+                                }
+                            }
+                        });
+
+
+
+            }
+
+
 
         }
 
@@ -257,15 +457,21 @@ public class admin_editarSuper extends AppCompatActivity {
             }
         });
 
+        // Set initial state based on switch position
+
+
+
+
+
+
 
         boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validarCampos() && validarEmail(edit_correo.getText().toString().trim())) {
-                    saveData();
+                    saveData(correo_usuario,correo_pasado);
                     Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class)
-                            .putExtra("correo", correo_usuario)
-                            .putExtra("uid", uid);
+                            .putExtra("correo", correo_usuario);
                     startActivity(intent);// Solo llama a saveData si las validaciones son correctas
                 }
                 // No hay redirección si las validaciones fallan
@@ -309,9 +515,10 @@ public class admin_editarSuper extends AppCompatActivity {
         return true;
     }
 
-    public void saveData(){
+    public void saveData(String correo_usuario, String correo_pasado){
         // Verifica que los campos no estén vacíos antes de guardar
         if (validarCampos()) {
+
             storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri != null ? uri.getLastPathSegment() : oldImageUrl));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper.this);
@@ -328,7 +535,7 @@ public class admin_editarSuper extends AppCompatActivity {
                         while (!uriTask.isComplete());
                         Uri urlImage = uriTask.getResult();
                         newimageUrl = urlImage.toString();
-                        updateData();
+                        updateData(correo_usuario,correo_pasado);
                         dialog.dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -341,42 +548,140 @@ public class admin_editarSuper extends AppCompatActivity {
             } else {
                 // Si no se seleccionó una nueva imagen, usar la antigua
                 newimageUrl = oldImageUrl;
-                updateData();
+                updateData(correo_usuario,correo_pasado);
                 dialog.dismiss();
             }
         }
     }
 
 
-    public void updateData( ){
+    public void updateData( String correo_usuario, String correo_pasado ){
         String nombre = edit_nombre.getText().toString().trim();
         String apellido = edit_apellido.getText().toString().trim();
         String correo = edit_correo.getText().toString().trim();
         String telefono = edit_telefono.getText().toString().trim();
         String direccion = edit_direccion.getText().toString().trim();
         String dni = edit_dni.getText().toString().trim();
+        estado = estado_final;
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor1", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().set(usuario)
-                                    .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
-                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+        if (correo_usuario.equals("1")){
+
+            // si es usuario autenticado
+            //se enviara el valor del correo = 1 para poder validar en todas las vistas
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
+
+            //se debe buscar al usuario a editar
+
+            Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor", estado, newimageUrl, telefono , "VDwqr0wPUsfHO8RhjvLPxRgWt3W2",correo_superad,pass_superad,correo_temp,sitios);
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uid_nuevo = document.getString("uid");
+
+                                db.collection("usuarios_por_auth")
+                                        .document(uid_nuevo)
+                                        .collection("usuarios")
+                                        .whereEqualTo("correo", correo_pasado)
+                                        .get()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                                    document1.getReference().set(usuario)
+                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                            .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                                                }
+                                                if (task1.getResult().isEmpty()) {
+                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                }
+                                            } else {
+
+                                                db.collection("usuarios_por_auth")
+                                                        .whereEqualTo("correo", correo_pasado)
+                                                        .get()
+                                                        .addOnCompleteListener(task2 -> {
+                                                            if (task2.isSuccessful()) {
+                                                                for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                                    document1.getReference().set(usuario)
+                                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                                            .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                                                                }
+                                                                if (task2.getResult().isEmpty()) {
+                                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                                }
+                                                            }
+                                                        });
+
+                                            }
+                                        });
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                         }
-                        if (task.getResult().isEmpty()) {
-                            Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                    });
+
+
+        }else {
+
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
+
+            //----
+
+            Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "supervisor", estado, newimageUrl, telefono , "VDwqr0wPUsfHO8RhjvLPxRgWt3W2",correo_superad,pass_superad,correo_temp,sitios);
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo_pasado)
+                    .get()
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                document1.getReference().set(usuario)
+                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                            }
+                            if (task1.getResult().isEmpty()) {
+                                Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                            }
+                        } else {
+
+                            db.collection("usuarios_por_auth")
+                                    .whereEqualTo("correo", correo_pasado)
+                                    .get()
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                document1.getReference().set(usuario)
+                                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                                            }
+                                            if (task2.getResult().isEmpty()) {
+                                                Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                            }
+                                        }
+                                    });
+
                         }
-                    } else {
-                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                    }
-                });
+                    });
+
+            //------
+        }
+
     }
 
 
@@ -396,4 +701,19 @@ public class admin_editarSuper extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
+
+
+    //para Switch
+
+    private void updateStatusText(boolean isActive) {
+        if (isActive) {
+            statusTextView.setText("Activo");
+            statusTextView.setTextColor(Color.GREEN);
+        } else {
+            statusTextView.setText("Inactivo");
+            statusTextView.setTextColor(Color.RED);
+        }
+    }
+
+
 }

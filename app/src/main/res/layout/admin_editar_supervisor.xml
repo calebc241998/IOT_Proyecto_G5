@@ -27,8 +27,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
-                android:layout_width="405dp"
-                android:layout_height="215dp"
+                android:layout_width="403dp"
+                android:layout_height="165dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +36,11 @@
                 app:layout_constraintVertical_bias="0.939">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="371dp"
+                    android:layout_height="158dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.529"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0">
@@ -50,17 +50,17 @@
                         android:id="@+id/editStatus_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="31dp"
-                        android:text="Activo"
+                        android:text=""
                         android:textColor="#54CBC4"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:thumbTint="#54CBC4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.81"
+                        app:layout_constraintHorizontal_bias="0.852"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.255"
+                        app:layout_constraintVertical_bias="0.133"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     <TextView
@@ -80,22 +80,39 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.887" />
 
+
+                    <TextView
+                        android:id="@+id/statusTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.691"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.123" />
+
                     <Button
                         android:id="@+id/boton_guardar_editado"
                         android:layout_width="134dp"
                         android:layout_height="42dp"
+                        android:layout_marginTop="32dp"
                         android:backgroundTint="#54CCC5"
                         android:text="Guardar"
                         android:textAlignment="textStart"
                         android:textColor="#FFFFFF"
                         app:cornerRadius="5dp"
                         app:icon="@drawable/baseline_upload_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.852"
+                        app:layout_constraintHorizontal_bias="0.839"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.583" />
+                        app:layout_constraintTop_toBottomOf="@+id/editStatus_switch" />
 
                     <ImageView
                         android:id="@+id/image_editSuper"

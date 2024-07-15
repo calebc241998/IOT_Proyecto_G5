@@ -110,6 +110,42 @@ public class AdminActivity extends AppCompatActivity {
                                 uid_nuevo = document.getString("uid");
                                 if (uid_nuevo != null) {
 
+                                    //-Actualizacion db---------------------------------------
+
+                                    db.collection("usuarios_por_auth")
+                                            .document(uid_nuevo)
+                                            .collection("usuarios")
+                                            .whereEqualTo("rol", "supervisor")
+                                            .get()
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                                        // Aquí actualizas cada documento individualmente
+                                                        document1.getReference().update("correo_temp", correo_usuario)
+                                                                .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                                                .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                                                    }
+                                                } else {
+                                                    Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                                                }
+                                            });
+
+                                    db.collection("usuarios_por_auth")
+                                            .whereEqualTo("rol", "supervisor")
+                                            .get()
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                                        // Aquí actualizas cada documento individualmente
+                                                        document1.getReference().update("correo_temp", correo_usuario)
+                                                                .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                                                .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                                                    }
+                                                } else {
+                                                    Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                                                }
+                                            });
+
                                     // Contar supervisores----------------------------
                                     db.collection("usuarios_por_auth")
                                             .document(uid_nuevo)
@@ -199,6 +235,42 @@ public class AdminActivity extends AppCompatActivity {
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
             uid = currentUser.getUid();
 
+            //-Actualizacion db---------------------------------------
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("rol", "supervisor")
+                    .get()
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                // Aquí actualizas cada documento individualmente
+                                document1.getReference().update("correo_temp", correo_usuario)
+                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                        }
+                    });
+
+            db.collection("usuarios_por_auth")
+                    .whereEqualTo("rol", "supervisor")
+                    .get()
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                // Aquí actualizas cada documento individualmente
+                                document1.getReference().update("correo_temp", correo_usuario)
+                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                        }
+                    });
+
         }
 
         //--para ir al perfil
@@ -276,30 +348,9 @@ public class AdminActivity extends AppCompatActivity {
         super_activado = findViewById(R.id.num_sup_act);
         textBienvenida = findViewById(R.id.textViewBienvenido);
 
-        //-Actualizacion db---------------------------------------
 
         if (!correo_usuario.equals("1")){
             //solo se hace si no esta con auth
-            db.collection("usuarios_por_auth")
-                    .document(uid)
-                    .collection("usuarios")
-                    .whereEqualTo("rol", "supervisor")
-                    .whereEqualTo("estado", "activo")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Aquí actualizas cada documento individualmente
-                                document.getReference().update("correo_temp", correo_usuario)
-                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
-                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
-                            }
-                        } else {
-                            Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                        }
-                    });
-
-
 
             //Mensaje Bienvenida ---------------------------
 
