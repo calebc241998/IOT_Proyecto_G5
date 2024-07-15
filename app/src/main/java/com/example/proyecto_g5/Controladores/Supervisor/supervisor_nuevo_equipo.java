@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -86,6 +88,10 @@ public class supervisor_nuevo_equipo extends Fragment {
                 String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
 
                 //imagen
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageReference= storage.getReference();
+
+                StorageReference imagenref=storageReference.child("Equipo_supervisor");
 
 
                 // Asignar la fecha de registro con la fecha y hora actual

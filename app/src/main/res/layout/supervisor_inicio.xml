@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="84dp"
         android:layout_marginTop="528dp"
-        android:backgroundTint="#7A8A89"
+        android:backgroundTint="#54CCC5"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
@@ -144,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="84dp"
         android:layout_marginTop="528dp"
-        android:backgroundTint="#7A8A89"
+        android:backgroundTint="#54CCC5"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.964"
@@ -162,7 +162,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Equipos reportados"
+                android:text="Reportes sin resolver"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -218,8 +218,8 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="51dp"
         android:layout_marginTop="32dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -229,7 +229,7 @@
 
         <Spinner
             android:id="@+id/sedes"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:backgroundTint="#000000"
             android:entries="@array/sedes"
