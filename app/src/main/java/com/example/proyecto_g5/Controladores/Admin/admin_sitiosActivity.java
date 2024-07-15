@@ -85,9 +85,7 @@ public class admin_sitiosActivity extends AppCompatActivity {
 
         String uid = currentUser.getUid();
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("sitios")
+        db.collection("sitios")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -97,6 +95,8 @@ public class admin_sitiosActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Sitio sitio = document.toObject(Sitio.class);
                                 dataList.add(sitio);
+
+
                             }
                             adapter.notifyDataSetChanged();
 
