@@ -258,7 +258,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                             List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
                                                             // Realizar una segunda consulta para obtener los "Sitios"
 
-                                                            fetchSitesWithCodes(codigos, uid);
+                                                            fetchSitesWithCodes(codigos, uid_nuevo);
                                                         } else {
                                                             Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
                                                         }
@@ -296,7 +296,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                                                 List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
                                                                                 // Realizar una segunda consulta para obtener los "Sitios"
 
-                                                                                fetchSitesWithCodes(codigos, uid);
+                                                                                fetchSitesWithCodes(codigos, uid_nuevo);
                                                                             } else {
                                                                                 Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
                                                                             }
@@ -417,8 +417,8 @@ public class admin_perfilSuper extends AppCompatActivity {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
 
                         .putExtra("Correo", correo)
-                        .putExtra("Correo_temp", correo_usuario)
-                        .putExtra("Uid", uid);
+                        .putExtra("Correo_temp", correo_usuario);
+
                 startActivity(intent);
             }
         });

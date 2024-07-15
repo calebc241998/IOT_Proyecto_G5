@@ -116,7 +116,6 @@ public class AdminActivity extends AppCompatActivity {
                                             .document(uid_nuevo)
                                             .collection("usuarios")
                                             .whereEqualTo("rol", "supervisor")
-                                            .whereEqualTo("estado", "activo")
                                             .get()
                                             .addOnCompleteListener(task1 -> {
                                                 if (task1.isSuccessful()) {
@@ -133,7 +132,6 @@ public class AdminActivity extends AppCompatActivity {
 
                                     db.collection("usuarios_por_auth")
                                             .whereEqualTo("rol", "supervisor")
-                                            .whereEqualTo("estado", "activo")
                                             .get()
                                             .addOnCompleteListener(task1 -> {
                                                 if (task1.isSuccessful()) {
@@ -243,7 +241,6 @@ public class AdminActivity extends AppCompatActivity {
                     .document(uid)
                     .collection("usuarios")
                     .whereEqualTo("rol", "supervisor")
-                    .whereEqualTo("estado", "activo")
                     .get()
                     .addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
@@ -260,7 +257,6 @@ public class AdminActivity extends AppCompatActivity {
 
             db.collection("usuarios_por_auth")
                     .whereEqualTo("rol", "supervisor")
-                    .whereEqualTo("estado", "activo")
                     .get()
                     .addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
