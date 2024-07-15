@@ -88,6 +88,9 @@
             android:name=".Controladores.Superadmin.superadmin_editar_admin"
             android:exported="false"></activity>
         <activity
+            android:name=".Controladores.Superadmin.superadmin_editar_perfil"
+            android:exported="false"></activity>
+        <activity
             android:name=".Controladores.Superadmin.superadmin_perfil_supervisor"
             android:exported="false"></activity>
         <activity

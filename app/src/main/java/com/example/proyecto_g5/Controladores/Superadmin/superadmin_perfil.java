@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 
+import com.example.proyecto_g5.Controladores.Admin.admin_editarPerfil;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
@@ -38,7 +39,6 @@ public class superadmin_perfil extends AppCompatActivity{
     TextView perfil_usuarioNombre, perfil_usuarioTelefono, perfil_usuarioDNI, perfil_usuarioDireccion, perfil_usuarioCorreo, perfil_usuarioEstado, perfil_usuarioRol;
     ImageView perfil_usuarioImage;
     String imageUrl = "";
-
     Button button_edit_perfil_superadmin;
 
     // para FIREBASE----------------
@@ -57,6 +57,7 @@ public class superadmin_perfil extends AppCompatActivity{
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
+        Log.d("superadmin_perfil", "UID: " + uid);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
@@ -139,7 +140,7 @@ public class superadmin_perfil extends AppCompatActivity{
         perfil_usuarioTelefono = findViewById(R.id.telefono_perfil_superadmin);
         perfil_usuarioDireccion = findViewById(R.id.direccin_perfil_superadmin);
         perfil_usuarioImage = findViewById(R.id.perfil_superadmin_foto);
-        button_edit_perfil_superadmin = findViewById(R.id.boton_editar_perfil_admin);
+        button_edit_perfil_superadmin = findViewById(R.id.boton_editar_perfil_superadmin);
 
         db.collection("usuarios_por_auth")
                 .document(uid)
@@ -149,28 +150,35 @@ public class superadmin_perfil extends AppCompatActivity{
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().isEmpty()) {
-                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                                String nombre = document.getString("nombre");
-                                String apellido = document.getString("apellido");
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String nombre = document.getString("nombre");
+                            String apellido = document.getString("apellido");
+                            String correo = document.getString("correo"); // Asegúrate de que este campo exista
 
-                                perfil_usuarioNombre.setText(nombre +" "+ apellido);
-                                perfil_usuarioCorreo.setText(correo_usuario);
-                                perfil_usuarioTelefono.setText(document.getString("telefono"));
-                                perfil_usuarioDireccion.setText(document.getString("direccion"));
-                                perfil_usuarioDNI.setText(document.getString("dni"));
+                            perfil_usuarioNombre.setText(nombre + " " + apellido);
+                            perfil_usuarioCorreo.setText(correo); // Utiliza el campo del documento
+                            perfil_usuarioTelefono.setText(document.getString("telefono"));
+                            perfil_usuarioDireccion.setText(document.getString("direccion"));
+                            perfil_usuarioDNI.setText(document.getString("dni"));
 
-                                Glide.with(superadmin_perfil.this).load(document.getString("imagen")).into(perfil_usuarioImage);
-                            } else {
-                                Toast.makeText(superadmin_perfil.this, "No se encontraron documentos coincidentes.", Toast.LENGTH_SHORT).show();
-                            }
+                            Glide.with(superadmin_perfil.this).load(document.getString("imagen")).circleCrop().into(perfil_usuarioImage);
                         } else {
-                            Toast.makeText(superadmin_perfil.this, "Error al obtener documentos: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(superadmin_perfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
+
+        button_edit_perfil_superadmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(superadmin_perfil.this, superadmin_editar_perfil.class)
+                        .putExtra("Correo_temp", perfil_usuarioCorreo.getText().toString()) // Pasa el correo correcto
+                        .putExtra("Uid", uid);
+                startActivity(intent);
+            }
+        });
     }
 
     //Drawer functions--------------------------------

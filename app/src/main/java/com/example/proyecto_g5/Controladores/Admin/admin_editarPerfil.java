@@ -162,7 +162,8 @@ public class admin_editarPerfil extends AppCompatActivity {
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();            }
+                redirectActivity(admin_editarPerfil.this, admin_nuevoSuperActivity.class);
+            }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
