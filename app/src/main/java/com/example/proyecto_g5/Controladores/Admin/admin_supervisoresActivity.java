@@ -132,10 +132,30 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Usuario usuario = document.toObject(Usuario.class);
                                 dataList.add(usuario);
-                            }
-                            adapter.notifyDataSetChanged();
 
-                            dialog.dismiss();
+                                db.collection("usuarios_por_auth")
+                                        .whereEqualTo("rol", "supervisor")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Usuario usuario = document.toObject(Usuario.class);
+                                                        dataList.add(usuario);
+                                                    }
+                                                    adapter.notifyDataSetChanged();
+
+                                                    dialog.dismiss();
+
+                                                } else {
+                                                    // Manejar la situación cuando la consulta falla
+                                                    Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+
+                            }
 
                         } else {
                             // Manejar la situación cuando la consulta falla
