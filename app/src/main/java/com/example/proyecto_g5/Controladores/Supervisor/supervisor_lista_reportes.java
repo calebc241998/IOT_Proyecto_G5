@@ -105,44 +105,28 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         if (user != null) {
             String userId = user.getUid();
 
-            // Obtener reportes del equipo específico
-            db.collection("usuarios_por_auth")
-                    .document(userId)
-                    .collection("sitios")
-                    .whereEqualTo("codigo", codigoSitio)
-                    .addSnapshotListener((sitiosTask, sitiosError) -> {
-                        if (sitiosError != null) {
-                            Toast.makeText(getContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
+
+            db.collection("sitios")
+                    .document(codigoSitio)
+                    .collection("equipos")
+                    .document(numeroSerieEquipo)
+                    .collection("reportes")
+                    .addSnapshotListener((reportesTask, reportesError) -> {
+                        if (reportesError != null) {
+                            Toast.makeText(getContext(), "Error al obtener reportes", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        for (DocumentSnapshot sitioDoc : sitiosTask.getDocuments()) {
-                            String sitioId = sitioDoc.getId();
-
-                            db.collection("usuarios_por_auth")
-                                    .document(userId)
-                                    .collection("sitios")
-                                    .document(sitioId)
-                                    .collection("equipos")
-                                    .document(numeroSerieEquipo)
-                                    .collection("reportes")
-                                    .addSnapshotListener((reportesTask, reportesError) -> {
-                                        if (reportesError != null) {
-                                            Toast.makeText(getContext(), "Error al obtener reportes", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
-
-                                        datalist.clear();
-                                        for (DocumentSnapshot reporteDoc : reportesTask.getDocuments()) {
-                                            Reporte reporte = reporteDoc.toObject(Reporte.class);
-                                            if (reporte != null) {
-                                                datalist.add(reporte);
-                                            }
-                                        }
-                                        adapter.notifyDataSetChanged();
-                                    });
+                        datalist.clear();
+                        for (DocumentSnapshot reporteDoc : reportesTask.getDocuments()) {
+                            Reporte reporte = reporteDoc.toObject(Reporte.class);
+                            if (reporte != null) {
+                                datalist.add(reporte);
+                            }
                         }
+                        adapter.notifyDataSetChanged();
                     });
+
         }
     }
 
