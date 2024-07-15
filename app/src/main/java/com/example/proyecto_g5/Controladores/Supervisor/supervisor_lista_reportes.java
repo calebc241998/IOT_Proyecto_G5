@@ -159,6 +159,7 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
         bundle.putString("fechaRegistro", item.getFecharegistro());
         bundle.putString("fechaSolucion", item.getFechaedicion());
         bundle.putString("creadoPor", item.getSupervisor());
+        bundle.putString("estado", item.getEstado());
         navController.navigate(R.id.action_supervisor_lista_reportes_to_supervisor_reporte_descripcion, bundle);
     }
 
