@@ -103,37 +103,32 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
             String userId = user.getUid();
             db.collection("usuarios_por_auth")
                     .document(userId)
-                    .collection("usuarios")
-                    .whereEqualTo("correo", correo)
-                    .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    .addSnapshotListener((documentSnapshot, e) -> {
                         if (e != null) {
                             Log.w("supervisor_lista_sitios", "Error al obtener el usuario", e);
                             Toast.makeText(getContext(), "Error al obtener el usuario", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                // Aquí simplemente registramos el nombre del documento del usuario
-                                Log.d("supervisor_lista_sitios", "Nombre del documento: " + doc.getId());
-                                String userDocId = doc.getId();
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            Log.d("supervisor_lista_sitios", "Nombre del documento: " + documentSnapshot.getId());
+                            String userDocId = documentSnapshot.getId();
 
-                                // Obtén el campo "sitios" del documento del usuario
-                                if (doc.contains("sitios")) {
-                                    String sitiosString = doc.getString("sitios");
-                                    if (sitiosString != null) {
-                                        String[] sitiosArray = sitiosString.split(",");
-                                        List<String> sitiosList = new ArrayList<>();
-                                        for (String sitio : sitiosArray) {
-                                            sitiosList.add(sitio.trim());
-                                        }
-                                        buscarSitiosEnFirestore(userId, sitiosList);
-                                    } else {
-                                        Log.d("supervisor_lista_sitios", "El campo 'sitios' está vacío");
+                            // Obtén el campo "sitios" del documento del usuario
+                            if (documentSnapshot.contains("sitios")) {
+                                String sitiosString = documentSnapshot.getString("sitios");
+                                if (sitiosString != null) {
+                                    String[] sitiosArray = sitiosString.split(",");
+                                    List<String> sitiosList = new ArrayList<>();
+                                    for (String sitio : sitiosArray) {
+                                        sitiosList.add(sitio.trim());
                                     }
+                                    buscarSitiosEnFirestore(userId, sitiosList);
                                 } else {
-                                    Log.d("supervisor_lista_sitios", "El campo 'sitios' no existe en el documento del usuario");
+                                    Log.d("supervisor_lista_sitios", "El campo 'sitios' está vacío");
                                 }
+                            } else {
+                                Log.d("supervisor_lista_sitios", "El campo 'sitios' no existe en el documento del usuario");
                             }
                         } else {
                             Toast.makeText(getContext(), "No se encontraron usuarios", Toast.LENGTH_SHORT).show();
@@ -144,9 +139,7 @@ public class supervisor_lista_sitios extends Fragment implements MyAdapterListaS
 
     private void buscarSitiosEnFirestore(String userId, List<String> sitiosList) {
         if (!sitiosList.isEmpty()) {
-            db.collection("usuarios_por_auth")
-                    .document(userId)
-                    .collection("sitios")
+            db.collection("sitios")
                     .whereIn("codigo", sitiosList)
                     .addSnapshotListener((queryDocumentSnapshots, e) -> {
                         if (e != null) {
