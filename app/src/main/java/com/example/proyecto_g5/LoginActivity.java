@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        idteam = findViewById(R.id.loginIDTeam);
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.buttonLogin);
@@ -66,7 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = loginEmail.getText().toString().trim();
                 final String pass = loginPassword.getText().toString().trim();
-                final String idu = idteam.getText().toString().trim();
+                //aqui se manda el uid del superadmin
+                final String idu = "VDwqr0wPUsfHO8RhjvLPxRgWt3W2";
 
                 if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
@@ -215,9 +215,49 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
 
+        //- Inicio sesion-----------------------------
 
 
-        db.collection("empresas")
+        db.collection("usuarios_por_auth")
+                .document(id)
+                .collection("usuarios")
+                .whereEqualTo("correo", email)
+                .whereEqualTo("contrasena", pass)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String role = document.getString("rol");
+                            String pass_superad = document.getString("pass_superad");
+                            String correo_superad = document.getString("correo_superad");
+                            String estado = document.getString("estado");
+
+                            if ("activo".equals(estado)) {
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                                // Intentar autenticar con correo y contraseña
+                                auth.signInWithEmailAndPassword(correo_superad, pass_superad)
+                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(LoginActivity.this, "La cuenta se encuentra suspendida", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
+        /*db.collection("empresas")
                 .whereEqualTo("nombre", id)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -283,7 +323,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         System.out.println("Consulta fallida: " + task.getException());
                     }
-                });
+                }); */
 
 
 

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-
     <TextView
         android:id="@+id/registerRedirectText"
         android:layout_width="251dp"
@@ -27,7 +26,6 @@
         android:id="@+id/buttonLogin"
         android:layout_width="179dp"
         android:layout_height="58dp"
-
         android:layout_marginTop="5dp"
         android:backgroundTint="#3ACCBD"
         android:text="Iniciar sesión"
@@ -103,11 +101,11 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="416dp"
-        android:layout_height="187dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintHorizontal_bias="0.497"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -131,25 +129,6 @@
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutIDteam"
-            android:layout_width="264dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="74dp"
-            android:layout_marginEnd="74dp"
-            android:ems="10"
-            android:hint="Empresa"
-            android:inputType="text"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginIDTeam"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                tools:ignore="LabelFor" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutContrasena"
