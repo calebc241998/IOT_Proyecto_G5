@@ -107,9 +107,8 @@ public class admin_editarPerfil extends AppCompatActivity {
 
         // correo para hallar el usuario (admin)
         Bundle bundle = getIntent().getExtras();
-        String correo_usuario = bundle.getString("Correo_temp");
+        String correo_usuario = bundle.getString("correo");
 
-        //correo_edit = bundle.getString("Correo");
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -146,7 +145,9 @@ public class admin_editarPerfil extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarPerfil.this, admin_sitiosActivity.class);
+                Intent intent = new Intent(admin_editarPerfil.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
@@ -162,13 +163,16 @@ public class admin_editarPerfil extends AppCompatActivity {
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarPerfil.this, admin_nuevoSuperActivity.class);
-            }
+                Intent intent = new Intent(admin_editarPerfil.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);          }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_editarPerfil.this, admin_nuevoSitioActivity.class);
+                Intent intent = new Intent(admin_editarPerfil.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
             }
         });
 
@@ -223,50 +227,114 @@ public class admin_editarPerfil extends AppCompatActivity {
 
         if(bundle != null){
 
+            if (correo_usuario.equals("1")){
+
+                // si es usuario autenticado
+
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                uid = currentUser.getUid();
+                System.out.println("con auth: "+ uid);
+
+                // Acceder al documento específico usando el UID
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+
+                                    perfil_superNombre.setText(document.getString("nombre") + " " + document.getString("apellido"));
+                                    nombre = document.getString("nombre");
+                                    apellido = document.getString("apellido");
+                                    perfil_superCorreo.setText(document.getString("correo"));
+                                    correo = document.getString("correo");
+                                    edit_telefono.setText(document.getString("telefono"));
+                                    perfil_superDNI.setText(document.getString("dni"));
+                                    dni = document.getString("dni");
+                                    perfil_superDireccion.setText(document.getString("direccion"));
+                                    direccion = document.getString("direccion");
+                                    correo_temp = document.getString("correo_temp");
+                                    pass_superad = document.getString("pass_superad");
+                                    correo_superad = document.getString("correo_superad");
+                                    contrasena = document.getString("contrasena");
+                                    estado = document.getString("estado");
+                                    sitios = document.getString("sitios");
+                                    rol = document.getString("rol");
+
+
+                                    Glide.with(admin_editarPerfil.this).load(document.getString("imagen")).circleCrop().into(foto_perfil);
+
+                                    oldImageUrl = document.getString("imagen");
+
+
+
+                                } else {
+                                    Log.d("Firestore", "No se encontró el documento");
+                                }
+                            } else {
+                                Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                            }
+                        });
+
+
+
+
+
+            }else {
+                //solo se hace si no esta con auth
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                uid = currentUser.getUid();
+                System.out.println("sin auth: "+ uid);
+
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .collection("usuarios")
+                        .whereEqualTo("correo", correo_usuario)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+
+                                    perfil_superNombre.setText(document.getString("nombre") + " " + document.getString("apellido"));
+                                    nombre = document.getString("nombre");
+                                    apellido = document.getString("apellido");
+                                    perfil_superCorreo.setText(document.getString("correo"));
+                                    correo = document.getString("correo");
+                                    edit_telefono.setText(document.getString("telefono"));
+                                    perfil_superDNI.setText(document.getString("dni"));
+                                    dni = document.getString("dni");
+                                    perfil_superDireccion.setText(document.getString("direccion"));
+                                    direccion = document.getString("direccion");
+                                    correo_temp = document.getString("correo_temp");
+                                    pass_superad = document.getString("pass_superad");
+                                    correo_superad = document.getString("correo_superad");
+                                    contrasena = document.getString("contrasena");
+                                    estado = document.getString("estado");
+                                    sitios = document.getString("sitios");
+                                    rol = document.getString("rol");
+
+
+                                    Glide.with(admin_editarPerfil.this).load(document.getString("imagen")).circleCrop().into(foto_perfil);
+
+                                    oldImageUrl = document.getString("imagen");
+
+
+                                } else {
+                                    Toast.makeText(admin_editarPerfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
+            }
+
             //busqueda en base de datos....
 
-            uid = bundle.getString("Uid");
-
-
-            db.collection("usuarios_por_auth")
-                    .document(uid)
-                    .collection("usuarios")
-                    .whereEqualTo("correo", correo_usuario)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
-
-                                perfil_superNombre.setText(document.getString("nombre") + " " + document.getString("apellido"));
-                                nombre = document.getString("nombre");
-                                apellido = document.getString("apellido");
-                                perfil_superCorreo.setText(document.getString("correo"));
-                                correo = document.getString("correo");
-                                edit_telefono.setText(document.getString("telefono"));
-                                perfil_superDNI.setText(document.getString("dni"));
-                                dni = document.getString("dni");
-                                perfil_superDireccion.setText(document.getString("direccion"));
-                                direccion = document.getString("direccion");
-                                correo_temp = document.getString("correo_temp");
-                                pass_superad = document.getString("pass_superad");
-                                correo_superad = document.getString("correo_superad");
-                                contrasena = document.getString("contrasena");
-                                estado = document.getString("estado");
-                                sitios = document.getString("sitios");
-                                rol = document.getString("rol");
-
-
-                                Glide.with(admin_editarPerfil.this).load(document.getString("imagen")).circleCrop().into(foto_perfil);
-
-                                oldImageUrl = document.getString("imagen");
-
-                            } else {
-                                Toast.makeText(admin_editarPerfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            //uid = bundle.getString("Uid");
 
         }
 
@@ -290,10 +358,9 @@ public class admin_editarPerfil extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (validarCampos()){
-                    saveData();
+                    saveData(correo_usuario);
                     Intent intent = new Intent(admin_editarPerfil.this, admin_perfil.class)
-                            .putExtra("correo", correo_usuario)
-                            .putExtra("uid", uid);
+                            .putExtra("correo", correo_usuario);
                     startActivity(intent);
                 }
                 // No hay redirección si las validaciones fallan
@@ -318,7 +385,7 @@ public class admin_editarPerfil extends AppCompatActivity {
 
 
 
-    public void saveData(){
+    public void saveData(String correo_usuario){
 
         if (validarCampos()){
             storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
@@ -338,7 +405,7 @@ public class admin_editarPerfil extends AppCompatActivity {
                         while (!uriTask.isComplete());
                         Uri urlImage = uriTask.getResult();
                         newimageUrl = urlImage.toString();
-                        updateData();
+                        updateData(correo_usuario);
                         dialog.dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -350,7 +417,7 @@ public class admin_editarPerfil extends AppCompatActivity {
             } else {
                 // Si no se seleccionó una nueva imagen, usar la antigua
                 newimageUrl = oldImageUrl;
-                updateData();
+                updateData(correo_usuario);
                 dialog.dismiss();
 
             }
@@ -362,39 +429,96 @@ public class admin_editarPerfil extends AppCompatActivity {
 
     }
 
-    public  void updateData( ){
+    public  void updateData( String correo_usuario){
 
         String telefono = edit_telefono.getText().toString();
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, rol, estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
+        if (correo_usuario.equals("1")){
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().set(usuario)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Log.d("Update", "Usuario actualizado con éxito");
-                                        // Elimina la imagen antigua solo si la actualización fue exitosa
-                                        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                                        reference.delete().addOnSuccessListener(aVoid1 -> {
-                                            Toast.makeText(admin_editarPerfil.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
-                                            finish();
-                                        }).addOnFailureListener(e -> Toast.makeText(admin_editarPerfil.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
-                                    })
-                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+            // si es usuario autenticado
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                String nuevo_uid = document.getString("uid");
+                                Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, rol, estado, newimageUrl, telefono , nuevo_uid,correo_superad,pass_superad,correo_temp,sitios);
+
+                                document.getReference().set(usuario)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Log.d("Update", "Usuario actualizado con éxito");
+                                            // Elimina la imagen antigua solo si la actualización fue exitosa
+                                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                                            reference.delete().addOnSuccessListener(aVoid1 -> {
+                                                Toast.makeText(admin_editarPerfil.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }).addOnFailureListener(e -> Toast.makeText(admin_editarPerfil.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
+                                        })
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                         }
-                        if (task.getResult().isEmpty()) {
-                            Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                    });
+
+
+
+
+
+        }else {
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
+
+            Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, rol, estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
+
+
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo)
+                    .get()
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                document1.getReference().set(usuario)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Log.d("Update", "Usuario actualizado con éxito");
+                                            // Elimina la imagen antigua solo si la actualización fue exitosa
+                                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                                            reference.delete().addOnSuccessListener(aVoid1 -> {
+                                                Toast.makeText(admin_editarPerfil.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }).addOnFailureListener(e -> Toast.makeText(admin_editarPerfil.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
+                                        })
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                            }
+                            if (task1.getResult().isEmpty()) {
+                                Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
                         }
-                    } else {
-                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                    }
-                });
+                    });
+        }
+
+
+
+
 
     }
 
