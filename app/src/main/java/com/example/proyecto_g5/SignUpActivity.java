@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     // Crear objeto usuario con la información adicional
                                     Map<String, Object> userInfo = new HashMap<>();
-                                    userInfo.put("email", email);
+                                    userInfo.put("correo", email);
                                     userInfo.put("rol", rol);
                                     userInfo.put("estado", estado);
 
