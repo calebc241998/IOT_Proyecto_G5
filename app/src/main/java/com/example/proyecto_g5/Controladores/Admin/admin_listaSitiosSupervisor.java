@@ -76,7 +76,7 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
         //iniciamos admin y superadmin
 
         String correo_usuario = getIntent().getStringExtra("Correo_temp");
-        String correo = getIntent().getStringExtra("Correo"); //a editar
+        String correo = getIntent().getStringExtra("correo"); //a editar
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -130,27 +130,36 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_listaSitiosSupervisor.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_listaSitiosSupervisor.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
+
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_listaSitiosSupervisor.this, admin_supervisoresActivity.class);
+                Intent intent  = new Intent(admin_listaSitiosSupervisor.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_listaSitiosSupervisor.this, admin_nuevoSuperActivity.class);
+                Intent intent  = new Intent(admin_listaSitiosSupervisor.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_listaSitiosSupervisor.this, admin_nuevoSitioActivity.class);
+                Intent intent  = new Intent(admin_listaSitiosSupervisor.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 

@@ -433,13 +433,9 @@ public class admin_editarSuper extends AppCompatActivity {
                                                     }
                                                 }
                                             });
-
-
                                 }
                             }
                         });
-
-
 
             }
 
@@ -456,14 +452,6 @@ public class admin_editarSuper extends AppCompatActivity {
                 activityResultLauncher.launch(photopicker);
             }
         });
-
-        // Set initial state based on switch position
-
-
-
-
-
-
 
         boton_guardar_editSuper.setOnClickListener(new View.OnClickListener() {
             @Override

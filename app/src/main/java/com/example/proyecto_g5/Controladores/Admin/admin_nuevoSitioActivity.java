@@ -99,6 +99,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     String correo_usuario;
+    boolean valid;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -274,23 +275,51 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
         //notificarImportanceDefault();
 
-        if (!validarCampos()) {
-            return;
+        validarCampos(isValid -> {
+            if (isValid) {
 
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSitioActivity.this);
-        builder.setCancelable(false);
-        builder.setView(R.layout.admin_progress_layout);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        uploadData(correo_usuario);
-        dialog.dismiss();
+                AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSitioActivity.this);
+                builder.setCancelable(false);
+                builder.setView(R.layout.admin_progress_layout);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                uploadData(correo_usuario);
+                dialog.dismiss();
+
+            }
+
+        });
+
+
+
 
 
     }
 
-    private boolean validarCampos() {
-        boolean valid = true;
+    private void validateCodigoSitio(String codigo_sitio, ValidationCallback callback) {
+        db.collection("sitios")
+                .whereEqualTo("codigo", codigo_sitio)
+                .get()
+                .addOnCompleteListener(queryTask -> {
+                    if (queryTask.isSuccessful()) {
+                        if (!queryTask.getResult().isEmpty()) {
+                            // Ya existe un sitio con el mismo código
+                            codigo.setError("El código ya está en uso");
+                            callback.onValidationComplete(false);
+                        } else {
+                            // El código es válido
+                            callback.onValidationComplete(true);
+                        }
+                    } else {
+                        // Error en la consulta
+                        System.out.println("Error en la consulta: " + queryTask.getException());
+                        callback.onValidationComplete(false);
+                    }
+                });
+    }
+
+    private void validarCampos(ValidationCallback callback) {
+        valid = true;
 
         String nombre = nombre_sitio.getText().toString();
         String codigo_sitio = codigo.getText().toString();
@@ -306,11 +335,6 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
         if (nombre.isEmpty()) {
             nombre_sitio.setError("Nombre es requerido");
-            valid = false;
-        }
-
-        if (codigo_sitio.isEmpty()) {
-            codigo.setError("Código es requerido");
             valid = false;
         }
 
@@ -380,7 +404,27 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             valid = false;
         }
 
-        return valid;
+        if (codigo_sitio.isEmpty()) {
+            codigo.setError("Código es requerido");
+            valid = false;
+        }
+        if (!valid) {
+            callback.onValidationComplete(false);
+            return;
+        }
+
+        // Validar el código del sitio en la base de datos
+        validateCodigoSitio(codigo_sitio, isCodigoValid -> {
+            if (isCodigoValid) {
+                callback.onValidationComplete(true);
+            } else {
+                callback.onValidationComplete(false);
+            }
+        });
+    }
+
+    public interface ValidationCallback {
+        void onValidationComplete(boolean isValid);
     }
 
     public  void uploadData( String correo_usuario){
@@ -423,7 +467,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
 
                                 db.collection("sitios")
-                                        .add(sitio)
+                                        .document(codigo_sitio)
+                                        .set(sitio)
                                         .addOnSuccessListener(documentReference -> {
                                             // Crear el log después de guardar exitosamente el usuario
 
@@ -474,7 +519,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
             Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
 
             db.collection("sitios")
-                    .add(sitio)
+                    .document(codigo_sitio)
+                    .set(sitio)
                     .addOnSuccessListener(documentReference -> {
                         // Crear el log después de guardar exitosamente el usuario
                         String descripcion = "Se ha creado un nuevo sitio: " + nombre;

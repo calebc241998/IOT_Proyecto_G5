@@ -85,13 +85,8 @@ public class admin_perfilSuper extends AppCompatActivity {
         String correo_usuario = getIntent().getStringExtra("Correo_temp"); //para despues regresar a admin
         String correo = getIntent().getStringExtra("correo"); //a editar
 
-
-
-
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -114,7 +109,6 @@ public class admin_perfilSuper extends AppCompatActivity {
                 Intent intent  = new Intent(admin_perfilSuper.this, admin_perfil.class);
                 intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
-
             }
         });
 
@@ -428,7 +422,7 @@ public class admin_perfilSuper extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_listaSitiosSupervisor.class)
 
-                        .putExtra("Correo", correo)
+                        .putExtra("correo", correo)
                         .putExtra("Correo_temp", correo_usuario);
                 startActivity(intent);
             }
