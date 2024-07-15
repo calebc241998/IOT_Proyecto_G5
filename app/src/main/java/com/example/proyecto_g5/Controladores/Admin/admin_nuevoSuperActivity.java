@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ import com.example.proyecto_g5.Controladores.Superadmin.superadmin_nuevo_admin;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Llog;
+import com.example.proyecto_g5.dto.Sitio;
 import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +49,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
@@ -144,21 +147,28 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, AdminActivity.class);
+                Intent intent  = new Intent(admin_nuevoSuperActivity.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
+
             }
         });
 
@@ -170,7 +180,9 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
+                Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -233,14 +245,13 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                saveData();
+                saveData(correo_usuario);
             }
-
         });
 
     }
 
-    public void saveData(){
+    public void saveData(String correo_usuario){
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
 
@@ -257,7 +268,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
                 while (!uriTask.isComplete());
                 Uri urlImage = uriTask.getResult();
                 imageUrl = urlImage.toString();
-                uploadData();
+                uploadData(correo_usuario);
                 dialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -268,61 +279,155 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
         });
     }
 
-    public  void uploadData( ){
+    public  void uploadData( String correo_usuario){
         String nombre = nuevo_nombre.getText().toString();
         String apellido = nuevo_apellido.getText().toString();
         String correo = nuevo_correo.getText().toString();
         String telefono = nuevo_telefono.getText().toString();
         String direccion = nuevo_direccion.getText().toString();
         String dni = nuevo_dni.getText().toString();
-
-        String key_dni = nuevo_dni.getText().toString();
-        String uid = currentUser.getUid();
-        String correo_superad = currentUser.getEmail();
-        String pass_superad = nuevo_pass_superad.getText().toString();
+        String pass = nuevo_pass_superad.getText().toString();
         String sitios = "";
+        String uid;
 
 
+        if (correo_usuario.equals("1")){
 
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass_superad, direccion, "supervisor1", "activo", imageUrl, telefono ,uid, correo_superad, pass_superad, "1", sitios);
+            // si es usuario autenticado
+            //se enviara el valor del correo = 1 para poder validar en todas las vistas
 
-        if(currentUser != null){
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
 
+            // Acceder al documento específico usando el UID
             db.collection("usuarios_por_auth")
                     .document(uid)
-                    .collection("usuarios")
-                    .add(usuario)
-                    .addOnSuccessListener(documentReference -> {
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uid_nuevo = document.getString("uid");
 
-                        notificarImportanceDefault();
 
-                        // Crear el log después de guardar exitosamente el usuario
-                        String descripcion = "Se ha creado un nuevo supervisor: " + nombre + " " + apellido;
-                        String usuarioLog = "administrador"; // Usuario por default (superadmin)
+                                //----
+                                String correo_superad = document.getString("correo_superad");
 
-                        // Crear el objeto log
-                        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+                                Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass, direccion, "supervisor", "activo", imageUrl, telefono ,uid, correo_superad, "123456", "1", sitios);
 
-                        // Guardar el log en Firestore
-                        db.collection("usuarios_por_auth")
-                                .document(uid)
-                                .collection("logs")
-                                .document(log.getId())
-                                .set(log)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(admin_nuevoSuperActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
+                                if(currentUser != null){
+
+                                    db.collection("usuarios_por_auth")
+                                            .document(uid_nuevo)
+                                            .collection("usuarios")
+                                            .add(usuario)
+                                            .addOnSuccessListener(documentReference -> {
+
+                                                notificarImportanceDefault();
+
+                                                // Crear el log después de guardar exitosamente el usuario
+                                                String descripcion = "Se ha creado un nuevo supervisor: " + nombre + " " + apellido;
+                                                String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                                                // Crear el objeto log
+                                                Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                                                // Guardar el log en Firestore
+                                                db.collection("usuarios_por_auth")
+                                                        .document(uid_nuevo)
+                                                        .collection("logs")
+                                                        .document(log.getId())
+                                                        .set(log)
+                                                        .addOnSuccessListener(aVoid -> {
+                                                            Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                                                            intent.putExtra("correo", correo_usuario);
+                                                            startActivity(intent);
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                                        });
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
+                                            });
+                                }else {
+                                    Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
+                                }
+
+                                //------
+
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                        }
                     });
+
+
         }else {
-            Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
+
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
+
+            //----
+
+            String correo_superad = currentUser.getEmail();
+
+            Usuario usuario = new Usuario(nombre, apellido, dni,correo, pass, direccion, "supervisor", "activo", imageUrl, telefono ,uid, correo_superad, "123456", "1", sitios);
+
+            if(currentUser != null){
+
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .collection("usuarios")
+                        .add(usuario)
+                        .addOnSuccessListener(documentReference -> {
+
+                            notificarImportanceDefault();
+
+                            // Crear el log después de guardar exitosamente el usuario
+                            String descripcion = "Se ha creado un nuevo supervisor: " + nombre + " " + apellido;
+                            String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                            // Crear el objeto log
+                            Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                            // Guardar el log en Firestore
+                            db.collection("usuarios_por_auth")
+                                    .document(uid)
+                                    .collection("logs")
+                                    .document(log.getId())
+                                    .set(log)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_supervisoresActivity.class);
+                                        intent.putExtra("correo", correo_usuario);
+                                        startActivity(intent);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                    });
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(admin_nuevoSuperActivity.this, "Algo pasó al guardar el usuario", Toast.LENGTH_SHORT).show();
+                        });
+            }else {
+                Toast.makeText(admin_nuevoSuperActivity.this, "No esta logueado", Toast.LENGTH_SHORT).show();
+
+            }
+
+            //------
+
+
+
 
         }
+
+
+
 
 
 

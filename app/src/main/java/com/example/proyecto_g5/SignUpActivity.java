@@ -92,7 +92,6 @@ public class SignUpActivity extends AppCompatActivity {
                                         rol = "otro"; // valor por defecto si es necesario
                                     }
 
-
                                     String estado = "inactivo"; // Ejemplo de estado
 
                                     // Crear objeto usuario con la información adicional
@@ -101,6 +100,10 @@ public class SignUpActivity extends AppCompatActivity {
                                     userInfo.put("rol", rol);
                                     userInfo.put("estado", estado);
                                     userInfo.put("uid", "VDwqr0wPUsfHO8RhjvLPxRgWt3W2");
+                                    userInfo.put("contrasena", pass);
+                                    userInfo.put("correo_superad", "as.alejandror@gmail.com");
+
+
 
 
 
