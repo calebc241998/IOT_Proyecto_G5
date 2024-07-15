@@ -4,9 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".Controladores.Supervisor.supervisor_reporte_descripcion">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/campoFechaResuelto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="15/01/2024 - 18:25hrs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTitulo"
@@ -51,7 +63,7 @@
         android:id="@+id/frameLayout2"
         android:layout_width="wrap_content"
         android:layout_height="220dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.737"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,18 +73,24 @@
             android:layout_width="350dp"
             android:layout_height="150dp"
             android:background="@drawable/contorno_negro"
-            android:backgroundTint="#FFFFFF">
+            android:backgroundTint="#FFFFFF"
+            tools:layout_editor_absoluteX="45dp"
+            tools:layout_editor_absoluteY="323dp">
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="323dp">
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/campoDescripcionReporteEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR "
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="45dp"
+                    tools:layout_editor_absoluteY="323dp" />
             </ScrollView>
 
         </androidx.cardview.widget.CardView>
@@ -98,11 +116,11 @@
         android:id="@+id/cardView"
         android:layout_width="272dp"
         android:layout_height="37dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="124dp"
         android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintHorizontal_bias="0.611"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo">
 
@@ -122,9 +140,9 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="296dp"
         android:layout_height="190dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginTop="484dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -160,7 +178,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/campoFecha"
+        android:id="@+id/campoFechaRegistroEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
@@ -171,7 +189,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textView19Registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
@@ -179,6 +197,18 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.225"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo" />
+
+    <TextView
+        android:id="@+id/textView19Solucion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="Fecha de solución:"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo" />
 
@@ -206,7 +236,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardViewTitulo" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/botonResuelto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -218,8 +248,9 @@
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.647" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

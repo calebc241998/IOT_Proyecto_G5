@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.databinding.SupervisorDescripcionReporteBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +26,11 @@ public class supervisor_reporte_descripcion extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String correo;
+    private String numeroSerieEquipo;
+    private String codigoDeSitio;
+    private String codigoDeReporte;
+    private SupervisorDescripcionReporteBinding binding;
 
     public supervisor_reporte_descripcion() {
         // Required empty public constructor
@@ -52,15 +58,40 @@ public class supervisor_reporte_descripcion extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            correo = getArguments().getString("correo");
+            numeroSerieEquipo = getArguments().getString("numero_serie_equipo");
+            codigoDeSitio = getArguments().getString("ACScodigo");
+            codigoDeReporte = getArguments().getString("codigoReporte");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.supervisor_descripcion_reporte, container, false);
+        // Inflate the layout for this fragment using View Binding
+        binding = SupervisorDescripcionReporteBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        if (getArguments() != null) {
+            String titulo = getArguments().getString("tituloReporte");
+            String descripcion = getArguments().getString("descripcionReporte");
+            String fechaRegistro = getArguments().getString("fechaRegistro");
+            String fechaSolucion = getArguments().getString("fechaSolucion");
+            String creadoPor = getArguments().getString("creadoPor");
+
+            binding.textViewTitulo.setText(titulo);
+            binding.campoDescripcionReporteEdit.setText(descripcion);
+            binding.campoFechaResuelto.setText(fechaRegistro);
+            binding.campoFechaResuelto.setText(fechaSolucion);
+            binding.campoSupervisor.setText(creadoPor);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
