@@ -75,7 +75,7 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
                 //intent.putExtra("Nombre", dataList.get(holder.getAdapterPosition()).getNombre());
                 //intent.putExtra("Status", dataList.get(holder.getAdapterPosition()).getEstado());
                 //intent.putExtra("Apellido", dataList.get(holder.getAdapterPosition()).getApellido());
-                intent.putExtra("Correo", dataList.get(holder.getAdapterPosition()).getCorreo());
+                intent.putExtra("correo", dataList.get(holder.getAdapterPosition()).getCorreo());
                 intent.putExtra("Correo_temp", dataList.get(holder.getAdapterPosition()).getCorreo_temp());
                 //intent.putExtra("Telefono", dataList.get(holder.getAdapterPosition()).getTelefono());
                 //intent.putExtra("Direccion", dataList.get(holder.getAdapterPosition()).getDireccion());

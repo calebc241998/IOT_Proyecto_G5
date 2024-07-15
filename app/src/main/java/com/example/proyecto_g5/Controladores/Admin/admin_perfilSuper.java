@@ -56,13 +56,14 @@ public class admin_perfilSuper extends AppCompatActivity {
 
     RCAdapter_sitios rcAdapterSitios;
 
+    String uid;
+
 
 
     //--------------------
 
     //-----FIREBASE--------
 
-    String imageUrl = "";
     FirebaseFirestore db;
     FirebaseUser currentUser;
 
@@ -81,12 +82,14 @@ public class admin_perfilSuper extends AppCompatActivity {
         setContentView(R.layout.admin_perfil_supervisor_2);
 
 
-        String correo_usuario = getIntent().getStringExtra("Correo_temp");
-        String correo = getIntent().getStringExtra("Correo"); //a editar
+        String correo_usuario = getIntent().getStringExtra("Correo_temp"); //para despues regresar a admin
+        String correo = getIntent().getStringExtra("correo"); //a editar
+
+
+
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currentUser.getUid();
 
 
 
@@ -117,7 +120,6 @@ public class admin_perfilSuper extends AppCompatActivity {
 
         //-------
 
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,27 +140,35 @@ public class admin_perfilSuper extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_perfilSuper.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_supervisoresActivity.class);
+                Intent intent  = new Intent(admin_perfilSuper.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSuperActivity.class);
+                Intent intent  = new Intent(admin_perfilSuper.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_perfilSuper.this, admin_nuevoSitioActivity.class);
+                Intent intent  = new Intent(admin_perfilSuper.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -189,76 +199,6 @@ public class admin_perfilSuper extends AppCompatActivity {
         editButton = findViewById(R.id.button_editar_perfil_super);
         addSitioButton = findViewById(R.id.editar_agregar_sitios) ;
 
-
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-
-
-            //estos valores son mandados desde admin_myadapter
-
-            db.collection("usuarios_por_auth")
-                    .document(uid)
-                    .collection("usuarios")
-                    .whereEqualTo("correo", correo)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                                String nombre = document.getString("nombre");
-                                String apellido = document.getString("apellido");
-
-
-                                perfil_superNombre.setText(nombre +" "+ apellido);
-                                perfil_superCorreo.setText(correo);
-                                perfil_superTelefono.setText(document.getString("telefono"));
-                                perfil_superDireccion.setText(document.getString("direccion"));
-                                perfil_superDNI.setText(document.getString("dni"));
-
-                                Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
-
-                            } else {
-                                Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-        }
-
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
-                       // .putExtra("Nombre", perfil_superNombre.getText().toString())
-                       // .putExtra("Apellido", perfil_superApellido.getText().toString())
-                        .putExtra("Correo", correo)
-                        .putExtra("Correo_temp", correo_usuario)
-                        //.putExtra("DNI", perfil_superDNI.getText().toString())
-                        //.putExtra("Image", imageUrl)
-                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
-                        .putExtra("Uid", uid);
-                startActivity(intent);
-            }
-        });
-
-        addSitioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(admin_perfilSuper.this, admin_listaSitiosSupervisor.class)
-                        // .putExtra("Nombre", perfil_superNombre.getText().toString())
-                        // .putExtra("Apellido", perfil_superApellido.getText().toString())
-                        .putExtra("Correo", correo)
-                        .putExtra("Correo_temp", correo_usuario)
-                        //.putExtra("DNI", perfil_superDNI.getText().toString())
-                        //.putExtra("Image", imageUrl)
-                        //.putExtra("Telefono", perfil_superTelefono.getText().toString())
-                        .putExtra("Uid", uid);
-                startActivity(intent);
-            }
-        });
-
         //recycler view------
 
         recyclerView = findViewById(R.id.recyclerView_listaSitios_asignados);
@@ -268,38 +208,232 @@ public class admin_perfilSuper extends AppCompatActivity {
         rcAdapterSitios = new RCAdapter_sitios(this, dataList);
         recyclerView.setAdapter(rcAdapterSitios);
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            // Extraer la cadena de códigos del campo "sitios"
-                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                            String sitiosStr = document.getString("sitios");
 
-                            if (sitiosStr != null && !sitiosStr.isEmpty()) {
-                                // Convertir la cadena a una lista de códigos
-                                List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
-                                // Realizar una segunda consulta para obtener los "Sitios"
 
-                                fetchSitesWithCodes(codigos, uid);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+
+            if (correo_usuario.equals("1")){
+
+                // si es usuario autenticado
+
+                uid = currentUser.getUid();
+                System.out.println("con auth: "+ uid);
+
+                // Acceder al documento específico usando el UID
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String uid_nuevo = document.getString("uid");
+                                    db.collection("usuarios_por_auth")
+                                            .document(uid_nuevo)
+                                            .collection("usuarios")
+                                            .whereEqualTo("correo", correo)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                        String nombre = document.getString("nombre");
+                                                        String apellido = document.getString("apellido");
+
+                                                        perfil_superNombre.setText(nombre +" "+ apellido);
+                                                        perfil_superCorreo.setText(correo);
+                                                        perfil_superTelefono.setText(document.getString("telefono"));
+                                                        perfil_superDireccion.setText(document.getString("direccion"));
+                                                        perfil_superDNI.setText(document.getString("dni"));
+
+                                                        Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
+
+
+                                                        String sitiosStr = document.getString("sitios");
+
+                                                        if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                            // Convertir la cadena a una lista de códigos
+                                                            List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+                                                            // Realizar una segunda consulta para obtener los "Sitios"
+
+                                                            fetchSitesWithCodes(codigos, uid);
+                                                        } else {
+                                                            Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
+                                                        }
+
+
+
+                                                        //------------------------------
+
+                                                    } else {
+                                                        Toast.makeText(admin_perfilSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                                        db.collection("usuarios_por_auth")
+                                                                .whereEqualTo("correo", correo)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                                            String nombre = document.getString("nombre");
+                                                                            String apellido = document.getString("apellido");
+
+                                                                            perfil_superNombre.setText(nombre +" "+ apellido);
+                                                                            perfil_superCorreo.setText(correo);
+                                                                            perfil_superTelefono.setText(document.getString("telefono"));
+                                                                            perfil_superDireccion.setText(document.getString("direccion"));
+                                                                            perfil_superDNI.setText(document.getString("dni"));
+
+                                                                            Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
+
+                                                                            String sitiosStr = document.getString("sitios");
+
+                                                                            if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                                                // Convertir la cadena a una lista de códigos
+                                                                                List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+                                                                                // Realizar una segunda consulta para obtener los "Sitios"
+
+                                                                                fetchSitesWithCodes(codigos, uid);
+                                                                            } else {
+                                                                                Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        } else {
+                                                                            Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                    }
+                                                }
+                                            });
+
+
+
+
+                                } else {
+                                    Log.d("Firestore", "No se encontró el documento");
+                                }
                             } else {
-                                Toast.makeText(getApplicationContext(), "No hay códigos disponibles", Toast.LENGTH_SHORT).show();
+                                Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                             }
-                        } else {
-                            // Manejar la situación cuando la consulta falla
-                            Log.d("Firestore", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+                        });
 
 
+            }else {
+                //solo se hace si no esta con auth
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                uid = currentUser.getUid();
+                System.out.println("sin auth: "+ uid);
 
-        //------------------------------
+                db.collection("usuarios_por_auth")
+                        .document(uid)
+                        .collection("usuarios")
+                        .whereEqualTo("correo", correo)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                    String nombre = document.getString("nombre");
+                                    String apellido = document.getString("apellido");
+
+                                    perfil_superNombre.setText(nombre +" "+ apellido);
+                                    perfil_superCorreo.setText(correo);
+                                    perfil_superTelefono.setText(document.getString("telefono"));
+                                    perfil_superDireccion.setText(document.getString("direccion"));
+                                    perfil_superDNI.setText(document.getString("dni"));
+
+                                    Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
+
+                                    String sitiosStr = document.getString("sitios");
+
+                                    if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                        // Convertir la cadena a una lista de códigos
+                                        List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+                                        // Realizar una segunda consulta para obtener los "Sitios"
+
+                                        fetchSitesWithCodes(codigos, uid);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } else {
+                                    Toast.makeText(admin_perfilSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                    db.collection("usuarios_por_auth")
+                                            .whereEqualTo("correo", correo)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                        String nombre = document.getString("nombre");
+                                                        String apellido = document.getString("apellido");
+
+                                                        perfil_superNombre.setText(nombre +" "+ apellido);
+                                                        perfil_superCorreo.setText(correo);
+                                                        perfil_superTelefono.setText(document.getString("telefono"));
+                                                        perfil_superDireccion.setText(document.getString("direccion"));
+                                                        perfil_superDNI.setText(document.getString("dni"));
+
+                                                        Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
+
+                                                        String sitiosStr = document.getString("sitios");
+
+                                                        if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                            // Convertir la cadena a una lista de códigos
+                                                            List<String> codigos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+                                                            // Realizar una segunda consulta para obtener los "Sitios"
+
+                                                            fetchSitesWithCodes(codigos, uid);
+                                                        } else {
+                                                            Toast.makeText(getApplicationContext(), "Aun no hay sitios asignados", Toast.LENGTH_SHORT).show();
+                                                        }
+
+                                                    } else {
+                                                        Toast.makeText(admin_perfilSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+                                }
+                            }
+                        });
+
+            }
+
+
+        }
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
+
+                        .putExtra("Correo", correo)
+                        .putExtra("Correo_temp", correo_usuario)
+                        .putExtra("Uid", uid);
+                startActivity(intent);
+            }
+        });
+
+        addSitioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin_perfilSuper.this, admin_listaSitiosSupervisor.class)
+
+                        .putExtra("Correo", correo)
+                        .putExtra("Correo_temp", correo_usuario);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -329,9 +463,8 @@ public class admin_perfilSuper extends AppCompatActivity {
         // Función para obtener los sitios con los códigos especificados
 
     private void fetchSitesWithCodes(List<String> codigos, String uid) {
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("sitios")
+
+        db.collection("sitios")
                 .whereIn("codigo", codigos)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
