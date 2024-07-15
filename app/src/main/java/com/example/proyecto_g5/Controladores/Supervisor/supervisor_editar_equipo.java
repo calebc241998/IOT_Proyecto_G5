@@ -39,6 +39,7 @@ public class supervisor_editar_equipo extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private String codigoDeSitio;
 
     public supervisor_editar_equipo() {
         // Required empty public constructor
@@ -57,8 +58,7 @@ public class supervisor_editar_equipo extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            codigoDeSitio = getArguments().getString("ACScodigo");
         }
         db = FirebaseFirestore.getInstance();
     }
@@ -127,20 +127,10 @@ public class supervisor_editar_equipo extends Fragment {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
 
-                db.collection("usuarios_por_auth")
-                        .document(userId)
-                        .collection("sitios")
-                        .whereEqualTo("codigo", codigoSitio)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    String sitioId = document.getId();
 
-                                    db.collection("usuarios_por_auth")
-                                            .document(userId)
-                                            .collection("sitios")
-                                            .document(sitioId)
+
+                                    db.collection("sitios")
+                                            .document(codigoDeSitio)
                                             .collection("equipos")
                                             .document(serie) // Usa el número de serie como ID del documento
                                             .set(equipo)
@@ -159,12 +149,7 @@ public class supervisor_editar_equipo extends Fragment {
                                                 Log.w("TAG", "Error al actualizar equipo", e);
                                                 Toast.makeText(requireContext(), "Error al guardar equipo", Toast.LENGTH_SHORT).show();
                                             });
-                                }
-                            } else {
-                                Log.d("msg-test", "Error al obtener sitio: ", task.getException());
-                                Toast.makeText(requireContext(), "Error al obtener sitio", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
             }
         });
 

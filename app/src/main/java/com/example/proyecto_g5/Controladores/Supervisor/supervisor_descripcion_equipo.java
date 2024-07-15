@@ -54,7 +54,7 @@ public class supervisor_descripcion_equipo extends Fragment {
                 supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
                 supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
 
-                supervisorDescripcionEquipoBinding.editarEquipo.setOnClickListener(view -> {
+                supervisorDescripcionEquipoBinding.editarEquipoEdit.setOnClickListener(view -> {
                     Bundle editBundle = new Bundle();
                     editBundle.putSerializable("equipo", equipo);
                     editBundle.putString("ACScodigo", codigoSitio);
@@ -88,9 +88,7 @@ public class supervisor_descripcion_equipo extends Fragment {
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        db.collection("usuarios_por_auth")
-                .document(user.getUid())
-                .collection("sitios")
+        db.collection("sitios")
                 .document(codigoSitio)
                 .collection("equipos")
                 .document(numeroSerie)

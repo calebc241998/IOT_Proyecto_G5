@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +33,7 @@ public class supervisor_nuevo_reporte extends Fragment {
     private String codigoSitio;
     private String numeroSerieEquipo;
     private String correo;
+    private ListenerRegistration listenerRegistration; // Para gestionar la escucha
 
     public supervisor_nuevo_reporte() {
         // Required empty public constructor
@@ -43,7 +46,7 @@ public class supervisor_nuevo_reporte extends Fragment {
             codigoSitio = getArguments().getString("ACScodigo");
             numeroSerieEquipo = getArguments().getString("numero_serie_equipo");
             correo = getArguments().getString("correo");
-            Log.d("msg-test","sdasdas"+correo);
+            Log.d("msg-test", "sdasdas" + correo);
         }
     }
 
@@ -66,28 +69,23 @@ public class supervisor_nuevo_reporte extends Fragment {
                 String estado = "Sin resolver";
                 String supervisor = user.getDisplayName(); // Obtener el nombre del supervisor
 
-                // Escuchar los cambios del documento con el correo proporcionado y obtener nombre y apellido
-                db.collection("usuarios_por_auth")
+                listenerRegistration = db.collection("usuarios_por_auth")
                         .document(userId)
-                        .collection("usuarios")
-                        .whereEqualTo("correo", correo)
-                        .addSnapshotListener((snapshots, e) -> {
+                        .addSnapshotListener((documentSnapshot, e) -> {
                             if (e != null) {
                                 Log.w("TAG", "Error obteniendo el documento", e);
                                 Toast.makeText(requireContext(), "Error obteniendo datos del usuario", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
-                            for (DocumentSnapshot document : snapshots) {
-                                String nombre = document.getString("nombre");
-                                String apellido = document.getString("apellido");
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                String nombre = documentSnapshot.getString("nombre");
+                                String apellido = documentSnapshot.getString("apellido");
                                 String nombreCompleto = nombre + " " + apellido;
 
                                 Reporte nuevoReporte = new Reporte(titulo, fechaRegistro, null, descripcion, null, estado, nombreCompleto, codigoReporte);
 
-                                db.collection("usuarios_por_auth")
-                                        .document(userId)
-                                        .collection("sitios")
+                                db.collection("sitios")
                                         .document(codigoSitio)
                                         .collection("equipos")
                                         .document(numeroSerieEquipo)
@@ -101,7 +99,7 @@ public class supervisor_nuevo_reporte extends Fragment {
                                             Bundle bundle = new Bundle();
                                             bundle.putString("ACScodigo", codigoSitio);
                                             bundle.putString("numero_serie_equipo", numeroSerieEquipo);
-                                            bundle.putSerializable("correo", correo);
+                                            bundle.putString("correo", correo); // El correo no debería ser Serializable
 
                                             navController.navigate(R.id.supervisor_lista_reportes, bundle);
                                         })
@@ -109,6 +107,9 @@ public class supervisor_nuevo_reporte extends Fragment {
                                             Log.w("TAG", "Error al agregar reporte", error);
                                             Toast.makeText(requireContext(), "Error al guardar reporte", Toast.LENGTH_SHORT).show();
                                         });
+                            } else {
+                                Log.d("TAG", "No se encontró el documento");
+                                Toast.makeText(requireContext(), "No se encontró el documento", Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -144,5 +145,14 @@ public class supervisor_nuevo_reporte extends Fragment {
         String fecha = new SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault()).format(new Date());
         int numeroAleatorio = (int) (Math.random() * 900) + 100; // genera un número entre 100 y 999
         return fecha + numeroAleatorio;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Detener la escucha cuando la vista se destruye
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
     }
 }

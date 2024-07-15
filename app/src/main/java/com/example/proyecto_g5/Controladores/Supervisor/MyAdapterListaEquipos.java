@@ -1,7 +1,6 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -113,7 +111,7 @@ class MyViewHolder_equipos extends RecyclerView.ViewHolder {
 
     public MyViewHolder_equipos(@NonNull View itemView) {
         super(itemView);
-        recNombre_tipo = itemView.findViewById(R.id.recTipoEquipoSupervisor);
+        recNombre_tipo = itemView.findViewById(R.id.recCantidadReportesSupervisor);
         recModelo = itemView.findViewById(R.id.recNombreEquipoSupervisor);
         recDescripción = itemView.findViewById(R.id.recStringStatusSupervisor);
         recImagenEquipo = itemView.findViewById(R.id.recFotoEquipoSupervisor);

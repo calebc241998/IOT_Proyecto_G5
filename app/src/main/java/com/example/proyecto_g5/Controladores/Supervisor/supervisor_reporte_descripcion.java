@@ -96,9 +96,7 @@ public class supervisor_reporte_descripcion extends Fragment {
 
                 Reporte reporte = new Reporte(titulo, fechaRegistro, fechaEdicion, descripcion, null, "Solucionado", creadoPor, codigoDeReporte);
 
-                db.collection("usuarios_por_auth")
-                        .document(userId)
-                        .collection("sitios")
+                db.collection("sitios")
                         .document(sitioId)
                         .collection("equipos")
                         .document(numeroSerieEquipo)
