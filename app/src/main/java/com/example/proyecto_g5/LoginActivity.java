@@ -45,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private CheckBox mostrarContrasenaCheckbox;
     private String uid_empresa, rol_login, estado_login, uid_superadmin;
+    FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,52 +85,44 @@ public class LoginActivity extends AppCompatActivity {
                         // que inicie sesion
                         //para poder filtrarlo
 
-                        db.collection("usuarios_por_auth")
-                                .whereEqualTo("correo", email)
-                                .get()
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        QuerySnapshot querySnapshot = task.getResult();
-                                        System.out.println("pasa 3");
-
-                                        if (!querySnapshot.isEmpty()) {
-                                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                                rol_login = document.getString("rol");
-                                                estado_login = document.getString("estado");
-                                                //solo se usara este dato si no es superadmin
-                                                uid_superadmin = document.getString("uid");
-                                                System.out.println("pasa 1");
-
-
-                                                if (rol_login != null && estado_login != null) {
-                                                    System.out.println("el rol es: " + rol_login + " estado: " + estado_login);
-                                                    Toast.makeText(LoginActivity.this, "Rol: " + rol_login + " Estado: " + estado_login, Toast.LENGTH_SHORT).show();
-
-                                                    // Aquí puedes proceder con la lógica de autenticación si los valores son válidos
-                                                } else {
-                                                    System.out.println("Error: rol_login o estado_login son nulos");
-                                                    rol_login = "admin";
-                                                    estado_login = "activo";
-                                                    Toast.makeText(LoginActivity.this, "Error: Datos de usuario incompletos", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        } else {
-                                            System.out.println("No se encontró una empresa con ese nombre.");
-                                        }
-                                    } else {
-                                        System.out.println("Consulta fallida: " + task.getException());
-                                    }
-                                });
-
-
 
                         // Intentar autenticar con correo y contraseña
                         auth.signInWithEmailAndPassword(email, pass)
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        String pass_super = pass;
-                                        iniciarSesionExitosa(pass_super, rol_login, estado_login, uid_superadmin);
+
+                                        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        String uid = currentUser.getUid();
+                                        System.out.println(uid);
+
+
+                                        db.collection("usuarios_por_auth")
+                                                .document(uid)
+                                                .get()
+                                                .addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        System.out.println("pasa 3");
+
+                                                        if (document.exists()) {
+
+                                                            rol_login = document.getString("rol");
+                                                            estado_login = document.getString("estado");
+                                                            //solo se usara este dato si no es superadmin
+                                                            uid_superadmin = document.getString("uid");
+                                                            System.out.println("pasa 1");
+
+                                                            String pass_super = pass;
+                                                            iniciarSesionExitosa(pass_super, rol_login, estado_login, uid_superadmin);
+                                                        } else {
+                                                            System.out.println("No se encontró una empresa con ese nombre.");
+                                                        }
+                                                    } else {
+                                                        System.out.println("Consulta fallida: " + task.getException());
+                                                    }
+                                                });
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
