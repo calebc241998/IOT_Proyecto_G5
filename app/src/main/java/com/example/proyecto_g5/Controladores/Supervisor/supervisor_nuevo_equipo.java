@@ -85,6 +85,9 @@ public class supervisor_nuevo_equipo extends Fragment {
                 // Formatear la fecha y hora
                 String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
 
+                //imagen
+
+
                 // Asignar la fecha de registro con la fecha y hora actual
                 String fecha_registro = dateTime;
                 Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
