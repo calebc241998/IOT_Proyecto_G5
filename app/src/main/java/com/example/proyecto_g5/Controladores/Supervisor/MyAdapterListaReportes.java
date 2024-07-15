@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Reporte;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaReportes.MyViewHolder> {
 
@@ -24,12 +29,12 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
         void onItemClick(Reporte item);
     }
 
-    public void setSearchList(List<Reporte> dataSearchList){
+    public void setSearchList(List<Reporte> dataSearchList) {
         this.datalist = dataSearchList;
         notifyDataSetChanged();
     }
 
-    public MyAdapterListaReportes(Context context, List<Reporte> datalist, OnItemClickListener listener){
+    public MyAdapterListaReportes(Context context, List<Reporte> datalist, OnItemClickListener listener) {
         this.context = context;
         this.datalist = datalist;
         this.listener = listener;
@@ -46,21 +51,52 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Reporte item = datalist.get(position);
 
-        holder.recFechaReportesSupervisor.setText(item.getFecharegistro());
-        holder.recHoraReportesSupervisor.setText(item.getFechaedicion());
+        // Separar la fecha y la hora de fecharegistro
+        String[] fechaHora = item.getFecharegistro().split(" ");
+        String fecha = fechaHora.length > 0 ? fechaHora[0] : "";
+        String hora = fechaHora.length > 1 ? fechaHora[1] : "";
+
+        // Formatear la fecha de yyyy-MM-dd a dd/MM/yyyy
+        try {
+            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date = originalFormat.parse(fecha);
+            if (date != null) {
+                fecha = targetFormat.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Eliminar los segundos de la hora
+        hora = hora.substring(0, hora.lastIndexOf(":"));
+
+        holder.recFechaReportesSupervisor.setText(fecha);
+        holder.recHoraReportesSupervisor.setText(hora);
         holder.recStringStatusSupervisor.setText(item.getEstado());
+
+        // Cambiar el color del texto y la imagen según el estado
+        if (item.getEstado().equals("Solucionado")) {
+            holder.recStringStatusSupervisor.setTextColor(context.getResources().getColor(R.color.verde_solucionado));
+            holder.recImagenStatusReporteSupervisor.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        } else if (item.getEstado().equals("Sin resolver")) {
+            holder.recStringStatusSupervisor.setTextColor(context.getResources().getColor(R.color.rojo_sin_resolver));
+            holder.recImagenStatusReporteSupervisor.setImageResource(R.drawable.baseline_error_24);
+        }
+
         holder.recTituloReportesSupervisor.setText(item.getTitulo());
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return datalist.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView recFechaReportesSupervisor, recHoraReportesSupervisor, recStringStatusSupervisor, recTituloReportesSupervisor;
+        ImageView recImagenStatusReporteSupervisor;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +104,7 @@ public class MyAdapterListaReportes extends RecyclerView.Adapter<MyAdapterListaR
             recHoraReportesSupervisor = itemView.findViewById(R.id.recHoraReportesSupervisor);
             recStringStatusSupervisor = itemView.findViewById(R.id.recStringStatusSupervisor);
             recTituloReportesSupervisor = itemView.findViewById(R.id.recTituloReportesSupervisor);
+            recImagenStatusReporteSupervisor = itemView.findViewById(R.id.recImagenStatusReporteSupervisor);
         }
     }
 }

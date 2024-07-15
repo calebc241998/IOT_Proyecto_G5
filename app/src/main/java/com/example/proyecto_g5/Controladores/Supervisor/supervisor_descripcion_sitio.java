@@ -32,6 +32,7 @@ public class supervisor_descripcion_sitio extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String correo;
 
     public supervisor_descripcion_sitio() {
         // Required empty public constructor
@@ -59,9 +60,9 @@ public class supervisor_descripcion_sitio extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            correo = getArguments().getString("correo");
         }
+
     }
 
     @Override
@@ -85,6 +86,7 @@ public class supervisor_descripcion_sitio extends Fragment {
         supervisorDescripcionSitioBinding.VerListaEquipos.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("ACScodigo", sitio.getCodigo());
+            bundle.putSerializable("correo", correo);
             navController.navigate(R.id.action_supervisor_descripcion_sitio_to_supervisor_lista_equipos, bundle);
         });
         return supervisorDescripcionSitioBinding.getRoot();
