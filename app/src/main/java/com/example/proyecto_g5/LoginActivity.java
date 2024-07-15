@@ -63,24 +63,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Autenticación con Firebase Auth--------------------
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                //------------------------------------------------------------
                 final String email = loginEmail.getText().toString().trim();
                 final String pass = loginPassword.getText().toString().trim();
                 //aqui se manda el uid del superadmin
                 final String idu = "VDwqr0wPUsfHO8RhjvLPxRgWt3W2";
 
                 if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
                     System.out.println("pasa 1");
 
                     if (!pass.isEmpty()) {
-
                         System.out.println("pasa 2");
-
-                        // Autenticación con Firebase Auth
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
                         //buscamos el rol y el estado del usuario que si esta registrado autenticado pero antes
                         // que inicie sesion
                         //para poder filtrarlo
@@ -102,10 +100,17 @@ public class LoginActivity extends AppCompatActivity {
                                                 System.out.println("pasa 1");
 
 
-                                                System.out.println("el rol es: "+ rol_login + estado_login);
-                                                Toast.makeText(LoginActivity.this, estado_login, Toast.LENGTH_SHORT).show();
+                                                if (rol_login != null && estado_login != null) {
+                                                    System.out.println("el rol es: " + rol_login + " estado: " + estado_login);
+                                                    Toast.makeText(LoginActivity.this, "Rol: " + rol_login + " Estado: " + estado_login, Toast.LENGTH_SHORT).show();
 
-
+                                                    // Aquí puedes proceder con la lógica de autenticación si los valores son válidos
+                                                } else {
+                                                    System.out.println("Error: rol_login o estado_login son nulos");
+                                                    rol_login = "admin";
+                                                    estado_login = "activo";
+                                                    Toast.makeText(LoginActivity.this, "Error: Datos de usuario incompletos", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         } else {
                                             System.out.println("No se encontró una empresa con ese nombre.");
@@ -178,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (rol_login.equals("admin")) {
                 intent = new Intent(LoginActivity.this, AdminActivity.class);
-                intent.putExtra("correo", "email");
+                intent.putExtra("correo", "1");
             } else if (rol_login.equals("supervisor")) {
                 intent = new Intent(LoginActivity.this, SupervisorActivity.class);
                 //ya no seria necesario el bundle o mandarle otro valor

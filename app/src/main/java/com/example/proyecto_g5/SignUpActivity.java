@@ -100,6 +100,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     userInfo.put("correo", email);
                                     userInfo.put("rol", rol);
                                     userInfo.put("estado", estado);
+                                    userInfo.put("uid", "VDwqr0wPUsfHO8RhjvLPxRgWt3W2");
+
+
 
                                     // Guardar en Firestore
                                     db.collection("usuarios_por_auth")

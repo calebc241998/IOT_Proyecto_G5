@@ -50,9 +50,10 @@ public class AdminActivity extends AppCompatActivity {
 
     private TextView super_total, super_activado, total_sitios, textBienvenida;
 
-    String canal1 = "importanteDefault";
+    String canal1 = "importanteDefault", correo_usuario, uid;
 
     List<String> nombres = new ArrayList<>();
+    int countSupervisors1, countActiveSupervisors1;
 
 
     // para FIREBASE----------------
@@ -79,10 +80,51 @@ public class AdminActivity extends AppCompatActivity {
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
 
+        correo_usuario = getIntent().getStringExtra("correo");
+        //------------------------------------- FIRESTORE
+
+        db = FirebaseFirestore.getInstance();
+
         // correo para hallar el usuario actual (admin)
 
-        String correo_usuario = getIntent().getStringExtra("correo");
+        //-------diferenciar login
+        if (correo_usuario.equals("1")){
 
+            // si es usuario autenticado
+            //se enviara el valor del correo = 1 para poder validar en todas las vistas
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uid_nuevo = document.getString("uid");
+                                if (uid_nuevo != null) {
+                                    uid = uid_nuevo;
+                                } else {
+                                    Log.d("Firestore", "El campo 'estado' no existe en el documento");
+                                }
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                        }
+                    });
+
+        }else {
+            //solo se hace si no esta con auth
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+
+        }
 
         //--para ir al perfil
 
@@ -98,21 +140,18 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDrawer(drawerLayout);
             }
         });
-
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recreate();
             }
         });
-
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +161,6 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +170,6 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +185,6 @@ public class AdminActivity extends AppCompatActivity {
                 intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);            }
         });
-
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,97 +196,114 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //------------------------------------- FIRESTORE
-
-        db = FirebaseFirestore.getInstance();
-
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currentUser.getUid();
+        //----------FIRESTORE--------------------------------
         super_total = findViewById(R.id.numero_sup_totales);
         super_activado = findViewById(R.id.num_sup_act);
         textBienvenida = findViewById(R.id.textViewBienvenido);
 
         //-Actualizacion db---------------------------------------
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
-                .whereEqualTo("estado", "activo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Aquí actualizas cada documento individualmente
-                            document.getReference().update("correo_temp", correo_usuario)
-                                    .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
-                                    .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+        if (!correo_usuario.equals("1")){
+            //solo se hace si no esta con auth
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("rol", "supervisor")
+                    .whereEqualTo("estado", "activo")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Aquí actualizas cada documento individualmente
+                                document.getReference().update("correo_temp", correo_usuario)
+                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener documentos: ", task.getException());
                         }
-                    } else {
-                        Log.d("Firestore", "Error al obtener documentos: ", task.getException());
-                    }
-                });
+                    });
 
-
-
-
-        //-----------------------------------
 
 
             //Mensaje Bienvenida ---------------------------
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo_usuario)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                            String nombre = document.getString("nombre");
-                            String apellido = document.getString("apellido");
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo_usuario)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                String nombre = document.getString("nombre");
+                                String apellido = document.getString("apellido");
 
-                            db.collection("usuarios_por_auth")
-                                    .get()
-                                    .addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
-                                                String nombr = document1.getString("nombre");
-                                                if (nombr != null) {
-                                                    nombres.add(nombr);
-                                                }
-                                            }
-                                            mostrarNombres(nombres);
-                                        } else {
-                                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
-                                        }
-                                    });
-
-
-
-
-
-                            textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!" + nombres);
-                        } else {
-                            Toast.makeText(AdminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
+                            } else {
+                                Toast.makeText(AdminActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+
+        }else{
+
+            //Mensaje Bienvenida con autenticado ---------------------------
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String nombre = document.getString("nombre");
+                                String apellido = document.getString("apellido");
+
+                                textBienvenida.setText("¡Bienvenido " + nombre + " " + apellido +"!");
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento");
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
+                        }
+                    });
+
+        }
+
+        //-----------------------------------
 
 
             // Contar supervisores----------------------------
         db.collection("usuarios_por_auth")
                 .document(uid)
                 .collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
+                .whereEqualTo("rol", "supervisor")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         int countSupervisors = task.getResult().size();
+                        Toast.makeText(AdminActivity.this, "con id "+countSupervisors, Toast.LENGTH_SHORT).show();
+
+
+                        db.collection("usuarios_por_auth")
+                                .whereEqualTo("rol", "supervisor")
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        countSupervisors1 = task1.getResult().size();
+                                        Toast.makeText(AdminActivity.this, "desde auth:" + countSupervisors1, Toast.LENGTH_SHORT).show();
+
+
+                                    } else {
+                                        Log.d("Error", "Error al obtener supervisores con autenticación: ", task1.getException());
+                                    }
+                                });
+
+                        countSupervisors = countSupervisors + countSupervisors1;
                         // Envía el valor a un TextView o cualquier otro componente del layout
                         super_total.setText(String.valueOf(countSupervisors));
                     } else {
@@ -261,12 +314,29 @@ public class AdminActivity extends AppCompatActivity {
              // Contar supervisores activos-----------------------------
         db.collection("usuarios_por_auth")
                 .document(uid).collection("usuarios")
-                .whereEqualTo("rol", "supervisor1")
+                .whereEqualTo("rol", "supervisor")
                 .whereEqualTo("estado", "activo")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         int countActiveSupervisors = task.getResult().size();
+
+                        db.collection("usuarios_por_auth")
+                                .whereEqualTo("rol", "supervisor")
+                                .whereEqualTo("estado", "activo")
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        countActiveSupervisors1 = task1.getResult().size();
+
+                                    } else {
+                                        Log.d("Error", "Error al obtener supervisores activos con autenticación: ", task1.getException());
+                                    }
+                                });
+
+                        countActiveSupervisors = countActiveSupervisors + countActiveSupervisors1;
+
+
                         // Envía el valor a un TextView o cualquier otro componente del layout
                         super_activado.setText( String.valueOf(countActiveSupervisors));
                     } else {
@@ -274,29 +344,8 @@ public class AdminActivity extends AppCompatActivity {
                     }
                 });
 
-
-
-
-
-        //textViewBienvenido = findViewById(R.id.textViewBienvenido);
-
-        // Obtener información del intent
-        //String nombre = getIntent().getStringExtra("nombre");
-        //String apellido = getIntent().getStringExtra("apellido");
-
-        // Actualizar el texto del TextView
-        //textViewBienvenido.setText("¡Bienvenido Administrador " + nombre + " " + apellido + "!");
-
-
     }
 
-    private void mostrarNombres(List<String> nombres) {
-        // Puedes mostrar los nombres en un Log, en una vista, o usarlos según tu necesidad
-        for (String nombre : nombres) {
-            Log.d("NombreSupervisor", nombre);
-        }
-        // O puedes mostrar los nombres en un TextView, Spinner, etc.
-    }
 
     public  static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
