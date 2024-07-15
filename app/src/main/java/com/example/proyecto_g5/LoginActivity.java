@@ -362,6 +362,7 @@ public class LoginActivity extends AppCompatActivity {
         String descripcion = "El " + role + " " + nombre + " se ha logueado";
         String usuario = nombre; // Aquí podrías usar el valor adecuado para usuario
         Timestamp timestamp = Timestamp.now();
+        superadminId = "VDwqr0wPUsfHO8RhjvLPxRgWt3W2";
 
         Llog llog = new Llog(UUID.randomUUID().toString(), descripcion, usuario, timestamp);
 
