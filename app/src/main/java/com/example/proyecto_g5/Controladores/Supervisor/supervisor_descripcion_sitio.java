@@ -2,6 +2,7 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,11 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.proyecto_g5.databinding.SupervisorDescripcionSitioBinding;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
-import com.example.proyecto_g5.databinding.SupervisorDescripcionSitioBinding;
 import com.example.proyecto_g5.dto.Sitio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +28,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link supervisor_descripcion_sitio#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class supervisor_descripcion_sitio extends Fragment implements OnMapReadyCallback {
@@ -82,12 +83,9 @@ public class supervisor_descripcion_sitio extends Fragment implements OnMapReady
                              Bundle savedInstanceState) {
         supervisorDescripcionSitioBinding = SupervisorDescripcionSitioBinding.inflate(inflater, container, false);
 
-        // Obtener los datos del sitio de los argumentos
         sitio = (Sitio) getArguments().getSerializable("sitio");
 
-        // Verificar si el objeto sitio no es nulo
         if (sitio != null) {
-            // Mostrar la información en los TextView correspondientes
             supervisorDescripcionSitioBinding.ACScodigo.setText(sitio.getCodigo());
             supervisorDescripcionSitioBinding.ACSdepartamento.setText(sitio.getDepartamento());
             supervisorDescripcionSitioBinding.ACSprovincia.setText(sitio.getProvincia());
@@ -96,13 +94,16 @@ public class supervisor_descripcion_sitio extends Fragment implements OnMapReady
             supervisorDescripcionSitioBinding.ACStipoZona.setText(sitio.getTipodezona());
             supervisorDescripcionSitioBinding.ACStipoSitio.setText(sitio.getTipodesitio());
 
-            // Inicializa el MapView
             mapView = supervisorDescripcionSitioBinding.mapView;
             mapView.onCreate(savedInstanceState);
-            mapView.getMapAsync(this); // Aquí está la llamada correcta
+            mapView.getMapAsync(this);
         } else {
             Log.e(TAG, "El objeto sitio es nulo");
         }
+
+        supervisorDescripcionSitioBinding.imageViewMap.setOnClickListener(v -> {
+            openMapDialog();
+        });
 
         NavController navController = NavHostFragment.findNavController(supervisor_descripcion_sitio.this);
         supervisorDescripcionSitioBinding.VerListaEquipos.setOnClickListener(v -> {
@@ -111,8 +112,33 @@ public class supervisor_descripcion_sitio extends Fragment implements OnMapReady
             bundle.putSerializable("correo", correo);
             navController.navigate(R.id.action_supervisor_descripcion_sitio_to_supervisor_lista_equipos, bundle);
         });
+
         return supervisorDescripcionSitioBinding.getRoot();
     }
+
+    private void openMapDialog() {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.supervisor_dialog_map);
+        MapView dialogMapView = dialog.findViewById(R.id.dialogMapView);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+
+        dialogMapView.onCreate(null);
+        dialogMapView.getMapAsync(map -> {
+            LatLng location = new LatLng(sitio.getLatitud(), sitio.getLongitud());
+            map.addMarker(new MarkerOptions().position(location).title("Ubicación del Sitio"));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        });
+
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+
+        dialog.setOnDismissListener(dialogInterface -> {
+            dialogMapView.onDestroy();
+        });
+    }
+
+
 
     @Override
     public void onMapReady(GoogleMap map) {
