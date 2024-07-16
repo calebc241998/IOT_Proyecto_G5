@@ -100,6 +100,10 @@
             android:name=".Controladores.Supervisor.supervisor_perfil"
             android:exported="false"></activity>
         <activity
+            android:name=".Controladores.Supervisor.supervisor_ed"
+            android:exported="false"></activity>
+
+        <activity
             android:name=".inicio_sesion"
             android:exported="false" />
         <activity
