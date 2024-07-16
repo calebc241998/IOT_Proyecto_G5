@@ -285,13 +285,8 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
                 dialog.show();
                 uploadData(correo_usuario);
                 dialog.dismiss();
-
             }
-
         });
-
-
-
 
 
     }

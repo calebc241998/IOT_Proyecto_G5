@@ -8,18 +8,27 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Sitio;
 import com.example.proyecto_g5.inicio_sesion;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class admin_info_sitio extends AppCompatActivity {
@@ -65,8 +74,12 @@ public class admin_info_sitio extends AppCompatActivity {
         super.onCreate(savedInstaceState);
         setContentView(R.layout.admin_vista_sitio);
 
+        String correo_usuario = getIntent().getStringExtra("correo"); //para despues regresar a admin
 
+        String codigo_sitio = getIntent().getStringExtra("codigo");
 
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -85,8 +98,8 @@ public class admin_info_sitio extends AppCompatActivity {
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent  = new Intent(admin_info_sitio.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });
@@ -103,34 +116,44 @@ public class admin_info_sitio extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_info_sitio.this, AdminActivity.class);
+                Intent intent  = new Intent(admin_info_sitio.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_info_sitio.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_info_sitio.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_info_sitio.this, admin_supervisoresActivity.class);
+                Intent intent  = new Intent(admin_info_sitio.this, admin_supervisoresActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_info_sitio.this, admin_nuevoSuperActivity.class);
+                Intent intent  = new Intent(admin_info_sitio.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                redirectActivity(admin_info_sitio.this, admin_nuevoSitioActivity.class);
+                Intent intent  = new Intent(admin_info_sitio.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario);
+                startActivity(intent);
             }
         });
 
@@ -165,9 +188,51 @@ public class admin_info_sitio extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
+
+            db.collection("sitios")
+                    .whereEqualTo("codigo", codigo_sitio)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                info_sitioNombre.setText(document.getString("nombre"));
+                                info_sitioDistrito.setText(document.getString("distrito"));
+                                info_sitioDepart.setText(document.getString("departamento"));
+                                info_sitioNumSuper.setText(document.getString("supervisores"));
+                                info_sitioCodigo.setText(document.getString("codigo"));
+                                info_sitioProv.setText(document.getString("provincia"));
+                                info_sitioTipoSitio.setText(document.getString("tipodesitio"));
+                                info_sitioTipoZona.setText(document.getString("tipodezona"));
+                                info_sitioLong.setText(String.valueOf(document.getLong("longitud")));
+                                info_sitioLat.setText(String.valueOf(document.getLong("latitud")));
+                                info_sitioUbigeo.setText(String.valueOf(document.getLong("ubigeo")));
+
+                                //------------------------------
+
+                            } else {
+                                Toast.makeText(admin_info_sitio.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+
+
+
+                            }
+                        }
+                    });
+
+
+
+
+
+
+
+
+
             //estos valores son mandados desde admin_myadapter
 
-            long longitud = bundle.getLong("Longitud");
+            /*long longitud = bundle.getLong("Longitud");
             long latitud = bundle.getLong("Latitud");
             long ubigeo = bundle.getLong("Ubigeo");
 
@@ -181,7 +246,7 @@ public class admin_info_sitio extends AppCompatActivity {
             info_sitioTipoZona.setText(bundle.getString("Tip_zona"));
             info_sitioLong.setText(String.valueOf(longitud));
             info_sitioLat.setText(String.valueOf(latitud));
-            info_sitioUbigeo.setText(String.valueOf(ubigeo));
+            info_sitioUbigeo.setText(String.valueOf(ubigeo));*/
 
         }
 

@@ -104,9 +104,9 @@ public class admin_editarSuper extends AppCompatActivity {
 
         // correo para hallar el usuario (admin)
         Bundle bundle = getIntent().getExtras();
-        String correo_usuario = bundle.getString("Correo_temp");
+        String correo_usuario = bundle.getString("correo");
 
-        correo_edit = bundle.getString("Correo");
+        correo_edit = bundle.getString("correo_supervisor");
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 

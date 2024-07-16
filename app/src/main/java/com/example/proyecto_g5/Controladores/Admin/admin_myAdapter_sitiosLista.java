@@ -42,31 +42,27 @@ public class admin_myAdapter_sitiosLista extends RecyclerView.Adapter<MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder_sitios holder, int position) {
-        try {
-            Sitio item = dataList.get(position);
-            holder.rec_nombre.setText(item.getNombre());
-            holder.rec_distrito.setText(item.getDistrito());
-            //holder.rec_numSuper.setText(item.getNumSuper());
 
-            holder.recCard.setOnClickListener(v -> {
+
+        holder.rec_nombre.setText(dataList.get(position).getNombre());
+        holder.rec_distrito.setText(dataList.get(position).getDistrito());
+
+        holder.recCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //manda estos valores a perfil supervisor
+
                 Intent intent = new Intent(context, admin_info_sitio.class);
-                intent.putExtra("Nombre", item.getNombre());
-                intent.putExtra("Distrito", item.getDistrito());
-                //intent.putExtra("NumSuper", item.getNumSuper());
-                intent.putExtra("Codigo", item.getCodigo());
-                intent.putExtra("Departamento", item.getDepartamento());
-                intent.putExtra("Provincia", item.getProvincia());
-                intent.putExtra("Longitud", item.getLongitud());
-                intent.putExtra("Latitud", item.getLatitud());
-                intent.putExtra("Ubigeo", item.getUbigeo());
-                intent.putExtra("Tip_zona", item.getTipodezona());
-                intent.putExtra("Tip_sitio", item.getTipodesitio());
-
+                intent.putExtra("codigo", dataList.get(holder.getAdapterPosition()).getCodigo());
+                intent.putExtra("correo", dataList.get(holder.getAdapterPosition()).getSupervisores()); //correo de admin
                 context.startActivity(intent);
-            });
-        } catch (Exception e) {
-            Log.e("AdapterError", "Error at position " + position + ": " + e.getMessage());
-        }
+
+            }
+        });
+
+
+
     }
 
     @Override

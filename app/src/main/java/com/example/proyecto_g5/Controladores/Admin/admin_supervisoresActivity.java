@@ -89,7 +89,87 @@ public class admin_supervisoresActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        initializeDrawer();
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        menu = findViewById(R.id.menu_nav_admin_toolbar);
+        inicio_nav = findViewById(R.id.inicio_nav);
+        lista_super = findViewById(R.id.lista_super_nav);
+        lista_sitios = findViewById(R.id.lista_sitios_nav);
+        nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
+        nuevo_super = findViewById(R.id.nuevo_super_nav);
+        log_out = findViewById(R.id.cerrar_sesion);
+
+        //--para ir al perfil
+
+        perfil = findViewById(R.id.boton_perfil);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(admin_supervisoresActivity.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
+
+                startActivity(intent);
+            }
+        });
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDrawer(drawerLayout);
+            }
+        });
+        inicio_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(admin_supervisoresActivity.this, AdminActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);            }
+        });
+        lista_sitios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(admin_supervisoresActivity.this, admin_sitiosActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
+            }
+        });
+        lista_super.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recreate();
+            }
+        });
+        nuevo_super.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);
+            }
+        });
+        nuevo_sitio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSitioActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                startActivity(intent);            }
+        });
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cerrar sesión y redirigir a MainActivity
+                Intent intent = new Intent(admin_supervisoresActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
+
         recyclerView = findViewById(R.id.recyclerView_listasuper_admin);
         searchView = findViewById(R.id.search_listasuper_admin);
         searchView.clearFocus();
@@ -112,7 +192,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
 
         //Firebase-----
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios_por_auth");
         dialog.show();
 
         //------------------------------------- FIRESTORE
@@ -216,8 +296,6 @@ public class admin_supervisoresActivity extends AppCompatActivity {
                                     Usuario usuario = document.toObject(Usuario.class);
                                     dataList.add(usuario);
 
-
-
                                 }
                                 db.collection("usuarios_por_auth")
                                         .whereEqualTo("rol", "supervisor")
@@ -276,89 +354,14 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Define la nueva Activity que quieres abrir
-                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSuperActivity.class);  // Asume que NewSuperActivity es la actividad a la que quieres ir.
+                Intent intent = new Intent(admin_supervisoresActivity.this, admin_nuevoSuperActivity.class);
+                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);
             }
         });
 
     }
 
-    private void initializeDrawer() {
-        drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
-        menu.setOnClickListener(v -> openDrawer(drawerLayout));
-        //--para ir al perfil
-
-        perfil = findViewById(R.id.boton_perfil);
-
-        perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent  = new Intent(admin_supervisoresActivity.this, admin_perfil.class);
-                startActivity(intent);
-            }
-        });
-
-        //-------
-
-        setupDrawerLinks();
-    }
-
-    private void setupDrawerLinks() {
-        inicio_nav = findViewById(R.id.inicio_nav);
-        lista_super = findViewById(R.id.lista_super_nav);
-        lista_sitios = findViewById(R.id.lista_sitios_nav);
-        nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
-        nuevo_super = findViewById(R.id.nuevo_super_nav);
-        log_out = findViewById(R.id.cerrar_sesion);
-
-
-
-        inicio_nav.setOnClickListener(v -> redirectActivity(this, AdminActivity.class));
-        lista_sitios.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
-        lista_super.setOnClickListener(v -> redirectActivity(this, admin_sitiosActivity.class));
-        nuevo_super.setOnClickListener(v -> redirectActivity(this, admin_nuevoSuperActivity.class));
-        nuevo_sitio.setOnClickListener(v -> redirectActivity(this, admin_nuevoSitioActivity.class));
-        log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());
-    }
-
-    private void setupRecyclerView() {
-        try {
-            recyclerView = findViewById(R.id.recyclerView_listasuper_admin);
-            searchView = findViewById(R.id.search_listasuper_admin);
-            searchView.clearFocus();
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    searchList(newText);
-                    return false;
-                }
-            });
-
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            dataList = new ArrayList<>();
-            adapter = new admin_myAdapter_superLista(this, dataList);
-            recyclerView.setAdapter(adapter);
-
-            //Firebase-----
-
-            databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
-
-
-            //-------------
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Error setting up RecyclerView: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("RecyclerViewSetup", "Error setting up RecyclerView", e);
-        }
-    }
 
 
     public static void openDrawer(DrawerLayout drawerLayout) {
@@ -380,7 +383,7 @@ public class admin_supervisoresActivity extends AppCompatActivity {
             }
         }
         if (dataSearchList.isEmpty()) {
-            Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No hay resultados para la búsqueda", Toast.LENGTH_SHORT).show();
         } else {
             adapter.setSearchList(dataSearchList);
         }

@@ -46,10 +46,8 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
-    String sitiosStr;
+    String sitiosStr, uid;
     Boolean conSitios = true;
-
-
 
     //recycler view -----
 
@@ -57,9 +55,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
     List<Sitio> dataList;
 
     RCAdapter_sitiosElegir rcAdapterSitios;
-
-
-
 
     //--------------------
 // para FIREBASE----------------
@@ -75,12 +70,11 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
 
         //iniciamos admin y superadmin
 
-        String correo_usuario = getIntent().getStringExtra("Correo_temp");
-        String correo = getIntent().getStringExtra("correo"); //a editar
+        String correo_usuario = getIntent().getStringExtra("correo");
+        String correo = getIntent().getStringExtra("correo_supervisor"); //a editar
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currentUser.getUid();
 
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -91,7 +85,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
-
 
         //--para ir al perfil
 
@@ -106,17 +99,13 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
 
             }
         });
-
         //-------
-
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDrawer(drawerLayout);
             }
         });
-
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +115,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,7 +124,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
 
             }
         });
-
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,7 +132,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         nuevo_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,8 +162,6 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
         });
 
         //----------------------------------
-
-
         recyclerView = findViewById(R.id.recyclerView_listasitios_asignar_admin);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -186,145 +170,552 @@ public class admin_listaSitiosSupervisor extends AppCompatActivity {
         recyclerView.setAdapter(rcAdapterSitios);
 
 
+        FloatingActionButton addSitioaSupervisor = findViewById(R.id.floatingButton_addSitioaSupervisor);
 
-        db.collection("usuarios_por_auth")
-                .document(uid)
-                .collection("usuarios")
-                .whereEqualTo("correo", correo)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                            sitiosStr = document.getString("sitios");
-                            List<String> sitiosExcluidos;
 
-                            if (sitiosStr != null && !sitiosStr.isEmpty()) {
-                                sitiosExcluidos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+        //encontramos primero el usuario a editar
 
-                            } else {
-                                sitiosExcluidos = new ArrayList<>(); // No sitios to exclude
-                                conSitios=false;
-                            }
+        if (correo_usuario.equals("1")){
+            // si es usuario autenticado
 
-                            // Luego consulta y excluye los sitios ya asignados
-                            if (!sitiosExcluidos.isEmpty()) {
+            uid = currentUser.getUid();
+            System.out.println("con auth: "+ uid);
+
+            // Acceder al documento específico usando el UID
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uid_nuevo = document.getString("uid");
+
                                 db.collection("usuarios_por_auth")
-                                        .document(uid)
-                                        .collection("sitios")
-                                        .whereNotIn("codigo", sitiosExcluidos)
+                                        .document(uid_nuevo)
+                                        .collection("usuarios")
+                                        .whereEqualTo("correo", correo)
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    dataList.clear();
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        Sitio sitio = document.toObject(Sitio.class);
-                                                        dataList.add(sitio);
+                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                                    //------------------------------
+
+                                                    sitiosStr = document.getString("sitios");
+                                                    List<String> sitiosExcluidos;
+
+                                                    if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                        sitiosExcluidos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+
+                                                    } else {
+                                                        sitiosExcluidos = new ArrayList<>(); // No sitios to exclude
+                                                        conSitios=false;
                                                     }
-                                                    rcAdapterSitios.notifyDataSetChanged();
+
+                                                    // Luego consulta y excluye los sitios ya asignados
+                                                    if (!sitiosExcluidos.isEmpty()) {
+                                                        db.collection("sitios")
+                                                                .whereNotIn("codigo", sitiosExcluidos)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            dataList.clear();
+                                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                Sitio sitio = document.toObject(Sitio.class);
+                                                                                dataList.add(sitio);
+                                                                            }
+                                                                            rcAdapterSitios.notifyDataSetChanged();
+                                                                        } else {
+                                                                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                            Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        // No exclusions, fetch all sites
+                                                        db.collection("sitios")
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            dataList.clear();
+                                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                Sitio sitio = document.toObject(Sitio.class);
+                                                                                dataList.add(sitio);
+                                                                            }
+                                                                            rcAdapterSitios.notifyDataSetChanged();
+                                                                        } else {
+                                                                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                            Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+
+
+                                                    addSitioaSupervisor.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            // Obtenemos la lista de sitios seleccionados
+                                                            List<Sitio> selectedSitios = rcAdapterSitios.getSelectedItems();
+                                                            // Extraemos los códigos de los sitios seleccionados
+                                                            List<String> codigos = new ArrayList<>();
+                                                            for (Sitio sitio : selectedSitios) {
+                                                                codigos.add(sitio.getCodigo());
+                                                            }
+                                                            // Convertimos la lista de códigos en una cadena separada por comas
+
+                                                            String codigosStr1 = String.join(",", codigos);
+                                                            String codigosStr;
+                                                            if (conSitios){
+
+                                                                codigosStr = codigosStr1 +","+ sitiosStr;
+
+                                                            }else {
+                                                                codigosStr = codigosStr1;
+
+                                                            }
+
+                                                            db.collection("usuarios_por_auth")
+                                                                    .document(uid_nuevo)
+                                                                    .collection("usuarios")
+                                                                    .whereEqualTo("correo", correo)
+                                                                    .get()
+                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                                                // Actualizamos el campo "sitios" con la cadena de códigos
+                                                                                document.getReference().update("sitios", codigosStr)
+                                                                                        .addOnSuccessListener(aVoid -> Toast.makeText(admin_listaSitiosSupervisor.this, "Sitios actualizados correctamente", Toast.LENGTH_SHORT).show())
+                                                                                        .addOnFailureListener(e -> Toast.makeText(admin_listaSitiosSupervisor.this, "Error al actualizar sitios", Toast.LENGTH_SHORT).show());
+                                                                            } else {
+                                                                                Toast.makeText(admin_listaSitiosSupervisor.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                            // Define la nueva Activity que quieres abrir
+                                                            Intent intent = new Intent(admin_listaSitiosSupervisor.this, admin_perfilSuper.class)
+                                                                    .putExtra("correo_supervisor", correo)
+                                                                    .putExtra("correo", correo_usuario);
+
+                                                            startActivity(intent);
+                                                        }
+                                                    });
+
+                                                    //------------------------------
+
                                                 } else {
-                                                    Log.d("Firestore", "Error getting documents: ", task.getException());
-                                                    Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+
+                                                    //era un usuario auth
+
+                                                    Toast.makeText(admin_listaSitiosSupervisor.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                                    db.collection("usuarios_por_auth")
+                                                            .whereEqualTo("correo", correo)
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                                                        //------------------------------
+
+                                                                        sitiosStr = document.getString("sitios");
+                                                                        List<String> sitiosExcluidos;
+
+                                                                        if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                                            sitiosExcluidos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+
+                                                                        } else {
+                                                                            sitiosExcluidos = new ArrayList<>(); // No sitios to exclude
+                                                                            conSitios=false;
+                                                                        }
+
+                                                                        // Luego consulta y excluye los sitios ya asignados
+                                                                        if (!sitiosExcluidos.isEmpty()) {
+                                                                            db.collection("sitios")
+                                                                                    .whereNotIn("codigo", sitiosExcluidos)
+                                                                                    .get()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                dataList.clear();
+                                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                                    Sitio sitio = document.toObject(Sitio.class);
+                                                                                                    dataList.add(sitio);
+                                                                                                }
+                                                                                                rcAdapterSitios.notifyDataSetChanged();
+                                                                                            } else {
+                                                                                                Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                                                Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                        } else {
+                                                                            // No exclusions, fetch all sites
+                                                                            db.collection("sitios")
+                                                                                    .get()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                dataList.clear();
+                                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                                    Sitio sitio = document.toObject(Sitio.class);
+                                                                                                    dataList.add(sitio);
+                                                                                                }
+                                                                                                rcAdapterSitios.notifyDataSetChanged();
+                                                                                            } else {
+                                                                                                Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                                                Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                        }
+                                                                        //------------------------------
+
+                                                                        addSitioaSupervisor.setOnClickListener(new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View view) {
+                                                                                // Obtenemos la lista de sitios seleccionados
+                                                                                List<Sitio> selectedSitios = rcAdapterSitios.getSelectedItems();
+                                                                                // Extraemos los códigos de los sitios seleccionados
+                                                                                List<String> codigos = new ArrayList<>();
+                                                                                for (Sitio sitio : selectedSitios) {
+                                                                                    codigos.add(sitio.getCodigo());
+                                                                                }
+                                                                                // Convertimos la lista de códigos en una cadena separada por comas
+
+                                                                                String codigosStr1 = String.join(",", codigos);
+                                                                                String codigosStr;
+                                                                                if (conSitios){
+
+                                                                                    codigosStr = codigosStr1 +","+ sitiosStr;
+
+                                                                                }else {
+                                                                                    codigosStr = codigosStr1;
+
+                                                                                }
+
+                                                                                db.collection("usuarios_por_auth")
+                                                                                        .whereEqualTo("correo", correo)
+                                                                                        .get()
+                                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                                                                    // Actualizamos el campo "sitios" con la cadena de códigos
+                                                                                                    document.getReference().update("sitios", codigosStr)
+                                                                                                            .addOnSuccessListener(aVoid -> Toast.makeText(admin_listaSitiosSupervisor.this, "Sitios actualizados correctamente", Toast.LENGTH_SHORT).show())
+                                                                                                            .addOnFailureListener(e -> Toast.makeText(admin_listaSitiosSupervisor.this, "Error al actualizar sitios", Toast.LENGTH_SHORT).show());
+                                                                                                } else {
+                                                                                                    Toast.makeText(admin_listaSitiosSupervisor.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                                                                                                }
+                                                                                            }
+                                                                                        });
+
+                                                                                // Define la nueva Activity que quieres abrir
+                                                                                Intent intent = new Intent(admin_listaSitiosSupervisor.this, admin_perfilSuper.class)
+                                                                                        .putExtra("correo_supervisor", correo)
+                                                                                        .putExtra("correo", correo_usuario);
+
+                                                                                startActivity(intent);
+                                                                            }
+                                                                        });
+
+                                                                    } else {
+                                                                        Toast.makeText(admin_listaSitiosSupervisor.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
                                                 }
                                             }
                                         });
+
                             } else {
-                                // No exclusions, fetch all sites
-                                db.collection("usuarios_por_auth")
-                                        .document(uid)
-                                        .collection("sitios")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    dataList.clear();
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        Sitio sitio = document.toObject(Sitio.class);
-                                                        dataList.add(sitio);
-                                                    }
-                                                    rcAdapterSitios.notifyDataSetChanged();
-                                                } else {
-                                                    Log.d("Firestore", "Error getting documents: ", task.getException());
-                                                    Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
+                                Log.d("Firestore", "No se encontró el documento");
                             }
                         } else {
-                            Toast.makeText(admin_listaSitiosSupervisor.this, "Credenciales incorrectas o usuario sin sitios asignados", Toast.LENGTH_SHORT).show();
+                            Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                         }
-                    }
-                });
+                    });
 
 
 
-        //------------------------------
+        }else{
 
-        FloatingActionButton addSitioaSupervisor = findViewById(R.id.floatingButton_addSitioaSupervisor);
-        addSitioaSupervisor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Obtenemos la lista de sitios seleccionados
-                List<Sitio> selectedSitios = rcAdapterSitios.getSelectedItems();
-                // Extraemos los códigos de los sitios seleccionados
-                List<String> codigos = new ArrayList<>();
-                for (Sitio sitio : selectedSitios) {
-                    codigos.add(sitio.getCodigo());
-                }
-                // Convertimos la lista de códigos en una cadena separada por comas
+            //solo se hace si no esta con auth
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            uid = currentUser.getUid();
+            System.out.println("sin auth: "+ uid);
 
-                String codigosStr1 = String.join(",", codigos);
-                String codigosStr;
-                if (conSitios){
+            db.collection("usuarios_por_auth")
+                    .document(uid)
+                    .collection("usuarios")
+                    .whereEqualTo("correo", correo)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
 
-                    codigosStr = codigosStr1 +","+ sitiosStr;
+                                //------------------------------
 
-                }else {
-                    codigosStr = codigosStr1;
+                                sitiosStr = document.getString("sitios");
+                                List<String> sitiosExcluidos;
 
-                }
+                                if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                    sitiosExcluidos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
 
-
-
-                db.collection("usuarios_por_auth")
-                        .document(uid)
-                        .collection("usuarios")
-                        .whereEqualTo("correo", correo)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                                    // Actualizamos el campo "sitios" con la cadena de códigos
-                                    document.getReference().update("sitios", codigosStr)
-                                            .addOnSuccessListener(aVoid -> Toast.makeText(admin_listaSitiosSupervisor.this, "Sitios actualizados correctamente", Toast.LENGTH_SHORT).show())
-                                            .addOnFailureListener(e -> Toast.makeText(admin_listaSitiosSupervisor.this, "Error al actualizar sitios", Toast.LENGTH_SHORT).show());
                                 } else {
-                                    Toast.makeText(admin_listaSitiosSupervisor.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                                    sitiosExcluidos = new ArrayList<>(); // No sitios to exclude
+                                    conSitios=false;
                                 }
+
+                                // Luego consulta y excluye los sitios ya asignados
+                                if (!sitiosExcluidos.isEmpty()) {
+                                    db.collection("sitios")
+                                            .whereNotIn("codigo", sitiosExcluidos)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        dataList.clear();
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            Sitio sitio = document.toObject(Sitio.class);
+                                                            dataList.add(sitio);
+                                                        }
+                                                        rcAdapterSitios.notifyDataSetChanged();
+                                                    } else {
+                                                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                        Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    // No exclusions, fetch all sites
+                                    db.collection("sitios")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        dataList.clear();
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            Sitio sitio = document.toObject(Sitio.class);
+                                                            dataList.add(sitio);
+                                                        }
+                                                        rcAdapterSitios.notifyDataSetChanged();
+                                                    } else {
+                                                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                        Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                                //------------------------------
+
+                                addSitioaSupervisor.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // Obtenemos la lista de sitios seleccionados
+                                        List<Sitio> selectedSitios = rcAdapterSitios.getSelectedItems();
+                                        // Extraemos los códigos de los sitios seleccionados
+                                        List<String> codigos = new ArrayList<>();
+                                        for (Sitio sitio : selectedSitios) {
+                                            codigos.add(sitio.getCodigo());
+                                        }
+                                        // Convertimos la lista de códigos en una cadena separada por comas
+
+                                        String codigosStr1 = String.join(",", codigos);
+                                        String codigosStr;
+                                        if (conSitios){
+
+                                            codigosStr = codigosStr1 +","+ sitiosStr;
+
+                                        }else {
+                                            codigosStr = codigosStr1;
+
+                                        }
+
+                                        db.collection("usuarios_por_auth")
+                                                .document(uid)
+                                                .collection("usuarios")
+                                                .whereEqualTo("correo", correo)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                            // Actualizamos el campo "sitios" con la cadena de códigos
+                                                            document.getReference().update("sitios", codigosStr)
+                                                                    .addOnSuccessListener(aVoid -> Toast.makeText(admin_listaSitiosSupervisor.this, "Sitios actualizados correctamente", Toast.LENGTH_SHORT).show())
+                                                                    .addOnFailureListener(e -> Toast.makeText(admin_listaSitiosSupervisor.this, "Error al actualizar sitios", Toast.LENGTH_SHORT).show());
+                                                        } else {
+                                                            Toast.makeText(admin_listaSitiosSupervisor.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+                                        // Define la nueva Activity que quieres abrir
+                                        Intent intent = new Intent(admin_listaSitiosSupervisor.this, admin_perfilSuper.class)
+                                                .putExtra("correo_supervisor", correo)
+                                                .putExtra("correo", correo_usuario);
+                                        startActivity(intent);
+                                    }
+                                });
+
+
+                            } else {
+
+                                //era un usuario auth
+
+                                Toast.makeText(admin_listaSitiosSupervisor.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+
+                                db.collection("usuarios_por_auth")
+                                        .whereEqualTo("correo", correo)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                                    //------------------------------
+
+                                                    sitiosStr = document.getString("sitios");
+                                                    List<String> sitiosExcluidos;
+
+                                                    if (sitiosStr != null && !sitiosStr.isEmpty()) {
+                                                        sitiosExcluidos = Arrays.asList(sitiosStr.split("\\s*,\\s*"));
+
+                                                    } else {
+                                                        sitiosExcluidos = new ArrayList<>(); // No sitios to exclude
+                                                        conSitios=false;
+                                                    }
+
+                                                    // Luego consulta y excluye los sitios ya asignados
+                                                    if (!sitiosExcluidos.isEmpty()) {
+                                                        db.collection("sitios")
+                                                                .whereNotIn("codigo", sitiosExcluidos)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            dataList.clear();
+                                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                Sitio sitio = document.toObject(Sitio.class);
+                                                                                dataList.add(sitio);
+                                                                            }
+                                                                            rcAdapterSitios.notifyDataSetChanged();
+                                                                        } else {
+                                                                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                            Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        // No exclusions, fetch all sites
+                                                        db.collection("sitios")
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            dataList.clear();
+                                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                Sitio sitio = document.toObject(Sitio.class);
+                                                                                dataList.add(sitio);
+                                                                            }
+                                                                            rcAdapterSitios.notifyDataSetChanged();
+                                                                        } else {
+                                                                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                                                                            Toast.makeText(getApplicationContext(), "Error al cargar los sitios.", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                    //------------------------------
+
+                                                    addSitioaSupervisor.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            // Obtenemos la lista de sitios seleccionados
+                                                            List<Sitio> selectedSitios = rcAdapterSitios.getSelectedItems();
+                                                            // Extraemos los códigos de los sitios seleccionados
+                                                            List<String> codigos = new ArrayList<>();
+                                                            for (Sitio sitio : selectedSitios) {
+                                                                codigos.add(sitio.getCodigo());
+                                                            }
+                                                            // Convertimos la lista de códigos en una cadena separada por comas
+
+                                                            String codigosStr1 = String.join(",", codigos);
+                                                            String codigosStr;
+                                                            if (conSitios){
+
+                                                                codigosStr = codigosStr1 +","+ sitiosStr;
+
+                                                            }else {
+                                                                codigosStr = codigosStr1;
+
+                                                            }
+
+                                                            db.collection("usuarios_por_auth")
+
+                                                                    .whereEqualTo("correo", correo)
+                                                                    .get()
+                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                                                                // Actualizamos el campo "sitios" con la cadena de códigos
+                                                                                document.getReference().update("sitios", codigosStr)
+                                                                                        .addOnSuccessListener(aVoid -> Toast.makeText(admin_listaSitiosSupervisor.this, "Sitios actualizados correctamente", Toast.LENGTH_SHORT).show())
+                                                                                        .addOnFailureListener(e -> Toast.makeText(admin_listaSitiosSupervisor.this, "Error al actualizar sitios", Toast.LENGTH_SHORT).show());
+                                                                            } else {
+                                                                                Toast.makeText(admin_listaSitiosSupervisor.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                            // Define la nueva Activity que quieres abrir
+                                                            Intent intent = new Intent(admin_listaSitiosSupervisor.this, admin_perfilSuper.class)
+                                                                    .putExtra("correo_supervisor", correo)
+                                                                    .putExtra("correo", correo_usuario);
+                                                            startActivity(intent);
+                                                        }
+                                                    });
+
+
+
+                                                } else {
+                                                    Toast.makeText(admin_listaSitiosSupervisor.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
                             }
-                        });
+                        }
+                    });
 
-                // Define la nueva Activity que quieres abrir
-                Intent intent = new Intent(admin_listaSitiosSupervisor.this, admin_perfilSuper.class)
-                        .putExtra("Correo", correo)
-                        .putExtra("Correo_temp", correo_usuario)
-                        .putExtra("Uid", uid);
-
-                startActivity(intent);
-            }
-        });
-
-
-
-
-
-
+        }
 
     }
 

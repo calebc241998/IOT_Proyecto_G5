@@ -420,16 +420,7 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             }
 
             //------
-
-
-
-
         }
-
-
-
-
-
 
     }
 
