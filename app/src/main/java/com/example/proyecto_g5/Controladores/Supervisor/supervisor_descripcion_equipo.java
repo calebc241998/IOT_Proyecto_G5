@@ -101,7 +101,7 @@ public class supervisor_descripcion_equipo extends Fragment {
     private void generarCodigoQR(String numeroSerie) {
         try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.encodeBitmap("mailto:" + numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
+            Bitmap bitmap = barcodeEncoder.encodeBitmap( numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
             supervisorDescripcionEquipoBinding.imagenQR.setImageBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,12 +110,12 @@ public class supervisor_descripcion_equipo extends Fragment {
 
     private void mostrarCodigoQR(String numeroSerie) {
         Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.dialog_codigo_qr);
+        dialog.setContentView(R.layout.supervisor_dialog_codigo_qr);
         ImageView qrImageView = dialog.findViewById(R.id.dialogQrImageView);
 
         try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.encodeBitmap("mailto:" + numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
+            Bitmap bitmap = barcodeEncoder.encodeBitmap( numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
             qrImageView.setImageBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
