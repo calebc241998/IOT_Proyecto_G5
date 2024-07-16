@@ -133,6 +133,8 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent  = new Intent(admin_nuevoSuperActivity.this, admin_perfil.class);
+                intent.putExtra("correo", correo_usuario);
+
                 startActivity(intent);
             }
         });

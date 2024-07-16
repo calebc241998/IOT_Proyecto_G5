@@ -33,7 +33,7 @@
         app:iconTint="#00BCD4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxMostrarContrasena"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMostrarContrasena_registro"
         app:strokeColor="#00BCD4"
         tools:ignore="MissingConstraints" />
 
@@ -112,13 +112,14 @@
         android:id="@+id/textInputLayoutContrasena"
         android:layout_width="264dp"
         android:layout_height="60dp"
-        android:layout_marginTop="32dp"
         android:ems="10"
 
         android:hint="Contraseña"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.798"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsuario"
         tools:ignore="MissingConstraints">
@@ -161,7 +162,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContrasena" />
 
     <CheckBox
-        android:id="@+id/checkBoxMostrarContrasena"
+        android:id="@+id/checkBoxMostrarContrasena_registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"

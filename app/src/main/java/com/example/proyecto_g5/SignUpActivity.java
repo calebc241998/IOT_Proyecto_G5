@@ -2,8 +2,12 @@ package com.example.proyecto_g5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,6 +32,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private Spinner tipo_rol, tipo_de_zona;
+    private CheckBox mostrarContrasenaCheckbox;
+
 
 
     private EditText signupEmail, signupPassword;
@@ -49,6 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
         signupPassword = findViewById(R.id.signupPassword);
         signupButton = findViewById(R.id.buttonSignUp);
         loginRedirectText = findViewById(R.id.loginRedirectText);
+        mostrarContrasenaCheckbox = findViewById(R.id.checkBoxMostrarContrasena_registro);
+
 
 
         tipo_rol = findViewById(R.id.ACSspinnerTipoRol);
@@ -137,7 +145,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                                 Toast.makeText(SignUpActivity.this, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                             }else{
 
                                 Toast.makeText(SignUpActivity.this, "Error en registro" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -157,7 +164,28 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        mostrarContrasenaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mostrarOcultarContrasena(isChecked);
+            }
+        });
 
 
+
+
+
+    }
+
+    private void mostrarOcultarContrasena(boolean mostrar) {
+        if (mostrar) {
+            // Mostrar contraseña
+            signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            // Ocultar contraseña
+            signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        // Mover el cursor al final
+        signupPassword.setSelection(signupPassword.getText().length());
     }
 }
