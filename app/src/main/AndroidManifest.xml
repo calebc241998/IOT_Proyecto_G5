@@ -29,6 +29,9 @@
             android:name=".Controladores.Admin.AdminActivity"
             android:exported="false"></activity>
         <activity
+            android:name=".Controladores.Admin.admin_editarSuper_auth"
+            android:exported="false"></activity>
+        <activity
             android:name=".Controladores.Admin.admin_supervisoresActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="false"></activity>

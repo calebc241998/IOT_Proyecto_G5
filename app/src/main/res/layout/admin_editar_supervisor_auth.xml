@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:background="@color/background"
-    tools:context=".Controladores.Admin.admin_editarSuper">
+    tools:context=".Controladores.Admin.admin_editarSuper_auth">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,8 +36,8 @@
                 app:layout_constraintVertical_bias="0.939">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="371dp"
-                    android:layout_height="158dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.529"
@@ -47,21 +47,21 @@
 
 
                     <Switch
-                        android:id="@+id/editStatus_switch"
+                        android:id="@+id/editStatus_switch_auth"
                         android:layout_width="wrap_content"
                         android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
                         android:text=""
                         android:textColor="#54CBC4"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:thumbTint="#54CBC4"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.852"
+                        app:layout_constraintHorizontal_bias="0.867"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.133"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
+
 
                     <TextView
                         android:id="@+id/textView"
@@ -75,19 +75,19 @@
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.233"
+                        app:layout_constraintHorizontal_bias="0.213"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.887" />
-
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <TextView
-                        android:id="@+id/statusTextView"
+                        android:id="@+id/statusTextView_auth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:text=""
+                        android:layout_marginTop="8dp"
                         android:textColor="@android:color/holo_red_dark"
                         android:textSize="15dp"
                         android:textStyle="bold"
@@ -98,11 +98,22 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.123" />
 
+                    <ImageView
+                        android:id="@+id/image_editSuper_auth"
+                        android:layout_width="124dp"
+                        android:layout_height="115dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.168"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/circulo_blanco" />
+
                     <Button
-                        android:id="@+id/boton_guardar_editado"
+                        android:id="@+id/boton_guardar_editado_auth"
                         android:layout_width="134dp"
                         android:layout_height="42dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="40dp"
                         android:backgroundTint="#54CCC5"
                         android:text="Guardar"
                         android:textAlignment="textStart"
@@ -110,21 +121,9 @@
                         app:cornerRadius="5dp"
                         app:icon="@drawable/baseline_upload_24"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.839"
+                        app:layout_constraintHorizontal_bias="0.895"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/editStatus_switch" />
-
-                    <ImageView
-                        android:id="@+id/image_editSuper"
-                        android:layout_width="136dp"
-                        android:layout_height="124dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.133"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.494"
-                        app:srcCompat="@drawable/circulo_blanco" />
+                        app:layout_constraintTop_toBottomOf="@+id/editStatus_switch_auth" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -150,7 +149,7 @@
                     android:layout_height="35dp"
                     android:background="@drawable/search_bkg"
                     android:gravity="center"
-                    android:text="Editar Supervisor"
+                    android:text="Registrar Supervisor"
                     android:textColor="@android:color/black"
                     android:textSize="25dp"
                     android:textStyle="bold"
@@ -184,7 +183,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nombre_editSuper"
+                        android:id="@+id/nombre_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
@@ -205,7 +204,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/apellido_editSuper"
+                        android:id="@+id/apellido_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
@@ -227,7 +226,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/DNI_editSuper"
+                        android:id="@+id/DNI_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
@@ -249,7 +248,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/correo_editSuper"
+                        android:id="@+id/correo_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
@@ -273,7 +272,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/telefono_editSuper"
+                        android:id="@+id/telefono_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
@@ -296,7 +295,7 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/direccion_editSuper"
+                        android:id="@+id/direccion_editSuper_auth"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:ems="10"
