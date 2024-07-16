@@ -32,11 +32,13 @@ import com.example.proyecto_g5.Controladores.Superadmin.superadmin_logs;
 import com.example.proyecto_g5.Controladores.Superadmin.superadmin_lista_usuarios;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +52,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class superadmin_editar_perfil extends AppCompatActivity{
 
@@ -205,9 +208,12 @@ public class superadmin_editar_perfil extends AppCompatActivity{
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK){
                             Intent data = result.getData();
-                            assert data != null;
-                            uri = data.getData();
-                            foto_perfil.setImageURI(uri);
+                            if (data != null && data.getData() != null) {
+                                uri = data.getData();
+                                Glide.with(superadmin_editar_perfil.this).load(uri).circleCrop().into(foto_perfil);
+                            } else {
+                                Toast.makeText(superadmin_editar_perfil.this, "No image selected", Toast.LENGTH_SHORT).show();
+                            }
                         }else {
                             Toast.makeText(superadmin_editar_perfil.this, "No image selected", Toast.LENGTH_SHORT).show();
 
@@ -333,7 +339,7 @@ public class superadmin_editar_perfil extends AppCompatActivity{
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isComplete());
+                        while (!uriTask.isComplete()) ;
                         Uri urlImage = uriTask.getResult();
                         newimageUrl = urlImage.toString();
                         updateData();
@@ -343,13 +349,13 @@ public class superadmin_editar_perfil extends AppCompatActivity{
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         dialog.dismiss();
+                        Toast.makeText(superadmin_editar_perfil.this, "Error al subir la imagen", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
                 // Si no se seleccionó una nueva imagen, usar la antigua
                 newimageUrl = oldImageUrl;
                 updateData();
-                dialog.dismiss();
 
             }
 
@@ -389,6 +395,26 @@ public class superadmin_editar_perfil extends AppCompatActivity{
                         if (task.getResult().isEmpty()) {
                             Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
                         }
+
+                        // Crear el log después de guardar exitosamente el usuario
+                        String descripcion = "El superadmin " + nombre + " " + apellido+ " ha editado su perfil";
+                        String usuarioLog = "superadmin"; // Usuario por default (superadmin)
+
+                        // Crear el objeto log
+                        Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                        // Guardar el log en Firestore
+                        db.collection("usuarios_por_auth")
+                                .document(uid)
+                                .collection("logs")
+                                .document(log.getId())
+                                .set(log)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(superadmin_editar_perfil.this, "Saved", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(superadmin_editar_perfil.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                });
                     } else {
                         Log.d("Firestore", "Error al obtener documentos: ", task.getException());
                     }
