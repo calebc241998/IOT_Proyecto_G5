@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.DataListaUsuariosClass;
 import com.example.proyecto_g5.Recycler.Superadmin.ListarUsuariosXML.MyAdapterListaUsuarios;
@@ -184,7 +185,15 @@ public class superadmin_lista_usuarios extends AppCompatActivity {
         lista_usuarios.setOnClickListener(v -> redirectActivity(this, superadmin_lista_usuarios.class));
         nuevo_admin.setOnClickListener(v -> redirectActivity(this, superadmin_nuevo_admin.class));
         lista_logs.setOnClickListener(v -> redirectActivity(this, superadmin_logs.class));
-        log_out.setOnClickListener(v -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show());
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(superadmin_lista_usuarios.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void setupRecyclerView() {

@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lista de opciones"
+            android:text="Lista de opciones"
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 
