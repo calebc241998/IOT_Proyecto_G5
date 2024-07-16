@@ -35,7 +35,7 @@
         android:closeIcon="@drawable/close_fill0_wght400_grad0_opsz24"
         android:focusable="false"
         android:iconifiedByDefault="false"
-        android:queryHint="Buscar por Nombre..."
+        android:queryHint="Buscar por Numero de serie"
         android:searchIcon="@drawable/search_fill0_wght400_grad0_opsz24"
         app:layout_constraintEnd_toStartOf="@+id/agregar_equipo"
         app:layout_constraintStart_toStartOf="parent"
