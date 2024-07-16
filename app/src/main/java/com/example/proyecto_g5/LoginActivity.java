@@ -1,6 +1,7 @@
 package com.example.proyecto_g5;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -65,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Autenticación con Firebase Auth--------------------
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         // que inicie sesion
                         //para poder filtrarlo
 
-
                         // Intentar autenticar con correo y contraseña
                         auth.signInWithEmailAndPassword(email, pass)
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -96,6 +95,12 @@ public class LoginActivity extends AppCompatActivity {
                                         String uid = currentUser.getUid();
                                         System.out.println(uid);
 
+                                        // Guardar las credenciales del superadmin en SharedPreferences
+                                        SharedPreferences sharedPref = getSharedPreferences("SuperadminCredentials", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putString("superadminEmail", email);
+                                        editor.putString("superadminPassword", pass);
+                                        editor.apply();
 
                                         db.collection("usuarios_por_auth")
                                                 .document(uid)
@@ -106,7 +111,6 @@ public class LoginActivity extends AppCompatActivity {
                                                         System.out.println("pasa 3");
 
                                                         if (document.exists()) {
-
                                                             rol_login = document.getString("rol");
                                                             estado_login = document.getString("estado");
                                                             //solo se usara este dato si no es superadmin
@@ -129,10 +133,10 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
 
-                                        if (!idu.isEmpty()){
+                                        if (!idu.isEmpty()) {
                                             // Si falla, intentar con Firestore
                                             verificarCredencialesFirestore(db, email, pass, idu);
-                                        }  else {
+                                        } else {
                                             idteam.setError("El id del Team no puede estar vacío");
                                         }
 
@@ -146,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         registerRedirectText.setOnClickListener(new View.OnClickListener(){
             @Override

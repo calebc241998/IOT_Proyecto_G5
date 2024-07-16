@@ -9,6 +9,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -56,6 +57,9 @@ import java.util.regex.Pattern;
 
 import java.util.UUID;
 import com.google.firebase.Timestamp;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 
 public class superadmin_nuevo_admin extends AppCompatActivity {
@@ -69,19 +73,34 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
 
     String canal1 = "importanteDefault";
 
-    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo, nuevo_pass_superad;
+    EditText nuevo_nombre, nuevo_apellido, nuevo_telefono, nuevo_direccion,nuevo_dni,nuevo_correo, nuevo_contrasena;
     String imageUrl;
     Uri uri;
     DrawerLayout drawerLayout;
     ImageView menu, perfil;
     LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav_superadmin, log_out;
     private TextView textViewBienvenido;
+
+    String correo_superad;
+    String pass_superad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.superadmin_nuevo_admin);
         crearCanalesNot();
+
+        // Recuperar las credenciales del superadmin
+        SharedPreferences sharedPref = getSharedPreferences("SuperadminCredentials", MODE_PRIVATE);
+        correo_superad = sharedPref.getString("superadminEmail", null);
+        pass_superad = sharedPref.getString("superadminPassword", null);
+
+        // Verifica que las credenciales no sean null antes de continuar
+        if (correo_superad == null || pass_superad == null) {
+            Toast.makeText(this, "No se encontraron las credenciales del superadministrador", Toast.LENGTH_SHORT).show();
+            // Manejar el error apropiadamente
+            return;
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
@@ -153,7 +172,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
         nuevo_correo = findViewById(R.id.correo_nuevoAdmin);
         nuevo_telefono = findViewById(R.id.telefono_nuevoAdmin);
         foto_perfil = findViewById(R.id.subir_foto_admin);
-        nuevo_pass_superad = findViewById(R.id.pass_superad_nuevoAdmin);
+        nuevo_contrasena = findViewById(R.id.pass_superad_nuevoAdmin);
         boton_guardar_nuevoAdmin = findViewById(R.id.botno_guardar);
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -161,17 +180,21 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK){
+                        if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
                             uri = data.getData();
-                            foto_perfil.setImageURI(uri);
-                        }else {
+                            Glide.with(superadmin_nuevo_admin.this)
+                                    .load(uri)
+                                    .transform(new CenterCrop(), new RoundedCorners(100)) // Aquí se redondean las esquinas
+                                    .into(foto_perfil);
+                        } else {
                             Toast.makeText(superadmin_nuevo_admin.this, "No image selected", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 }
         );
+
+
 
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,9 +214,9 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
                 String direccion = nuevo_direccion.getText().toString().trim();
                 String dni = nuevo_dni.getText().toString().trim();
                 String correo = nuevo_correo.getText().toString().trim();
-                String pass_superad = nuevo_pass_superad.getText().toString().trim();
+                String contrasena = nuevo_contrasena.getText().toString().trim();
 
-                if (!validateInput(nombre, apellido, telefono, direccion, dni, correo, pass_superad)) {
+                if (!validateInput(nombre, apellido, telefono, direccion, dni, correo, contrasena)) {
                     return; // stop further execution if validation fails
                 }
 
@@ -205,13 +228,13 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
 
     }
 
-    private boolean validateInput(String nombre, String apellido, String telefono, String direccion, String dni, String correo, String pass_superad) {
+    private boolean validateInput(String nombre, String apellido, String telefono, String direccion, String dni, String correo, String contrasena) {
         Pattern letterPattern = Pattern.compile("^[a-zA-Z]+$");
         Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
         Pattern passwordPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$");
         Pattern addressPattern = Pattern.compile(".*\\d.*");
 
-        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || dni.isEmpty() || correo.isEmpty() || pass_superad.isEmpty()) {
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || dni.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
             Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -227,7 +250,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
         }
 
         if (dni.length() != 8) {
-            Toast.makeText(this, "El teléfono debe contener exactamente 8 dígitos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "El dni debe contener exactamente 8 dígitos", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -246,7 +269,7 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
             return false;
         }
 
-        Matcher matcher = passwordPattern.matcher(pass_superad);
+        Matcher matcher = passwordPattern.matcher(contrasena);
         if (!matcher.matches()) {
             Toast.makeText(this, "La contraseña debe contener al menos una letra y un número", Toast.LENGTH_SHORT).show();
             return false;
@@ -297,15 +320,17 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
         String telefono = nuevo_telefono.getText().toString();
         String direccion = nuevo_direccion.getText().toString();
         String dni = nuevo_dni.getText().toString();
+        SharedPreferences sharedPref = getSharedPreferences("SuperadminCredentials", MODE_PRIVATE);
 
         String key_dni = nuevo_dni.getText().toString();
         String uid = currentUser.getUid();
         String correo_superad = currentUser.getEmail();
-        String pass_superad = nuevo_pass_superad.getText().toString();
+        String pass_superad = sharedPref.getString("superadminPassword", null);
+        String contrasena = nuevo_contrasena.getText().toString();
         String sitios = "1";
 
         // Crear un nuevo usuario
-        Usuario usuario = new Usuario(nombre, apellido, dni, correo, pass_superad, direccion, "admin", "activo", imageUrl, telefono, uid, correo_superad, pass_superad, "1", sitios);
+        Usuario usuario = new Usuario(nombre, apellido, dni, correo, contrasena, direccion, "admin", "activo", imageUrl, telefono, uid, correo_superad, pass_superad, "1", sitios);
 
         // Guardar el usuario en Firestore
         if (currentUser != null) {
@@ -382,6 +407,8 @@ public class superadmin_nuevo_admin extends AppCompatActivity {
 
         }
     }
+
+
 
     public void notificarImportanceDefault(){
         Intent intent = new Intent(this, superadmin_lista_usuarios.class);

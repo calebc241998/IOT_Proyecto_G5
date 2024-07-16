@@ -50,7 +50,7 @@
                         android:id="@+id/editStatus_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="31dp"
-                        android:text="Activo"
+                        android:text="Estado"
                         android:textColor="#54CBC4"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -78,7 +78,7 @@
                         app:layout_constraintHorizontal_bias="0.233"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.887" />
+                        app:layout_constraintVertical_bias="0.9" />
 
                     <Button
                         android:id="@+id/boton_guardar_editado"

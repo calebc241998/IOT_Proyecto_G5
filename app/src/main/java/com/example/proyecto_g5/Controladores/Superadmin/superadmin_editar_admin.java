@@ -28,7 +28,6 @@ import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Usuario;
-import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +35,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -47,14 +45,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class superadmin_editar_admin extends AppCompatActivity {
-//----UPLOAD -----
+    //----UPLOAD -----
 
     FirebaseFirestore db;
     ListenerRegistration snapshotListener;
     FirebaseUser currentUser;
-
 
     ImageView foto_perfil;
 
@@ -62,7 +61,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
 
     Switch switch_editarEstado;
 
-    EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
+    EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion, edit_dni, edit_correo;
 
     String newimageUrl, contrasena, oldImageUrl, key_dni, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios;
 
@@ -71,31 +70,17 @@ public class superadmin_editar_admin extends AppCompatActivity {
     DatabaseReference databaseReference;
     StorageReference storageReference;
 
-
     //----------------------------------
 
     DrawerLayout drawerLayout;
     ImageView menu, perfil;
 
-
     LinearLayout lista_usuarios, nuevo_admin, lista_logs, inicio_nav_superadmin, log_out;
+
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.superadmin_editar_admin);
-
-        //-----------NOTIFICACIONES---------------
-
-        //crearCanalesNot();
-
-
-
-        //----------------------------------------
-
-        //DRAWER------------------------------------
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu_nav_superadmin_toolbar);
@@ -114,15 +99,11 @@ public class superadmin_editar_admin extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //--para ir al perfil
-
         perfil = findViewById(R.id.boton_perfil);
-
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent  = new Intent(superadmin_editar_admin.this, superadmin_perfil.class);
+                Intent intent = new Intent(superadmin_editar_admin.this, superadmin_perfil.class);
                 intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
@@ -139,7 +120,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(superadmin_editar_admin.this, SuperadminActivity.class);
-                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });
@@ -155,7 +136,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(superadmin_editar_admin.this, superadmin_lista_usuarios.class);
-                intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });
@@ -163,13 +144,13 @@ public class superadmin_editar_admin extends AppCompatActivity {
         nuevo_admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();            }
+                recreate();
+            }
         });
 
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Cerrar sesión y redirigir a MainActivity
                 Intent intent = new Intent(superadmin_editar_admin.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -177,12 +158,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
             }
         });
 
-        //-----------------------------------
-
         // UPLOAD
-
-
-
 
         edit_nombre = findViewById(R.id.nombre_editAdmin);
         edit_apellido = findViewById(R.id.apellido_editAdmin);
@@ -203,7 +179,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
                             Intent data = result.getData();
                             if (data != null && data.getData() != null) {
                                 uri = data.getData();
-                                foto_perfil.setImageURI(uri);
+                                Glide.with(superadmin_editar_admin.this).load(uri).circleCrop().into(foto_perfil);
                             } else {
                                 Toast.makeText(superadmin_editar_admin.this, "No image selected", Toast.LENGTH_SHORT).show();
                             }
@@ -215,7 +191,6 @@ public class superadmin_editar_admin extends AppCompatActivity {
         );
 
         if (bundle != null) {
-            // Búsqueda en base de datos....
             uid = bundle.getString("Uid");
 
             db.collection("usuarios_por_auth")
@@ -245,7 +220,6 @@ public class superadmin_editar_admin extends AppCompatActivity {
 
                                 oldImageUrl = document.getString("imagen");
 
-                                // Inicializar switch con el estado del usuario
                                 boolean isActive = "activo".equals(estado);
                                 switch_editarEstado.setChecked(isActive);
                                 updateSwitchColor(isActive);
@@ -261,9 +235,6 @@ public class superadmin_editar_admin extends AppCompatActivity {
                     });
         }
 
-
-        //databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
-
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,15 +247,66 @@ public class superadmin_editar_admin extends AppCompatActivity {
         boton_guardar_editAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
-                Intent intent = new Intent(superadmin_editar_admin.this, superadmin_lista_usuarios.class)
-                        .putExtra("correo", correo_usuario)
-                        .putExtra("uid", uid);
-                startActivity(intent);
+                String nombre = edit_nombre.getText().toString().trim();
+                String apellido = edit_apellido.getText().toString().trim();
+                String telefono = edit_telefono.getText().toString().trim();
+                String direccion = edit_direccion.getText().toString().trim();
+                String dni = edit_dni.getText().toString().trim();
+                String correo = edit_correo.getText().toString().trim();
 
+                if (!validateInput(nombre, apellido, telefono, direccion, dni, correo)) {
+                    // No llames a saveData si la validación falla
+                    return;
+                }
+
+                saveData();
             }
         });
+    }
 
+    private boolean validateInput(String nombre, String apellido, String telefono, String direccion, String dni, String correo) {
+        // Patrón de validación
+        Pattern letterPattern = Pattern.compile("^[a-zA-Z]+$");
+        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+        Pattern passwordPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$");
+        Pattern addressPattern = Pattern.compile(".*\\d.*");
+
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || dni.isEmpty() || correo.isEmpty() || pass_superad.isEmpty()) {
+            Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!letterPattern.matcher(nombre).matches()) {
+            Toast.makeText(this, "El nombre solo debe contener letras", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!letterPattern.matcher(apellido).matches()) {
+            Toast.makeText(this, "El apellido solo debe contener letras", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (dni.length() != 8) {
+            Toast.makeText(this, "El dni debe contener exactamente 8 dígitos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!emailPattern.matcher(correo).matches()) {
+            Toast.makeText(this, "El correo electrónico no tiene un formato válido", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (telefono.length() != 9) {
+            Toast.makeText(this, "El teléfono debe contener exactamente 9 dígitos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!addressPattern.matcher(direccion).matches()) {
+            Toast.makeText(this, "La dirección debe contener al menos un número", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void saveData() {
@@ -301,7 +323,7 @@ public class superadmin_editar_admin extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!uriTask.isComplete());
+                    while (!uriTask.isComplete()) ;
                     Uri urlImage = uriTask.getResult();
                     newimageUrl = urlImage.toString();
                     updateData();
@@ -311,12 +333,15 @@ public class superadmin_editar_admin extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     dialog.dismiss();
+                    Toast.makeText(superadmin_editar_admin.this, "Error al subir la imagen", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(superadmin_editar_admin.this, "No image selected", Toast.LENGTH_SHORT).show();
+            newimageUrl = oldImageUrl; // Mantener la imagen antigua si no se selecciona una nueva
+            updateData();
         }
     }
+
 
     private void updateSwitchColor(boolean isActive) {
         if (isActive) {
@@ -326,14 +351,13 @@ public class superadmin_editar_admin extends AppCompatActivity {
         }
     }
 
-
     public void updateData() {
-        String nombre = edit_nombre.getText().toString();
-        String apellido = edit_apellido.getText().toString();
-        String correo = edit_correo.getText().toString();
-        String telefono = edit_telefono.getText().toString();
-        String direccion = edit_direccion.getText().toString();
-        String dni = edit_dni.getText().toString();
+        String nombre = edit_nombre.getText().toString().trim();
+        String apellido = edit_apellido.getText().toString().trim();
+        String correo = edit_correo.getText().toString().trim();
+        String telefono = edit_telefono.getText().toString().trim();
+        String direccion = edit_direccion.getText().toString().trim();
+        String dni = edit_dni.getText().toString().trim();
         String estadoActualizado = switch_editarEstado.isChecked() ? "activo" : "inactivo";
 
         Usuario usuario = new Usuario(nombre, apellido, dni, correo, contrasena, direccion, "admin", estadoActualizado, newimageUrl, telefono, uid, correo_superad, pass_superad, correo_temp, sitios);
@@ -349,12 +373,17 @@ public class superadmin_editar_admin extends AppCompatActivity {
                             document.getReference().set(usuario)
                                     .addOnSuccessListener(aVoid -> {
                                         Log.d("Update", "Usuario actualizado con éxito");
-                                        // Elimina la imagen antigua solo si la actualización fue exitosa
-                                        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                                        reference.delete().addOnSuccessListener(aVoid1 -> {
-                                            Toast.makeText(superadmin_editar_admin.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
+                                        // Elimina la imagen antigua solo si se subió una nueva
+                                        if (uri != null && oldImageUrl != null && !oldImageUrl.equals(newimageUrl)) {
+                                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                                            reference.delete().addOnSuccessListener(aVoid1 -> {
+                                                Toast.makeText(superadmin_editar_admin.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }).addOnFailureListener(e -> Toast.makeText(superadmin_editar_admin.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
+                                        } else {
+                                            Toast.makeText(superadmin_editar_admin.this, "Usuario actualizado con éxito", Toast.LENGTH_SHORT).show();
                                             finish();
-                                        }).addOnFailureListener(e -> Toast.makeText(superadmin_editar_admin.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
+                                        }
                                     })
                                     .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                         }
@@ -368,18 +397,17 @@ public class superadmin_editar_admin extends AppCompatActivity {
     }
 
 
-
-
-    public  static void openDrawer(DrawerLayout drawerLayout){
+    public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
     }
-    public static void closeDrawer(DrawerLayout drawerLayout){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+
+    public static void closeDrawer(DrawerLayout drawerLayout) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
 
-    public static  void redirectActivity(Activity activity, Class secondActivity){
+    public static void redirectActivity(Activity activity, Class secondActivity) {
         Intent intent = new Intent(activity, secondActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
