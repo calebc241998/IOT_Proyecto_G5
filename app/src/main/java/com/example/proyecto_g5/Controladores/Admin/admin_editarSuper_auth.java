@@ -60,7 +60,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
     Switch switch_editarEstado;
     TextView statusTextView;
     EditText edit_nombre, edit_apellido, edit_telefono, edit_direccion,edit_dni,edit_correo;
-    String newimageUrl, contrasena, oldImageUrl, correo_pasado, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios, estado_final, estado_nuevo;
+    String newimageUrl, contrasena, oldImageUrl, correo_pasado, uid, correo_superad, correo_temp, pass_superad, estado, correo_edit, sitios, estado_final, trampa_imagen;
     Uri uri;
     DatabaseReference databaseReference;
     StorageReference storageReference;
@@ -210,6 +210,8 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                             assert data != null;
                             uri = data.getData();
                             foto_perfil.setImageURI(uri);
+                            Toast.makeText(admin_editarSuper_auth.this, "Si entra", Toast.LENGTH_SHORT).show();
+
                         }else {
                             Toast.makeText(admin_editarSuper_auth.this, "No image selected", Toast.LENGTH_SHORT).show();
 
@@ -282,6 +284,8 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                         oldImageUrl = document.getString("imagen");
 
                                                     } else {
+
+
                                                         Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                                         db.collection("usuarios_por_auth")
@@ -371,6 +375,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                     estado = document.getString("estado");
                                     sitios = document.getString("sitios");
 
+
                                     boolean isActive = estado.equalsIgnoreCase("activo");
                                     switch_editarEstado.setChecked(isActive);
                                     updateStatusText(isActive);
@@ -384,6 +389,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                     Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                     oldImageUrl = document.getString("imagen");
+                                    //trampa_imagen = oldImageUrl;
 
                                 } else {
                                     Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
@@ -425,6 +431,8 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                         Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                                         oldImageUrl = document.getString("imagen");
+                                                        //trampa_imagen = oldImageUrl;
+
 
                                                     } else {
                                                         Toast.makeText(admin_editarSuper_auth.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
@@ -456,8 +464,10 @@ public class admin_editarSuper_auth extends AppCompatActivity {
             public void onClick(View v) {
                 if (validarCampos() && validarEmail(edit_correo.getText().toString().trim())) {
                     saveData(correo_usuario,correo_pasado);
-                    Intent intent = new Intent(admin_editarSuper_auth.this, admin_supervisoresActivity.class)
+                    Intent intent = new Intent(admin_editarSuper_auth.this, AdminActivity.class)
                             .putExtra("correo", correo_usuario);
+                    Toast.makeText(admin_editarSuper_auth.this, correo_usuario, Toast.LENGTH_SHORT).show();
+
                     startActivity(intent);// Solo llama a saveData si las validaciones son correctas
                 }
                 // No hay redirección si las validaciones fallan
@@ -512,6 +522,8 @@ public class admin_editarSuper_auth extends AppCompatActivity {
             builder.setView(R.layout.admin_progress_layout);
             AlertDialog dialog = builder.create();
             dialog.show();
+            //updateData(correo_usuario,correo_pasado);
+            //dialog.dismiss();
 
             if (uri != null) { // Solo subir imagen si se seleccionó una nueva
                 storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -549,6 +561,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
         String direccion = edit_direccion.getText().toString().trim();
         String dni = edit_dni.getText().toString().trim();
         estado = estado_final;
+        //newimageUrl = trampa_imagen;
 
 
         if (correo_usuario.equals("1")){
@@ -587,7 +600,29 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                                                 }
                                                 if (task1.getResult().isEmpty()) {
-                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                    Log.d("aaaaaa", "entra");
+                                                    db.collection("usuarios_por_auth")
+                                                            .whereEqualTo("correo", correo_pasado)
+                                                            .get()
+                                                            .addOnCompleteListener(task2 -> {
+                                                                if (task2.isSuccessful()) {
+
+                                                                    Toast.makeText(admin_editarSuper_auth.this, "Encuentra el usuario", Toast.LENGTH_SHORT).show();
+
+                                                                    for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                                        document1.getReference().set(usuario)
+                                                                                .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+
+                                                                                .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+                                                                        Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                    if (task2.getResult().isEmpty()) {
+                                                                        Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                                    }
+                                                                }
+                                                            });
                                                 }
                                             } else {
 
@@ -596,10 +631,17 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                         .get()
                                                         .addOnCompleteListener(task2 -> {
                                                             if (task2.isSuccessful()) {
+
+                                                                Toast.makeText(admin_editarSuper_auth.this, "Encuentra el usuario", Toast.LENGTH_SHORT).show();
+
                                                                 for (QueryDocumentSnapshot document1 : task2.getResult()) {
-                                                                    document1.getReference().set(usuario)
+                                                                    document1.getReference().update("nombre", nombre)
                                                                             .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+
                                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+                                                                    Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
+
                                                                 }
                                                                 if (task2.getResult().isEmpty()) {
                                                                     Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");

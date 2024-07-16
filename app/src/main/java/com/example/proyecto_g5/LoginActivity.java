@@ -222,6 +222,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
+
+        //- Inicio sesion-----------------------------
+
+
         db.collection("usuarios_por_auth")
                 .document(id)
                 .collection("usuarios")
@@ -242,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+                                // Intentar autenticar con correo y contraseña
                                 auth.signInWithEmailAndPassword(correo_superad, pass_superad)
                                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
