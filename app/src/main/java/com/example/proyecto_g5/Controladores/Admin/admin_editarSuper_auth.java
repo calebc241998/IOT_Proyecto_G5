@@ -210,7 +210,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                             assert data != null;
                             uri = data.getData();
                             foto_perfil.setImageURI(uri);
-                            Toast.makeText(admin_editarSuper_auth.this, "Si entra", Toast.LENGTH_SHORT).show();
 
                         }else {
                             Toast.makeText(admin_editarSuper_auth.this, "No image selected", Toast.LENGTH_SHORT).show();
@@ -286,7 +285,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                     } else {
 
 
-                                                        Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                                         db.collection("usuarios_por_auth")
                                                                 .whereEqualTo("correo", correo_edit)
@@ -392,7 +390,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                     //trampa_imagen = oldImageUrl;
 
                                 } else {
-                                    Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                     db.collection("usuarios_por_auth")
                                             .whereEqualTo("correo", correo_edit)
@@ -607,7 +604,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                                             .addOnCompleteListener(task2 -> {
                                                                 if (task2.isSuccessful()) {
 
-                                                                    Toast.makeText(admin_editarSuper_auth.this, "Encuentra el usuario", Toast.LENGTH_SHORT).show();
 
                                                                     for (QueryDocumentSnapshot document1 : task2.getResult()) {
                                                                         document1.getReference().set(usuario)
@@ -615,7 +611,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
 
                                                                                 .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
 
-                                                                        Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(admin_editarSuper_auth.this, "Usuario actualizado", Toast.LENGTH_SHORT).show();
 
                                                                     }
                                                                     if (task2.getResult().isEmpty()) {
@@ -640,7 +636,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
 
                                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
 
-                                                                    Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
 
                                                                 }
                                                                 if (task2.getResult().isEmpty()) {
@@ -690,7 +685,6 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                         .addOnCompleteListener(task2 -> {
                                             if (task2.isSuccessful()) {
 
-                                                Toast.makeText(admin_editarSuper_auth.this, "Encuentra el usuario", Toast.LENGTH_SHORT).show();
 
                                                 for (QueryDocumentSnapshot document1 : task2.getResult()) {
                                                     document1.getReference().set(usuario)
@@ -698,7 +692,7 @@ public class admin_editarSuper_auth extends AppCompatActivity {
 
                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
 
-                                                    Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(admin_editarSuper_auth.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
 
                                                 }
                                                 if (task2.getResult().isEmpty()) {
