@@ -38,9 +38,12 @@ public class supervisor_perfil extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("mee",correo_usuario);
+
 
         if (correo_usuario != null && correo_usuario.equals("1")) {
             uid = currentUser.getUid();
+            Log.d("message","ttttttt");
 
             db.collection("usuarios_por_auth")
                     .document(uid)

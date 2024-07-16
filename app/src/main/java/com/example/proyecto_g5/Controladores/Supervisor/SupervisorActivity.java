@@ -50,37 +50,17 @@ public class SupervisorActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid();
-        Log.d("message", userId);
 
-        // Obtener el correo del usuario desde Firestore
-        db.collection("usuarios_por_auth")
-                .document(userId)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w("Firestore", "Listen failed.", e);
-                            return;
-                        }
-
-                        if (snapshot != null && snapshot.exists()) {
-                            correo_usuario = snapshot.getString("correo");
-                            Log.d("Firestore", "Correo: " + correo_usuario);
-                        } else {
-                            Log.d("Firestore", "Current data: null");
-                        }
-                    }
-                });
-
-        String correo = getIntent().getStringExtra("correo"); // Recibir correo del Intent
+        // Obtener el correo del Intent
+        correo_usuario = getIntent().getStringExtra("correo");
+        System.out.println("RUTAAA"+correo_usuario);
 
         // Configurar el NavController para manejar la navegación
         NavController navController = Navigation.findNavController(this, R.id.supervisor_nav_host_fragment_content_navigation_drawer);
 
         // Crear un Bundle y configurarlo
         Bundle bundle = new Bundle();
-        bundle.putString("correo", correo);
+        bundle.putString("correo", correo_usuario);
 
         // Navegar al fragmento supervisor_inicio con el Bundle
         navController.navigate(R.id.supervisor_inicio, bundle);
@@ -135,7 +115,7 @@ public class SupervisorActivity extends AppCompatActivity {
                 // Ejemplo: Redirigir a la vista de perfil de supervisor
                 Intent intent = new Intent(SupervisorActivity.this, supervisor_perfil.class);
                 intent.putExtra("correo", correo_usuario);
-                Log.d("messageGAAAA",correo_usuario);
+                Log.d("messageGAAAA", correo_usuario);
                 startActivity(intent);
             }
         });

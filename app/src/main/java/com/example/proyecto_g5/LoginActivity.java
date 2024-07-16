@@ -184,7 +184,8 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("correo", "1");
 
             } else if (rol_login.equals("supervisor")) {
-                intent = new Intent(LoginActivity.this, SupervisorActivity.class);
+                intent = new Intent(this, SupervisorActivity.class);
+                intent.putExtra("correo", "1");
             } else if (rol_login.equals("superadmin")) {
                 intent = new Intent(LoginActivity.this, SuperadminActivity.class);
             } else {
