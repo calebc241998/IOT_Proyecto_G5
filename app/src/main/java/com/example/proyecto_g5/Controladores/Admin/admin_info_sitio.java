@@ -211,7 +211,7 @@ public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCal
         info_sitioTipoZona = findViewById(R.id.tipo_zona_sitio_info_admin);
         info_sitioTipoSitio = findViewById(R.id.tipo_sitio_info_admin);
         info_sitioNumSuper = findViewById(R.id.numSuper_info_admin);
-        boton_editar = findViewById(R.id.button_editar_sitios);
+        //boton_editar = findViewById(R.id.button_editar_sitios);
         boton_eliminar = findViewById(R.id.button_eliminar_sitios);
 
 
