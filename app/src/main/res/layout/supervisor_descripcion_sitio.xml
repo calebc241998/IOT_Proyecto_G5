@@ -186,12 +186,11 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imageView2"
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
                 android:layout_width="125dp"
                 android:layout_height="47dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/maps" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -285,7 +284,8 @@
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/include"
-        app:layout_constraintVertical_bias="0.19">
+        app:layout_constraintVertical_bias="0.19"
+        tools:ignore="UnknownIdInLayout">
 
         <TextView
             android:id="@+id/textView"
