@@ -55,94 +55,32 @@ public class supervisor_perfil extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
-        setContentView(R.layout.admin_perfil);
+        setContentView(R.layout.supervisor_perfil);
 
 
         //Drawer------------------------------------------
         drawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_nav_admin_toolbar);
-        inicio_nav = findViewById(R.id.inicio_nav);
-        lista_super = findViewById(R.id.lista_super_nav);
-        lista_sitios = findViewById(R.id.lista_sitios_nav);
-        nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
-        nuevo_super = findViewById(R.id.nuevo_super_nav);
-        log_out = findViewById(R.id.cerrar_sesion);
+        menu = findViewById(R.id.arrow_back_nav_supervisor_toolbar);
 
         String correo_usuario = getIntent().getStringExtra("correo");
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDrawer(drawerLayout);
-            }
-        });
 
-        inicio_nav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(supervisor_perfil.this, SupervisorActivity.class);
-                startActivity(intent);
-            }
-        });
-        lista_sitios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(supervisor_perfil.this, SupervisorActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        lista_super.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(supervisor_perfil.this, admin_supervisoresActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        nuevo_super.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(supervisor_perfil.this, admin_nuevoSuperActivity.class);
-                startActivity(intent);
-            }
-        });
-        nuevo_sitio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(supervisor_perfil.this, admin_nuevoSitioActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        log_out.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(supervisor_perfil.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         //------------------------------------- FIRESTORE
 
         db = FirebaseFirestore.getInstance();
 
 
-        perfil_superNombre= findViewById(R.id.nombre_perfil_admin);
-        perfil_superCorreo = findViewById(R.id.correo_perfil_admin);
-        perfil_superDNI = findViewById(R.id.DNI_perfil_admin);
-        perfil_superTelefono = findViewById(R.id.telefono_perfil_admin);
-        perfil_superDireccion = findViewById(R.id.direccin_perfil_admin);
-        perfil_superImage = findViewById(R.id.perfil_admin_foto);
-        button_edit_perfil_admin = findViewById(R.id.button_cambiar_contra_perfiladmin);
+        perfil_superNombre= findViewById(R.id.nombre_perfil_supervisor);
+        perfil_superCorreo = findViewById(R.id.correo_perfil_supervisor);
+        perfil_superDNI = findViewById(R.id.DNI_perfil_supervisor);
+        perfil_superTelefono = findViewById(R.id.telefono_perfil_supervisor);
+        perfil_superDireccion = findViewById(R.id.direccin_perfil_supervisor);
+        perfil_superImage = findViewById(R.id.perfil_supervisor_foto);
+        button_edit_perfil_admin = findViewById(R.id.button_cambiar_contra_perfil_supervisor);
 
         if (correo_usuario != null && correo_usuario.equals("1")) {
 
@@ -258,21 +196,9 @@ public class supervisor_perfil extends AppCompatActivity {
 
     //Drawer functions--------------------------------
 
-    public  static void openDrawer(DrawerLayout drawerLayout){
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-    public static void closeDrawer(DrawerLayout drawerLayout){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
 
-    public static  void redirectActivity(Activity activity, Class secondActivity){
-        Intent intent = new Intent(activity, secondActivity);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
-        activity.finish();
-    }
+
+
 
     //------------------Fin Drawer Functions
 

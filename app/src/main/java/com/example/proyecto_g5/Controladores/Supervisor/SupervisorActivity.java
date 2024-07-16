@@ -2,11 +2,13 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -22,11 +24,19 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class SupervisorActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SupervisorActivityNavigationDrawerBinding binding;
+    private FirebaseFirestore db;
+    private String correo_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,32 @@ public class SupervisorActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+        Log.d("message", userId);
+
+        // Obtener el correo del usuario desde Firestore
+        db.collection("usuarios_por_auth")
+                .document(userId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("Firestore", "Listen failed.", e);
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            correo_usuario = snapshot.getString("correo");
+                            Log.d("Firestore", "Correo: " + correo_usuario);
+                        } else {
+                            Log.d("Firestore", "Current data: null");
+                        }
+                    }
+                });
 
         String correo = getIntent().getStringExtra("correo"); // Recibir correo del Intent
 
@@ -73,12 +109,12 @@ public class SupervisorActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     AuthUI.getInstance()
-                                    .signOut(getBaseContext())
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                public void onComplete(@NonNull Task<Void> task) {
+                            .signOut(getBaseContext())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                public void onComplete(@NonNull Task<Void> task) {
 
-                                                }
-                                            });
+                                }
+                            });
                     return true;
                 } else {
                     // Deja que el NavController maneje el resto de elementos del menú
@@ -98,6 +134,8 @@ public class SupervisorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Ejemplo: Redirigir a la vista de perfil de supervisor
                 Intent intent = new Intent(SupervisorActivity.this, supervisor_perfil.class);
+                intent.putExtra("correo", correo_usuario);
+                Log.d("messageGAAAA",correo_usuario);
                 startActivity(intent);
             }
         });
@@ -110,6 +148,4 @@ public class SupervisorActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
 }
