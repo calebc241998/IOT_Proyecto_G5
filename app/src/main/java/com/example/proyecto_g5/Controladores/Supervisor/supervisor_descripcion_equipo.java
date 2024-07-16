@@ -1,5 +1,7 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
+import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -8,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
@@ -15,6 +19,8 @@ import com.example.proyecto_g5.dto.Equipo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class supervisor_descripcion_equipo extends Fragment {
 
@@ -45,6 +51,7 @@ public class supervisor_descripcion_equipo extends Fragment {
             String codigoSitio = bundle.getString("ACScodigo");
 
             if (equipo != null) {
+                // Setear los datos del equipo
                 supervisorDescripcionEquipoBinding.ACSKU.setText(equipo.getSku());
                 supervisorDescripcionEquipoBinding.ACSnumeroSerie.setText(equipo.getNumerodeserie());
                 supervisorDescripcionEquipoBinding.ACStipo.setText(equipo.getNombre_tipo());
@@ -54,6 +61,13 @@ public class supervisor_descripcion_equipo extends Fragment {
                 supervisorDescripcionEquipoBinding.ACSfechaRegistro.setText(equipo.getFecharegistro());
                 supervisorDescripcionEquipoBinding.ACSfechaEdicion.setText(equipo.getFechaedicion());
 
+                // Generar el código QR al inicio
+                generarCodigoQR(equipo.getNumerodeserie());
+
+                // Configurar el clic en la imagen QR
+                supervisorDescripcionEquipoBinding.imagenQR.setOnClickListener(view -> mostrarCodigoQR(equipo.getNumerodeserie()));
+
+                // Configurar botones
                 supervisorDescripcionEquipoBinding.editarEquipoEdit.setOnClickListener(view -> {
                     Bundle editBundle = new Bundle();
                     editBundle.putSerializable("equipo", equipo);
@@ -84,6 +98,36 @@ public class supervisor_descripcion_equipo extends Fragment {
         return supervisorDescripcionEquipoBinding.getRoot();
     }
 
+    private void generarCodigoQR(String numeroSerie) {
+        try {
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.encodeBitmap("mailto:" + numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
+            supervisorDescripcionEquipoBinding.imagenQR.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarCodigoQR(String numeroSerie) {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.dialog_codigo_qr);
+        ImageView qrImageView = dialog.findViewById(R.id.dialogQrImageView);
+
+        try {
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.encodeBitmap("mailto:" + numeroSerie, BarcodeFormat.QR_CODE, 750, 750);
+            qrImageView.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Button closeButton = dialog.findViewById(R.id.dismissDialog);
+        closeButton.setOnClickListener(v -> dismissDialog(dialog));
+
+        dialog.show();
+    }
+
+
     private void eliminarEquipo(String numeroSerie, String codigoSitio) {
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -103,4 +147,12 @@ public class supervisor_descripcion_equipo extends Fragment {
                     Log.e("supervisor_descripcion", "Error al eliminar equipo", e);
                 });
     }
+
+    private void dismissDialog(Dialog dialog) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
+
 }
