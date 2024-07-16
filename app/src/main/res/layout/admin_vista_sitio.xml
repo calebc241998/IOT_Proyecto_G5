@@ -48,7 +48,8 @@
                         android:layout_width="179dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center"
-                        android:text="Área Telecom"
+                        android:paddingTop="10dp"
+                        android:text=""
                         android:textColor="@android:color/black"
                         android:textSize="25dp"
                         android:textStyle="bold"
@@ -61,6 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:paddingTop="10dp"
 
                         >
 
@@ -127,6 +129,7 @@
                         android:id="@+id/linearLayout4"
                         android:layout_width="349dp"
                         android:layout_height="286dp"
+                        android:paddingTop="15dp"
                         android:layout_gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -194,7 +197,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingTop="10dp"
-                                android:text="ubigeo:"
+                                android:text="Ubigeo:"
                                 android:textColor="#000000"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
@@ -205,7 +208,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingTop="10dp"
-                                android:text="Latitud"
+                                android:text="Latitud:"
                                 android:textColor="#000000"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
@@ -216,7 +219,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingTop="10dp"
-                                android:text="Longitud"
+                                android:text="Longitud:"
                                 android:textColor="#000000"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
@@ -359,6 +362,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="10dp"
                         android:layout_height="300dp">
 
                         <androidx.cardview.widget.CardView
@@ -380,7 +384,7 @@
                                 android:id="@+id/mapView_info_sitio"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="8dp" />
+                                 />
 
                         </androidx.cardview.widget.CardView>
 
