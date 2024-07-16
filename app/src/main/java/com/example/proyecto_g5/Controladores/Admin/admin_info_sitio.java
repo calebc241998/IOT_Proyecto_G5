@@ -10,6 +10,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.ContentValues.TAG;
+import android.util.Log;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -31,7 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Arrays;
 import java.util.List;
 
-public class admin_info_sitio extends AppCompatActivity {
+public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCallback {
 
     DrawerLayout drawerLayout;
     ImageView menu, perfil;
@@ -50,6 +62,8 @@ public class admin_info_sitio extends AppCompatActivity {
 
     RCAdapter_sitios rcAdapterSitios;
 
+    String latitud, longitud;
+
 
 
     //--------------------
@@ -61,7 +75,12 @@ public class admin_info_sitio extends AppCompatActivity {
     FirebaseUser currentUser;
 
 
-    //----------
+    //----------mapa
+
+
+    private GoogleMap googleMap;
+    private MapView mapView;
+    private Sitio sitio;
 
     //---------------------
 
@@ -90,6 +109,11 @@ public class admin_info_sitio extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+        mapView = findViewById(R.id.mapView_info_sitio);
+
+        // Inicializa el MapView
+        mapView.onCreate(savedInstaceState);
+        mapView.getMapAsync(this);
 
         //--para ir al perfil
 
@@ -197,6 +221,7 @@ public class admin_info_sitio extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful() && !task.getResult().isEmpty()) {
                                 DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                sitio = document.toObject(Sitio.class);
 
                                 info_sitioNombre.setText(document.getString("nombre"));
                                 info_sitioDistrito.setText(document.getString("distrito"));
@@ -207,10 +232,19 @@ public class admin_info_sitio extends AppCompatActivity {
                                 info_sitioTipoSitio.setText(document.getString("tipodesitio"));
                                 info_sitioTipoZona.setText(document.getString("tipodezona"));
                                 info_sitioLong.setText(String.valueOf(document.getLong("longitud")));
+                                latitud = String.valueOf(document.getLong("latitud"));
+                                longitud = String.valueOf(document.getLong("longitud"));
+
                                 info_sitioLat.setText(String.valueOf(document.getLong("latitud")));
                                 info_sitioUbigeo.setText(String.valueOf(document.getLong("ubigeo")));
 
                                 //------------------------------
+
+                                // Actualiza el mapa si está listo
+                                if (googleMap != null) {
+                                    actualizarMapa();
+                                }
+
 
                             } else {
                                 Toast.makeText(admin_info_sitio.this, "Era de un auth", Toast.LENGTH_SHORT).show();
@@ -250,7 +284,57 @@ public class admin_info_sitio extends AppCompatActivity {
 
         }
 
+
     }
+
+    private void actualizarMapa() {
+        if (sitio != null) {
+            LatLng location = new LatLng(sitio.getLatitud(), sitio.getLongitud());
+            googleMap.addMarker(new MarkerOptions().position(location).title("Ubicación del Sitio"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        } else {
+            Log.e(TAG, "El objeto sitio es nulo en actualizarMapa");
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        if (sitio != null) {
+            actualizarMapa();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
 
     //Drawer functions--------------------------------
 
