@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.graphics.Color;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +48,7 @@ public class admin_perfilSuper extends AppCompatActivity {
 
 
 
-    TextView perfil_superNombre, perfil_superNombreCompleto, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido;
+    TextView perfil_superNombre, perfil_superNombreCompleto, perfil_superTelefono, perfil_superDNI, perfil_superDireccion, perfil_superCorreo, perfil_superApellido, textView_site_number;
     ImageView perfil_superImage;
 
     //recycler view -----
@@ -96,6 +98,7 @@ public class admin_perfilSuper extends AppCompatActivity {
         nuevo_sitio = findViewById(R.id.nuevo_sitio_nav);
         nuevo_super = findViewById(R.id.nuevo_super_nav);
         log_out = findViewById(R.id.cerrar_sesion);
+
 
 
         //--para ir al perfil
@@ -188,6 +191,7 @@ public class admin_perfilSuper extends AppCompatActivity {
         perfil_superTelefono = findViewById(R.id.telefono_super_perfil_admin);
         perfil_superDireccion = findViewById(R.id.direccin_super_perfil_admin);
         perfil_superImage = findViewById(R.id.perfil_super);
+        textView_site_number = findViewById(R.id.textView_site_number);
 
         editButton = findViewById(R.id.button_editar_perfil_super);
         addSitioButton = findViewById(R.id.editar_agregar_sitios) ;
@@ -341,6 +345,16 @@ public class admin_perfilSuper extends AppCompatActivity {
                                     perfil_superDireccion.setText(document.getString("direccion"));
                                     perfil_superDNI.setText(document.getString("dni"));
 
+                                    // Obtener el estado y actualizar el TextView
+                                    String estado = document.getString("estado");
+                                    if ("activo".equalsIgnoreCase(estado)) {
+                                        textView_site_number.setText("Activo");
+                                        textView_site_number.setTextColor(Color.GREEN); // O utiliza getResources().getColor(R.color.tu_color_verde)
+                                    } else {
+                                        textView_site_number.setText("Inactivo");
+                                        textView_site_number.setTextColor(Color.RED); // O utiliza getResources().getColor(R.color.tu_color_rojo)
+                                    }
+
                                     Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
 
                                     String sitiosStr = document.getString("sitios");
@@ -374,6 +388,15 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                         perfil_superTelefono.setText(document.getString("telefono"));
                                                         perfil_superDireccion.setText(document.getString("direccion"));
                                                         perfil_superDNI.setText(document.getString("dni"));
+                                                        // Obtener el estado y actualizar el TextView
+                                                        String estado = document.getString("estado");
+                                                        if ("activo".equalsIgnoreCase(estado)) {
+                                                            textView_site_number.setText("Activo");
+                                                            textView_site_number.setTextColor(Color.GREEN); // O utiliza getResources().getColor(R.color.tu_color_verde)
+                                                        } else {
+                                                            textView_site_number.setText("Inactivo");
+                                                            textView_site_number.setTextColor(Color.RED); // O utiliza getResources().getColor(R.color.tu_color_rojo)
+                                                        }
 
                                                         Glide.with(admin_perfilSuper.this).load(document.getString("imagen")).circleCrop().into(perfil_superImage);
 

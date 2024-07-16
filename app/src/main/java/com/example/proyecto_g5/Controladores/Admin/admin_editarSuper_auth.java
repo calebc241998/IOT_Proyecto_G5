@@ -684,8 +684,28 @@ public class admin_editarSuper_auth extends AppCompatActivity {
                                         .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                             }
                             if (task1.getResult().isEmpty()) {
-                                Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
-                            }
+                                db.collection("usuarios_por_auth")
+                                        .whereEqualTo("correo", correo_pasado)
+                                        .get()
+                                        .addOnCompleteListener(task2 -> {
+                                            if (task2.isSuccessful()) {
+
+                                                Toast.makeText(admin_editarSuper_auth.this, "Encuentra el usuario", Toast.LENGTH_SHORT).show();
+
+                                                for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                    document1.getReference().set(usuario)
+                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+
+                                                            .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+                                                    Toast.makeText(admin_editarSuper_auth.this, "Entra aqui 1", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                                if (task2.getResult().isEmpty()) {
+                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                }
+                                            }
+                                        });                            }
                         } else {
 
                             db.collection("usuarios_por_auth")

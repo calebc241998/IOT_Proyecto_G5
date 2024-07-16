@@ -2,6 +2,7 @@ package com.example.proyecto_g5.Controladores.Admin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,18 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
         Glide.with(context).load(dataList.get(position).getImagen()).circleCrop().into(holder.recImage);
         holder.rec_nombre.setText(dataList.get(position).getNombre() + " " +dataList.get(position).getApellido());
 
-        holder.rec_status.setText(dataList.get(position).getEstado());
 
         //holder.rec_numSites.setText("3 ");
+        // Obtener el estado y actualizar el TextView
+        String estado = dataList.get(position).getEstado();
+        if ("activo".equalsIgnoreCase(estado)) {
+            holder.rec_status.setText("Activo");
+            holder.rec_status.setTextColor(Color.GREEN); // O utiliza holder.itemView.getContext().getResources().getColor(R.color.tu_color_verde)
+        } else {
+            holder.rec_status.setText("Inactivo");
+            holder.rec_status.setTextColor(Color.RED); // O utiliza holder.itemView.getContext().getResources().getColor(R.color.tu_color_rojo)
+        }
+
         String sitiosStr = dataList.get(position).getSitios();
         if (sitiosStr != null && !sitiosStr.isEmpty()) {
             // Convertir el String en una lista de códigos

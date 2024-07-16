@@ -105,23 +105,7 @@
                             app:iconTint="#FFFFFF"
                             app:layout_constraintTop_toBottomOf="@+id/nombre_sitio_info_admin" />
 
-                        <Button
-                            android:id="@+id/button_editar_sitios"
-                            android:layout_width="63dp"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#54CBC4"
-                            android:layout_marginStart="15dp"
 
-                            android:gravity="center|fill_vertical"
-                            android:textColor="#FFFFFF"
-                            app:cornerRadius="5dp"
-                            app:icon="@drawable/baseline_edit_24"
-                            app:iconTint="#FFFFFF"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.3"
-
-                            app:layout_constraintStart_toEndOf="@+id/editar_eliminar_sitios"
-                            app:layout_constraintTop_toBottomOf="@+id/nombre_sitio_info_admin" />
 
                     </LinearLayout>
 

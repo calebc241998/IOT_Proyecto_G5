@@ -187,7 +187,6 @@ public class AdminActivity extends AppCompatActivity {
                                             .addOnCompleteListener(task2 -> {
                                                 if (task2.isSuccessful()) {
                                                     int countSupervisors = task2.getResult().size();
-                                                    Toast.makeText(AdminActivity.this, "con id "+countSupervisors, Toast.LENGTH_SHORT).show();
 
 
                                                     db.collection("usuarios_por_auth")
@@ -196,7 +195,6 @@ public class AdminActivity extends AppCompatActivity {
                                                             .addOnCompleteListener(task1 -> {
                                                                 if (task1.isSuccessful()) {
                                                                     countSupervisors1 = task1.getResult().size();
-                                                                    Toast.makeText(AdminActivity.this, "desde auth:" + countSupervisors1, Toast.LENGTH_SHORT).show();
                                                                     totalsup = countSupervisors + countSupervisors1;
                                                                     super_total.setText(String.valueOf(totalsup));
 
@@ -430,7 +428,6 @@ public class AdminActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             int countSupervisors = task.getResult().size();
-                            Toast.makeText(AdminActivity.this, "con id sin auth "+countSupervisors, Toast.LENGTH_SHORT).show();
 
 
                             db.collection("usuarios_por_auth")
@@ -439,7 +436,6 @@ public class AdminActivity extends AppCompatActivity {
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             countSupervisors1 = task1.getResult().size();
-                                            Toast.makeText(AdminActivity.this, "desde auth:" + countSupervisors1, Toast.LENGTH_SHORT).show();
                                             totalsup = countSupervisors + countSupervisors1;
                                             // Envía el valor a un TextView o cualquier otro componente del layout
 
