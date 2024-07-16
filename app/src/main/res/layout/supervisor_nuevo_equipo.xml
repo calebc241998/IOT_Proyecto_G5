@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="380dp"
-        android:layout_height="550dp"
+        android:layout_height="480dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,11 +33,11 @@
                 android:id="@+id/errorTipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
                 android:text="Seleccione un tipo de equipo válido"
                 android:textColor="@android:color/holo_red_dark"
-                android:visibility="gone"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp" />
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textFieldSKU"
@@ -122,12 +123,11 @@
                     android:id="@+id/campoFechaRegistro"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:focusable="false"
                     android:clickable="true"
+                    android:focusable="false"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <LinearLayout
@@ -139,19 +139,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="362dp"
                     android:layout_height="match_parent">
-
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="43dp"
-                        android:layout_height="43dp"
-                        android:layout_marginTop="156dp"
-                        android:backgroundTint="#54CCC5"
-                        app:icon="@drawable/baseline_camera_alt_24"
-                        app:iconGravity="top"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.423"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/imagenEquipo"
