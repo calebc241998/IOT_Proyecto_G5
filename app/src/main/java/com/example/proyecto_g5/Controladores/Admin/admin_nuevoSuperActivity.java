@@ -253,8 +253,15 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
 
     }
 
+
     public void saveData(String correo_usuario){
 
+        // Validar entrada
+        if (!validateInput()) {
+            return;
+        }
+
+        // Continuar con la lógica de guardado de datos
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(uri.getLastPathSegment());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(admin_nuevoSuperActivity.this);
@@ -280,6 +287,61 @@ public class admin_nuevoSuperActivity extends AppCompatActivity {
             }
         });
     }
+
+    public boolean validateInput() {
+        String nombre = nuevo_nombre.getText().toString().trim();
+        String apellido = nuevo_apellido.getText().toString().trim();
+        String correo = nuevo_correo.getText().toString().trim();
+        String telefono = nuevo_telefono.getText().toString().trim();
+        String direccion = nuevo_direccion.getText().toString().trim();
+        String dni = nuevo_dni.getText().toString().trim();
+        String pass = nuevo_pass_superad.getText().toString().trim();
+
+        if (nombre.isEmpty()) {
+            nuevo_nombre.setError("Ingrese el nombre");
+            nuevo_nombre.requestFocus();
+            return false;
+        }
+
+        if (apellido.isEmpty()) {
+            nuevo_apellido.setError("Ingrese el apellido");
+            nuevo_apellido.requestFocus();
+            return false;
+        }
+
+        if (correo.isEmpty()) {
+            nuevo_correo.setError("Ingrese el correo electrónico");
+            nuevo_correo.requestFocus();
+            return false;
+        }
+
+        if (telefono.isEmpty()) {
+            nuevo_telefono.setError("Ingrese el teléfono");
+            nuevo_telefono.requestFocus();
+            return false;
+        }
+
+        if (direccion.isEmpty()) {
+            nuevo_direccion.setError("Ingrese la dirección");
+            nuevo_direccion.requestFocus();
+            return false;
+        }
+
+        if (dni.isEmpty()) {
+            nuevo_dni.setError("Ingrese el DNI");
+            nuevo_dni.requestFocus();
+            return false;
+        }
+
+        if (pass.isEmpty()) {
+            nuevo_pass_superad.setError("Ingrese la contraseña");
+            nuevo_pass_superad.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
 
     public  void uploadData( String correo_usuario){
         String nombre = nuevo_nombre.getText().toString();

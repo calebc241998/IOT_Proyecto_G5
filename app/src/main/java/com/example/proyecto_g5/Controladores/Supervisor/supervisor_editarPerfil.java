@@ -19,12 +19,15 @@ import androidx.core.view.GravityCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
+import com.example.proyecto_g5.Controladores.Superadmin.superadmin_editar_perfil;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorEditarPerfilBinding;
+import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -37,6 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class supervisor_editarPerfil extends AppCompatActivity {
 
@@ -117,6 +121,27 @@ public class supervisor_editarPerfil extends AppCompatActivity {
                                 } else {
                                     Log.d("Firestore", "No se encontró el documento");
                                 }
+
+
+                                // Crear el log después de guardar exitosamente el usuario
+                                String descripcion = "El supervisor " + nombre + " " + apellido+ " ha editado su perfil";
+                                String usuarioLog = "supervisor"; // Usuario por default (superadmin)
+
+                                // Crear el objeto log
+                                Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                                // Guardar el log en Firestore
+                                db.collection("usuarios_por_auth")
+                                        .document(uid)
+                                        .collection("logs")
+                                        .document(log.getId())
+                                        .set(log)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(supervisor_editarPerfil.this, "Saved", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(supervisor_editarPerfil.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                        });
                             } else {
                                 Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                             }

@@ -27,6 +27,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.proyecto_g5.Controladores.Superadmin.superadmin_editar_admin;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Llog;
@@ -596,6 +597,25 @@ public class admin_editarSuper extends AppCompatActivity {
                                                             .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                                                 }
+                                                // Crear el log después de guardar exitosamente el usuario
+                                                String descripcion = "Se ha editado la información del supervisor: " + nombre + " " + apellido;
+                                                String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                                                // Crear el objeto log
+                                                Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                                                // Guardar el log en Firestore
+                                                db.collection("usuarios_por_auth")
+                                                        .document(uid)
+                                                        .collection("logs")
+                                                        .document(log.getId())
+                                                        .set(log)
+                                                        .addOnSuccessListener(aVoid -> {
+                                                            Toast.makeText(admin_editarSuper.this, "Saved", Toast.LENGTH_SHORT).show();
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(admin_editarSuper.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                                        });
                                                 if (task1.getResult().isEmpty()) {
                                                     Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
                                                 }

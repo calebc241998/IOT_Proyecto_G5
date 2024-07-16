@@ -104,7 +104,7 @@ public class supervisor_nuevo_equipo extends Fragment {
                                     // Asignar la URL al objeto equipo
                                     equipo.setImagen_equipo(downloadUrl.toString());
 
-                                    // Guardar el equipo en Firestore
+// Guardar el equipo en Firestore
                                     db.collection("sitios")
                                             .document(codigoDeSitio)
                                             .collection("equipos")
@@ -113,6 +113,26 @@ public class supervisor_nuevo_equipo extends Fragment {
                                             .addOnSuccessListener(aVoid -> {
                                                 Log.d("TAG", "Equipo agregado con ID: " + serie);
                                                 Toast.makeText(requireContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
+
+                                                // Crear el log después de guardar exitosamente el equipo
+                                                String descripcionlog = "Se ha creado un nuevo equipo con serie: " + serie;
+                                                String usuarioLog = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                                // Crear el objeto log
+                                                Llog log = new Llog(UUID.randomUUID().toString(), descripcionlog, usuarioLog, Timestamp.now());
+
+                                                // Guardar el log en Firestore
+                                                db.collection("logs")
+                                                        .document(log.getId())
+                                                        .set(log)
+                                                        .addOnSuccessListener(aVoid1 -> {
+                                                            Log.d("TAG", "Log guardado correctamente");
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Log.w("TAG", "Error al guardar el log", e);
+                                                        });
+
+                                                // Navegar de regreso a la lista de equipos
                                                 navController.popBackStack(R.id.supervisor_lista_equipos, true);
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("ACScodigo", codigoDeSitio);
@@ -122,12 +142,19 @@ public class supervisor_nuevo_equipo extends Fragment {
                                                 Log.w("TAG", "Error al agregar equipo", e);
                                                 Toast.makeText(requireContext(), "Error al guardar equipo", Toast.LENGTH_SHORT).show();
                                             });
+
                                 });
                             })
+
+
                             .addOnFailureListener(e -> {
                                 Log.w("TAG", "Error al subir la imagen", e);
                                 Toast.makeText(requireContext(), "Error al subir la imagen", Toast.LENGTH_SHORT).show();
                             });
+
+
+
+
                 } else {
                     Toast.makeText(requireContext(), "Seleccione una imagen primero", Toast.LENGTH_SHORT).show();
                 }
