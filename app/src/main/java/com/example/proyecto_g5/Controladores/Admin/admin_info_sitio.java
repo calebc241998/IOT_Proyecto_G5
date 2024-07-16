@@ -291,7 +291,7 @@ public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCal
         if (sitio != null) {
             LatLng location = new LatLng(sitio.getLatitud(), sitio.getLongitud());
             googleMap.addMarker(new MarkerOptions().position(location).title("Ubicación del Sitio"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 11));
         } else {
             Log.e(TAG, "El objeto sitio es nulo en actualizarMapa");
         }

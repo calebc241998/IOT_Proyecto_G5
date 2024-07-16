@@ -15,25 +15,24 @@
         <include
             layout="@layout/admin_toolbar"/>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/ACStextView"
                 android:layout_width="200dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/search_bkg"
                 android:gravity="center"
+                android:background="@drawable/search_bkg"
+                android:layout_gravity="center"
                 android:text="Nuevo Sitio"
                 android:textColor="@android:color/black"
-                app:layout_constraintHeight_percent="0.05"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,8 +40,8 @@
             <ScrollView
                 android:id="@+id/scrollView3"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
                 android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -179,11 +178,12 @@
                         android:id="@+id/ACStextView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:text="Seleccionar en el mapa:"
-                        android:textColor="#000000"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                        android:textColor="#1A6E69"
+                        android:textSize="19sp"
+                        android:textStyle="italic" />
 
                     <!-- Departamento -->
                     <LinearLayout
@@ -435,14 +435,33 @@
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
-                    <fragment
-                        android:id="@+id/map"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/mapCardView"
                         android:layout_width="match_parent"
-                        android:layout_height="214dp"
-                        map:cameraZoom="15"
-                        map:uiRotateGestures="true"
-                        map:uiZoomControls="true" />
+                        android:layout_height="250dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.3"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.8">
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            map:cameraZoom="15"
+                            map:uiRotateGestures="true"
+                            map:uiZoomControls="true" />
+
+                    </androidx.cardview.widget.CardView>
+
+
 
                     <Button
                         android:id="@+id/botton_guardar"
@@ -461,12 +480,17 @@
                         app:layout_constraintHorizontal_bias="0.7"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/scrollView3"
-                       />
+                        />
                 </LinearLayout>
 
             </ScrollView>
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
     </LinearLayout>
 
     <RelativeLayout
