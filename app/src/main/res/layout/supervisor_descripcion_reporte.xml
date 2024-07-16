@@ -136,47 +136,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
-        android:layout_width="296dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="484dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/agregar_equipo"
-            android:layout_width="48dp"
-            android:layout_height="55dp"
-            android:backgroundTint="#FFFFFF"
-            android:drawableTop="@drawable/baseline_zoom_out_map_24"
-            android:drawablePadding="8dp"
-            android:padding="12dp"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.814"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView14"
-            android:layout_width="168dp"
-            android:layout_height="168dp"
-            android:background="@drawable/circulo_subir_imagen"
-            android:clipToOutline="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/cable"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <TextView
         android:id="@+id/campoFechaRegistroEdit"
         android:layout_width="wrap_content"
@@ -239,7 +198,7 @@
         android:id="@+id/botonResuelto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#4CAF50"
         android:text="Marcar como resuelto"
         android:textColor="#000000"
@@ -248,9 +207,7 @@
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.647" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
