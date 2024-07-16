@@ -1,5 +1,7 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,14 +42,16 @@ public class supervisor_editar_equipo extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     private String mParam1;
     private String mParam2;
     private String codigoDeSitio;
+    private String numeroDeSerieParaImagen;
+    private Equipo equipo;
 
-    public supervisor_editar_equipo() {
-        // Required empty public constructor
-    }
+
+    public supervisor_editar_equipo() {}
 
     public static supervisor_editar_equipo newInstance(String param1, String param2) {
         supervisor_editar_equipo fragment = new supervisor_editar_equipo();
@@ -73,39 +77,34 @@ public class supervisor_editar_equipo extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = SupervisorEditarEquipoBinding.inflate(inflater, container, false);
 
-        // Obtener el equipo del bundle
-        Equipo equipo = (Equipo) getArguments().getSerializable("equipo");
-        String codigoSitio = getArguments().getString("ACScodigo");
+        equipo = (Equipo) getArguments().getSerializable("equipo");
+        setNumeroDeSerieParaImagen(equipo.getNumerodeserie());
 
-        // Mostrar la información en los campos correspondientes
         binding.campoSKU.setText(equipo.getSku());
         binding.campoSerie.setText(equipo.getNumerodeserie());
         binding.campoMarca.setText(equipo.getMarca());
         binding.campoModelo.setText(equipo.getModelo());
         binding.campoDescripcion.setText(equipo.getDescripcion());
 
-
-        // Cargar la imagen desde Firebase Storage
         cargarImagen(equipo.getImagen_equipo());
 
-        // Configurar el Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.tipos_equipos, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.campoTipo.setAdapter(adapter);
 
-        // Preseleccionar el tipo de equipo en el Spinner
         if (equipo.getNombre_tipo() != null) {
             int spinnerPosition = getIndex(binding.campoTipo, equipo.getNombre_tipo());
             binding.campoTipo.setSelection(spinnerPosition);
         }
 
-        // Deshabilitar campos que no deben ser editables
         binding.campoSKU.setEnabled(false);
         binding.campoSerie.setEnabled(false);
         binding.campoMarca.setEnabled(false);
         binding.campoModelo.setEnabled(false);
         binding.campoTipo.setEnabled(false);
+
+        binding.imagenEquipo.setOnClickListener(view -> openGallery());
 
         NavController navController = NavHostFragment.findNavController(supervisor_editar_equipo.this);
 
@@ -113,21 +112,15 @@ public class supervisor_editar_equipo extends Fragment {
             if (validarCampos()) {
                 String tipo = binding.campoTipo.getSelectedItem().toString();
                 String descripcion = binding.campoDescripcion.getText().toString();
-
-                // Obtener la fecha y hora actual con la zona horaria local
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH) + 1; // Los meses están indexados desde 0
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
+                String dateTime = calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+                        (calendar.get(Calendar.MONTH) + 1) + "/" +
+                        calendar.get(Calendar.YEAR) + " " +
+                        calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                        String.format("%02d", calendar.get(Calendar.MINUTE));
 
-                // Formatear la fecha y hora
-                String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
-
-                // Actualizar el objeto equipo con los datos editados
                 equipo.setDescripcion(descripcion);
-                equipo.setFechaedicion(dateTime); // Actualizar la fecha de edición
+                equipo.setFechaedicion(dateTime);
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
@@ -135,16 +128,14 @@ public class supervisor_editar_equipo extends Fragment {
                 db.collection("sitios")
                         .document(codigoDeSitio)
                         .collection("equipos")
-                        .document(equipo.getNumerodeserie()) // Usa el número de serie como ID del documento
+                        .document(equipo.getNumerodeserie())
                         .set(equipo)
                         .addOnSuccessListener(aVoid -> {
                             Log.d("TAG", "Equipo actualizado con ID: " + equipo.getNumerodeserie());
                             Toast.makeText(requireContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
-
-                            // Aquí puedes realizar cualquier acción adicional después de agregar el equipo
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("equipo", equipo);
-                            bundle.putString("ACScodigo", codigoSitio);
+                            bundle.putString("ACScodigo", codigoDeSitio);
                             navController.popBackStack(R.id.supervisor_descripcion_equipo, true);
                             navController.navigate(R.id.supervisor_descripcion_equipo, bundle);
                         })
@@ -157,6 +148,47 @@ public class supervisor_editar_equipo extends Fragment {
 
         return binding.getRoot();
     }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            binding.imagenEquipo.setImageURI(imageUri);
+            uploadImageToFirebase(imageUri);
+        }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        String numeroSerie = getNumeroDeSerieParaImagen();
+        StorageReference fileReference = storageRef.child("Equipo_supervisor/" + numeroSerie + ".jpg");
+
+        fileReference.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    if (isAdded()) {
+                        Toast.makeText(getContext(), "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String imageUrl = uri.toString();
+                            equipo.setImagen_equipo(imageUrl);
+                            Glide.with(this).load(imageUrl).into(binding.imagenEquipo);
+                        });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (isAdded()) {
+                        Toast.makeText(getContext(), "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 
     private int getIndex(Spinner spinner, String myString) {
         for (int i = 0; i < spinner.getCount(); i++) {
@@ -182,12 +214,19 @@ public class supervisor_editar_equipo extends Fragment {
     }
 
     private void cargarImagen(String imagen) {
-        String imagenUrl = imagen; // Obtén el enlace de la imagen
-        Log.d("FirebaseStorage", "Cargando imagen desde: " + imagenUrl); // Log para verificar el URL
+        String imagenUrl = imagen;
+        Log.d("FirebaseStorage", "Cargando imagen desde: " + imagenUrl);
         Glide.with(this)
                 .load(imagenUrl)
                 .into(binding.imagenEquipo);
     }
 
+    public String getNumeroDeSerieParaImagen() {
+        return numeroDeSerieParaImagen;
+    }
 
+    public void setNumeroDeSerieParaImagen(String numeroDeSerieParaImagen) {
+        this.numeroDeSerieParaImagen = numeroDeSerieParaImagen;
+    }
 }
+

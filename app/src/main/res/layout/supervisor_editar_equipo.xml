@@ -126,15 +126,19 @@
                     android:layout_width="362dp"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imagenEquipo"
                         android:layout_width="168dp"
                         android:layout_height="168dp"
+                        android:padding="1dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/circulo_blanco" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
 
                     <TextView
                         android:id="@+id/textViewSubirFoto"
