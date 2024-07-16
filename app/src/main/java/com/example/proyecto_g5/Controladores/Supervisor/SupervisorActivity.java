@@ -18,6 +18,9 @@ import com.example.proyecto_g5.Controladores.Admin.admin_perfil;
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorActivityNavigationDrawerBinding;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 public class SupervisorActivity extends AppCompatActivity {
@@ -68,7 +71,14 @@ public class SupervisorActivity extends AppCompatActivity {
                     // Redirigir a MainActivity o cualquier otra actividad que desees
                     Intent intent = new Intent(SupervisorActivity.this, MainActivity.class);
                     startActivity(intent);
-                    finish(); // Finaliza la actividad actual para evitar que el usuario vuelva atrás.
+
+                    AuthUI.getInstance()
+                                    .signOut(getBaseContext())
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                }
+                                            });
                     return true;
                 } else {
                     // Deja que el NavController maneje el resto de elementos del menú
