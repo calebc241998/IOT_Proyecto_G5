@@ -3,6 +3,7 @@ package com.example.proyecto_g5.Controladores.Superadmin;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -213,15 +214,9 @@ public class superadmin_editar_admin extends AppCompatActivity {
                 }
         );
 
-
-
-
-        if(bundle != null){
-
-            //busqueda en base de datos....
-
+        if (bundle != null) {
+            // Búsqueda en base de datos....
             uid = bundle.getString("Uid");
-
 
             db.collection("usuarios_por_auth")
                     .document(uid)
@@ -246,18 +241,26 @@ public class superadmin_editar_admin extends AppCompatActivity {
                                 contrasena = document.getString("contrasena");
                                 estado = document.getString("estado");
 
-
-                                Glide.with(superadmin_editar_admin.this).load(document.getString("imagen")).into(foto_perfil);
+                                Glide.with(superadmin_editar_admin.this).load(document.getString("imagen")).circleCrop().into(foto_perfil);
 
                                 oldImageUrl = document.getString("imagen");
+
+                                // Inicializar switch con el estado del usuario
+                                boolean isActive = "activo".equals(estado);
+                                switch_editarEstado.setChecked(isActive);
+                                updateSwitchColor(isActive);
+
+                                switch_editarEstado.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                    updateSwitchColor(isChecked);
+                                });
 
                             } else {
                                 Toast.makeText(superadmin_editar_admin.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-
         }
+
 
         //databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(key_dni);
 
@@ -315,17 +318,25 @@ public class superadmin_editar_admin extends AppCompatActivity {
         }
     }
 
-    public  void updateData( ){
+    private void updateSwitchColor(boolean isActive) {
+        if (isActive) {
+            switch_editarEstado.getThumbDrawable().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.MULTIPLY);
+        } else {
+            switch_editarEstado.getThumbDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.MULTIPLY);
+        }
+    }
+
+
+    public void updateData() {
         String nombre = edit_nombre.getText().toString();
         String apellido = edit_apellido.getText().toString();
         String correo = edit_correo.getText().toString();
         String telefono = edit_telefono.getText().toString();
         String direccion = edit_direccion.getText().toString();
         String dni = edit_dni.getText().toString();
+        String estadoActualizado = switch_editarEstado.isChecked() ? "activo" : "inactivo";
 
-
-
-        Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, "admin", estado, newimageUrl, telefono , uid,correo_superad,pass_superad,correo_temp,sitios);
+        Usuario usuario = new Usuario(nombre, apellido, dni, correo, contrasena, direccion, "admin", estadoActualizado, newimageUrl, telefono, uid, correo_superad, pass_superad, correo_temp, sitios);
 
         db.collection("usuarios_por_auth")
                 .document(uid)
@@ -354,30 +365,8 @@ public class superadmin_editar_admin extends AppCompatActivity {
                         Log.d("Firestore", "Error al obtener documentos: ", task.getException());
                     }
                 });
-
-
-
-
-        /*databaseReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                            reference.delete();
-                            Toast.makeText(admin_editarSuper.this, "Updated", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(admin_editarSuper.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }); */
-
-
-
     }
+
 
 
 

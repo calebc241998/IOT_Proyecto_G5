@@ -166,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void iniciarSesionExitosa(String pass_superad, String rol_login, String estado_login, String uid_superadmin) {
-
         String rol_a_preguntar ="";
 
         if (estado_login.equals("activo")){
@@ -181,9 +180,6 @@ public class LoginActivity extends AppCompatActivity {
 
             } else if (rol_login.equals("supervisor")) {
                 intent = new Intent(LoginActivity.this, SupervisorActivity.class);
-                //ya no seria necesario el bundle o mandarle otro valor
-               // Bundle bundle = new Bundle();
-                //bundle.putString("correo", email);
             } else if (rol_login.equals("superadmin")) {
                 intent = new Intent(LoginActivity.this, SuperadminActivity.class);
             } else {
@@ -192,9 +188,17 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // Create log entry
-            crearLog(rol_login, "nuevo usuario", uid_superadmin);
-            intent.putExtra("pass_superad", pass_superad);
+            db.collection("usuarios_por_auth")
+                    .document(currentUser.getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            crearLog(rol_login, document, uid_superadmin);
+                        }
+                    });
 
+            intent.putExtra("pass_superad", pass_superad);
             startActivity(intent);
             finish();
         } else {
@@ -208,20 +212,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             Toast.makeText(LoginActivity.this, "Usuario Inactivo, comuniquese con su "+rol_a_preguntar, Toast.LENGTH_SHORT).show();
-
         }
-
-
-
-
-
     }
 
     private void verificarCredencialesFirestore(FirebaseFirestore db, final String email, final String pass, final String id) {
-
-        //- Inicio sesion-----------------------------
-
-
         db.collection("usuarios_por_auth")
                 .document(id)
                 .collection("usuarios")
@@ -242,12 +236,11 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                                // Intentar autenticar con correo y contraseña
                                 auth.signInWithEmailAndPassword(correo_superad, pass_superad)
                                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
                                             public void onSuccess(AuthResult authResult) {
-                                                iniciarSesionSegunRol(role, email, document.getString("nombre"), id);
+                                                iniciarSesionSegunRol(role, email, document, id);
                                             }
                                         });
                             } else {
@@ -262,7 +255,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void iniciarSesionSegunRol(String role, String email, String nombre, String superadminId) {
+    private void iniciarSesionSegunRol(String role, String email, DocumentSnapshot document, String superadminId) {
         Intent intent;
         if (role.equals("admin")) {
             intent = new Intent(LoginActivity.this, AdminActivity.class);
@@ -278,17 +271,25 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Create log entry
-        crearLog(role, nombre, superadminId);
+        crearLog(role, document, superadminId);
 
         intent.putExtra("correo", email);
-        //se envia correo del usuario que se loguea
         startActivity(intent);
         finish();
     }
 
-    private void crearLog(String role, String nombre, String superadminId) {
-        String descripcion = "El " + role + " " + nombre + " se ha logueado";
-        String usuario = nombre; // Aquí podrías usar el valor adecuado para usuario
+    private void crearLog(String role, DocumentSnapshot document, String superadminId) {
+        String nombre = document.getString("nombre");
+        String apellido = document.getString("apellido");
+        String descripcion;
+
+        if (nombre == null || nombre.isEmpty() || apellido == null || apellido.isEmpty()) {
+            descripcion = "primer login de nuevo usuario (" + role + ")";
+        } else {
+            descripcion = "El " + role + " " + nombre + " " + apellido + " se ha logueado";
+        }
+
+        String usuario = nombre != null ? nombre : "Usuario desconocido"; // Aquí podrías usar el valor adecuado para usuario
         Timestamp timestamp = Timestamp.now();
         superadminId = "VDwqr0wPUsfHO8RhjvLPxRgWt3W2";
 

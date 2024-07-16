@@ -183,7 +183,7 @@ public class superadmin_perfil_admin extends AppCompatActivity {
                                 perfil_usuarioRol.setText(document.getString("rol"));
                                 perfil_usuarioEstado.setText(document.getString("estado"));
 
-                                Glide.with(superadmin_perfil_admin.this).load(document.getString("imagen")).into(perfil_usuarioImage);
+                                Glide.with(superadmin_perfil_admin.this).load(document.getString("imagen")).circleCrop().into(perfil_usuarioImage);
 
 
                                 if ("admin".equals(rol)) {
