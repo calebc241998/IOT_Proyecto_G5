@@ -122,9 +122,6 @@ public class supervisor_editar_equipo extends Fragment {
                 equipo.setDescripcion(descripcion);
                 equipo.setFechaedicion(dateTime);
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String userId = user.getUid();
-
                 db.collection("sitios")
                         .document(codigoDeSitio)
                         .collection("equipos")
@@ -133,11 +130,9 @@ public class supervisor_editar_equipo extends Fragment {
                         .addOnSuccessListener(aVoid -> {
                             Log.d("TAG", "Equipo actualizado con ID: " + equipo.getNumerodeserie());
                             Toast.makeText(requireContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("equipo", equipo);
-                            bundle.putString("ACScodigo", codigoDeSitio);
-                            navController.popBackStack(R.id.supervisor_descripcion_equipo, true);
-                            navController.navigate(R.id.supervisor_descripcion_equipo, bundle);
+
+                            // Volver a supervisor_lista_equipos
+                            navController.popBackStack(R.id.supervisor_descripcion_equipo, false);
                         })
                         .addOnFailureListener(e -> {
                             Log.w("TAG", "Error al actualizar equipo", e);
@@ -145,6 +140,9 @@ public class supervisor_editar_equipo extends Fragment {
                         });
             }
         });
+
+
+
 
         return binding.getRoot();
     }
@@ -173,22 +171,37 @@ public class supervisor_editar_equipo extends Fragment {
         fileReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     if (isAdded()) {
-                        Toast.makeText(getContext(), "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
                         fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
                             equipo.setImagen_equipo(imageUrl);
                             Glide.with(this).load(imageUrl).into(binding.imagenEquipo);
+
+                            // Actualizar el documento en Firestore
+                            db.collection("sitios")
+                                    .document(codigoDeSitio)
+                                    .collection("equipos")
+                                    .document(equipo.getNumerodeserie())
+                                    .set(equipo)
+                                    .addOnSuccessListener(aVoid -> {
+                                        if (isAdded()) {
+                                            Toast.makeText(requireContext(), "URL de imagen actualizada en Firestore", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        if (isAdded()) {
+                                            Toast.makeText(requireContext(), "Error al actualizar URL en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         });
                     }
                 })
                 .addOnFailureListener(e -> {
                     if (isAdded()) {
-                        Toast.makeText(getContext(), "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
-
 
     private int getIndex(Spinner spinner, String myString) {
         for (int i = 0; i < spinner.getCount(); i++) {
@@ -229,4 +242,3 @@ public class supervisor_editar_equipo extends Fragment {
         this.numeroDeSerieParaImagen = numeroDeSerieParaImagen;
     }
 }
-

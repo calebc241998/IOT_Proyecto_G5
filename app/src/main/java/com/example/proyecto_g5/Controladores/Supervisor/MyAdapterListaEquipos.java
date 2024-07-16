@@ -41,6 +41,14 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
         this.datalist = datalist;
         this.listener = listener;
     }
+    public void updateItem(Equipo updatedEquipo) {
+        int index = datalist.indexOf(updatedEquipo);
+        if (index != -1) {
+            datalist.set(index, updatedEquipo);
+            notifyItemChanged(index);
+        }
+    }
+
 
     @NonNull
     @Override
@@ -53,14 +61,18 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     public void onBindViewHolder(@NonNull MyViewHolder_equipos holder, int position) {
         Equipo currentEquipo = datalist.get(position);
 
-        Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenEquipo);
+        // Load image with cache disabled
+        Glide.with(context)
+                .load(currentEquipo.getImagen_equipo() + "?v=" + System.currentTimeMillis()) // Add cache-busting query
+                .into(holder.recImagenEquipo);
 
         // Verifica si imagen_status_equipo tiene un valor y carga la imagen correspondiente
         if (currentEquipo.getImagen_status_equipo() != null && !currentEquipo.getImagen_status_equipo().isEmpty()) {
-            Glide.with(context).load(currentEquipo.getImagen_status_equipo()).into(holder.recImagenStatusEquipo);
+            Glide.with(context)
+                    .load(currentEquipo.getImagen_status_equipo())
+                    .into(holder.recImagenStatusEquipo);
         } else {
-            // Cargar una imagen por defecto si no hay imagen de estado
-            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_check_circle_outline_24); // Cambia esto por tu imagen por defecto
+            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_check_circle_outline_24);
         }
 
         holder.recNombre_tipo.setText(currentEquipo.getNombre_tipo());
@@ -73,6 +85,7 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
             }
         });
     }
+
 
 
     @Override
