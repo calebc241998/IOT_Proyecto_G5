@@ -11,14 +11,13 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="628dp"
+        android:layout_marginTop="620dp"
         android:backgroundTint="#54CCC5"
         android:text="Guardar"
         app:cornerRadius="5dp"
         app:icon="@drawable/baseline_upload_24"
         app:iconGravity="textEnd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,28 +37,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <TextView
-        android:id="@+id/textViewSubirIncidencia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:text="Subir incidencia"
-        android:textColor="@android:color/black"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView12"
-        app:layout_constraintVertical_bias="0.157" />
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="350dp"
         android:layout_height="150dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,17 +98,6 @@
             android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="168dp"
-        android:layout_height="168dp"
-        android:layout_marginTop="524dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/circulo_blanco" />
 
     <TextView
         android:id="@+id/textView18"
