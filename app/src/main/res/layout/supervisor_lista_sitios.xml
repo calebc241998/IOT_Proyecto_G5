@@ -21,33 +21,16 @@
         app:layout_constraintTop_toBottomOf="@+id/BuscarSitios"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textViewTITULO"
-        android:layout_width="240dp"
-        android:layout_height="59dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="64dp"
-        android:gravity="center"
-        android:text="San Miguel"
-        android:textColor="@android:color/black"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="DuplicateIds,MissingConstraints" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="185dp"
         android:layout_height="39dp"
-        android:layout_marginTop="44dp"
         android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTITULO"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="167dp">
 
         <TextView
             android:id="@+id/textViewListaSitios"
