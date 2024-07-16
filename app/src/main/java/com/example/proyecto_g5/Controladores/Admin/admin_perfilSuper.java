@@ -81,9 +81,8 @@ public class admin_perfilSuper extends AppCompatActivity {
         super.onCreate(savedInstaceState);
         setContentView(R.layout.admin_perfil_supervisor_2);
 
-
-        String correo_usuario = getIntent().getStringExtra("Correo_temp"); //para despues regresar a admin
-        String correo = getIntent().getStringExtra("correo"); //a editar
+        String correo_usuario = getIntent().getStringExtra("correo"); //para despues regresar a admin
+        String correo_sup = getIntent().getStringExtra("correo_supervisor"); //a editar
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -226,7 +225,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                     db.collection("usuarios_por_auth")
                                             .document(uid_nuevo)
                                             .collection("usuarios")
-                                            .whereEqualTo("correo", correo)
+                                            .whereEqualTo("correo", correo_sup)
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -237,7 +236,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                         String apellido = document.getString("apellido");
 
                                                         perfil_superNombre.setText(nombre +" "+ apellido);
-                                                        perfil_superCorreo.setText(correo);
+                                                        perfil_superCorreo.setText(correo_sup);
                                                         perfil_superTelefono.setText(document.getString("telefono"));
                                                         perfil_superDireccion.setText(document.getString("direccion"));
                                                         perfil_superDNI.setText(document.getString("dni"));
@@ -265,7 +264,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                         Toast.makeText(admin_perfilSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                                         db.collection("usuarios_por_auth")
-                                                                .whereEqualTo("correo", correo)
+                                                                .whereEqualTo("correo", correo_sup)
                                                                 .get()
                                                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                     @Override
@@ -276,7 +275,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                                             String apellido = document.getString("apellido");
 
                                                                             perfil_superNombre.setText(nombre +" "+ apellido);
-                                                                            perfil_superCorreo.setText(correo);
+                                                                            perfil_superCorreo.setText(correo_sup);
                                                                             perfil_superTelefono.setText(document.getString("telefono"));
                                                                             perfil_superDireccion.setText(document.getString("direccion"));
                                                                             perfil_superDNI.setText(document.getString("dni"));
@@ -326,7 +325,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                 db.collection("usuarios_por_auth")
                         .document(uid)
                         .collection("usuarios")
-                        .whereEqualTo("correo", correo)
+                        .whereEqualTo("correo", correo_sup)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -337,7 +336,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                     String apellido = document.getString("apellido");
 
                                     perfil_superNombre.setText(nombre +" "+ apellido);
-                                    perfil_superCorreo.setText(correo);
+                                    perfil_superCorreo.setText(correo_sup);
                                     perfil_superTelefono.setText(document.getString("telefono"));
                                     perfil_superDireccion.setText(document.getString("direccion"));
                                     perfil_superDNI.setText(document.getString("dni"));
@@ -360,7 +359,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                     Toast.makeText(admin_perfilSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                     db.collection("usuarios_por_auth")
-                                            .whereEqualTo("correo", correo)
+                                            .whereEqualTo("correo", correo_sup)
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -371,7 +370,7 @@ public class admin_perfilSuper extends AppCompatActivity {
                                                         String apellido = document.getString("apellido");
 
                                                         perfil_superNombre.setText(nombre +" "+ apellido);
-                                                        perfil_superCorreo.setText(correo);
+                                                        perfil_superCorreo.setText(correo_sup);
                                                         perfil_superTelefono.setText(document.getString("telefono"));
                                                         perfil_superDireccion.setText(document.getString("direccion"));
                                                         perfil_superDNI.setText(document.getString("dni"));
@@ -410,8 +409,8 @@ public class admin_perfilSuper extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_editarSuper.class)
 
-                        .putExtra("Correo", correo)
-                        .putExtra("Correo_temp", correo_usuario);
+                        .putExtra("correo_supervisor", correo_sup)
+                        .putExtra("correo", correo_usuario);
 
                 startActivity(intent);
             }
@@ -421,9 +420,8 @@ public class admin_perfilSuper extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(admin_perfilSuper.this, admin_listaSitiosSupervisor.class)
-
-                        .putExtra("correo", correo)
-                        .putExtra("Correo_temp", correo_usuario);
+                        .putExtra("correo_supervisor", correo_sup)
+                        .putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
         });

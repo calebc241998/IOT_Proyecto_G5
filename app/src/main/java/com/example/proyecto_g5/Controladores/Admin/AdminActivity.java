@@ -146,6 +146,22 @@ public class AdminActivity extends AppCompatActivity {
                                                 }
                                             });
 
+                                    db.collection("sitios")
+                                            .get()
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                                        // Aquí actualizas cada documento individualmente
+                                                        document1.getReference().update("supervisores", correo_usuario)
+                                                                .addOnSuccessListener(aVoid -> Log.d("Update", "Sitio actualizado con éxito"))
+                                                                .addOnFailureListener(e -> Log.d("Update", "Error al actualizar sitio", e));
+                                                    }
+                                                } else {
+                                                    Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                                                }
+                                            });
+
+
                                     // Contar supervisores----------------------------
                                     db.collection("usuarios_por_auth")
                                             .document(uid_nuevo)
@@ -265,6 +281,21 @@ public class AdminActivity extends AppCompatActivity {
                                 document1.getReference().update("correo_temp", correo_usuario)
                                         .addOnSuccessListener(aVoid -> Log.d("Update", "Documento actualizado con éxito"))
                                         .addOnFailureListener(e -> Log.d("Update", "Error al actualizar documento", e));
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
+                        }
+                    });
+
+            db.collection("sitios")
+                    .get()
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                                // Aquí actualizas cada documento individualmente
+                                document1.getReference().update("supervisores", correo_usuario)
+                                        .addOnSuccessListener(aVoid -> Log.d("Update", "Sitio actualizado con éxito"))
+                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar sitio", e));
                             }
                         } else {
                             Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
@@ -471,74 +502,7 @@ public class AdminActivity extends AppCompatActivity {
 
 
 
-       /* // Contar supervisores----------------------------
-        db.collection("usuarios_por_auth")
-                .document(uid_nuevo)
-                .collection("usuarios")
-                .whereEqualTo("rol", "supervisor")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countSupervisors = task.getResult().size();
-                        Toast.makeText(AdminActivity.this, "con id "+countSupervisors, Toast.LENGTH_SHORT).show();
 
-
-                        db.collection("usuarios_por_auth")
-                                .whereEqualTo("rol", "supervisor")
-                                .get()
-                                .addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        countSupervisors1 = task1.getResult().size();
-                                        Toast.makeText(AdminActivity.this, "desde auth:" + countSupervisors1, Toast.LENGTH_SHORT).show();
-                                        totalsup = countSupervisors + countSupervisors1;
-
-
-
-                                    } else {
-                                        Log.d("Error", "Error al obtener supervisores con autenticación: ", task1.getException());
-                                    }
-                                });
-
-
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        super_total.setText(String.valueOf(totalsup));
-                    } else {
-                        Log.d("Error", "Error al obtener supervisores: ", task.getException());
-                    }
-                }); */
-
-             // Contar supervisores activos-----------------------------
-        /*db.collection("usuarios_por_auth")
-                .document(uid).collection("usuarios")
-                .whereEqualTo("rol", "supervisor")
-                .whereEqualTo("estado", "activo")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int countActiveSupervisors = task.getResult().size();
-
-                        db.collection("usuarios_por_auth")
-                                .whereEqualTo("rol", "supervisor")
-                                .whereEqualTo("estado", "activo")
-                                .get()
-                                .addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        countActiveSupervisors1 = task1.getResult().size();
-
-                                    } else {
-                                        Log.d("Error", "Error al obtener supervisores activos con autenticación: ", task1.getException());
-                                    }
-                                });
-
-                        totalacti = countActiveSupervisors + countActiveSupervisors1;
-
-
-                        // Envía el valor a un TextView o cualquier otro componente del layout
-                        super_activado.setText( String.valueOf(totalacti));
-                    } else {
-                        Log.d("Error", "Error al obtener supervisores activos: ", task.getException());
-                    }
-                }); */
 
     }
 
