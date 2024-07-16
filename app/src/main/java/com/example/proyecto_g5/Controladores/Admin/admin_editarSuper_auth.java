@@ -29,18 +29,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.R;
-import com.example.proyecto_g5.dto.Llog;
 import com.example.proyecto_g5.dto.Usuario;
-import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -50,13 +46,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class admin_editarSuper extends AppCompatActivity {
+public class admin_editarSuper_auth extends AppCompatActivity {
 //----UPLOAD -----
 
     FirebaseFirestore db;
@@ -83,7 +76,7 @@ public class admin_editarSuper extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_editar_supervisor);
+        setContentView(R.layout.admin_editar_supervisor_auth);
 
         //-----------NOTIFICACIONES---------------
 
@@ -106,6 +99,7 @@ public class admin_editarSuper extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String correo_usuario = bundle.getString("correo");
 
+
         correo_edit = bundle.getString("correo_supervisor");
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -118,7 +112,7 @@ public class admin_editarSuper extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent  = new Intent(admin_editarSuper.this, admin_perfil.class);
+                Intent intent  = new Intent(admin_editarSuper_auth.this, admin_perfil.class);
                 intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
@@ -134,7 +128,7 @@ public class admin_editarSuper extends AppCompatActivity {
         inicio_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(admin_editarSuper.this, AdminActivity.class);
+                Intent intent = new Intent(admin_editarSuper_auth.this, AdminActivity.class);
                 intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);
             }
@@ -143,7 +137,7 @@ public class admin_editarSuper extends AppCompatActivity {
         lista_sitios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(admin_editarSuper.this, admin_sitiosActivity.class);
+                Intent intent  = new Intent(admin_editarSuper_auth.this, admin_sitiosActivity.class);
                 intent.putExtra("correo", correo_usuario);
                 startActivity(intent);
             }
@@ -152,7 +146,7 @@ public class admin_editarSuper extends AppCompatActivity {
         lista_super.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class);
+                Intent intent = new Intent(admin_editarSuper_auth.this, admin_supervisoresActivity.class);
                 intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);
             }
@@ -162,7 +156,7 @@ public class admin_editarSuper extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(admin_editarSuper.this, admin_nuevoSuperActivity.class);
+                Intent intent = new Intent(admin_editarSuper_auth.this, admin_nuevoSuperActivity.class);
                 intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);
             }
@@ -170,7 +164,7 @@ public class admin_editarSuper extends AppCompatActivity {
         nuevo_sitio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(admin_editarSuper.this, admin_nuevoSitioActivity.class);
+                Intent intent = new Intent(admin_editarSuper_auth.this, admin_nuevoSitioActivity.class);
                 intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
                 startActivity(intent);
             }
@@ -180,7 +174,7 @@ public class admin_editarSuper extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Cerrar sesión y redirigir a MainActivity
-                Intent intent = new Intent(admin_editarSuper.this, LoginActivity.class);
+                Intent intent = new Intent(admin_editarSuper_auth.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -191,16 +185,16 @@ public class admin_editarSuper extends AppCompatActivity {
 
         // UPLOAD
 
-        edit_nombre = findViewById(R.id.nombre_editSuper);
-        edit_apellido = findViewById(R.id.apellido_editSuper);
-        edit_dni = findViewById(R.id.DNI_editSuper);
-        edit_direccion = findViewById(R.id.direccion_editSuper);
-        edit_correo = findViewById(R.id.correo_editSuper);
-        edit_telefono = findViewById(R.id.telefono_editSuper);
-        foto_perfil = findViewById(R.id.image_editSuper);
-        boton_guardar_editSuper = findViewById(R.id.boton_guardar_editado);
-        switch_editarEstado = findViewById(R.id.editStatus_switch);
-        statusTextView = findViewById(R.id.statusTextView);
+        edit_nombre = findViewById(R.id.nombre_editSuper_auth);
+        edit_apellido = findViewById(R.id.apellido_editSuper_auth);
+        edit_dni = findViewById(R.id.DNI_editSuper_auth);
+        edit_direccion = findViewById(R.id.direccion_editSuper_auth);
+        edit_correo = findViewById(R.id.correo_editSuper_auth);
+        edit_telefono = findViewById(R.id.telefono_editSuper_auth);
+        foto_perfil = findViewById(R.id.image_editSuper_auth);
+        boton_guardar_editSuper = findViewById(R.id.boton_guardar_editado_auth);
+        switch_editarEstado = findViewById(R.id.editStatus_switch_auth);
+        statusTextView = findViewById(R.id.statusTextView_auth);
 
 
 
@@ -217,7 +211,7 @@ public class admin_editarSuper extends AppCompatActivity {
                             uri = data.getData();
                             foto_perfil.setImageURI(uri);
                         }else {
-                            Toast.makeText(admin_editarSuper.this, "No image selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(admin_editarSuper_auth.this, "No image selected", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -265,15 +259,13 @@ public class admin_editarSuper extends AppCompatActivity {
                                                         correo_pasado = document.getString("correo");
                                                         edit_telefono.setText(document.getString("telefono"));
                                                         edit_dni.setText(document.getString("dni"));
-                                                        edit_direccion.setText(document.getString("direccion"));
+                                                        edit_direccion.setText("");
                                                         correo_temp = document.getString("correo_temp");
                                                         pass_superad = document.getString("pass_superad");
                                                         correo_superad = document.getString("correo_superad");
                                                         contrasena = document.getString("contrasena");
                                                         estado = document.getString("estado");
                                                         sitios = document.getString("sitios");
-                                                        estado_final = estado;
-
 
                                                         boolean isActive = estado.equalsIgnoreCase("activo");
                                                         switch_editarEstado.setChecked(isActive);
@@ -285,12 +277,12 @@ public class admin_editarSuper extends AppCompatActivity {
                                                         });
 
 
-                                                        Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+                                                        Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                                         oldImageUrl = document.getString("imagen");
 
                                                     } else {
-                                                        Toast.makeText(admin_editarSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                                         db.collection("usuarios_por_auth")
                                                                 .whereEqualTo("correo", correo_edit)
@@ -306,7 +298,7 @@ public class admin_editarSuper extends AppCompatActivity {
                                                                             edit_correo.setText(document.getString("correo"));
                                                                             edit_telefono.setText(document.getString("telefono"));
                                                                             edit_dni.setText(document.getString("dni"));
-                                                                            edit_direccion.setText(document.getString("direccion"));
+                                                                            edit_direccion.setText("");
                                                                             correo_temp = document.getString("correo_temp");
                                                                             pass_superad = document.getString("pass_superad");
                                                                             correo_superad = document.getString("correo_superad");
@@ -326,12 +318,12 @@ public class admin_editarSuper extends AppCompatActivity {
                                                                             });
 
 
-                                                                            Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+                                                                            Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                                                             oldImageUrl = document.getString("imagen");
 
                                                                         } else {
-                                                                            Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(admin_editarSuper_auth.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
                                                                 });
@@ -378,8 +370,6 @@ public class admin_editarSuper extends AppCompatActivity {
                                     contrasena = document.getString("contrasena");
                                     estado = document.getString("estado");
                                     sitios = document.getString("sitios");
-                                    estado_final = estado;
-
 
                                     boolean isActive = estado.equalsIgnoreCase("activo");
                                     switch_editarEstado.setChecked(isActive);
@@ -391,12 +381,12 @@ public class admin_editarSuper extends AppCompatActivity {
                                     });
 
 
-                                    Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+                                    Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                     oldImageUrl = document.getString("imagen");
 
                                 } else {
-                                    Toast.makeText(admin_editarSuper.this, "Era de un auth", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(admin_editarSuper_auth.this, "Era de un auth", Toast.LENGTH_SHORT).show();
 
                                     db.collection("usuarios_por_auth")
                                             .whereEqualTo("correo", correo_edit)
@@ -412,15 +402,15 @@ public class admin_editarSuper extends AppCompatActivity {
                                                         edit_telefono.setText(document.getString("telefono"));
                                                         correo_pasado = document.getString("correo");
                                                         edit_dni.setText(document.getString("dni"));
-                                                        edit_direccion.setText(document.getString("direccion"));
+                                                        edit_direccion.setText("");
                                                         correo_temp = document.getString("correo_temp");
                                                         pass_superad = document.getString("pass_superad");
                                                         correo_superad = document.getString("correo_superad");
                                                         contrasena = document.getString("contrasena");
                                                         estado = document.getString("estado");
                                                         sitios = document.getString("sitios");
-
                                                         estado_final = estado;
+
 
                                                         boolean isActive = estado.equalsIgnoreCase("activo");
                                                         switch_editarEstado.setChecked(isActive);
@@ -432,12 +422,12 @@ public class admin_editarSuper extends AppCompatActivity {
                                                         });
 
 
-                                                        Glide.with(admin_editarSuper.this).load(document.getString("imagen")).into(foto_perfil);
+                                                        Glide.with(admin_editarSuper_auth.this).load(document.getString("imagen")).into(foto_perfil);
 
                                                         oldImageUrl = document.getString("imagen");
 
                                                     } else {
-                                                        Toast.makeText(admin_editarSuper.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(admin_editarSuper_auth.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
@@ -466,7 +456,7 @@ public class admin_editarSuper extends AppCompatActivity {
             public void onClick(View v) {
                 if (validarCampos() && validarEmail(edit_correo.getText().toString().trim())) {
                     saveData(correo_usuario,correo_pasado);
-                    Intent intent = new Intent(admin_editarSuper.this, admin_supervisoresActivity.class)
+                    Intent intent = new Intent(admin_editarSuper_auth.this, admin_supervisoresActivity.class)
                             .putExtra("correo", correo_usuario);
                     startActivity(intent);// Solo llama a saveData si las validaciones son correctas
                 }
@@ -481,7 +471,7 @@ public class admin_editarSuper extends AppCompatActivity {
         if (pattern.matcher(email).matches()) {
             return true;
         } else {
-            Toast.makeText(admin_editarSuper.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(admin_editarSuper_auth.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -517,7 +507,7 @@ public class admin_editarSuper extends AppCompatActivity {
 
             storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri != null ? uri.getLastPathSegment() : oldImageUrl));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarSuper_auth.this);
             builder.setCancelable(false);
             builder.setView(R.layout.admin_progress_layout);
             AlertDialog dialog = builder.create();
@@ -538,7 +528,7 @@ public class admin_editarSuper extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         dialog.dismiss();
-                        Toast.makeText(admin_editarSuper.this, "Failed to upload new image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(admin_editarSuper_auth.this, "Failed to upload new image", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {

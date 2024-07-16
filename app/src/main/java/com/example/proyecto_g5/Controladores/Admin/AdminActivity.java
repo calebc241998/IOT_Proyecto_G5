@@ -3,6 +3,7 @@ package com.example.proyecto_g5.Controladores.Admin;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -21,10 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.LoginActivity;
 import com.example.proyecto_g5.MainActivity;
 import com.example.proyecto_g5.R;
+import com.example.proyecto_g5.dto.Usuario;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +37,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -45,6 +51,8 @@ public class AdminActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView menu, perfil;
+    DatabaseReference databaseReference;
+
 
     LinearLayout lista_super, lista_sitios, nuevo_super, nuevo_sitio, inicio_nav, log_out;
 
@@ -62,6 +70,14 @@ public class AdminActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseUser currentUser;
+
+    admin_myAdapter_NuevosuperLista adapter;
+
+    List<Usuario> dataList;
+
+    RecyclerView recyclerView;
+
+
 
 
     //----------
@@ -495,6 +511,49 @@ public class AdminActivity extends AppCompatActivity {
                     });
 
         }
+
+        recyclerView = findViewById(R.id.recyclerView_nuevos_supervisores);
+
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.admin_progress_layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dataList = new ArrayList<>();
+        adapter = new admin_myAdapter_NuevosuperLista(this, dataList);
+        recyclerView.setAdapter(adapter);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios_por_auth");
+        dialog.show();
+
+
+        db.collection("usuarios_por_auth")
+                .whereEqualTo("direccion", "1")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                dataList.add(usuario);
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            dialog.dismiss();
+
+                        } else {
+                            // Manejar la situación cuando la consulta falla
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
         //-----------------------------------
 

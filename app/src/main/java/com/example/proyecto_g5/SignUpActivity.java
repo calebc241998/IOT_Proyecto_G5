@@ -102,7 +102,14 @@ public class SignUpActivity extends AppCompatActivity {
                                     userInfo.put("uid", "VDwqr0wPUsfHO8RhjvLPxRgWt3W2");
                                     userInfo.put("contrasena", pass);
                                     userInfo.put("correo_superad", "as.alejandror@gmail.com");
-
+                                    userInfo.put("correo_pass", "admin123");
+                                    userInfo.put("imagen", "https://firebasestorage.googleapis.com/v0/b/iot-g5-51ebf.appspot.com/o/Usuario_imagen%2F1000106813?alt=media&token=56af36d8-1e54-4834-843a-76868a10bfdc");
+                                    userInfo.put("direccion", "1");
+                                    userInfo.put("nombre", "");
+                                    userInfo.put("apellido", "");
+                                    userInfo.put("dni", "");
+                                    userInfo.put("telefono", "");
+                                    userInfo.put("sitios", "");
 
 
 
