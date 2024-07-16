@@ -36,7 +36,7 @@ public class admin_myAdapter_superLista extends RecyclerView.Adapter<MyViewHolde
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_item_lista_supervisor_2, parent, false);
         return new MyViewHolder(view);
     }

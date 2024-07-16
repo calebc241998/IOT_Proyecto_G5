@@ -414,7 +414,7 @@ public class admin_nuevoSitioActivity extends AppCompatActivity implements OnMap
 
 
 
-        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio,referencia_sitio, distrito_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
+        Sitio sitio = new Sitio(nombre, codigo_sitio, departamento_sitio,provincia_sitio, distrito_sitio,referencia_sitio, ubigeo_sitio, longitud_sitio,latitud_sitio, zona_sitio, tipo_lugar_sitio, supervisores,uid);
 
 
 

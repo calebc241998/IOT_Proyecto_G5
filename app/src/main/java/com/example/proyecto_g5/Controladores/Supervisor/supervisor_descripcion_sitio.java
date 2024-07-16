@@ -1,11 +1,14 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +18,19 @@ import com.example.proyecto_g5.databinding.SupervisorDescripcionEquipoBinding;
 import com.example.proyecto_g5.databinding.SupervisorDescripcionSitioBinding;
 import com.example.proyecto_g5.dto.Sitio;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link supervisor_descripcion_sitio#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class supervisor_descripcion_sitio extends Fragment {
+public class supervisor_descripcion_sitio extends Fragment implements OnMapReadyCallback {
 
     SupervisorDescripcionSitioBinding supervisorDescripcionSitioBinding;
 
@@ -34,6 +44,9 @@ public class supervisor_descripcion_sitio extends Fragment {
     private String mParam2;
     private String correo;
 
+    private GoogleMap googleMap;
+    private MapView mapView;
+    private Sitio sitio;
     public supervisor_descripcion_sitio() {
         // Required empty public constructor
     }
@@ -73,14 +86,24 @@ public class supervisor_descripcion_sitio extends Fragment {
         // Obtener los datos del sitio de los argumentos
         Sitio sitio = (Sitio) getArguments().getSerializable("sitio");
 
-        // Mostrar la información en los TextView correspondientes
-        supervisorDescripcionSitioBinding.ACScodigo.setText(sitio.getCodigo());
-        supervisorDescripcionSitioBinding.ACSdepartamento.setText(sitio.getDepartamento());
-        supervisorDescripcionSitioBinding.ACSprovincia.setText(sitio.getProvincia());
-        supervisorDescripcionSitioBinding.ACSdistrito.setText(sitio.getDistrito());
-        supervisorDescripcionSitioBinding.ACSubigeo.setText(String.valueOf(sitio.getUbigeo()));
-        supervisorDescripcionSitioBinding.ACStipoZona.setText(sitio.getTipodezona());
-        supervisorDescripcionSitioBinding.ACStipoSitio.setText(sitio.getTipodesitio());
+        // Verificar si el objeto sitio no es nulo
+        if (sitio != null) {
+            // Mostrar la información en los TextView correspondientes
+            supervisorDescripcionSitioBinding.ACScodigo.setText(sitio.getCodigo());
+            supervisorDescripcionSitioBinding.ACSdepartamento.setText(sitio.getDepartamento());
+            supervisorDescripcionSitioBinding.ACSprovincia.setText(sitio.getProvincia());
+            supervisorDescripcionSitioBinding.ACSdistrito.setText(sitio.getDistrito());
+            supervisorDescripcionSitioBinding.ACSubigeo.setText(String.valueOf(sitio.getUbigeo()));
+            supervisorDescripcionSitioBinding.ACStipoZona.setText(sitio.getTipodezona());
+            supervisorDescripcionSitioBinding.ACStipoSitio.setText(sitio.getTipodesitio());
+
+            // Inicializa el MapView
+            mapView = supervisorDescripcionSitioBinding.mapView;
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(this);
+        } else {
+            Log.e(TAG, "El objeto sitio es nulo");
+        }
 
         NavController navController = NavHostFragment.findNavController(supervisor_descripcion_sitio.this);
         supervisorDescripcionSitioBinding.VerListaEquipos.setOnClickListener(v -> {
@@ -90,6 +113,48 @@ public class supervisor_descripcion_sitio extends Fragment {
             navController.navigate(R.id.action_supervisor_descripcion_sitio_to_supervisor_lista_equipos, bundle);
         });
         return supervisorDescripcionSitioBinding.getRoot();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        // Verificar si el objeto sitio no es nulo antes de usarlo
+        if (sitio != null) {
+            LatLng location = new LatLng(sitio.getLatitud(), sitio.getLongitud());
+            googleMap.addMarker(new MarkerOptions().position(location).title("Ubicación del Sitio"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        } else {
+            Log.e(TAG, "El objeto sitio es nulo en onMapReady");
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
     }
 
 }
