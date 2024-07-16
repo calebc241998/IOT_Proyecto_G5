@@ -33,6 +33,8 @@ import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.dto.Sitio;
 import com.example.proyecto_g5.inicio_sesion;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,6 +76,7 @@ public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCal
     FirebaseFirestore db;
     FirebaseUser currentUser;
 
+    Button boton_eliminar, boton_editar;
 
     //----------mapa
 
@@ -208,6 +211,8 @@ public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCal
         info_sitioTipoZona = findViewById(R.id.tipo_zona_sitio_info_admin);
         info_sitioTipoSitio = findViewById(R.id.tipo_sitio_info_admin);
         info_sitioNumSuper = findViewById(R.id.numSuper_info_admin);
+        boton_editar = findViewById(R.id.button_editar_sitios);
+        boton_eliminar = findViewById(R.id.button_eliminar_sitios);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -283,6 +288,93 @@ public class admin_info_sitio extends AppCompatActivity implements OnMapReadyCal
             info_sitioUbigeo.setText(String.valueOf(ubigeo));*/
 
         }
+
+
+        boton_eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String codigo_eliminar = sitio.getCodigo();
+
+                // Obtiene el documento del sitio con el código especificado
+                db.collection("sitios")
+                        .whereEqualTo("codigo", codigo_eliminar)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                    DocumentSnapshot sitioDocument = task.getResult().getDocuments().get(0);
+                                    String sitioId = sitioDocument.getId();
+
+                                    // Consulta para verificar si la subcolección "equipos" está vacía
+                                    db.collection("sitios")
+                                            .document(sitioId)
+                                            .collection("equipos")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> equiposTask) {
+                                                    if (equiposTask.isSuccessful()) {
+                                                        if (equiposTask.getResult().isEmpty()) {
+                                                            // La subcolección "equipos" está vacía, eliminar el sitio
+                                                            db.collection("sitios")
+                                                                    .document(sitioId)
+                                                                    .delete()
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Toast.makeText(admin_info_sitio.this, "Sitio eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                                                            Intent intent = new Intent(admin_info_sitio.this, admin_sitiosActivity.class);
+                                                                            intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                                                                            startActivity(intent);
+                                                                            // Realiza cualquier otra acción que necesites después de eliminar el documento
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Toast.makeText(admin_info_sitio.this, "Error al eliminar el sitio", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+                                                        } else {
+                                                            // La subcolección "equipos" no está vacía
+                                                            Toast.makeText(admin_info_sitio.this, "No se puede eliminar el sitio porque tiene equipos asociados", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    } else {
+                                                        // Error en la consulta de la subcolección
+                                                        // La subcolección "equipos" está vacía, eliminar el sitio
+                                                        db.collection("sitios")
+                                                                .document(sitioId)
+                                                                .delete()
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Toast.makeText(admin_info_sitio.this, "Sitio eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                                                                        Intent intent = new Intent(admin_info_sitio.this, admin_sitiosActivity.class);
+                                                                        intent.putExtra("correo", correo_usuario); // Reemplaza "clave" y "valor" con la información que quieras pasar
+                                                                        startActivity(intent);
+                                                                        // Realiza cualquier otra acción que necesites después de eliminar el documento
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(admin_info_sitio.this, "Error al eliminar el sitio", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    // No se encontró el documento del sitio
+                                    Toast.makeText(admin_info_sitio.this, "Sitio no encontrado", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
 
 
     }

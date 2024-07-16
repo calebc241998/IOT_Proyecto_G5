@@ -89,7 +89,7 @@
                                 />
                         </androidx.cardview.widget.CardView>
                         <Button
-                            android:id="@+id/editar_eliminar_sitios"
+                            android:id="@+id/button_eliminar_sitios"
                             android:layout_width="60dp"
                             android:layout_height="40dp"
                             android:layout_marginStart="15dp"
@@ -104,7 +104,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/nombre_sitio_info_admin" />
 
                         <Button
-                            android:id="@+id/editar_editar_sitios"
+                            android:id="@+id/button_editar_sitios"
                             android:layout_width="63dp"
                             android:layout_height="40dp"
                             android:backgroundTint="#54CBC4"
