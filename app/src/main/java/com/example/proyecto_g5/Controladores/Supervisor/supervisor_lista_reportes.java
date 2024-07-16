@@ -1,7 +1,7 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorListaReportesBinding;
@@ -22,8 +21,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class supervisor_lista_reportes extends Fragment implements MyAdapterListaReportes.OnItemClickListener {
 
@@ -44,7 +48,6 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
     }
 
     public supervisor_lista_reportes() {
-        // Required empty public constructor
         datalist = new ArrayList<>();
     }
 
@@ -98,14 +101,13 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                 return false;
             }
         });
+
+        supervisorListaReportesBinding.botonFiltro.setOnClickListener(view -> showDatePicker());
     }
 
     private void getDataFromFirestore(String codigoSitio, String numeroSerieEquipo) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            String userId = user.getUid();
-
-
             db.collection("sitios")
                     .document(codigoSitio)
                     .collection("equipos")
@@ -126,8 +128,41 @@ public class supervisor_lista_reportes extends Fragment implements MyAdapterList
                         }
                         adapter.notifyDataSetChanged();
                     });
-
         }
+    }
+
+    private void showDatePicker() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                    filterByDate(selectedDate);
+                }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void filterByDate(String selectedDate) {
+        List<Reporte> filteredList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        for (Reporte reporte : datalist) {
+            if (reporte.getFecharegistro() != null) {
+                try {
+                    Date reportDate = dateFormat.parse(reporte.getFecharegistro().split(" ")[0]);
+                    Date selected = dateFormat.parse(selectedDate);
+                    if (reportDate != null && reportDate.equals(selected)) {
+                        filteredList.add(reporte);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        adapter.setSearchList(filteredList);
     }
 
     @Override
