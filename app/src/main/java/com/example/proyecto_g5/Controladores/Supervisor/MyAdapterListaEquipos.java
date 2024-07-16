@@ -41,6 +41,14 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
         this.datalist = datalist;
         this.listener = listener;
     }
+    public void updateItem(Equipo updatedEquipo) {
+        int index = datalist.indexOf(updatedEquipo);
+        if (index != -1) {
+            datalist.set(index, updatedEquipo);
+            notifyItemChanged(index);
+        }
+    }
+
 
     @NonNull
     @Override
@@ -53,50 +61,32 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     public void onBindViewHolder(@NonNull MyViewHolder_equipos holder, int position) {
         Equipo currentEquipo = datalist.get(position);
 
-        Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenEquipo);
-        Glide.with(context).load(currentEquipo.getImagen_equipo()).into(holder.recImagenStatusEquipo);
+        // Load image with cache disabled
+        Glide.with(context)
+                .load(currentEquipo.getImagen_equipo() + "?v=" + System.currentTimeMillis()) // Add cache-busting query
+                .into(holder.recImagenEquipo);
+
+        // Verifica si imagen_status_equipo tiene un valor y carga la imagen correspondiente
+        if (currentEquipo.getImagen_status_equipo() != null && !currentEquipo.getImagen_status_equipo().isEmpty()) {
+            Glide.with(context)
+                    .load(currentEquipo.getImagen_status_equipo())
+                    .into(holder.recImagenStatusEquipo);
+        } else {
+            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        }
+
         holder.recNombre_tipo.setText(currentEquipo.getNombre_tipo());
         holder.recModelo.setText(currentEquipo.getModelo());
         holder.recDescripción.setText(currentEquipo.getDescripcion());
 
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(currentEquipo);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(currentEquipo);
             }
         });
-        /*holder.itemView.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("Nombre", currentEquipo.getNombre_tipo());
-            bundle.putString("Modelo", currentEquipo.getModelo());
-            bundle.putString("Descripcion", currentEquipo.getDescripcion());
-            bundle.putString("Imagen_equipo", currentEquipo.getImagen_equipo());
-            bundle.putString("Imagen_status_equipo", currentEquipo.getImagen_status_equipo());
-
-            Navigation.findNavController(v).navigate(R.id.action_supervisor_lista_equipos_to_supervisor_descripcion_equipo, bundle);
-        });/*
-
-        //LO Q HABIA ANTES
-        //Los Intents no funcionan pq se usa fragmentos y en cambio se usa Bundle
-        /*holder.recCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(context, supervisor_lista_equipos.class);
-                intent.putExtra("Nombre", datalist.get(holder.getAdapterPosition()).getNombre_tipo());
-                intent.putExtra("Modelo", datalist.get(holder.getAdapterPosition()).getModelo());
-                intent.putExtra("Descripcion", datalist.get(holder.getAdapterPosition()).getDescripcion());
-                intent.putExtra("Imagen_equipo", datalist.get(holder.getAdapterPosition()).getImagen_equipo());
-                intent.putExtra("Imagen_status_equipo", datalist.get(holder.getAdapterPosition()).getImagen_status_equipo());
-
-                context.startActivity(intent);
-
-            }
-        });*/
     }
+
+
 
     @Override
     public int getItemCount() {

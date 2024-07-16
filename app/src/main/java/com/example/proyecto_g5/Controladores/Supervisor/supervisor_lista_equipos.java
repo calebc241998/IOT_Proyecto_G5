@@ -154,9 +154,8 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
             Log.d("message", codigoSitio);
             setCodigoDeSitio(codigoSitio);
 
-
             db.collection("sitios")
-                    .document(codigoDeSitio)
+                    .document(codigoSitio)
                     .collection("equipos")
                     .addSnapshotListener((equiposTask, equiposError) -> {
                         if (equiposError != null) {
@@ -165,8 +164,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                             return;
                         }
 
-                        datalist.clear();
-
+                        datalist.clear(); // Clear the list to avoid duplicates
                         for (DocumentSnapshot equipoDoc : equiposTask.getDocuments()) {
                             Equipo equipo = equipoDoc.toObject(Equipo.class);
                             datalist.add(equipo);
@@ -176,8 +174,9 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                         adapter.notifyDataSetChanged();
                     });
         }
-
     }
+
+
 
 
     @Override

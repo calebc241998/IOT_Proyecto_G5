@@ -76,70 +76,64 @@ public class supervisor_nuevo_equipo extends Fragment {
                 String modelo = supervisorNuevoEquipoBinding.campoModelo.getText().toString();
                 String descripcion = supervisorNuevoEquipoBinding.campoDescripcion.getText().toString();
 
-                // Obtener la fecha y hora actual con la zona horaria local
+                // Obtener la fecha y hora actual
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH) + 1; // Los meses están indexados desde 0
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
+                String dateTime = String.format("%02d/%02d/%04d %02d:%02d",
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE));
 
-                // Formatear la fecha y hora
-                String dateTime = day + "/" + month + "/" + year + " " + hour + ":" + String.format("%02d", minute);
-
-                //imagen
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageReference= storage.getReference();
-
-                StorageReference imagenref=storageReference.child("Equipo_supervisor");
-
-
-                // Asignar la fecha de registro con la fecha y hora actual
-                String fecha_registro = dateTime;
-                Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, fecha_registro, null, "a", "a");
+                // Crear el objeto Equipo
+                Equipo equipo = new Equipo(sku, tipo, serie, marca, modelo, descripcion, dateTime, null, null, null);
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
 
+                // Subir la imagen
+                if (url_imagen != null) {
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageReference = storage.getReference();
+                    StorageReference imagenRef = storageReference.child("Equipo_supervisor/" + serie + ".jpg");
 
+                    imagenRef.putFile(url_imagen)
+                            .addOnSuccessListener(taskSnapshot -> {
+                                // Obtener la URL de la imagen
+                                imagenRef.getDownloadUrl().addOnSuccessListener(downloadUrl -> {
+                                    // Asignar la URL al objeto equipo
+                                    equipo.setImagen_equipo(downloadUrl.toString());
+
+                                    // Guardar el equipo en Firestore
                                     db.collection("sitios")
                                             .document(codigoDeSitio)
                                             .collection("equipos")
-                                            .document(serie) // Usa el número de serie como ID del documento
+                                            .document(serie)
                                             .set(equipo)
                                             .addOnSuccessListener(aVoid -> {
                                                 Log.d("TAG", "Equipo agregado con ID: " + serie);
                                                 Toast.makeText(requireContext(), "Equipo guardado", Toast.LENGTH_SHORT).show();
-                                                // Limpiar la pila de retroceso antes de navegar a supervisor_lista_equipos
                                                 navController.popBackStack(R.id.supervisor_lista_equipos, true);
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("ACScodigo", codigoDeSitio);
                                                 navController.navigate(R.id.supervisor_lista_equipos, bundle);
                                             })
-
-                                            .addOnSuccessListener(documentReference -> {
-                                                // Crear el log después de guardar exitosamente el usuario
-                                                String descripcionlog = "Se ha creado un nuevo equipo: " + serie + " al sitio " + codigoDeSitio;
-                                                String usuarioLog = "supervisor"; // Usuario por default (superadmin)
-
-                                                // Crear el objeto log
-                                                Llog log = new Llog(UUID.randomUUID().toString(), descripcionlog, usuarioLog, Timestamp.now());
-
-                                                // Guardar el log en Firestore
-                                                db.collection("usuarios_por_auth")
-                                                        .document(userId)
-                                                        .collection("logs")
-                                                        .document(log.getId())
-                                                        .set(log);
-
-                                            })
                                             .addOnFailureListener(e -> {
                                                 Log.w("TAG", "Error al agregar equipo", e);
                                                 Toast.makeText(requireContext(), "Error al guardar equipo", Toast.LENGTH_SHORT).show();
                                             });
-                                }
-
+                                });
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.w("TAG", "Error al subir la imagen", e);
+                                Toast.makeText(requireContext(), "Error al subir la imagen", Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    Toast.makeText(requireContext(), "Seleccione una imagen primero", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
+
 
         // Setup ActivityResultLauncher for image picking
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
