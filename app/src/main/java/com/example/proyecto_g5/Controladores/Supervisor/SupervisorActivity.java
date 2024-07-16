@@ -96,8 +96,8 @@ public class SupervisorActivity extends AppCompatActivity {
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ejemplo: Redirigir a la vista de perfil de admin
-                Intent intent = new Intent(SupervisorActivity.this, admin_perfil.class);
+                // Ejemplo: Redirigir a la vista de perfil de supervisor
+                Intent intent = new Intent(SupervisorActivity.this, supervisor_perfil.class);
                 startActivity(intent);
             }
         });
