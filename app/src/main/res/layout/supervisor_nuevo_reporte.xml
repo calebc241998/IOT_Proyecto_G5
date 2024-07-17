@@ -11,29 +11,29 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="620dp"
         android:backgroundTint="#54CCC5"
         android:text="Guardar"
         app:cornerRadius="5dp"
         app:icon="@drawable/baseline_upload_24"
         app:iconGravity="textEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
 
     <TextView
         android:id="@+id/textViewDescripcion"
         android:layout_width="341dp"
         android:layout_height="51dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="136dp"
         android:gravity="center"
         android:text="Descripción del problema"
         android:textColor="@android:color/black"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.628"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -41,9 +41,9 @@
         android:id="@+id/scrollView"
         android:layout_width="350dp"
         android:layout_height="150dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescripcion">
 
@@ -59,33 +59,17 @@
         </com.google.android.material.textfield.TextInputLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/textViewTITULO"
-        android:layout_width="240dp"
-        android:layout_height="59dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="80dp"
-        android:gravity="center"
-        android:text="Área TELECOM"
-        android:textColor="@android:color/black"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.437"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="272dp"
         android:layout_height="37dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="108dp"
         android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.582"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTITULO">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textViewReporteDeEquipo"
@@ -103,12 +87,12 @@
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="Título:"
         android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -116,7 +100,7 @@
         android:id="@+id/textFieldTitulo"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:hint="Completar"
         android:paddingTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"

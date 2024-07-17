@@ -11,24 +11,6 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <TextView
-        android:id="@+id/nombre_super"
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:text="Área Telecom"
-        android:textColor="@android:color/black"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.072" />
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/listaReportes"
         android:layout_width="wrap_content"
@@ -65,12 +47,12 @@
         android:id="@+id/cardView"
         android:layout_width="185dp"
         android:layout_height="39dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre_super"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <TextView
