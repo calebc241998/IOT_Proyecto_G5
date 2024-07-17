@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.proyecto_g5.R;
 import com.example.proyecto_g5.databinding.SupervisorListaEquiposBinding;
 import com.example.proyecto_g5.dto.Equipo;
+import com.example.proyecto_g5.dto.Reporte;
 import com.example.proyecto_g5.dto.Sitio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -167,6 +168,7 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                         datalist.clear(); // Clear the list to avoid duplicates
                         for (DocumentSnapshot equipoDoc : equiposTask.getDocuments()) {
                             Equipo equipo = equipoDoc.toObject(Equipo.class);
+                            verificarReportes(equipo); // Verificar reportes
                             datalist.add(equipo);
                             Log.d("msg-test", "Equipo: " + equipo.getNombre_tipo() + " listado correctamente.");
                         }
@@ -175,6 +177,40 @@ public class supervisor_lista_equipos extends Fragment implements MyAdapterLista
                     });
         }
     }
+
+    private void verificarReportes(Equipo equipo) {
+        db.collection("sitios")
+                .document(codigoDeSitio)
+                .collection("equipos")
+                .document(equipo.getNumerodeserie())
+                .collection("reportes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        boolean haySinResolver = false;
+                        boolean haySolucionados = false;
+
+                        for (DocumentSnapshot reporteDoc : task.getResult()) {
+                            Reporte reporte = reporteDoc.toObject(Reporte.class);
+                            if (reporte.getEstado().equals("Sin resolver")) {
+                                haySinResolver = true;
+                            } else if (reporte.getEstado().equals("Solucionado")) {
+                                haySolucionados = true;
+                            }
+                        }
+
+                        if (haySinResolver) {
+                            equipo.setDescripcion("Reportes sin resolver");
+                        } else {
+                            equipo.setDescripcion("No hay reportes");
+                        }
+
+                        adapter.notifyDataSetChanged(); // Notifica cambios
+                    }
+                });
+    }
+
+
 
 
 

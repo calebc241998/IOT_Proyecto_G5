@@ -1,6 +1,7 @@
 package com.example.proyecto_g5.Controladores.Supervisor;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +62,10 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
     public void onBindViewHolder(@NonNull MyViewHolder_equipos holder, int position) {
         Equipo currentEquipo = datalist.get(position);
 
-        // Load image with cache disabled
         Glide.with(context)
-                .load(currentEquipo.getImagen_equipo() + "?v=" + System.currentTimeMillis()) // Add cache-busting query
+                .load(currentEquipo.getImagen_equipo() + "?v=" + System.currentTimeMillis())
                 .into(holder.recImagenEquipo);
 
-        // Verifica si imagen_status_equipo tiene un valor y carga la imagen correspondiente
         if (currentEquipo.getImagen_status_equipo() != null && !currentEquipo.getImagen_status_equipo().isEmpty()) {
             Glide.with(context)
                     .load(currentEquipo.getImagen_status_equipo())
@@ -77,7 +76,19 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
 
         holder.recNombre_tipo.setText(currentEquipo.getNombre_tipo());
         holder.recModelo.setText(currentEquipo.getModelo());
-        holder.recDescripción.setText(currentEquipo.getDescripcion());
+
+        // Cambia el color del texto y la imagen basado en el estado
+        String status = currentEquipo.getDescripcion();
+        if (status.equals("Reportes sin resolver")) {
+            holder.recDescripción.setTextColor(Color.RED);
+            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_error_24);
+        } else if (status.equals("No hay reportes")) {
+            holder.recDescripción.setTextColor(Color.parseColor("#5FCD2B")); // Color verde
+            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        } else {
+            holder.recDescripción.setTextColor(Color.BLACK); // Color por defecto
+            holder.recImagenStatusEquipo.setImageResource(R.drawable.baseline_check_circle_outline_24);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -85,6 +96,11 @@ public class MyAdapterListaEquipos extends RecyclerView.Adapter<MyViewHolder_equ
             }
         });
     }
+
+
+
+
+
 
 
 
