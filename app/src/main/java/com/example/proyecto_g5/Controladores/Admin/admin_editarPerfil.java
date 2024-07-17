@@ -534,6 +534,25 @@ public class admin_editarPerfil extends AppCompatActivity {
                             if (task1.getResult().isEmpty()) {
                                 Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
                             }
+                            // Crear el log después de guardar exitosamente el usuario
+                            String descripcion = "El administrador " + nombre + " " + apellido+ " ha editado su perfil";
+                            String usuarioLog = "administrador"; // Usuario por default (superadmin)
+
+                            // Crear el objeto log
+                            Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                            // Guardar el log en Firestore
+                            db.collection("usuarios_por_auth")
+                                    .document(uid)
+                                    .collection("logs")
+                                    .document(log.getId())
+                                    .set(log)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(admin_editarPerfil.this, "Saved", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(admin_editarPerfil.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                    });
                         } else {
                             Log.d("Firestore", "Error al obtener documentos: ", task1.getException());
                         }

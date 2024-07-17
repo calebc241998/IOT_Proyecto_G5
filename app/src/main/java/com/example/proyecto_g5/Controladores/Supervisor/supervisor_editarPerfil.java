@@ -181,6 +181,26 @@ public class supervisor_editarPerfil extends AppCompatActivity {
                                 Glide.with(supervisor_editarPerfil.this).load(document.getString("imagen")).circleCrop().into(binding.perfilSupervisorFotoEditar);
 
                                 oldImageUrl = document.getString("imagen");
+
+                                // Crear el log después de guardar exitosamente el usuario
+                                String descripcion = "El supervisor " + nombre + " " + apellido+ " ha editado su perfil";
+                                String usuarioLog = "supervisor"; // Usuario por default (superadmin)
+
+                                // Crear el objeto log
+                                Llog log = new Llog(UUID.randomUUID().toString(), descripcion, usuarioLog, Timestamp.now());
+
+                                // Guardar el log en Firestore
+                                db.collection("usuarios_por_auth")
+                                        .document(uid)
+                                        .collection("logs")
+                                        .document(log.getId())
+                                        .set(log)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(supervisor_editarPerfil.this, "Saved", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(supervisor_editarPerfil.this, "Algo pasó al guardar el log", Toast.LENGTH_SHORT).show();
+                                        });
                             } else {
                                 Toast.makeText(supervisor_editarPerfil.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                             }
