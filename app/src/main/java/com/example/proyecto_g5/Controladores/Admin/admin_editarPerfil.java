@@ -241,12 +241,13 @@ public class admin_editarPerfil extends AppCompatActivity {
 
                 // Acceder al documento específico usando el UID
                 db.collection("usuarios_por_auth")
-                        .document(uid)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
+                        .whereEqualTo("correo", currentUser.getEmail())                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+
+                                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
 
                                     perfil_superNombre.setText(document.getString("nombre") + " " + document.getString("apellido"));
                                     nombre = document.getString("nombre");
@@ -276,8 +277,6 @@ public class admin_editarPerfil extends AppCompatActivity {
                                 } else {
                                     Log.d("Firestore", "No se encontró el documento");
                                 }
-                            } else {
-                                Log.d("Firestore", "Error al obtener el documento: ", task.getException());
                             }
                         });
 
@@ -391,44 +390,89 @@ public class admin_editarPerfil extends AppCompatActivity {
 
     public void saveData(String correo_usuario){
 
-        if (validarCampos()){
-            storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
+        if (correo_usuario.equals("1")){
+            if (validarCampos()){
+                storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
-            builder.setCancelable(false);
-            builder.setView(R.layout.admin_progress_layout);
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
+                builder.setCancelable(false);
+                builder.setView(R.layout.admin_progress_layout);
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-            if (uri != null){ // Solo subir imagen si se seleccionó una nueva
+                if (uri != null){ // Solo subir imagen si se seleccionó una nueva
 
-                storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isComplete());
-                        Uri urlImage = uriTask.getResult();
-                        newimageUrl = urlImage.toString();
-                        updateData(correo_usuario);
-                        dialog.dismiss();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        dialog.dismiss();
-                    }
-                });
-            } else {
-                // Si no se seleccionó una nueva imagen, usar la antigua
-                newimageUrl = oldImageUrl;
-                updateData(correo_usuario);
-                dialog.dismiss();
+                    storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isComplete());
+                            Uri urlImage = uriTask.getResult();
+                            newimageUrl = urlImage.toString();
+                            updateData(currentUser.getEmail());
+                            dialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            dialog.dismiss();
+                            Toast.makeText(admin_editarPerfil.this, "Failed to upload new image", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                } else {
+                    // Si no se seleccionó una nueva imagen, usar la antigua
+                    newimageUrl = oldImageUrl;
+                    updateData(correo_usuario);
+                    dialog.dismiss();
+
+                }
+
+
 
             }
+        }else {
+            if (validarCampos()){
+                storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
+                builder.setCancelable(false);
+                builder.setView(R.layout.admin_progress_layout);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                if (uri != null){ // Solo subir imagen si se seleccionó una nueva
+
+                    storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isComplete());
+                            Uri urlImage = uriTask.getResult();
+                            newimageUrl = urlImage.toString();
+                            updateData(correo_usuario);
+                            dialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            dialog.dismiss();
+                        }
+                    });
+                } else {
+                    // Si no se seleccionó una nueva imagen, usar la antigua
+                    newimageUrl = oldImageUrl;
+                    updateData(correo_usuario);
+                    dialog.dismiss();
+
+                }
 
 
 
+            }
         }
+
+
 
 
     }
