@@ -58,7 +58,6 @@ public class supervisor_nuevo_equipo extends Fragment {
         if (getArguments() != null) {
             codigoDeSitio = getArguments().getString("ACScodigo");
         }
-
     }
 
     @SuppressLint("MissingInflatedId")
