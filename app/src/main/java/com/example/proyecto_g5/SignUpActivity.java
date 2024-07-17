@@ -95,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (tipo_rol_usuario.equals("Administrador")) {
                                         rol = "admin";
                                     } else if (tipo_rol_usuario.equals("Supervisor")) {
-                                        rol = "supervisor";
+                                        rol = "supervisor2";
                                     } else {
                                         rol = "otro"; // valor por defecto si es necesario
                                     }

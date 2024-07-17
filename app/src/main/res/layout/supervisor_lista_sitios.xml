@@ -11,12 +11,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOficial"
-        android:layout_width="410dp"
-        android:layout_height="390dp"
+        android:layout_width="416dp"
+        android:layout_height="458dp"
         android:layout_marginTop="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BuscarSitios"
         app:layout_constraintVertical_bias="0.0" />
@@ -25,11 +25,10 @@
         android:id="@+id/cardView"
         android:layout_width="185dp"
         android:layout_height="39dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="84dp"
         android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">

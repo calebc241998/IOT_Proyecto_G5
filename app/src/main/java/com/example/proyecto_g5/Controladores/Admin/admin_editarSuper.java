@@ -594,7 +594,7 @@ public class admin_editarSuper extends AppCompatActivity {
                                             if (task1.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document1 : task1.getResult()) {
                                                     document1.getReference().set(usuario)
-                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                            .addOnSuccessListener(aVoid -> Log.d("yeiiiii", "Usuario actualizado con éxito"))
                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                                                 }
                                                 // Crear el log después de guardar exitosamente el usuario
@@ -618,6 +618,26 @@ public class admin_editarSuper extends AppCompatActivity {
                                                         });
                                                 if (task1.getResult().isEmpty()) {
                                                     Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+
+                                                    db.collection("usuarios_por_auth")
+                                                            .whereEqualTo("correo", correo_pasado)
+                                                            .get()
+                                                            .addOnCompleteListener(task2 -> {
+                                                                if (task2.isSuccessful()) {
+                                                                    for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                                        document1.getReference().set(usuario)
+                                                                                .addOnSuccessListener(aVoid -> Log.d("yeiiiiiiiiii", "Usuario actualizado con éxito"))
+                                                                                .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+
+                                                                    }
+                                                                    if (task2.getResult().isEmpty()) {
+                                                                        Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                                    }
+                                                                }
+                                                            });
+
+
                                                 }
                                             } else {
 
@@ -628,8 +648,10 @@ public class admin_editarSuper extends AppCompatActivity {
                                                             if (task2.isSuccessful()) {
                                                                 for (QueryDocumentSnapshot document1 : task2.getResult()) {
                                                                     document1.getReference().set(usuario)
-                                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                                            .addOnSuccessListener(aVoid -> Log.d("yeiiiiiiiiii", "Usuario actualizado con éxito"))
                                                                             .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+
                                                                 }
                                                                 if (task2.getResult().isEmpty()) {
                                                                     Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
@@ -672,6 +694,24 @@ public class admin_editarSuper extends AppCompatActivity {
                                         .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
                             }
                             if (task1.getResult().isEmpty()) {
+
+                                db.collection("usuarios_por_auth")
+                                        .whereEqualTo("correo", correo_pasado)
+                                        .get()
+                                        .addOnCompleteListener(task2 -> {
+                                            if (task2.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                    document1.getReference().set(usuario)
+                                                            .addOnSuccessListener(aVoid -> Log.d("yeiiiiiiiiii", "Usuario actualizado con éxito"))
+                                                            .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+
+
+                                                }
+                                                if (task2.getResult().isEmpty()) {
+                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                }
+                                            }
+                                        });
                                 Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
                             }
                         } else {

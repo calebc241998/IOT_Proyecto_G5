@@ -390,7 +390,43 @@ public class admin_editarPerfil extends AppCompatActivity {
 
     public void saveData(String correo_usuario){
 
-        if (correo_usuario.equals("1")){
+        if (validarCampos()) {
+
+            storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri != null ? uri.getLastPathSegment() : oldImageUrl));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(admin_editarPerfil.this);
+            builder.setCancelable(false);
+            builder.setView(R.layout.admin_progress_layout);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            if (uri != null) { // Solo subir imagen si se seleccionó una nueva
+                storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isComplete());
+                        Uri urlImage = uriTask.getResult();
+                        newimageUrl = urlImage.toString();
+                        updateData(correo_usuario);
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(admin_editarPerfil.this, "Failed to upload new image", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                // Si no se seleccionó una nueva imagen, usar la antigua
+                newimageUrl = oldImageUrl;
+                updateData(correo_usuario);
+                dialog.dismiss();
+            }
+        }
+
+        /*if (correo_usuario.equals("1")){
             if (validarCampos()){
                 storageReference = FirebaseStorage.getInstance().getReference().child("Usuario_imagen").child(Objects.requireNonNull(uri.getLastPathSegment()));
 
@@ -470,7 +506,7 @@ public class admin_editarPerfil extends AppCompatActivity {
 
 
             }
-        }
+        } */
 
 
 
@@ -501,18 +537,21 @@ public class admin_editarPerfil extends AppCompatActivity {
                                 String nuevo_uid = document.getString("uid");
                                 Usuario usuario = new Usuario(nombre, apellido, dni,correo, contrasena, direccion, rol, estado, newimageUrl, telefono , nuevo_uid,correo_superad,pass_superad,correo_temp,sitios);
 
-                                document.getReference().set(usuario)
-                                        .addOnSuccessListener(aVoid -> {
-                                            Log.d("Update", "Usuario actualizado con éxito");
-                                            // Elimina la imagen antigua solo si la actualización fue exitosa
-                                            StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
-                                            reference.delete().addOnSuccessListener(aVoid1 -> {
-                                                Toast.makeText(admin_editarPerfil.this, "Usuario e imagen actualizados con éxito", Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }).addOnFailureListener(e -> Toast.makeText(admin_editarPerfil.this, "Error al eliminar la imagen antigua", Toast.LENGTH_SHORT).show());
-                                        })
-                                        .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
-
+                                db.collection("usuarios_por_auth")
+                                        .whereEqualTo("correo", currentUser.getEmail())
+                                        .get()
+                                        .addOnCompleteListener(task2 -> {
+                                            if (task2.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document1 : task2.getResult()) {
+                                                    document1.getReference().set(usuario)
+                                                            .addOnSuccessListener(aVoid -> Log.d("Update", "Usuario actualizado con éxito"))
+                                                            .addOnFailureListener(e -> Log.d("Update", "Error al actualizar usuario", e));
+                                                }
+                                                if (task2.getResult().isEmpty()) {
+                                                    Log.d("Firestore", "No se encontró ningún usuario con el correo especificado.");
+                                                }
+                                            }
+                                        });
 
                             } else {
                                 Log.d("Firestore", "No se encontró el documento");
