@@ -530,7 +530,7 @@ public class AdminActivity extends AppCompatActivity {
 
 
         db.collection("usuarios_por_auth")
-                .whereEqualTo("direccion", "1")
+                .whereEqualTo("rol", "supervisor2")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
