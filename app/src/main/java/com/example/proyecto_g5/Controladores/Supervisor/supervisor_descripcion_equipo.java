@@ -3,6 +3,8 @@ package com.example.proyecto_g5.Controladores.Supervisor;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -77,7 +79,12 @@ public class supervisor_descripcion_equipo extends Fragment {
                 });
 
                 supervisorDescripcionEquipoBinding.borrarEquipo.setOnClickListener(view -> {
-                    eliminarEquipo(equipo.getNumerodeserie(), codigoSitio);
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Confirmar Eliminación")
+                            .setMessage("¿Estás seguro de que deseas eliminar este equipo?")
+                            .setPositiveButton("Sí", (dialog, which) -> eliminarEquipo(equipo.getNumerodeserie(), codigoSitio))
+                            .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                            .show();
                 });
 
                 supervisorDescripcionEquipoBinding.listaReportes.setOnClickListener(view -> {
@@ -97,6 +104,7 @@ public class supervisor_descripcion_equipo extends Fragment {
 
         return supervisorDescripcionEquipoBinding.getRoot();
     }
+
 
     private void generarCodigoQR(String numeroSerie) {
         try {
